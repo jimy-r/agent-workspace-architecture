@@ -32,7 +32,7 @@ jobs:
             "!.git/**"
 
       - name: Create pull request if changes
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           commit-message: 'chore: weekly auto-cleanup (prettier)'
           title: 'chore: weekly auto-cleanup'
