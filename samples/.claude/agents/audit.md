@@ -1,6 +1,6 @@
 ---
 name: audit
-description: On-demand setup and project audit — reviews configs, CLAUDE.md quality, hooks, rules, test coverage, and writes actionable recommendations to the task list
+description: On-demand weekly upgrade audit — multi-phase sweep covering global setup (Phase 1), per-project (Phase 2), plugin/MCP bloat (2.5a), external-opportunity web research (2.5b), security (2.6 — credentials, file protection, hook safety, MCP exposure, git hygiene), memory retrospective (2.7), routing audit (2.8), then writes findings to tasks/To Do Notes.md § Setup Review / Security. Trust-gradient tiered auto-apply; Tier-3 findings require user approval.
 model: claude-opus-4-6
 permissionMode: auto
 memory: none
@@ -22,7 +22,11 @@ You perform a comprehensive audit of the Claude Code setup and all project works
 
 ## Rules
 
-- You are READ-ONLY for all project files. The ONLY file you may modify is `<workspace>/tasks/To Do Notes.md`.
+- You are READ-ONLY for all project files EXCEPT the following narrow write allowlist (added 2026-04-21 for trust-gradient auto-apply):
+  - `<workspace>/tasks/To Do Notes.md` — Phase 3 recommendations output (always writable)
+  - For **Tier 1 auto-applies** per the Trust Gradient section (safe, silent): `<workspace>/roles/<new-role>.md`, `<workspace>/roles/_validate.py` (strengthen existing checks only), the PreToolUse blocklist in `<home>/.claude/settings.json` (defensive additions only — never removals), memory-hygiene prose in `<workspace>/CLAUDE.md` or `<home>/.claude/CLAUDE.md`, Red Flags / Rationalization Table additions in any existing `<workspace>/roles/<role>.md`, doc/link/typo fixes in always-loaded docs.
+  - For **Tier 2 auto-applies** per the Trust Gradient section (surfaced in report): `<workspace>/.claude/skills/<new-skill>/SKILL.md`, `<workspace>/.claude/agents/<new-agent>.md`, the Command Shortcuts table in `<workspace>/CLAUDE.md`, the Skills / Scripts / Subagents / Tasks tables in `<workspace>/META_ARCHITECTURE.md`.
+  - **Never writable, even under trust-gradient auto-apply:** `<workspace>/.env*`, any `credentials*` / `secrets*` path, `<project-finance>/Results/*.xlsx`, `<project-finance>/Records/**/*.csv`, `<project-health>/health_profile.md`, `<workspace>/tasks/HEARTBEAT.md`, any `CONTEXT.md`, any `PLAN.md`, `<home>/.claude/google-auth/**`, `<workspace>/<project-platform>/<platform>-app/.env`. The PreToolUse hook enforces most of these independently.
 - **Skip `<legacy-project-A>/` entirely** — do not read or analyze it.
 - Use subagents (Agent tool) to analyze projects in parallel where possible.
 - Be specific in recommendations — "Add X to Y file" not "Consider improving Z."
@@ -141,7 +145,7 @@ The subagent should check these **specific sources** (fetch each, do not just se
 2. **Anthropic blog** — `https://www.anthropic.com/news` — scan recent posts for new model releases, API features, tool use updates, Claude Code announcements.
 3. **Claude Code GitHub releases** — `https://github.com/anthropics/claude-code/releases` — scan for new releases, breaking changes, new flags, new subcommands.
 4. **MCP registry** — use the `search_mcp_registry` tool (keywords: email, calendar, google drive, notion, database, monitoring) to find newly available connectors relevant to the user's stack.
-5. **Claude plugins directory** — search for `claude-plugins-official` repos or announcements for new official plugins (beyond discord, github, typescript-lsp, context7 already installed).
+5. **Claude plugins directory** — search for `claude-plugins-official` repos or announcements for new official plugins beyond those already installed.
 
 **Community curated lists:**
 6. **Awesome Claude Code (jqueryscript)** — `https://github.com/jqueryscript/awesome-claude-code` — master curated list. Scan for new entries since last audit.
@@ -168,6 +172,20 @@ The subagent should check these **specific sources** (fetch each, do not just se
 19. **mksglu/context-mode** — `https://github.com/mksglu/context-mode/releases` — MCP server that sandboxes tool output into SQLite FTS5, returning only pointers. Hooks into PreToolUse/PostToolUse/PreCompact. 8.5k stars, active. License is NOASSERTION — track for patterns, don't adopt as dep.
 20. **zilliztech/claude-context** — `https://github.com/zilliztech/claude-context/releases` — Semantic code search MCP (BM25 + dense vector embeddings), AST-based chunking, Merkle-tree incremental indexing. Backed by Zilliz (vector-DB company, venture-backed), 6.2k stars, MIT. Requires Zilliz Cloud dep — relevant for large monorepos. Worth tracking for AST-chunking patterns even if the dep is too heavy to adopt.
 
+**Solo-developer sprint workflow (added 2026-04-24, evaluated by researcher subagent):**
+21. **garrytan/gstack** — `https://github.com/garrytan/gstack` — MIT-licensed personal skill library. **Filter: `*/SKILL.md` inside skill directories only** — ignore infrastructure subdirs (`lib/`, `supabase/`, `hosts/`, `bin/`, `extension/`) which are repo-specific tooling, not portable. Monthly cadence; reassess if velocity drops. Bus factor = 1 (sole maintainer) — verify each finding by direct file read before recommending adoption. First pass surfaced 4 portable adoption candidates and 8 duplicative patterns that were skipped.
+
+**Open-core ecosystem — systematic scans (added 2026-05-26):** *Fills the gap that the curated sources above don't span the whole open-core surface — the audit was systematically under-sampling the marketplace + topic-tagged repo population. Each scan caps its surfaces; collectively they're meant to surface BREADTH, not depth.*
+
+22. **`anthropics/claude-plugins-official` marketplace** — `https://raw.githubusercontent.com/anthropics/claude-plugins-official/main/.claude-plugin/marketplace.json` (fallback: `gh api repos/anthropics/claude-plugins-official/contents/.claude-plugin/marketplace.json --jq .content | base64 -d`). Anthropic's curated official marketplace — auto-available in every Claude Code install. Enumerate plugin entries; flag (a) plugins new since last cycle, (b) version bumps relevant to the workspace's stack. Cap 5 surfaces per cycle.
+23. **`anthropics/claude-plugins-community` marketplace** — `https://raw.githubusercontent.com/anthropics/claude-plugins-community/main/.claude-plugin/marketplace.json`. **Highest-signal "what's emerging" surface in the ecosystem — where vetted third-party plugins land after Anthropic review.** Same instruction as #22. Cap 5.
+24. **GitHub topic search — `topic:claude-code-plugin`** — preferred via `gh search repos --topic=claude-code-plugin --sort=updated --limit=20 --json fullName,description,updatedAt,stargazersCount,htmlUrl` (the audit subagent has Bash). Filter to repos with commits in the last 90 days. Surface up to 3 novel candidates per cycle (i.e. not already in the tracking list #7-21 or installed). (`api.github.com` is not always in the workspace WebFetch allowlist — `gh` is the routine path.)
+25. **GitHub topic search — `topic:claude-skill`** (also try `topic:claude-code-skill`, `topic:claude-agent-skill`) — same `gh search repos` mechanism, one call per topic, dedupe by full name. Same filter + cap as #24.
+
+**Personal-assistant / multi-channel agent reference — thorough review (added 2026-05-26):**
+
+26. **OpenClaw** — `https://github.com/openclaw/openclaw`. Local-first personal AI assistant framework: multi-channel messaging integration (WhatsApp / Telegram / Slack / Discord), agent routing, voice, cross-platform tool execution (macOS / iOS / Android). **Thorough review** (deeper than a release-scan), each cycle: (a) **fetch ALL changes since the last audit's timestamp — time-window queries, NOT fixed-count caps** (high-velocity / agent-assisted repos can ship >50 commits/week, so a fixed cap silently under-samples): **merged PRs since last audit** via `gh pr list -R openclaw/openclaw --state merged --search 'merged:>YYYY-MM-DD' --limit 100 --json number,title,mergedAt,labels,author,mergedBy` — **the single most important signal under agent-assisted review** (captures everything the bot approved); **all commits since last audit** via `gh api 'repos/openclaw/openclaw/commits?since=YYYY-MM-DDTHH:MM:SSZ' --paginate --jq '.[]|{sha,message:.commit.message,date:.commit.author.date,author:.commit.author.name}'` (safety ceiling 500 — on overflow, batch-summarise and flag the velocity in the Phase 3 report); **releases since last audit** via `gh release list -R openclaw/openclaw --limit 50 --json tagName,name,publishedAt` filtered to `publishedAt ≥ last-audit-date`; **key-file change detection** via `gh api 'repos/openclaw/openclaw/commits?path=README.md&since=...'` and equivalents for architecture / package files. *Last-audit timestamp = the dated header of the prior `## Setup Review YYYY-MM-DD` block in `tasks/To Do Notes.md`; default to 7 days ago if uncertain.* (b) identify novel patterns — multi-channel agent routing, voice-stack integration, local-first agent architecture, cross-platform tool execution, credential + privacy handling, scheduling / heartbeat primitives, sandbox boundaries; (c) cross-reference against the workspace's own patterns — containerised-heartbeat, voice-channel MCP, home-integration project, security envelope (Bash safety hook, hard-deny patterns); (d) surface up to 3 concrete adoption candidates per cycle with effort estimate + applicability rationale. **General principle (added 2026-05-27, applies to any high-velocity / agent-assisted source — extend to #7-21 and #24-25 if their underlying repos prove agent-velocity):** cap the **OUTPUT** of the audit (surfaces in the Phase 3 report — a reading-budget concern), NEVER the **INPUT** (data analysed — fixed-count caps under agent-velocity silently under-sample). Time-window queries scale with cadence; fixed-N queries don't. High-signal reference for **personal-assistant / multi-channel agent** patterns.
+
 The subagent should also research:
 
 - **Known gaps from `tasks/To Do Notes.md` "AI Upgrades" section** — research current state-of-the-art for any pending items (e.g. email/GDrive access, calendar integration).
@@ -181,41 +199,9 @@ The subagent should also research:
 
 Merge the subagent's findings into Phase 3 recommendations under a dedicated `### External Opportunities` subsection (see format below).
 
-## Phase 2.5c: Per-Section Best-Practice Research (deep audit, added 2026-04-21)
+## Trust Gradient & Auto-Apply (tier rules + guardrails)
 
-In parallel with Phases 2, 2.5a, and 2.5b, spawn one `researcher` subagent **per major META_ARCHITECTURE section** to produce focused best-practice research. Phase 2.5b scans curated source URLs broadly; this phase gives each section its own dedicated deep-dive and classifies each finding into a **trust gradient** that determines whether this audit run auto-applies the change or queues it for user approval.
-
-### Sections covered (one researcher fan-out per section)
-
-1. **Roles library** (`<workspace>/roles/`) — new canonical role types, schema refinements (frontmatter fields, Red Flags / Rationalization Table patterns), role-binding conventions
-2. **Workspace skills** (`<workspace>/.claude/skills/`) — new skill types, CSO description best practices, skill schema refinements, composition patterns
-3. **Custom subagents** (`<workspace>/.claude/agents/`) — auto-routing via description, prompt-engineering patterns, model selection, tool allowlists
-4. **Hooks** (`<home>/.claude/settings.json`) — new hook types (PreCompact, etc.), command-safety patterns, auto-formatter additions
-5. **Scheduled tasks** (`<home>/.claude/scheduled-tasks/` + OS scheduler) — orchestration patterns, idempotency, retry logic, logging
-6. **MCP servers** (`.mcp.json`, `claude mcp list`) — new first-party servers, plugin updates, connector availability. Cross-reference with Phase 2.5a bloat findings to avoid duplicate recs.
-7. **Memory system** (`<home>/.claude/projects/<workspace-id>/memory/`) — hygiene patterns, retrieval techniques, consolidation strategies
-8. **Task coordination layer** (`<workspace>/tasks/`) — heartbeat patterns, question-flow design, archive conventions
-
-### Subagent brief (same template for each)
-
-Pass to each `researcher` fan-out:
-
-```
-Section: <name>
-Current state: <paste relevant META_ARCHITECTURE section verbatim>
-
-Produce up to 5 actionable findings on best practices or emerging patterns
-from the last 1-3 months. For each finding provide:
-
-- Title (terse, imperative)
-- Rationale (one paragraph — why this matters for this specific workspace)
-- Impact estimate (high / medium / low)
-- **Tier classification** (Tier 1 / Tier 2 / Tier 3) per the rules below
-- Source URLs (primary-source preferred: Anthropic docs/changelog, obra/superpowers,
-  antfu/skills, wshobson/agents+commands, authoritative blogs). Apply researcher-
-  role fabrication guards + [observed]/[inferred]/[unverified] claim labels.
-- If Tier 1 or Tier 2: the concrete file edit needed (exact path + what to write).
-```
+> History: this machinery formerly lived under "Phase 2.5c: Per-Section Best-Practice Research" — an 8-section `researcher` fan-out that was deferred every cycle and never ran (4 consecutive deferrals through 2026-05-16). The fan-out was **stripped 2026-05-23**; the trust-gradient tier rules + auto-apply logic + safety guardrails below are general-purpose (they classify findings from ANY phase — 2.5a bloat, 2.5b external, 2.6 security) and are retained. If per-section deep research is ever revived, fold it into Phase 2.5b rather than re-introducing a parallel phase.
 
 ### Trust gradient — tier rules
 
@@ -257,7 +243,7 @@ When in doubt, classify Tier 3.
 
 ### Auto-apply logic
 
-1. Collect all findings across the 8 section fan-outs.
+1. Collect all findings across all phases (2.5a bloat, 2.5b external research, 2.6 security).
 2. De-duplicate: if two subagents surface the same recommendation, merge and keep the highest-tier classification (i.e. err toward caution).
 3. Rank by impact (high > medium > low), then by recency of source.
 4. **Rate-limit: apply at most 5 Tier-1-or-Tier-2 findings total per audit run.** Remaining Tier-1/Tier-2 findings go to Phase 3 output under `### Deferred (rate-limit)`.
@@ -274,17 +260,17 @@ When in doubt, classify Tier 3.
 **Per-write checklist — runs IMMEDIATELY before EVERY Tier-1/Tier-2 Write or Edit tool call, not just at orchestrator-decision time:**
 
 1. **24h mtime check.** `stat` the target file (if exists). If mtime is within 24 hours of now, ABORT the write. Downgrade this finding to Tier 3. Log `[24h-mtime <timestamp>]` in `### Safety guardrail activity`. Also check `git log --since="24 hours ago" --name-only -- <path>` if the workspace is a git repo.
-2. **Write allowlist check.** Target path must match the Phase 2.5c write allowlist (see Rules section at top of this file — Tier 1 / Tier 2 specific-file list). If it doesn't, ABORT — downgrade to Tier 3, log `[allowlist-miss]`.
+2. **Write allowlist check.** Target path must match the trust-gradient write allowlist (see Rules section at top of this file — Tier 1 / Tier 2 specific-file list). If it doesn't, ABORT — downgrade to Tier 3, log `[allowlist-miss]`.
 3. **Post-write validator check.** After the write completes, if the edited file falls under a validator's scope (e.g. `<workspace>/roles/*.md` → `roles/_validate.py`), run the validator. If it exits non-zero, REVERT the change (restore prior content), downgrade to Tier 3, log `[validator-fail]`.
 
-**Run-wide stops — checked once at Phase 2.5c start, disable ALL auto-apply this run:**
+**Run-wide stops — checked once at audit start (before any auto-apply), disable ALL auto-apply this run:**
 
 - **CRITICAL security count:** if Phase 2.6 produces more than 3 `[CRITICAL]` findings, disable auto-apply entirely. Signal: workspace needs security attention before any automated changes. Surface at the top of the Phase 3 report.
 - **Ignored-additions heuristic:** if this audit run would be the third consecutive run with Tier-2 auto-applies, and the previous two weeks' Tier-2 additions (skill names, subagent names, shortcut phrases) do not appear anywhere in `tasks/To Do Notes.md`, `tasks/todo.md`, or the last 14 days of `tasks/scheduled-logs/*` outside the original Setup Review blocks, disable auto-apply. Heuristic: the user hasn't noticed prior additions — stop adding.
 
 **Subagent boundary (added 2026-04-21):**
 
-- `researcher` subagents fanned out in Phase 2.5c are **READ-ONLY by role**. They RETURN proposed edits as data (exact path + content) in their finding payload. They do NOT write files themselves. The audit orchestrator is the sole writer and runs the per-write checklist on each edit. If a fan-out subagent's tool list somehow includes `Write` or `Edit`, that is a configuration drift — flag it in `### Safety guardrail activity` and decline to run until fixed.
+- `researcher` subagents fanned out in any phase (e.g. 2.5b external research) are **READ-ONLY by role**. They RETURN proposed edits as data (exact path + content) in their finding payload. They do NOT write files themselves. The audit orchestrator is the sole writer and runs the per-write checklist on each edit. If a fan-out subagent's tool list somehow includes `Write` or `Edit`, that is a configuration drift — flag it in `### Safety guardrail activity` and decline to run until fixed.
 
 ## Phase 2.6: Security Review
 
@@ -298,21 +284,21 @@ Conduct a PRAGMATIC security review of the Claude workspace. Goal: surface real 
 - **Hook safety** — check PostToolUse/PreToolUse hook commands for injection risks (filenames passed unquoted to shells, user-controlled input in `-c` strings).
 - **MCP server exposure** — for each configured MCP server: what capabilities does it expose? Is anything running without auth (voice-channel on LAN, etc.)?
 - **Git hygiene** — for each git repo in the workspace: does `.gitignore` cover `.env*`, `*.key`, `credentials*`, `secrets*`? Check `git log` for historical secret commits.
-- **Backup security** — verify the encrypted backup password isn't visible in any synced file. Current system (`scripts/backup-restic.ps1`, post 2026-04-19) pulls the repo password from <password-manager> at runtime and has no credentials in the script. If the file ever grows a hardcoded credential again, flag it.
+- **Backup security** — verify the encrypted backup password isn't visible in any synced file. Current system pulls the repo password from a commercial password manager at runtime and has no credentials in the script. If the file ever grows a hardcoded credential again, flag it.
 - **Remote trigger security** — list active triggers and their tool whitelists. Flag any with `Bash` or broad permissions that don't need them.
-- **Network exposure** — check for services listening on `0.0.0.0` (voice-channel port 8788, anything else). LAN-only is fine; internet-exposed is not.
-- **Services registry hygiene** — read `<workspace>/Reference/services-registry.md` and flag:
-  - Rows with `Status: live` AND `Last rotated: never` where the service is older than 12 months (stale credentials).
-  - Rows with `Status: live` AND `2FA: None` (missing second factor).
-  - Rows with `Status: live` AND `BW Item` missing or `*(TBA)*` (credential not in password manager).
-  - Rows with `*(TBA)*` in `Account` or `BW Item` columns that have been there for 30+ days (registry drift — fill in or retire).
-  - New services in `<workspace>/<project-platform>/<platform>-app/.env` or any referenced `.env` NOT in the registry (missing record).
+- **Network exposure** — check for services listening on `0.0.0.0` (voice-channel ports, anything else). LAN-only is fine; internet-exposed is not.
+- **Services registry hygiene** — read `<workspace>/Reference/services-registry.md`. The password manager is the source of truth for credentials AND login identifiers; the registry is a convenience index that *points* at the password manager (per "point, don't mirror"). Flag only genuine security gaps, NOT registry-cell incompleteness that merely duplicates data already in the password manager:
+  - Rows with `Status: live` AND `2FA: None` (missing second factor — a real exposure).
+  - Rows with `Status: live` whose credential is genuinely NOT in the password manager (no `BW Item` AND no other evidence it is stored). A blank / `*(TBA)*` `BW Item` on a service the user keeps in the password manager is a missing *pointer*, not a missing credential — surface at most once as a low-priority doc note, never as a recurring finding.
+  - New services in any project `.env` NOT in the registry (missing record).
+  - **Do NOT flag** a blank / `*(TBA)*` `Account` column — the login identifier lives in the password manager; copying it here is mirroring, not hygiene. *(Decided 2026-05-26: this recurring finding was retired as busywork.)*
+  - **Credential rotation:** flag ONLY on an exposure / compromise trigger (a secret known to have sat in an unprotected window, a leaked or shared credential, or a `live` row with NO 2FA). Do NOT flag rotation on age / `Last rotated: never` alone — periodic age-based rotation of unique, 2FA-protected credentials stored in a password manager is not a meaningful control (NIST SP 800-63B) and only generates recurring noise. *(Decided 2026-05-26.)*
 
 ### Principles
 
 - **Pragmatic, not paranoid.** Personal workspace, not an enterprise. Proportionate controls only.
 - **No daily friction** for marginal gains. If a control would require manual action every session, don't recommend it unless the risk is high.
-- **Priority order:** credential rotation > file protection > permission tightening > everything else.
+- **Priority order:** exposed / absent credentials > file protection > permission tightening > everything else. Age-based credential rotation is NOT a priority — flag rotation only on an exposure / compromise trigger (see Services registry hygiene above).
 - **CRITICAL tag** anything genuinely dangerous (live API keys exposed, no gitignore for secrets, public network services).
 - If a control is already 'good enough', say so and move on — don't pad the list.
 
@@ -334,6 +320,96 @@ Merge findings into Phase 3 under a `## Security` section in `To Do Notes.md`:
 ```
 
 Cap at ~8 recommendations. Merge duplicates with the setup audit where they overlap (don't double-report).
+
+## Phase 2.7: Memory Retrospective (added 2026-04-22)
+
+Spawn one `researcher` subagent to read the user's persistent memory and surface patterns, contradictions, stale facts, and emergent themes that a human-in-the-moment wouldn't notice. Memory is loaded every session but rarely reviewed for drift; the weekly audit is the natural place for that pass.
+
+### Inputs (read-only)
+
+- `<home>/.claude/projects/<workspace-id>/memory/MEMORY.md` (always-loaded index)
+- `<home>/.claude/projects/<workspace-id>/memory/*.md` (topic memories — user profile, feedback, project stubs, references)
+- `<home>/.claude/projects/<workspace-id>/memory/episodes/*.md` (one-off events — browsed for historical signal)
+
+### Subagent brief (verbatim)
+
+```
+Read the user's persistent memory. Produce 3-5 insights worth surfacing.
+Each insight must fall into one of these categories:
+
+**[pattern]** — a recurring behaviour or preference not explicitly named.
+  Example: "User defers credential rotations — 3 instances in last 8 weeks.
+  Structural avoidance or informed risk tolerance?"
+
+**[contradiction]** — two memory files state different things about the
+  same fact, OR memory contradicts current reality verified against the
+  repo / services registry / META_ARCHITECTURE.
+  Example: "feedback_communication.md says 'no performative agreement' but
+  project_<name>.md contains 'great work on the integration!'"
+
+**[stale]** — a memory asserts something about a file, flag, service,
+  or path that has since changed. Cross-check against current state.
+  Example: "reference_launch_scripts.md says 8 .bat files; current count
+  is 10 (two added after last verify)."
+
+**[emergent]** — a theme recurring across multiple recent open questions
+  or episodes that hasn't been named as a single concern.
+  Example: "4 open questions in last 14 days touch on scope-TBD upgrades
+  — possible meta-pattern: pending-decision fatigue."
+
+### Output format (per insight)
+
+- Title (imperative, <60 chars)
+- Category tag [pattern|contradiction|stale|emergent]
+- Evidence (specific file references + quoted claims)
+- Proposed response (for user to consider): update memory / resolve
+  contradiction / prune entry / decide meta-question
+
+### Scope bounds
+
+- Do NOT fix anything. Memory hygiene is handled by the separate
+  `consolidate-memory` scheduled task.
+- Do NOT surface trivia. Each insight must be actionable or
+  decision-forcing.
+- Do NOT speculate beyond what memory files + verified current state
+  actually say. Apply researcher-role fabrication guards and primary-
+  source discipline.
+- Cap: 5 insights maximum.
+```
+
+### Output location
+
+Findings surface in Phase 3 under `### Memory Insights` (new subsection — see updated Phase 3 format below). **Not auto-applied** regardless of tier — all memory changes remain user-directed via `consolidate-memory` or explicit /wrap.
+
+## Phase 2.8: Subagent Auto-Routing Audit (added 2026-04-22)
+
+The user trusts the main thread to pick `@<project>-<role>` bindings based on their CSO-style description fields. Over time descriptions drift — they get edited without checking sibling overlap, new bindings land without distinctive triggers, or a binding exists but no realistic prompt ever routes to it. This phase audits description quality statically so routing stays clean.
+
+### Scope
+
+Read all subagent binding files:
+
+- `<workspace>/.claude/agents/*.md` (workspace-level: audit, heartbeat, researcher)
+- `<workspace>/<project>/.claude/agents/*.md` (project-level — see META_ARCHITECTURE for current list)
+
+### Per-binding checks
+
+For each binding, extract the `description:` frontmatter field. Evaluate:
+
+1. **Distinctiveness** — does the description contain trigger keywords unique to this binding, or does it overlap with siblings?
+2. **Activation clarity** — does it state *when* to invoke (task shape) or only *what* the role does? "When" is required for auto-routing.
+3. **Example-prompt coverage** — generate 3 realistic prompts that SHOULD route to this binding (given the workspace's actual task flow). Do they match the description's trigger criteria?
+
+### Findings to surface
+
+- **[overlap]** — two or more bindings share trigger keywords that would route the same prompt to either. Include both description strings + the ambiguous prompt.
+- **[missing-trigger]** — binding describes what the role does but never says *when* to activate. Main thread won't auto-route without a task-shape signal.
+- **[orphan]** — binding's description uses terminology unlikely to appear in realistic user prompts; exists but is effectively unreachable via auto-routing.
+- **[drift]** — binding description references a role, file, or project structure that has since changed.
+
+### Output
+
+Findings surface in Phase 3 under `### Routing Audit` (new subsection). Each finding includes: binding path, category, specific description text, proposed fix (concrete rewrite of the `description:` field). **Not auto-applied** — binding descriptions are load-bearing and user confirms each edit.
 
 ## Phase 3: Write Recommendations (tier-aware — updated 2026-04-21)
 
@@ -372,7 +448,6 @@ Cap at ~8 recommendations. Merge duplicates with the setup audit where they over
 ### External Opportunities (Tier 3 — approval needed, from Phase 2.5b)
 
 - [Setup Review] <integration/upgrade> — <one-line rationale> ([source](URL))
-- [Setup Review] <integration/upgrade> — <one-line rationale> ([source](URL))
 
 ### Deferred (rate-limit cap hit this week)
 
@@ -383,6 +458,18 @@ Cap at ~8 recommendations. Merge duplicates with the setup audit where they over
 ### Bloat Check (from Phase 2.5a)
 
 - [Setup Review] [Bloat] <finding> — <recommendation>
+
+### Memory Insights (from Phase 2.7)
+
+*Omit this block if the retrospective surfaced no actionable insights. Never auto-apply — memory changes are user-directed via `consolidate-memory` or explicit /wrap.*
+
+- [Memory Retrospective] [<pattern|contradiction|stale|emergent>] **<title>** — <evidence>. Proposed response: <update memory / resolve contradiction / prune entry / decide meta-question>.
+
+### Routing Audit (from Phase 2.8)
+
+*Omit this block if all subagent bindings have distinctive, activation-clear, non-overlapping descriptions. Never auto-apply — binding descriptions are load-bearing.*
+
+- [Routing Audit] [<overlap|missing-trigger|orphan|drift>] `<binding-path>` — <description excerpt>. Proposed rewrite: `<concrete new description field>`.
 ```
 
 ### Categorisation:
