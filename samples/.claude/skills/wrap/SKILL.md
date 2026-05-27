@@ -74,6 +74,26 @@ Go through this table. For each row, ask: *did this task add, rename, or remove 
 
 The mirror + push is mandatory because the public repo's whole value is *being a current redacted snapshot*. A private META_ARCHITECTURE that drifts from the public one silently degrades the repo every week.
 
+### 5b. Post-settings-change verification (only if applicable)
+
+**Trigger:** any edit this session to `<home>/.claude/settings.json` (or workspace `settings.local.json` / `.claude/settings.json`) touching `permissions.allow`, `permissions.deny`, or any `hooks` block.
+
+**Why this step exists.** Adding or removing a permission/hook only takes effect when a real fire validates it. Configuration-shape assumptions ("the pattern looks right") have silently broken scheduled tasks for days at a time — same family as the 2026-04-21 lesson ("a scheduled task isn't operational until its logs exist"). Empirical artefact (log) > config inspection.
+
+**Procedure:**
+
+1. List the touched files explicitly in the wrap report's `Touched:` block (settings.json edits are easy to forget).
+2. Identify the next scheduled fire that exercises the changed surface:
+   - Permission for `Bash(python <workspace>/scripts/*)` → next daily brief / pipeline task, or fire it now via the OS scheduler's run-on-demand command (idempotent if today's artefact already exists).
+   - Permission for `gh *` / `git *` / similar audit-relevant pattern → next periodic monitoring task, or invoke the audit on-demand.
+   - Hook block changes → any tool call that matches the hook's matcher. Make one explicit call (e.g. trivial `Read` for PostToolUse formatter, trivial `Bash(ls)` for PreToolUse Bash hook) and confirm the hook fired (formatter output, hook log, or system notification).
+3. After the verifying fire, read `<workspace>/tasks/scheduled-logs/<skill>_<latest>.log`. Confirm:
+   - The expected success sentinel (`<TASK>_OK`) is present, **OR**
+   - The failure mode is unrelated to the change (e.g. a downstream MCP outage, not a permission denial on the newly-allowed pattern).
+4. If the fire produced a permission denial on the very pattern that was added, the pattern syntax is wrong (glob shape, path separator, argument capture). Fix and re-verify before closing the wrap. Do not declare wrap complete on a stale config-shape assumption.
+
+If no scheduled fire will hit the changed surface within ~24h, note it in the wrap report's `Needs user confirmation:` block so the user knows verification is pending the next natural fire.
+
 ### 6. Memory sweep
 
 - Project state changed in a way that affects future sessions? → update the relevant `project_*.md` memory file.
