@@ -1,6 +1,6 @@
 # Adopting this pattern
 
-A 5-step walkthrough for setting up a similar Claude Code workspace. Each step is independent — you don't have to do all of them, and the order below is just the path of least resistance.
+A 5-step walkthrough for setting up a similar **agent workspace**, instantiated in Claude Code. Each step is independent — you don't have to do all of them, and the order below is just the path of least resistance. The Claude-Code-specific file conventions (`CLAUDE.md`, `.claude/skills/`, MCP config) are the substrate; if you're on a different agent runtime, the architectural decisions still translate even though the file shapes won't.
 
 The full architecture is described in [META_ARCHITECTURE.md](META_ARCHITECTURE.md); this file is the "where to actually start" complement.
 

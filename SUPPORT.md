@@ -12,7 +12,7 @@ Where to go for what:
 | Have a **Claude API / SDK question** | [Claude Code documentation](https://docs.claude.com/en/docs/claude-code/overview) |
 | Want to **report a community-health concern** | [Moderation report issue](https://github.com/jimy-r/agent-workspace-architecture/issues/new?template=moderation_report.yml) |
 
-**This repo's scope:** patterns and architectural reference for Claude Code workspaces. It is not the place to debug Claude Code itself, request product features, or ask general usage questions unrelated to workspace architecture.
+**This repo's scope:** patterns and architectural reference for **agent workspaces** (the worked example runs on Claude Code, but the patterns generalise). It is not the place to debug Claude Code itself, request product features, or ask general usage questions unrelated to workspace architecture.
 
 If your question is outside scope, one of the links above will point you at the right place.
 
