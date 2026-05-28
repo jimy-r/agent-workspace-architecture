@@ -8,7 +8,7 @@ body:
     attributes:
       label: Where?
       description: File path + section or line if you have it.
-      placeholder: "e.g. META_ARCHITECTURE.md §5 Skills, or ADOPTION.md Step 3"
+      placeholder: "e.g. META_ARCHITECTURE.md §6 Skills, or ADOPTION.md Step 3"
     validations:
       required: true
   - type: textarea
