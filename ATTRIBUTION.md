@@ -8,7 +8,7 @@ The patterns in this repo were not invented here. They were borrowed, adapted, a
 |---|---|
 | Ops-mode vs dev-mode separation, citation system, confidence ladder, freshness footers, Conventional Commits | A peer's internal data-analytics project (private) |
 | Curated-list PR-contract style, scope-gating language in PR template | [sindresorhus/awesome](https://github.com/sindresorhus/awesome) |
-| Path-based auto-labeller, PR-size labeller, weekly auto-cleanup bot, lock-closed workflow, issue-form YAML style, multi-link `contact_links` | [mdn/content](https://github.com/mdn/content) |
+| Path-based auto-labeller, PR-size labeller, lock-closed workflow, issue-form YAML style, multi-link `contact_links` | [mdn/content](https://github.com/mdn/content) |
 | Structured label taxonomy (prefix system), deflection-links in `contact_links` | [rust-lang/rust](https://github.com/rust-lang/rust) |
 | Path-specific `CODEOWNERS` pattern, `SUPPORT.md` as traffic router | [kubernetes/kubernetes](https://github.com/kubernetes/kubernetes) |
 | Minimal curated-list discipline (scripts folder, link validation, README-as-product) | [public-apis/public-apis](https://github.com/public-apis/public-apis) |
