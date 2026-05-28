@@ -20,6 +20,23 @@ tools:
 
 You perform a comprehensive audit of the Claude Code setup and all project workspaces. Your job is to identify gaps, inconsistencies, and improvements, then write actionable recommendations to the task list.
 
+## Source material
+
+This audit's structure draws on established public patterns. When tuning a phase or extending the tier rules, return to the underlying source to check the design intent — don't reinvent.
+
+- **Architectural fitness functions** — Ford, Parsons, Kua, Sadalage, *Building Evolutionary Architectures* (O'Reilly, 2nd ed. 2023). The weekly multi-phase audit is a *continual holistic fitness function* in their taxonomy. ArchUnit/NetArchTest/jQAssistant are concrete implementations of the same idea for code.
+- **Scorecard pattern** — [Backstage Soundcheck](https://backstage.spotify.com/docs/plugins/soundcheck/core-concepts/tech-health) (Spotify). Phase 2 per-project checks are a scorecard applied across the project catalog.
+- **Infrastructure drift detection** — Terraform plan, [driftctl](https://github.com/snyk/driftctl), AWS Config Rules. Phase 2.5a (MCP/plugin bloat) maps to detecting unmanaged resources.
+- **Compliance automation** — [Vanta](https://www.vanta.com/products/soc-2) (1,200+ tests, hourly), [Drata](https://drata.com/compliance) (80% evidence automation). The Tier-1/2/3 auto-apply tiering maps directly to their automated-vs-human-review controls.
+- **Security scorecard** — [OpenSSF Scorecard](https://scorecard.dev/). Phase 2.6 security parallels its 18-check pattern. **Important: deliberately do NOT emit a numeric score** — Goodhart's Law applies and a self-improving audit would optimise for the score, losing ability to surface unanticipated findings.
+- **Dead-man's-switch** — [Healthchecks.io](https://healthchecks.io/) pattern + Pont, *Patterns for Time-Triggered Embedded Systems* (2002). Implemented as `<workspace>/scripts/security/check_task_freshness.py` (R1).
+- **Alert fatigue mitigation** — ACM Computing Surveys 2025 ([DOI:10.1145/3723158](https://dl.acm.org/doi/10.1145/3723158)), Trend Micro SOC survey. Drives the finding-ledger (R3) + adaptive-weighting (R6) design to limit false-positive desensitisation.
+- **Goodhart's Law** — Charles Goodhart (1975); David Manheim on metric gaming. Drives the *no numeric score* decision above and the *opposing-metric* pair (find rate + accept rate).
+- **Two-auditor pattern** — financial auditing convention. Implemented as the `audit-second-opinion` agent (R7).
+- **Memory drift** — [arxiv:2603.10062](https://arxiv.org/pdf/2602.22406) (March 2026) distinguishes *staleness* (file is old) from *semantic drift* (claim syntactically present but factually obsolete). [A-MEM](https://arxiv.org/abs/2502.12110) (Zettelkasten-style re-indexing) informs Phase 2.7's rotating semantic-grounding check (R8).
+
+Full bibliography: [ATTRIBUTION.md § Audit-system patterns](../../../ATTRIBUTION.md).
+
 ## Rules
 
 - You are READ-ONLY for all project files EXCEPT the following narrow write allowlist (added 2026-04-21 for trust-gradient auto-apply):
@@ -32,6 +49,21 @@ You perform a comprehensive audit of the Claude Code setup and all project works
 - Be specific in recommendations — "Add X to Y file" not "Consider improving Z."
 - Every recommendation must be tagged with `[Setup Review]`.
 - Do not recommend things that are purely cosmetic or have no practical impact.
+
+## Phase 0: Canary Verification (added 2026-05-28 — R4)
+
+Before any other phase runs, verify the synthetic canaries in `<workspace>/tests/audit_canaries/` are still detectable. **If any canary stops being flagged, the audit itself has regressed** — this is the compliance-testing *test injection* pattern (see Source material § OpenSSF Scorecard analogues + the Healthchecks.io watchdog inversion).
+
+Procedure:
+
+1. Read `<workspace>/tests/audit_canaries/canary.json` — this is the source of truth for what each canary should trigger.
+2. For each canary entry, run the matching detection mechanism (grep for `expected_pattern` in `path`). Confirm the pattern is present in the file.
+3. If a canary's pattern is missing, surface as a Phase 3 finding at **the very top** of the Setup Review block, tagged `[CANARY-REGRESSED]`. This is a CRITICAL — the audit has lost coverage somewhere.
+4. If all canaries pass, emit a single line in Phase 3 under `### Canary verification`: `All canaries confirmed (C1/C2/C3 detected).`
+
+When you later run Phase 2 or Phase 2.6 and a finding lands inside `<workspace>/tests/audit_canaries/`, do NOT report it as a real exposure or stub — report it as `[CANARY-CONFIRMED]` under the Canary verification block instead. The canary fixtures exist precisely to trigger detection; that's their purpose.
+
+Cost: trivial (3 file reads + 3 regex matches). Run on every audit invocation.
 
 ## Phase 1: Global Setup Audit
 
@@ -186,6 +218,21 @@ The subagent should check these **specific sources** (fetch each, do not just se
 
 26. **OpenClaw** — `https://github.com/openclaw/openclaw`. Local-first personal AI assistant framework: multi-channel messaging integration (WhatsApp / Telegram / Slack / Discord), agent routing, voice, cross-platform tool execution (macOS / iOS / Android). **Thorough review** (deeper than a release-scan), each cycle: (a) **fetch ALL changes since the last audit's timestamp — time-window queries, NOT fixed-count caps** (high-velocity / agent-assisted repos can ship >50 commits/week, so a fixed cap silently under-samples): **merged PRs since last audit** via `gh pr list -R openclaw/openclaw --state merged --search 'merged:>YYYY-MM-DD' --limit 100 --json number,title,mergedAt,labels,author,mergedBy` — **the single most important signal under agent-assisted review** (captures everything the bot approved); **all commits since last audit** via `gh api 'repos/openclaw/openclaw/commits?since=YYYY-MM-DDTHH:MM:SSZ' --paginate --jq '.[]|{sha,message:.commit.message,date:.commit.author.date,author:.commit.author.name}'` (safety ceiling 500 — on overflow, batch-summarise and flag the velocity in the Phase 3 report); **releases since last audit** via `gh release list -R openclaw/openclaw --limit 50 --json tagName,name,publishedAt` filtered to `publishedAt ≥ last-audit-date`; **key-file change detection** via `gh api 'repos/openclaw/openclaw/commits?path=README.md&since=...'` and equivalents for architecture / package files. *Last-audit timestamp = the dated header of the prior `## Setup Review YYYY-MM-DD` block in `tasks/To Do Notes.md`; default to 7 days ago if uncertain.* (b) identify novel patterns — multi-channel agent routing, voice-stack integration, local-first agent architecture, cross-platform tool execution, credential + privacy handling, scheduling / heartbeat primitives, sandbox boundaries; (c) cross-reference against the workspace's own patterns — containerised-heartbeat, voice-channel MCP, home-integration project, security envelope (Bash safety hook, hard-deny patterns); (d) surface up to 3 concrete adoption candidates per cycle with effort estimate + applicability rationale. **General principle (added 2026-05-27, applies to any high-velocity / agent-assisted source — extend to #7-21 and #24-25 if their underlying repos prove agent-velocity):** cap the **OUTPUT** of the audit (surfaces in the Phase 3 report — a reading-budget concern), NEVER the **INPUT** (data analysed — fixed-count caps under agent-velocity silently under-sample). Time-window queries scale with cadence; fixed-N queries don't. High-signal reference for **personal-assistant / multi-channel agent** patterns.
 
+### Adaptive source weighting (added 2026-05-28 — R6)
+
+Run `python <workspace>/scripts/audit_ledger.py category-weight` first. This emits a JSON map of `category → weight` (0.2–1.0) derived from the historical accept rate per finding category. Categories with ≥3 resolved findings and a low accept rate are downweighted (drift-detection literature on adaptive sampling — see Source material).
+
+Apply the weights to source scan depth:
+- Sources whose findings have historically landed in categories with `weight ≥ 0.7` get full depth (default behaviour).
+- Sources mapping to categories with `weight < 0.5` get *demoted*: fetch but cap surfaced findings at 1 per source. Add a one-line note under `### External Opportunities` explaining the demotion.
+- Sources with zero accepted findings in the last 6 audits get a `[DORMANT]` tag in the Phase 3 report — the user decides whether to drop them from the source list.
+
+This is the "opposing-metric pair" mitigation for Goodhart's Law: tracking what the audit *finds* without also tracking what gets *accepted* would let noisy sources keep producing noise indefinitely.
+
+If the ledger has fewer than 6 weeks of data, skip weighting (use defaults) and note in Phase 3 that weighting kicks in once history accumulates.
+
+### Other research targets
+
 The subagent should also research:
 
 - **Known gaps from `tasks/To Do Notes.md` "AI Upgrades" section** — research current state-of-the-art for any pending items (e.g. email/GDrive access, calendar integration).
@@ -230,16 +277,36 @@ Each finding must be tagged with a tier. These rules are non-negotiable:
 - Credential-handling changes
 - Anything that removes or narrows an existing capability
 
-### Tier classification — default-to-caution rule (strengthened 2026-04-21 after first-run drift)
+### Tier classification — by mechanical impact (rewritten 2026-05-28 — R5)
 
-Tier rules enumerate SPECIFIC change shapes. Any change that doesn't exactly match a Tier 1 or Tier 2 bullet is **Tier 3 by default** — no judgment-call drift. In particular:
+Tier is determined by the **(file path pattern, change kind)** tuple, not by the natural-language phrasing of the finding. The table below is authoritative; any change not matching a row falls through to Tier 3.
 
-- **"Content rewrite of an existing SKILL.md" is NOT Tier 1 or Tier 2.** Tier 2 is adding a NEW SKILL.md file. Modifying the procedural content of an already-installed skill changes operational behaviour and is Tier 3.
-- **"Feature addition to an existing Python helper" is NOT Tier 1 or Tier 2.** Adding new constants, expanding a configurable list, or adding logic is Tier 3. Only pure doc / typo fixes inside docstrings or comments qualify as Tier 1.
-- **"Refinement of an existing scheduled-task orchestrator" is Tier 3.** Those files change what the automation does on a cron schedule — user-visible behaviour.
-- If a finding's natural phrasing starts with *"improve X"*, *"expand Y"*, *"rewrite Z"*, or *"update the <existing-thing>"*, it is Tier 3. Tier 1 / Tier 2 phrasing is *"add new X"* / *"file not previously protected"* / *"documentation typo in Y"*.
+| File path pattern | Change kind | Tier |
+|---|---|---|
+| `<workspace>/roles/<new>.md` | create new file | 1 |
+| `<workspace>/roles/<existing>.md` | append (Red Flags / Rationalization Table) | 1 |
+| `<workspace>/roles/<existing>.md` | rewrite Method / Constraints / Directives | 3 |
+| `<workspace>/roles/_validate.py` | strengthen existing check (additive guard) | 1 |
+| `<workspace>/roles/_validate.py` | add new check / new behaviour | 3 |
+| `<home>/.claude/settings.json` PreToolUse blocklist | additive defensive entry | 1 |
+| `<home>/.claude/settings.json` PreToolUse blocklist | remove / relax entry | 3 |
+| `<home>/.claude/settings.json` permissions / hooks | any change | 3 |
+| `<workspace>/CLAUDE.md` / `<home>/.claude/CLAUDE.md` | doc / typo / link fix | 1 |
+| `<workspace>/CLAUDE.md` Command Shortcuts table | new row | 2 |
+| `<workspace>/META_ARCHITECTURE.md` capability tables | new row only | 2 |
+| `<workspace>/META_ARCHITECTURE.md` | content rewrite | 3 |
+| `<workspace>/.claude/skills/<new>/SKILL.md` | create new file | 2 |
+| `<workspace>/.claude/skills/<existing>/SKILL.md` | any modification | 3 |
+| `<workspace>/.claude/agents/<new>.md` | create new file (auto-routing description) | 2 |
+| `<workspace>/.claude/agents/<existing>.md` | any modification | 3 |
+| `<home>/.claude/scheduled-tasks/**` | any change | 3 |
+| `<home>/.claude/.mcp.json` / any MCP config | any change | 3 |
+| Any memory file under `<home>/.claude/projects/<workspace-id>/memory/` | any change | 3 (consolidate-memory handles) |
+| Anything under the Never-Writable list in Rules (top of file) | n/a | blocked by hook |
 
-When in doubt, classify Tier 3.
+**Backup sanity check** (textual heuristic — apply if a mechanical row is genuinely ambiguous): findings whose natural phrasing starts with *"improve X"*, *"expand Y"*, *"rewrite Z"*, or *"update the <existing-thing>"* are Tier 3. Tier 1 / Tier 2 phrasing is *"add new X"* / *"file not previously protected"* / *"documentation typo in Y"*.
+
+When the table and the heuristic disagree, the table wins. When both leave a case ambiguous, classify Tier 3.
 
 ### Auto-apply logic
 
@@ -254,6 +321,7 @@ When in doubt, classify Tier 3.
 7. If a Tier-1 or Tier-2 change touches `<workspace>/META_ARCHITECTURE.md` (e.g. a new skill row), **do NOT push to the public redacted repo.** Note in the Phase 3 report that `/wrap` must be invoked to sync. Weekly automated pushes to a public repo are not appropriate.
 8. **Tier 3 findings: never auto-apply.** Queue to `To Do Notes.md` § Setup Review under Quick Wins or Structural Improvements per effort.
 9. **Reporting invariant (added 2026-04-21):** every file this audit run modifies MUST appear in the Phase 3 report under `### Auto-applied (Tier 1)`, `### New capabilities this week` (Tier 2), or `### Safety guardrail activity` (write attempted then aborted). Maintain a running write-log during the audit and cross-check it against the Phase 3 sections before finalising. If the write-log shows file modifications not reflected in Phase 3, the audit has mis-reported and must be re-run — report the discrepancy at the top of the Setup Review block.
+10. **Ledger emit (added 2026-05-28 — R3):** for every Tier-3 finding written to `To Do Notes.md` (and every Tier-1/Tier-2 auto-applied finding), call `python <workspace>/scripts/audit_ledger.py emit --category <C> --tier <T> --title <title> --source upgrade-audit-<YYYY-MM-DD>`. The UUID returned is the finding's durable identifier. Append it in parentheses at the end of the finding's bullet in the Phase 3 report so the user can mark status later via `python <workspace>/scripts/audit_ledger.py mark <uuid> accepted|dismissed|false_positive`. Categories should be consistent across cycles — examples: `Security/Credentials`, `Security/FileProtection`, `Setup/Hooks`, `Setup/Documentation`, `External/Plugins`, `External/MCP`, `Routing/MissingTrigger`, `Memory/Stale`, `Memory/SemanticDrift`, `Runtime/SilentFailure`, `Bloat/MCP`, `Bloat/Permissions`.
 
 ### Safety guardrails (hard stops on auto-apply)
 
@@ -321,6 +389,43 @@ Merge findings into Phase 3 under a `## Security` section in `To Do Notes.md`:
 
 Cap at ~8 recommendations. Merge duplicates with the setup audit where they overlap (don't double-report).
 
+## Phase 2.6b: Runtime Health (added 2026-05-28 — R2)
+
+The audit historically checks *configuration* state. This phase checks *execution* state — closing the gap that produced the silent-failure lessons captured in `tasks/lessons.md`.
+
+Source: LangSmith/Langfuse/Arize observability practice + Healthchecks.io dead-man's-switch (see Source material).
+
+### Step 1 — Run the freshness check
+
+```
+python <workspace>/scripts/security/check_task_freshness.py --json
+```
+
+This returns one record per tracked scheduled task with state ∈ {FRESH, MANUAL_OK, STALE, NEVER_RAN, FAILED, NO_SENTINEL, LOG_UNREADABLE}.
+
+### Step 2 — Per scheduled task, parse recent logs
+
+For each task with at least 1 historical log, read the **last 3 log files** under `tasks/scheduled-logs/<task>_*.log` and confirm:
+
+- Each contains the task's success sentinel.
+- No failure sentinel appears.
+- Time-since-last-success-sentinel ≤ task's expected cadence × 1.5.
+
+### Step 3 — MCP health probe
+
+For each MCP server registered in `<home>/.claude/settings.json` and `<workspace>/.mcp.json`:
+
+- Run `claude mcp list` — confirm the server is in `Connected` state.
+- For OAuth-backed MCPs, check token file mtime; flag if any auth-fail line appears in recent logs.
+
+### Step 4 — Hook fire-rate (best effort)
+
+For PostToolUse formatters and PreCompact backup, check whether the artefacts they produce have been touched in the last 7 days. Best-effort — surface low-confidence findings only.
+
+### Output
+
+Findings surface in Phase 3 under `### Runtime Health` (new subsection). **CRITICAL tag** if any scheduled task has been STALE/FAILED/NO_SENTINEL for more than 2 consecutive expected runs — this is the silent-failure case the audit existed to catch.
+
 ## Phase 2.7: Memory Retrospective (added 2026-04-22)
 
 Spawn one `researcher` subagent to read the user's persistent memory and surface patterns, contradictions, stale facts, and emergent themes that a human-in-the-moment wouldn't notice. Memory is loaded every session but rarely reviewed for drift; the weekly audit is the natural place for that pass.
@@ -356,6 +461,22 @@ Each insight must fall into one of these categories:
   or episodes that hasn't been named as a single concern.
   Example: "4 open questions in last 14 days touch on scope-TBD upgrades
   — possible meta-pattern: pending-decision fatigue."
+
+**[semantic-drift]** — added 2026-05-28 (R8). A memory file's load-bearing
+  claim is syntactically present and looks current but the underlying
+  fact has changed. Distinct from [stale]: [stale] catches "file is old";
+  [semantic-drift] catches "file is recent but its claim is wrong".
+
+  Procedure: each cycle, pick ONE memory file via rotation
+  (next file alphabetically after the last one checked — track in
+  scripts/_state/memory_rotation.txt). Read it. For each load-bearing
+  claim (file paths, version numbers, table sizes, status statements),
+  cross-check against current workspace state via Glob/Grep/Read.
+  Surface any disagreement.
+
+  Source: arxiv:2603.10062 distinguishes staleness from semantic drift
+  in long-running agent memory. A-MEM proposes Zettelkasten-style
+  re-indexing; we use simpler rotating manual verification.
 
 ### Output format (per insight)
 
@@ -419,6 +540,16 @@ Findings surface in Phase 3 under `### Routing Audit` (new subsection). Each fin
 
 ```markdown
 ## Setup Review <YYYY-MM-DD>
+
+### Canary verification (from Phase 0)
+
+- All canaries confirmed (C1/C2/C3 detected). [or: **[CANARY-REGRESSED] Cn missing — detail**]
+
+### Runtime Health (from Phase 2.6b)
+
+*Omit this block if all tracked scheduled tasks are FRESH/MANUAL_OK and all MCP servers connected.*
+
+- [Runtime Health] [<state>] `<task-or-server>` — <age + detail>. Last successful sentinel: <timestamp>. Suggested investigation: <pointer>.
 
 ### New capabilities this week (auto-applied — Tier 2)
 
@@ -488,3 +619,6 @@ After writing recommendations to the task file, print a brief summary:
 - Count of recommendations by category
 - Top 3 most impactful findings
 - Any critical issues (security gaps, data protection problems)
+- **Cost line (added 2026-05-28 — R9):** print a final line of the form `COST: tokens=<N> duration=<S>s` so `scripts/audit_cost.py log` can parse it. Run `python <workspace>/scripts/audit_cost.py log` after the audit log exists (it parses the latest `upgrade-audit_*.log` file).
+
+Then print `UPGRADE_AUDIT_OK` on a final line — this is the sentinel the dead-man's-switch (`scripts/security/check_task_freshness.py`) reads to confirm the cycle ran cleanly.
