@@ -55,7 +55,7 @@ import sys
 # ---------------------------------------------------------------------------
 
 ALLOWLIST_SUBSTRINGS: list[str] = [
-    "claude-workspace-architecture/samples/",
+    "agent-workspace-architecture/samples/",
     # Add further sample/mirror roots here if more public repos get cloned in.
 ]
 

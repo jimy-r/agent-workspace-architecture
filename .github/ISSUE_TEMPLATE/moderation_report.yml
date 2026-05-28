@@ -28,7 +28,7 @@ body:
     attributes:
       label: Where did this occur?
       description: Link to the Issue / PR / Discussion / commit.
-      placeholder: https://github.com/jimy-r/claude-workspace-architecture/...
+      placeholder: https://github.com/jimy-r/agent-workspace-architecture/...
     validations:
       required: true
   - type: textarea

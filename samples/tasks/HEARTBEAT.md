@@ -67,7 +67,7 @@ For `has-default` tasks, choose the sandbox type based on what the task produces
 | Task shape | Sandbox type | Staging location | Review artifact |
 |---|---|---|---|
 | Research / investigation / summary | Folder (non-git) | `tasks/drafts/<task-slug>.md` | the draft file itself |
-| Code change in a git repo (Vector, claude-workspace-architecture) | **Git worktree** | `<repo-parent>/heartbeat-<task-slug>/` on branch `heartbeat/<task-slug>` | GitHub PR (if repo is on GitHub), otherwise branch cover note |
+| Code change in a git repo (Vector, agent-workspace-architecture) | **Git worktree** | `<repo-parent>/heartbeat-<task-slug>/` on branch `heartbeat/<task-slug>` | GitHub PR (if repo is on GitHub), otherwise branch cover note |
 | Config / docs / prose change in a non-git scope | **Staging folder** | `<target-parent>/<task-slug>_staging/` | `REVIEW.md` inside the staging folder |
 | Task-file update (e.g. registry additions) | Staging folder | as above | `REVIEW.md` |
 | New primitives (scripts, skills not yet in use) | **Staging folder** | as above | `REVIEW.md` |

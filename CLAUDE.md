@@ -4,9 +4,9 @@
 
 ## What this repo is
 
-A shared reference / pattern hub for Claude Code workspaces. A redacted snapshot of one person's working setup, published with open invitation for contributors to add their own roles, skills, hooks, scheduled tasks, and workflow patterns.
+A shared reference / pattern hub for **agent workspaces**, with a worked example built in Claude Code. A redacted snapshot of one person's working setup, published with open invitation for contributors to add their own roles, skills, hooks, scheduled tasks, and workflow patterns. The Claude-Code file conventions (`CLAUDE.md`, `.claude/skills/`, MCP config) are the substrate; the architectural patterns generalise to any agent system.
 
-Three surfaces to engage: [Discussions](https://github.com/jimy-r/claude-workspace-architecture/discussions) for ideas, [Issues](https://github.com/jimy-r/claude-workspace-architecture/issues) for concrete proposals, PRs for changes. See [PATTERNS_BOARD.md](PATTERNS_BOARD.md) for what's bubbling up toward canonical.
+Three surfaces to engage: [Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions) for ideas, [Issues](https://github.com/jimy-r/agent-workspace-architecture/issues) for concrete proposals, PRs for changes. See [PATTERNS_BOARD.md](PATTERNS_BOARD.md) for what's bubbling up toward canonical.
 
 ## Working principles
 

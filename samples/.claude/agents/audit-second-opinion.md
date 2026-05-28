@@ -1,6 +1,6 @@
 ---
 name: audit-second-opinion
-description: Independent second-opinion auditor for the Claude workspace — deliberately different prompt structure from the primary `audit` agent. Use quarterly (or after any major audit.md refactor) to catch blind spots the primary's question list doesn't probe. Manual invocation only — there is no scheduled cadence. Read-only, surfaces narrative findings rather than a structured list.
+description: Independent second-opinion auditor for the agent workspace — deliberately different prompt structure from the primary `audit` agent. Use quarterly (or after any major audit.md refactor) to catch blind spots the primary's question list doesn't probe. Manual invocation only — there is no scheduled cadence. Read-only, surfaces narrative findings rather than a structured list.
 model: claude-opus-4-6
 permissionMode: auto
 memory: none

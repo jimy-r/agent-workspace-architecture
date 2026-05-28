@@ -42,7 +42,7 @@ The weekly upgrade-audit (`samples/.claude/agents/audit.md`) and its supporting 
 | *Agent observability* — runtime layer (token usage, latency, error rates, traces) | [LangSmith](https://www.langchain.com/langsmith/observability), [Langfuse](https://langfuse.com/), Arize Phoenix. Inspires Phase 2.6b runtime health (lighter than full observability — scoped to log-artefact + MCP-probe checks). |
 | *Eval-driven development for agents* — measuring agent quality with synthetic test harnesses | [DeepEval](https://www.confident-ai.com/), [Promptfoo](https://promptfoo.dev/), [UK AISI Inspect AI](https://inspect.aisi.org.uk/). Not yet implemented in the workspace; flagged as a future direction. |
 
-Full research brief grounding these citations: [Reference/Research/2026-05-28_audit-upgrade-best-practices.md](https://github.com/jimy-r/claude-workspace-architecture/) (private workspace; the brief itself is not mirrored here — sources are the public anchors).
+Full research brief grounding these citations: [Reference/Research/2026-05-28_audit-upgrade-best-practices.md](https://github.com/jimy-r/agent-workspace-architecture/) (private workspace; the brief itself is not mirrored here — sources are the public anchors).
 
 ## Frameworks and conventions
 

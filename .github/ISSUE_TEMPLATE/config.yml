@@ -1,13 +1,13 @@
 blank_issues_enabled: false
 contact_links:
   - name: Discussions — Ideas, questions, show and tell
-    url: https://github.com/jimy-r/claude-workspace-architecture/discussions
+    url: https://github.com/jimy-r/agent-workspace-architecture/discussions
     about: >-
       Use Discussions for anything that isn't a concrete proposal or a specific
       gap — sketch ideas before they're ready, ask usage questions, share what
       you've built in your own workspace.
   - name: Adapting this to your own workspace
-    url: https://github.com/jimy-r/claude-workspace-architecture/discussions
+    url: https://github.com/jimy-r/agent-workspace-architecture/discussions
     about: >-
       Hitting friction while following ADOPTION.md or forking samples/?
       Open a Q&A discussion — other adopters will see it and learn from the

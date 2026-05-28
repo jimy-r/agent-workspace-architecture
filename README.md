@@ -1,6 +1,8 @@
-# claude-workspace-architecture
+# agent-workspace-architecture
 
-A blueprint for a personal [Claude Code](https://claude.com/claude-code) workspace — personas, routines, hooks, skills, MCP servers, memory, and task coordination.
+A blueprint for a personal **agent workspace** — personas, routines, hooks, skills, MCP servers, memory, and task coordination. This repo's worked example is built in [Claude Code](https://claude.com/claude-code) (so the file conventions you'll see — `CLAUDE.md`, `.claude/skills/`, MCP config — are Claude-Code-specific), but the *patterns* (roles library, memory hygiene, audit cadence, classify-then-act heartbeat, dead-man's-switch, tier classification by mechanical impact) port to any agent substrate. Cursor, Cline, Continue, Windsurf, custom Agent-SDK builds — pick your runtime; the architectural decisions translate.
+
+> **Renamed 2026-05-28** from `claude-workspace-architecture`. The old URL 301-redirects; external links keep working. Rationale + framing in [CHANGELOG.md](CHANGELOG.md).
 
 ## Start here
 
@@ -73,8 +75,8 @@ The hope is that it becomes a **pattern hub** — a place where people bring the
 
 Three surfaces, pick the right one:
 
-- **[Discussions](https://github.com/jimy-r/claude-workspace-architecture/discussions)** — sketch an idea that's still forming, ask a usage question, or share what you've built in your own workspace.
-- **[Issues](https://github.com/jimy-r/claude-workspace-architecture/issues/new/choose)** — propose a concrete component (role, skill, hook, routine, MCP pattern), flag a gap or typo, or suggest a workflow improvement. Templates guide the shape.
+- **[Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions)** — sketch an idea that's still forming, ask a usage question, or share what you've built in your own workspace.
+- **[Issues](https://github.com/jimy-r/agent-workspace-architecture/issues/new/choose)** — propose a concrete component (role, skill, hook, routine, MCP pattern), flag a gap or typo, or suggest a workflow improvement. Templates guide the shape.
 - **Pull requests** — fork, branch, PR. See [CONTRIBUTING.md](CONTRIBUTING.md) for standards.
 
 **One hard rule:** no personal identifiers, no credentials, no business / health / financial specifics. Every commit must be safe for a public audience. Full guidance in [CONTRIBUTING.md](CONTRIBUTING.md).

@@ -1,4 +1,4 @@
-"""Ghost-token baseline counter for the Claude workspace.
+"""Ghost-token baseline counter for the agent workspace.
 
 Measures approximate tokens loaded before any user input. Helps spot when
 SessionStart context growth gets expensive.

@@ -342,7 +342,7 @@ When the table and the heuristic disagree, the table wins. When both leave a cas
 
 ## Phase 2.6: Security Review
 
-Conduct a PRAGMATIC security review of the Claude workspace. Goal: surface real risk, not theoretical exposure. Write findings to `<workspace>/tasks/To Do Notes.md` under a `## Security` section (see Phase 3 format), tagged `[Security Review]`.
+Conduct a PRAGMATIC security review of the agent workspace. Goal: surface real risk, not theoretical exposure. Write findings to `<workspace>/tasks/To Do Notes.md` under a `## Security` section (see Phase 3 format), tagged `[Security Review]`.
 
 ### Scope
 

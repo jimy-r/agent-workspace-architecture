@@ -1,6 +1,6 @@
 ---
 name: orient
-description: Use at the start of a new session when the user says "orient", "/orient", or asks to get up to speed on the Claude workspace. Produces a briefing of active state, in-flight work, open questions, staleness flags, and a recommended next action.
+description: Use at the start of a new session when the user says "orient", "/orient", or asks to get up to speed on the agent workspace. Produces a briefing of active state, in-flight work, open questions, staleness flags, and a recommended next action.
 ---
 
 ## Purpose

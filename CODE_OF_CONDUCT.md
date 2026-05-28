@@ -6,7 +6,7 @@ All contributors — maintainers, visitors, AI-assisted contributors — are exp
 
 ## Reporting
 
-To report a concern, use the [Moderation report issue template](https://github.com/jimy-r/claude-workspace-architecture/issues/new?template=moderation_report.yml). Maintainers will respond within a reasonable timeframe.
+To report a concern, use the [Moderation report issue template](https://github.com/jimy-r/agent-workspace-architecture/issues/new?template=moderation_report.yml). Maintainers will respond within a reasonable timeframe.
 
 Reports made in good faith will be treated confidentially where reasonably possible. Retaliation against reporters is itself a violation.
 

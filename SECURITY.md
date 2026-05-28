@@ -8,7 +8,7 @@ That narrows the threat surface to three categories:
 
 ### 1. Privacy leaks in committed content
 
-If you spot personal identifiers, credentials, tokens, business specifics, or other content that shouldn't be in a public repo — **open a public Issue using the [Moderation report template](https://github.com/jimy-r/claude-workspace-architecture/issues/new?template=moderation_report.yml)** with category "Privacy leak." Public visibility is appropriate here because the content is already public on GitHub; the faster we excise it, the better.
+If you spot personal identifiers, credentials, tokens, business specifics, or other content that shouldn't be in a public repo — **open a public Issue using the [Moderation report template](https://github.com/jimy-r/agent-workspace-architecture/issues/new?template=moderation_report.yml)** with category "Privacy leak." Public visibility is appropriate here because the content is already public on GitHub; the faster we excise it, the better.
 
 Do **not** include the leaked content in the report. Link to the file and line.
 
@@ -16,7 +16,7 @@ Do **not** include the leaked content in the report. Link to the file and line.
 
 The repo runs workflows (`link-check`, `stale`, `validate-samples`, `dependabot`, `labeler`, `lock-closed`) under the repo's `GITHUB_TOKEN`. If you spot an injection risk, permission escalation path, or supply-chain concern in any of these:
 
-- Use **GitHub's [private security advisories](https://github.com/jimy-r/claude-workspace-architecture/security/advisories/new)** — not a public Issue.
+- Use **GitHub's [private security advisories](https://github.com/jimy-r/agent-workspace-architecture/security/advisories/new)** — not a public Issue.
 - Maintainer will triage and coordinate a fix before public disclosure.
 
 ### 3. Patterns in the docs that would weaken a reader's workspace security

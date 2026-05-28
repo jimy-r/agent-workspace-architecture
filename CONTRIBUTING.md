@@ -20,12 +20,12 @@ Maintainers may close AI-authored PRs that skip these steps without engagement. 
 
 | If you… | Go to |
 |---|---|
-| Have an idea that's still forming | [Discussions → Ideas](https://github.com/jimy-r/claude-workspace-architecture/discussions) |
-| Want to share what you've built | [Discussions → Show and tell](https://github.com/jimy-r/claude-workspace-architecture/discussions) |
-| Have a usage question | [Discussions → Q&A](https://github.com/jimy-r/claude-workspace-architecture/discussions) |
-| Want to propose a concrete component | [Open an Issue → Component proposal](https://github.com/jimy-r/claude-workspace-architecture/issues/new/choose) |
-| Spotted a gap or typo | [Open an Issue → Gap or correction](https://github.com/jimy-r/claude-workspace-architecture/issues/new/choose) |
-| Want to suggest a workflow improvement | [Open an Issue → Workflow improvement](https://github.com/jimy-r/claude-workspace-architecture/issues/new/choose) |
+| Have an idea that's still forming | [Discussions → Ideas](https://github.com/jimy-r/agent-workspace-architecture/discussions) |
+| Want to share what you've built | [Discussions → Show and tell](https://github.com/jimy-r/agent-workspace-architecture/discussions) |
+| Have a usage question | [Discussions → Q&A](https://github.com/jimy-r/agent-workspace-architecture/discussions) |
+| Want to propose a concrete component | [Open an Issue → Component proposal](https://github.com/jimy-r/agent-workspace-architecture/issues/new/choose) |
+| Spotted a gap or typo | [Open an Issue → Gap or correction](https://github.com/jimy-r/agent-workspace-architecture/issues/new/choose) |
+| Want to suggest a workflow improvement | [Open an Issue → Workflow improvement](https://github.com/jimy-r/agent-workspace-architecture/issues/new/choose) |
 | Are ready to submit a change | Fork → branch → PR |
 
 ## What's welcome
@@ -75,7 +75,7 @@ When in doubt, generalise. Reviewers will bounce PRs that contain identifiers �
 
 ## Proposing a new component
 
-1. **Start in [Discussions](https://github.com/jimy-r/claude-workspace-architecture/discussions)** — sketch the idea, get feedback on shape and fit before you build.
+1. **Start in [Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions)** — sketch the idea, get feedback on shape and fit before you build.
 2. **Follow the templates** — [`samples/roles/_template.md`](samples/roles/_template.md) for roles, [`samples/CONTEXT.md.example`](samples/CONTEXT.md.example) for project context files, existing SKILL.md format for skills.
 3. **Keep entity facts out** — roles are pure (no entity facts). Infrastructure-specific details go in a `CONTEXT.md` companion, never in the role itself.
 4. **One component per PR** — small and reviewable beats big and sprawling.
@@ -135,7 +135,7 @@ Everything else — new samples, new roles, new skills, table-row improvements, 
 
 Be honest, be terse, credit sources, critique ideas not people. No performative politeness, no passive-aggression. Disagreement is expected and welcome; keep it focused on the work.
 
-This project follows the [Contributor Covenant](https://www.contributor-covenant.org/version/2/1/code_of_conduct/) — see [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). Concerns can be raised via the [Moderation report issue template](https://github.com/jimy-r/claude-workspace-architecture/issues/new?template=moderation_report.yml).
+This project follows the [Contributor Covenant](https://www.contributor-covenant.org/version/2/1/code_of_conduct/) — see [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). Concerns can be raised via the [Moderation report issue template](https://github.com/jimy-r/agent-workspace-architecture/issues/new?template=moderation_report.yml).
 
 Writing conventions live in [STYLE_GUIDE.md](STYLE_GUIDE.md). Support routing (which surface fits which question) lives in [SUPPORT.md](SUPPORT.md).
 
