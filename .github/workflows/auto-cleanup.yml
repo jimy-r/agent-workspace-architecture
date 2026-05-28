@@ -13,9 +13,9 @@ jobs:
   cleanup:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: '22'
 
@@ -24,7 +24,7 @@ jobs:
 
       - name: Run Prettier on Markdown and YAML
         run: |
-          prettier --write \
+          prettier --write --no-error-on-unmatched-pattern \
             "**/*.md" \
             "**/*.yml" \
             "**/*.yaml" \
@@ -32,7 +32,7 @@ jobs:
             "!.git/**"
 
       - name: Create pull request if changes
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           commit-message: 'chore: weekly auto-cleanup (prettier)'
           title: 'chore: weekly auto-cleanup'
