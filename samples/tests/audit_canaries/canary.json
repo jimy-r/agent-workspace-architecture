@@ -1,0 +1,36 @@
+{
+  "_doc": "Audit canary manifest (R4). Each canary is a deliberately-broken fixture that the audit MUST flag every run. If any canary stops being flagged, the audit has regressed. Based on the compliance-testing 'test injection' pattern — see Reference/Research/2026-05-28_audit-upgrade-best-practices.md §4 Gap 4.",
+  "_iron_rule": "These fixtures live at tests/audit_canaries/ and must NEVER be moved without updating this manifest. The audit's Phase 0 canary verification reads this file and confirms each expected_pattern appears in the corresponding flagged finding.",
+  "canaries": [
+    {
+      "id": "C1",
+      "name": "credential_pattern_canary",
+      "path": "tests/audit_canaries/credential_pattern_canary.md",
+      "purpose": "Verifies Phase 2.6 credential grep still detects sk-ant- pattern outside of .env.",
+      "expected_pattern": "sk-ant-api-CANARY-FAKE-NEVER-USE-",
+      "expected_phase": "2.6",
+      "expected_category": "Security/Credentials",
+      "report_as": "CANARY-CONFIRMED (not a real exposure)"
+    },
+    {
+      "id": "C2",
+      "name": "stub_claudemd_canary",
+      "path": "tests/audit_canaries/stub_project/CLAUDE.md",
+      "purpose": "Verifies Phase 2 still flags placeholder/boilerplate CLAUDE.md content.",
+      "expected_pattern": "<-- Describe what this workspace is for -->",
+      "expected_phase": "2",
+      "expected_category": "Setup/Documentation",
+      "report_as": "CANARY-CONFIRMED (not a real stub)"
+    },
+    {
+      "id": "C3",
+      "name": "orphan_binding_canary",
+      "path": "tests/audit_canaries/orphan_binding_canary.md",
+      "purpose": "Verifies Phase 2.8 still flags subagent bindings with no 'when to use' trigger.",
+      "expected_pattern": "description: This binding has no clear activation trigger",
+      "expected_phase": "2.8",
+      "expected_category": "Routing/MissingTrigger",
+      "report_as": "CANARY-CONFIRMED (not a real binding)"
+    }
+  ]
+}
