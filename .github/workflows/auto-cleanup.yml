@@ -29,7 +29,8 @@ jobs:
             "**/*.yml" \
             "**/*.yaml" \
             "!node_modules/**" \
-            "!.git/**"
+            "!.git/**" \
+            "!.github/workflows/**"
 
       - name: Create pull request if changes
         uses: peter-evans/create-pull-request@v8
