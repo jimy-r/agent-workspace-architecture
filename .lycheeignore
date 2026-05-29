@@ -1,0 +1,15 @@
+# Patterns lychee should not check.
+#
+# One regex per line. Use this for URLs that lychee misclassifies as broken,
+# not for URLs that are actually broken — fix the URL in that case.
+#
+# Most common reason to add a pattern here: a domain blocks bots / unauthenticated
+# requests with 403 even though the page resolves fine in a browser. Lychee has no
+# way to distinguish "this URL is dead" from "this server doesn't like bots."
+
+# ACM Digital Library — returns 403 to unauthenticated traffic; DOIs resolve fine
+# interactively. Verify by clicking the link.
+^https://dl\.acm\.org/
+
+# Drata corporate site — bot protection returns 403; URLs resolve fine in a browser.
+^https://drata\.com/
