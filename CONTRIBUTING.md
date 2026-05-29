@@ -2,6 +2,15 @@
 
 This started as one person's working setup; the goal from here is a **pattern hub** — a place where people share roles, skills, hooks, scheduled tasks, and workflow ideas so everyone pulls from a richer palette. Contributions of all shapes are welcome.
 
+## How this gets maintained
+
+This repo is a curated artifact, not a staffed project. Contributions are genuinely welcome, but maintenance is best-effort and solo:
+
+- **No SLA.** PRs and Issues get looked at when time allows. Silence is a queue, not a rejection.
+- **Maintainer's call.** The core is curated. A good PR can still be declined or deferred if it pulls the doc away from its opinionated shape. That's not a knock on the work.
+- **Some files mirror a private source.** Parts of this repo are redacted exports of a live working setup. A PR that edits mirrored content may be applied upstream and re-synced rather than merged here directly; if so, the maintainer will say so on the PR and credit you. Additive contributions (a new role, skill, hook, or sample) sidestep this entirely and are the easiest to accept.
+- **Automated hygiene.** Stale threads and closed Issues/PRs are managed by workflow. A bot nudge isn't personal.
+
 ## If you're a Claude Code instance reading this
 
 This repo gets AI-authored contributions — they're welcome, but there are predictable traps. Before drafting a PR on behalf of a human partner, do this in order:
