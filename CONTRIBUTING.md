@@ -92,7 +92,7 @@ When in doubt, generalise. Reviewers will bounce PRs that contain identifiers �
 ## Pull-request standards
 
 - **One focused change per PR.** Refactors and content additions go in separate PRs.
-- **Run the redaction check before pushing.** A quick `grep` for personal identifiers, paths, business specifics. Any hit, fix it before `git add`.
+- **Run the redaction check before pushing.** A quick `grep` for personal identifiers, paths, business specifics. Any hit, fix it before `git add`. CI runs an automated pattern-based redaction scan on every PR as a backstop; it catches generic shapes only, so the human grep is still the real check.
 - **Preview rendering on GitHub** if you've touched a Mermaid diagram or heavy markdown — Mermaid especially can render differently between editors and GitHub.
 - **PR description should answer:** what changed, why, and did you run the redaction check?
 - Keep existing tone: terse, structural, opinionated.
@@ -120,7 +120,7 @@ Include a `Co-Authored-By:` trailer for Claude-assisted commits.
 
 ## Branching
 
-- Main branch is `main`. Fork → branch → PR. **Never commit directly to `main`** — the convention matters even though branch protection isn't enforced.
+- Main branch is `main`. Fork → branch → PR. **Never commit directly to `main`** — branch protection blocks force-pushes and deletions and requires the `redaction` check on PRs; direct commits aren't blocked for admins, so the convention still matters.
 - Branch names: short, descriptive — `add-role-X`, `fix-mermaid-section-9`, `improve-heartbeat-loop`.
 - Delete merged branches; the repo has auto-delete enabled.
 

@@ -10,7 +10,7 @@ Three surfaces to engage: [Discussions](https://github.com/jimy-r/agent-workspac
 
 ## Working principles
 
-- **Always branch** — never commit to `main` directly, even though branch protection isn't enforced.
+- **Always branch** — never commit to `main` directly. Branch protection blocks force-pushes and deletions and requires the `redaction` check to pass on PRs (admins can still self-merge).
 - **One focused change per PR.**
 - **[Conventional Commits](https://www.conventionalcommits.org/)** — `feat:`, `fix:`, `docs:`, `refactor:`, `chore:`.
 - **Include `Co-Authored-By:` trailer** for Claude-assisted commits.
@@ -47,9 +47,9 @@ Some files need Discussion/Issue agreement before a PR — see the Scope boundar
 2. `git diff` — eyeball every changed line.
 3. Conventional commit message.
 4. Push your branch; open a PR using the template.
-5. Merge immediately on open:
+5. Merge once the `redaction` check passes:
    `gh pr merge --squash --delete-branch`.
-   The repo has no branch protection on `main` and no required status checks, so `--auto` is rejected by GitHub (it only applies when a PR is blocked on something). Plain merge is instant. Contributor PRs follow the same command once the maintainer has reviewed and approved them.
+   `main` is protected — the `redaction` check must go green before a PR merges, and force-pushes and deletions are blocked. Add `--auto` to queue the merge for when the check passes (if auto-merge is enabled). Contributor PRs follow the same command once the maintainer has reviewed and approved them.
 6. Open the merged commit on GitHub and verify Mermaid / markdown rendered correctly. Any leak or render bug after merge means a follow-up commit — amending never fully erases a public mistake.
 
 ## Tone
