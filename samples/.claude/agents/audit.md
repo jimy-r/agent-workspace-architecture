@@ -532,6 +532,29 @@ For each binding, extract the `description:` frontmatter field. Evaluate:
 
 Findings surface in Phase 3 under `### Routing Audit` (new subsection). Each finding includes: binding path, category, specific description text, proposed fix (concrete rewrite of the `description:` field). **Not auto-applied** — binding descriptions are load-bearing and user confirms each edit.
 
+## Phase 2.9: Module Best-Practice Rotation (added 2026-05-29)
+
+The workspace is organised into modules (see META_ARCHITECTURE §2), grouped into 4 for cadence. Each weekly cycle deep-checks **one group** (4-week rotation → every module revisited ~monthly), keeping cost bounded. This is **rotation, not fan-out** — an earlier design fanned out a research subagent for *every* section *every* cycle, proved too expensive to ever run, and was stripped; rotating one group per week is what actually runs. (Lesson: a per-cycle fan-out across N areas gets deferred into oblivion; rotate instead.)
+
+### Step 1 — active group
+
+Read the rotation state file (`<workspace>/scripts/_state/audit_module_rotation.txt`) — it holds the group to run this cycle. If missing/invalid, default to the first group. The deep *source research* for the active group's modules folds into Phase 2.5b (focus that group); the per-module *assertion checks* run here.
+
+### Step 2 — run the group's checks
+
+Read the active group's modules + their checks from the module best-practice map (a dated brief under `<workspace>/Reference/Research/` listing, per module, canonical external sources + concrete assertion checks + gaps). Run the cheap checks every cycle; expensive ones only when the brief marks them due. Each check is a command / grep / file inspection that passes or fails. Surface real failures at appropriate severity; note a known-accepted gap once, don't re-surface it.
+
+### Universal checks (every cycle, regardless of group)
+
+Cheap + high-value enough not to wait for their group's turn:
+
+- **Public-mirror drift** — compare the `Last updated:` date AND the numbered-section count (`^## \d+\.`) between the private META_ARCHITECTURE and its public redacted copy; flag if the dates are >14 days apart, or if the private file has more numbered sections than the public (the mirror fell behind). Counting *numbered* sections (not all `##`) avoids false positives from intentional public-only sections like a table of contents or a planned-upgrades list.
+- **Backup recency (best-effort)** — if the backup tool resolves credentials non-interactively, assert the latest snapshot is recent; otherwise skip and recommend folding the backup job into the dead-man's-switch.
+
+### Step 3 — advance the rotation
+
+After the checks, write the next group to the rotation state file (this is the single place the rotation advances, so Phase 2.5b and Phase 2.9 see the same active group). Findings surface in Phase 3 under `### Module Best-Practice`. **Not auto-applied** — module findings almost all touch existing files / behaviour, so they're Tier 3.
+
 ## Phase 3: Write Recommendations (tier-aware — updated 2026-04-21)
 
 1. Read `<workspace>/tasks/To Do Notes.md` to understand the current structure.

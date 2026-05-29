@@ -61,7 +61,7 @@ Input methods layer above entry points: text typed into any surface (terminal, R
 
 ## 2. Modules — cohesive clusters by purpose
 
-A *module* is a cohesive cluster of files (subagents, skills, scripts, state) that shares one upgrade boundary. The §1 layered view is the inventory by type; this section is the same content sliced by purpose. Shared primitives are cross-referenced, not duplicated.
+A *module* is a cohesive cluster of files (subagents, skills, scripts, state) that shares one upgrade boundary. The §1 layered view is the inventory by type; this section is the same content sliced by purpose. Shared primitives are cross-referenced, not duplicated. The Audit module deep-checks these modules on a **4-group weekly rotation** (one group per cycle → ~monthly per module — rotation, not a per-cycle fan-out; see the audit sample's Phase 2.9 under [samples/](samples/)), reading a per-module best-practice map (sources + concrete checks + gaps).
 
 | Module | Charter | Subagents | Skills | Scripts | State | Owner doc |
 |---|---|---|---|---|---|---|
