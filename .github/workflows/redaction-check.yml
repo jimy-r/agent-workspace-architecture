@@ -1,0 +1,33 @@
+name: Redaction check
+
+# Privacy backstop. Scans the ADDED lines of every PR — including from forks —
+# for the shapes of private content (emails, absolute home paths, credential
+# prefixes). Complements the maintainer's local pre-commit denylist hook, which
+# does not run on contributors' machines.
+#
+# Uses `pull_request` (not `pull_request_target`) and a read-only token, so
+# untrusted fork code never gets repo write access or secrets.
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  redaction:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Scan added lines for private-content shapes
+        run: |
+          git fetch origin "${{ github.base_ref }}" --depth=1 || true
+          python scripts/redaction_check.py --base "origin/${{ github.base_ref }}"

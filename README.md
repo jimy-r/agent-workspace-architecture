@@ -67,9 +67,9 @@ Tables in the doc use `[stock]` / `[plugin]` / `[local]` / `[custom]` markers so
 
 ## Why it's shared
 
-Nothing in here is proprietary or novel — it's just one working arrangement of the pieces Claude Code already provides. Published because a few people have asked how the whole thing fits together, and a single document is easier to hand over than a verbal tour.
+Nothing in here is proprietary or novel. It's one working arrangement of the pieces Claude Code already provides, published because a few people asked how the whole thing fits together and a single document is easier to hand over than a verbal tour.
 
-The hope is that it becomes a **pattern hub** — a place where people bring their own roles, skills, hooks, scheduled tasks, and workflow ideas so everyone pulls from a richer palette than any one person can assemble solo.
+Treat it as a **curated reference**, not a staffed project. Contributions are welcome and the [`samples/`](samples/) library grows when someone shares a pattern worth keeping, but the repo is maintained solo and best-effort: the maintainer curates the core, replies come when time allows, and a good idea can still be declined if it pulls the doc off its shape. See [CONTRIBUTING.md](CONTRIBUTING.md#how-this-gets-maintained) for how that works in practice.
 
 ## Contributing
 
