@@ -29,7 +29,7 @@ The weekly upgrade-audit (`samples/.claude/agents/audit.md`) and its supporting 
 | Pattern | Borrowed from |
 |---|---|
 | *Continual holistic fitness function*: multi-phase periodic audit with tiered remediation | Ford, Parsons, Kua, Sadalage, [*Building Evolutionary Architectures*](https://www.oreilly.com/library/view/building-evolutionary-architectures/9781491986356/ch02.html) (O'Reilly, 2nd ed. 2023). Concrete code-level analogues: [ArchUnit](https://www.archunit.org/) (Java), [NetArchTest](https://github.com/BenMorris/NetArchTest) (.NET), jQAssistant (graph-based, Neo4j). |
-| *Scorecard per catalog entry*: per-project health dimensions producing pass/fail signals (Phase 2) | [Backstage Soundcheck](https://backstage.spotify.com/docs/plugins/soundcheck/core-concepts/tech-health) (Spotify). |
+| *Scorecard per catalog entry*: per-project health dimensions producing pass/fail signals (Phase 2) | [Backstage Soundcheck](https://backstage.spotify.com/plugins/soundcheck/) (Spotify). |
 | *Drift detection*: compare declared state to actual state, surface delta (Phase 2.5a MCP/plugin bloat) | [Terraform drift detection](https://developer.hashicorp.com/terraform/tutorials/cloud/drift-and-policy), [driftctl](https://github.com/snyk/driftctl), AWS Config Rules. |
 | *Tiered automated-vs-human evidence collection*: Tier 1/2/3 auto-apply | [Vanta SOC2](https://www.vanta.com/products/soc-2) (1,200+ hourly tests), [Drata](https://drata.com/compliance) (80% evidence automation). |
 | *Atomic security checks* (Phase 2.6) | [OpenSSF Scorecard](https://scorecard.dev/) (18+ automated checks). **Deliberately do NOT emit a numeric audit score**: Goodhart's Law risk for a self-improving audit. |
