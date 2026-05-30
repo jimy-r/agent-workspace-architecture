@@ -2,8 +2,8 @@
 
 Adopter-reference content illustrating each layer described in [META_ARCHITECTURE.md](../META_ARCHITECTURE.md). Two tiers:
 
-1. **Minimal scaffold** — three worked files for a 5-step adoption. Start here if you want to build.
-2. **Full library** — a broader snapshot of a real working workspace (roles, skills, agents, scheduled tasks, Python helpers). Browse when you want concrete implementations to fork.
+1. **Minimal scaffold.** Three worked files for a 5-step adoption. Start here if you want to build.
+2. **Full library.** A broader snapshot of a real working workspace (roles, skills, agents, scheduled tasks, Python helpers). Browse when you want concrete implementations to fork.
 
 All paths use generic placeholders (`<workspace>`, `<home>`, `<project-*>`). Substitute your own.
 
@@ -21,7 +21,7 @@ samples/
 ├── roles/                            # 17 canonical role definitions + template + validator
 │   ├── _template.md                  # role skeleton
 │   ├── _validate.py                  # schema + binding validator
-│   ├── accountant.md                 # tax / deductions / compliance (Australian-flavoured — adopt or localise)
+│   ├── accountant.md                 # tax / deductions / compliance (Australian-flavoured; adopt or localise)
 │   ├── backend-developer.md
 │   ├── bookkeeper.md
 │   ├── data-engineer.md
@@ -82,30 +82,30 @@ samples/
 
 ## How to read these
 
-### Start here (minimal scaffold — enough for 5-step adoption)
+### Start here (minimal scaffold, enough for 5-step adoption)
 
-- [`CLAUDE.md.example`](CLAUDE.md.example) — root-level context that Claude auto-loads.
-- [`CONTEXT.md.example`](CONTEXT.md.example) — blank project-entity template. Filled counterpart: [`example-project/CONTEXT.md`](example-project/CONTEXT.md).
-- [`roles/_template.md`](roles/_template.md) — role skeleton + fields.
-- [`.claude/settings.example.json`](.claude/settings.example.json) — hook configuration.
-- [`.claude/skills/orient/SKILL.md`](.claude/skills/orient/SKILL.md) — example skill.
-- [`tasks/README.md`](tasks/README.md) — async Q&A coordination layer.
+- [`CLAUDE.md.example`](CLAUDE.md.example): root-level context that Claude auto-loads.
+- [`CONTEXT.md.example`](CONTEXT.md.example): blank project-entity template. Filled counterpart: [`example-project/CONTEXT.md`](example-project/CONTEXT.md).
+- [`roles/_template.md`](roles/_template.md): role skeleton + fields.
+- [`.claude/settings.example.json`](.claude/settings.example.json): hook configuration.
+- [`.claude/skills/orient/SKILL.md`](.claude/skills/orient/SKILL.md): example skill.
+- [`tasks/README.md`](tasks/README.md): async Q&A coordination layer.
 
-Follow [`ADOPTION.md`](../ADOPTION.md) — the 5-step walkthrough maps these samples to concrete setup steps.
+Follow [`ADOPTION.md`](../ADOPTION.md); the 5-step walkthrough maps these samples to concrete setup steps.
 
-### Full library (reference implementations — fork to adapt)
+### Full library (reference implementations, fork to adapt)
 
-- [`roles/`](roles/) — **17 canonical roles**. Each is pure (no entity facts). Composed with a project `CONTEXT.md` via a thin binding in `<project>/.claude/agents/`. Domain-specific roles (e.g. `accountant.md` is Australian-CPA flavoured) may need localisation — treat as template.
-- [`.claude/skills/`](.claude/skills/) — **7 workspace skills** for session management, output discipline, and verification.
-- [`.claude/agents/`](.claude/agents/) — **3 custom subagents**: a periodic setup auditor, a task-queue project manager, and an auto-routed researcher.
-- [`.claude/scheduled-tasks/`](.claude/scheduled-tasks/) — **4 SKILL.md files** fired by OS-level scheduler (Windows Task Scheduler / cron / launchd) via the `run-scheduled-skill.ps1` wrapper. The `morning-brief/SKILL.md` shows the full daily-orchestrator pattern (email triage → receipt capture → bill matching → appointment extraction → news → compose + deliver).
-- [`scripts/`](scripts/) — **10 helpers** consumed by the scheduled tasks. Each is standalone, stdlib-first where possible.
+- [`roles/`](roles/): **17 canonical roles**. Each is pure (no entity facts), composed with a project `CONTEXT.md` via a thin binding in `<project>/.claude/agents/`. Domain-specific roles (e.g. `accountant.md` is Australian-CPA flavoured) may need localisation; treat as template.
+- [`.claude/skills/`](.claude/skills/): **7 workspace skills** for session management, output discipline, and verification.
+- [`.claude/agents/`](.claude/agents/): **3 custom subagents**: a periodic setup auditor, a task-queue project manager, and an auto-routed researcher.
+- [`.claude/scheduled-tasks/`](.claude/scheduled-tasks/): **4 SKILL.md files** fired by OS-level scheduler (Windows Task Scheduler / cron / launchd) via the `run-scheduled-skill.ps1` wrapper. The `morning-brief/SKILL.md` shows the full daily-orchestrator pattern (email triage → receipt capture → bill matching → appointment extraction → news → compose + deliver).
+- [`scripts/`](scripts/): **10 helpers** consumed by the scheduled tasks. Each is standalone, stdlib-first where possible.
 
 ## Notes on redactions
 
 - Concrete project names substituted with placeholders (`<project-platform>`, `<project-finance>`, `<project-health>`, `<project-creative>`, etc.).
 - Personal identifiers, emails, locations, vendor relationships generalised.
-- Data files (actual email rules, actual services registry, actual task content) are **not** shipped — only the schemas and code that consume them.
+- Data files (actual email rules, actual services registry, actual task content) are **not** shipped; only the schemas and code that consume them.
 - Some domain-flavoured content remains (Australian tax terms in `accountant.md`, Brisbane-shaped weather fetch in `morning-brief/SKILL.md`). Treat these as templates to localise.
 
 ## Adoption path

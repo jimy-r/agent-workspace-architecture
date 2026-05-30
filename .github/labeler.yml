@@ -21,6 +21,8 @@ area/docs:
   - changed-files:
       - any-glob-to-any-file:
           - 'README.md'
+          - 'PATTERNS.md'
+          - 'WORKFLOW.md'
           - 'ADOPTION.md'
           - 'META_ARCHITECTURE.md'
           - 'CLAUDE.md'
@@ -31,7 +33,6 @@ area/governance:
       - any-glob-to-any-file:
           - 'CONTRIBUTING.md'
           - 'CODE_OF_CONDUCT.md'
-          - 'PATTERNS_BOARD.md'
           - 'STYLE_GUIDE.md'
           - '.github/CODEOWNERS'
 

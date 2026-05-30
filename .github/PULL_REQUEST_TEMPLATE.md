@@ -27,7 +27,7 @@ Make it specific.
 
   ✅  Solves a problem I hit while adapting the orient skill to my own workspace.
   ✅  Corrects a broken link flagged by the weekly link-check cron.
-  ✅  Promoted from PATTERNS_BOARD entry — signal across 4 Discussions.
+  ✅  Adds a role I've used across three projects; schema matches the template.
 
   ❌  "Because it's better"            (vague)
   ❌  "Adds a useful role"              (useful to whom? what problem?)
@@ -57,11 +57,6 @@ Make it specific.
 ## Related
 
 <!-- Link the Issue or Discussion this comes from, if any. -->
-
-## Patterns board
-
-<!-- If this change promotes, relegates, or refines a pattern tracked in PATTERNS_BOARD.md, link the entry. -->
-- Patterns board entry: <!-- link or "n/a" -->
 
 ---
 

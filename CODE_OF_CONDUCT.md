@@ -2,7 +2,7 @@
 
 This project is governed by the [Contributor Covenant, version 2.1](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
 
-All contributors — maintainers, visitors, AI-assisted contributors — are expected to follow it.
+All contributors (maintainers, visitors, AI-assisted contributors) are expected to follow it.
 
 ## Reporting
 
@@ -12,4 +12,4 @@ Reports made in good faith will be treated confidentially where reasonably possi
 
 ---
 
-*Last verified against the repo structure on **2026-04-19**.*
+*Last verified against the repo structure on **2026-05-30**.*

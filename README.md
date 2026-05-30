@@ -1,102 +1,64 @@
 # agent-workspace-architecture
 
-A blueprint for a personal **agent workspace** — personas, routines, hooks, skills, MCP servers, memory, and task coordination. This repo's worked example is built in [Claude Code](https://claude.com/claude-code) (so the file conventions you'll see — `CLAUDE.md`, `.claude/skills/`, MCP config — are Claude-Code-specific), but the *patterns* (roles library, memory hygiene, audit cadence, classify-then-act heartbeat, dead-man's-switch, tier classification by mechanical impact) port to any agent substrate. Cursor, Cline, Continue, Windsurf, custom Agent-SDK builds — pick your runtime; the architectural decisions translate.
+A worked blueprint for a personal **agent workspace**: the roles, routines, hooks, skills, memory, and task coordination that turn a coding agent into a system you can hand work to and trust to make progress while you're away.
 
-> **Renamed 2026-05-28** from `claude-workspace-architecture`. The old URL 301-redirects; external links keep working. Rationale + framing in [CHANGELOG.md](CHANGELOG.md).
+The example runs in [Claude Code](https://claude.com/claude-code), so the file conventions you'll see (`CLAUDE.md`, `.claude/skills/`, MCP config) are Claude-Code-specific. The architecture is not. The roles library, memory hygiene, audit cadence, classify-then-act heartbeat, dead-man's switch, and tier-by-impact gating port to Cursor, Cline, Continue, Windsurf, or a custom Agent-SDK build. Pick your runtime; the decisions translate.
 
-## Start here
+This is one person's actual setup, redacted and published as a reference. Not a framework, not a product. A documented working arrangement of the pieces Claude Code already gives you, with the reasoning attached.
 
-Four paths, pick by time and setup:
+## What's inside
 
-- **5-minute skim** — this README, then [META_ARCHITECTURE.md](META_ARCHITECTURE.md) §1 *Layers at a glance* + §11 *Project layout*. Enough to decide if it's worth going deeper.
-- **See how it actually runs** — [WORKFLOW.md](WORKFLOW.md) describes one person's day-to-day use: session discipline, entry-point choices, how tasks flow from thought to done.
-- **Build your own** — walk [ADOPTION.md](ADOPTION.md) (5 steps, minimum-viable at each). Fork [`samples/`](samples/) as you go.
-- **Let your agent tour it** — clone, `cd` in, launch Claude Code, then prompt:
-  > *"Tour this repo. Read META_ARCHITECTURE.md, then WORKFLOW.md, then PATTERNS_BOARD.md, then scan samples/. Summarise the patterns most applicable to my workspace."*
-  The repo's [`CLAUDE.md`](CLAUDE.md) auto-loads on session start, so your agent inherits the conventions before it answers.
+- **Roles library.** 17 pure expert personas (security-auditor, researcher, accountant, developmental-editor, and more) that compose with project `CONTEXT.md` files through thin bindings.
+- **Heartbeat + audit subagents.** A 2-hourly project manager that classifies and advances the task queue, and a weekly auditor that reviews configs, security, and drift.
+- **Custom skills.** `orient`, `wrap`, `tasks`, `terse-mode`, `verify-completion`, `systematic-debugging`, `role-pressure-test`.
+- **Scheduled routines.** A daily morning brief (calendar, weather, AI news, task state) and a memory-consolidation pass, fired by the OS scheduler.
+- **Memory system.** Typed files (`user` / `feedback` / `project` / `reference`) indexed by `MEMORY.md`, pointing at sources rather than copying them.
+- **Hardening.** A `PreToolUse` file-and-command guard, a password-manager credential law, encrypted `restic` backups, and container sandboxing for web-facing agents.
 
-If you know you want to contribute, jump to [CONTRIBUTING.md](CONTRIBUTING.md).
+Tables throughout mark each component `[stock]` / `[plugin]` / `[local]` / `[custom]`, so you can see what ships with Claude Code versus what someone had to write.
 
-## Three ways in
+## Start with the why
 
-Following the [Diátaxis](https://diataxis.fr/) framing, the repo's docs split across four quadrants:
+If you read one thing past this page, read **[PATTERNS.md](PATTERNS.md)** — the eight load-bearing architectural decisions, each as *problem → pattern → why it beats the obvious alternative → what it costs*. That's where the actual thinking lives.
 
-- **[ADOPTION.md](ADOPTION.md)** — *tutorial*. A 5-step walkthrough for setting up a similar workspace, minimum-viable at each step. Start here if you want to build.
-- **[samples/](samples/)** — *how-to*. Schematic scaffold files (CLAUDE.md and CONTEXT.md templates, a canonical role, a project binding, a custom skill, a hook config, a task list) you fork and adapt task-by-task.
-- **[META_ARCHITECTURE.md](META_ARCHITECTURE.md)** — *reference*. The full structural map (~400 lines, with Mermaid diagrams). Read when you need to look up how a layer works.
-- The prose throughout README + `CONTRIBUTING.md` — *explanation*. Why the shape is the way it is.
+The rest of the docs follow [Diátaxis](https://diataxis.fr/):
 
-## Who this is for
+| Quadrant | Doc | Read it for |
+|---|---|---|
+| Explanation | [PATTERNS.md](PATTERNS.md) | why the shape is the way it is |
+| Reference | [META_ARCHITECTURE.md](META_ARCHITECTURE.md) | the full structural map, with diagrams |
+| Tutorial | [ADOPTION.md](ADOPTION.md) | a 5-step build, minimum-viable at each step |
+| How-to | [samples/](samples/) | scaffold files to fork and adapt |
 
-Four rough tiers — all welcome:
+Two more views. **[WORKFLOW.md](WORKFLOW.md)** shows a day of actually using it: session discipline, phone dispatch, how a task moves thought-to-done. And you can hand the repo to your own agent:
 
-| Tier | What they get from this |
-|---|---|
-| **Browsers** | A worked example of how the full Claude Code toolkit fits together end-to-end. Read `META_ARCHITECTURE.md` and move on. |
-| **Adopters** | A template to build their own workspace from. Follow `ADOPTION.md`, fork `samples/`, adapt. |
-| **Contributors** | A shared reference they can improve. See [CONTRIBUTING.md](CONTRIBUTING.md). |
-| **Maintainers** | Someone running their own derivative as a shared hub for their team or community. Fork and re-publish. |
+> *"Tour this repo. Read PATTERNS.md, then META_ARCHITECTURE.md, then WORKFLOW.md, then scan samples/. Summarise the patterns most applicable to my workspace."*
 
-## What a contribution looks like
+The repo's [`CLAUDE.md`](CLAUDE.md) auto-loads on session start, so your agent inherits the conventions before it answers.
 
-- **Roles** — fixed schema (Identity / Directives / Constraints / Method / Output / Red Flags / Rationalization Table). See [`samples/roles/_template.md`](samples/roles/_template.md) for the skeleton and [`samples/roles/security-auditor.md`](samples/roles/security-auditor.md) for a filled example. 16 more canonical roles live alongside it (accountant, researcher, tester, etc. — see [`samples/README.md`](samples/README.md)).
-- **Skills** — single-file `SKILL.md` with a [CSO-style description](https://docs.claude.com/en/docs/claude-code/skills) (the trigger condition) + a procedure. See [`samples/.claude/skills/orient/SKILL.md`](samples/.claude/skills/orient/SKILL.md) and the 6 other workspace skills in the same folder.
-- **Agents** — custom subagent definitions, auto-routed via CSO-style descriptions. See [`samples/.claude/agents/`](samples/.claude/agents/) for three working examples (weekly upgrade auditor, 2-hourly project-manager heartbeat, evidence-based researcher).
-- **Scheduled tasks** — SKILL.md files fired by OS-level scheduler via the `run-scheduled-skill.ps1` wrapper. See [`samples/.claude/scheduled-tasks/morning-brief/SKILL.md`](samples/.claude/scheduled-tasks/morning-brief/SKILL.md) for a full daily-orchestrator pattern (email triage → receipts → bills → appointments → news → deliver).
-- **Hooks** — small JSON entries wiring a shell command to a tool event. See [`samples/.claude/settings.example.json`](samples/.claude/settings.example.json).
-- **Python / PowerShell helpers** — standalone utilities consumed by scheduled tasks. See [`samples/scripts/`](samples/scripts/) for ten working examples (RSS dedup, email rules engine, receipt pipeline, bill tracker, restic backup, etc.).
-- **Project CONTEXT.md** — entity facts a role binding consumes. See [`samples/CONTEXT.md.example`](samples/CONTEXT.md.example).
+## Who built this
 
-If a pattern has worked in your own workspace, chances are it'll help someone else. Open an Issue or start a Discussion.
+James Ross. I design agent workspaces and AI-orchestration systems, and this is the reference version of my own. If you're standing up something similar inside an organisation, or want these patterns adapted to your stack, the practice site is **[jamesross.ai](https://jamesross.ai)**.
 
-## What's in the doc
+## Using it
 
-How a single working directory can host:
+Fork freely ([MIT](LICENSE)); that's what it's for. Adapt the samples, lift the patterns, localise the domain-flavoured bits (the `accountant` role is Australian-CPA shaped, the morning brief fetches Brisbane weather).
 
-- **Roles library** — 17 canonical expert personas that compose with project-specific `CONTEXT.md` files via thin subagent bindings
-- **Launcher scripts + scheduled routines** — the `.bat` layer that bootstraps sessions, plus the Claude Code app's Routines feature that is progressively replacing them
-- **Hooks** — `PreToolUse` file-protection blocklist, `PostToolUse` auto-formatters, `SessionStart` context re-injection
-- **Custom workspace skills** — `orient`, `wrap`, `tasks`, `verify-completion`, `systematic-debugging`, `role-pressure-test`
-- **Heartbeat and audit subagents** — a 2-hourly project manager and a weekly auditor, both writing into a shared task list
-- **MCP servers** — voice channel, browser automation, preview, Google Calendar + Workspace, remote chat, scheduled tasks
-- **Memory system** — typed files (`user` / `feedback` / `project` / `reference`) indexed by `MEMORY.md`
-- **Task coordination layer** — a question-then-action loop between the user and the heartbeat agent, backed by a small set of markdown files
-- **Hardening** — a password-manager vault as the canonical credential store, `restic` backups to S3-compatible storage, and container sandboxing for external-facing agents
+This is a **curated solo reference**, maintained best-effort. If you spot a privacy leak, a broken link, or a pattern that's plainly wrong, [open an issue](https://github.com/jimy-r/agent-workspace-architecture/issues/new/choose) and I'll get to it when time allows. Substantial PRs are welcome, but a good one can still be declined if it pulls the doc off its shape: it stays one coherent worked example, not a grab-bag.
 
-Tables in the doc use `[stock]` / `[plugin]` / `[local]` / `[custom]` markers so you can see what ships with Claude Code vs what someone had to write.
-
-## Why it's shared
-
-Nothing in here is proprietary or novel. It's one working arrangement of the pieces Claude Code already provides, published because a few people asked how the whole thing fits together and a single document is easier to hand over than a verbal tour.
-
-Treat it as a **curated reference**, not a staffed project. Contributions are welcome and the [`samples/`](samples/) library grows when someone shares a pattern worth keeping, but the repo is maintained solo and best-effort: the maintainer curates the core, replies come when time allows, and a good idea can still be declined if it pulls the doc off its shape. See [CONTRIBUTING.md](CONTRIBUTING.md#how-this-gets-maintained) for how that works in practice.
-
-## Contributing
-
-Three surfaces, pick the right one:
-
-- **[Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions)** — sketch an idea that's still forming, ask a usage question, or share what you've built in your own workspace.
-- **[Issues](https://github.com/jimy-r/agent-workspace-architecture/issues/new/choose)** — propose a concrete component (role, skill, hook, routine, MCP pattern), flag a gap or typo, or suggest a workflow improvement. Templates guide the shape.
-- **Pull requests** — fork, branch, PR. See [CONTRIBUTING.md](CONTRIBUTING.md) for standards.
-
-**One hard rule:** no personal identifiers, no credentials, no business / health / financial specifics. Every commit must be safe for a public audience. Full guidance in [CONTRIBUTING.md](CONTRIBUTING.md).
+**One hard rule for anything you send:** no personal identifiers, no credentials, no business / health / financial specifics. Every commit is safe for a public audience. Full guidance in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Caveats
 
-- This started as one person's working setup; it's evolving into a shared reference with community contributions. The original author curates the core; contributors extend the library.
-- Paths in the doc are generic (`<workspace>`, `<home>`) — any concrete setup will substitute its own.
-- Nothing here executes on its own; the doc describes structure, not runnable tooling.
+- Paths are generic (`<workspace>`, `<home>`); a real setup substitutes its own.
+- Nothing here executes on its own. The repo describes structure and ships sample code; it isn't a runnable product.
+- Domain-flavoured content (Australian tax terms, Brisbane weather) is a template to localise, not a default.
 
-## Reference
+## Also here
 
-- [Claude Code documentation](https://docs.claude.com/en/docs/claude-code/overview)
-- Individual feature pages linked inline throughout `META_ARCHITECTURE.md`
-- [SUPPORT.md](SUPPORT.md) — where to go for what (adaptation, bugs, Q&A)
-- [STYLE_GUIDE.md](STYLE_GUIDE.md) — writing and formatting conventions
-- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — project norms, reporting path
-- [SECURITY.md](SECURITY.md) — security reporting routes (privacy leaks, workflow vulns)
-- [CHANGELOG.md](CHANGELOG.md) — human-written record of notable changes
-- [ATTRIBUTION.md](ATTRIBUTION.md) — credit for the patterns this repo borrows from
+[SUPPORT.md](SUPPORT.md) (where to go for what) · [STYLE_GUIDE.md](STYLE_GUIDE.md) · [SECURITY.md](SECURITY.md) (privacy-leak and workflow-vuln reporting) · [CHANGELOG.md](CHANGELOG.md) · [ATTRIBUTION.md](ATTRIBUTION.md) (patterns this borrows from) · [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+
+The repo was renamed from `claude-workspace-architecture` on 2026-05-28; the old URL 301-redirects, so external links keep working.
 
 ## License
 
@@ -104,4 +66,4 @@ Three surfaces, pick the right one:
 
 ---
 
-*Last verified against the repo structure on **2026-04-21**.*
+*Last verified against the repo structure on 2026-05-30.*

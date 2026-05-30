@@ -13,3 +13,6 @@
 
 # Drata corporate site — bot protection returns 403; URLs resolve fine in a browser.
 ^https://drata\.com/
+
+# jamesross.ai — Cloudflare AI-bot-block returns 403 to bots; resolves fine in a browser.
+^https://jamesross\.ai

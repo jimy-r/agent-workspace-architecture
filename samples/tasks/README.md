@@ -18,17 +18,17 @@ user note  →  Claude asks clarifying Q  →  user answers  →  Claude actions
 ## Workflow
 
 1. The user drops a raw note in `To Do Notes.md`.
-2. A scheduled agent (the "heartbeat") reads the list on a cadence — every 2 hours is a reasonable starting cadence.
+2. A scheduled agent (the "heartbeat") reads the list on a cadence; every 2 hours is a reasonable starting point.
 3. For each task that lacks context, the heartbeat posts a question in `To Do Questions.md`.
 4. The user answers inline the next time they open the file.
 5. On the next heartbeat cycle, the agent picks up the answer and actions the task.
 
 ## Why this shape
 
-- **Async by default** — the user doesn't have to sit in a session. The heartbeat drives forward progress.
-- **Auditable** — every decision has a question+answer pair that future sessions can read.
-- **Low-friction** — adding a task is one line of markdown. No project-management tool required.
+- **Async by default.** The user doesn't have to sit in a session. The heartbeat drives forward progress.
+- **Auditable.** Every decision has a question+answer pair that future sessions can read.
+- **Low-friction.** Adding a task is one line of markdown. No project-management tool required.
 
 ## See also
 
-- [`To-Do-Notes.example.md`](To-Do-Notes.example.md) — sample master list with active, completed, and archived sections.
+- [`To-Do-Notes.example.md`](To-Do-Notes.example.md): sample master list with active, completed, and archived sections.

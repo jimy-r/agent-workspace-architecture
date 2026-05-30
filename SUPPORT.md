@@ -4,18 +4,16 @@ Where to go for what:
 
 | If you… | Go to |
 |---|---|
-| Want to **adapt patterns here** to your own workspace | [Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions) |
-| Have an **idea** for a new role / skill / hook / routine | [Discussions → Ideas](https://github.com/jimy-r/agent-workspace-architecture/discussions) |
-| **Built something** you want to share with other adopters | [Discussions → Show and tell](https://github.com/jimy-r/agent-workspace-architecture/discussions) |
-| Want to **propose** a concrete component, correction, or improvement | [Open an Issue](https://github.com/jimy-r/agent-workspace-architecture/issues/new/choose) |
-| Found a **Claude Code bug** (the CLI, app, hooks, subagents, skills themselves) | [anthropics/claude-code issues](https://github.com/anthropics/claude-code/issues) — not here |
+| Want to **adapt these patterns** to your own workspace | Read [PATTERNS.md](PATTERNS.md) (the why) and [ADOPTION.md](ADOPTION.md) (the how), then fork [samples/](samples/) |
+| Spotted a **privacy leak, broken link, or plainly wrong pattern** | [Open an Issue](https://github.com/jimy-r/agent-workspace-architecture/issues/new/choose) |
+| Want to **propose a self-contained component** (role, skill, hook, routine) | [Open an Issue](https://github.com/jimy-r/agent-workspace-architecture/issues/new/choose), then PR |
+| **Built something** in your own workspace and want to share it | [Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions) |
+| Found a **Claude Code bug** (CLI, app, hooks, subagents, skills) | [anthropics/claude-code issues](https://github.com/anthropics/claude-code/issues), not here |
 | Have a **Claude API / SDK question** | [Claude Code documentation](https://docs.claude.com/en/docs/claude-code/overview) |
-| Want to **report a community-health concern** | [Moderation report issue](https://github.com/jimy-r/agent-workspace-architecture/issues/new?template=moderation_report.yml) |
+| Want to engage the author for **agent-workspace or AI-orchestration work** | [jamesross.ai](https://jamesross.ai) |
 
-**This repo's scope:** patterns and architectural reference for **agent workspaces** (the worked example runs on Claude Code, but the patterns generalise). It is not the place to debug Claude Code itself, request product features, or ask general usage questions unrelated to workspace architecture.
-
-If your question is outside scope, one of the links above will point you at the right place.
+**This repo's scope:** a curated architectural reference for **agent workspaces** (the worked example runs on Claude Code; the patterns generalise). It's a solo-maintained showcase, not a support desk, so it isn't the place to debug Claude Code itself, request product features, or get general usage help. The links above point you at the right place for each.
 
 ---
 
-*Last verified against the repo structure on **2026-04-19**.*
+*Last verified against the repo structure on 2026-05-30.*

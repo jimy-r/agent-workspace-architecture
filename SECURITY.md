@@ -8,7 +8,7 @@ That narrows the threat surface to three categories:
 
 ### 1. Privacy leaks in committed content
 
-If you spot personal identifiers, credentials, tokens, business specifics, or other content that shouldn't be in a public repo — **open a public Issue using the [Moderation report template](https://github.com/jimy-r/agent-workspace-architecture/issues/new?template=moderation_report.yml)** with category "Privacy leak." Public visibility is appropriate here because the content is already public on GitHub; the faster we excise it, the better.
+If you spot personal identifiers, credentials, tokens, business specifics, or other content that shouldn't be in a public repo, **open a public Issue using the [Moderation report template](https://github.com/jimy-r/agent-workspace-architecture/issues/new?template=moderation_report.yml)** with category "Privacy leak." Public visibility is appropriate here because the content is already public on GitHub; the faster we excise it, the better.
 
 Do **not** include the leaked content in the report. Link to the file and line.
 
@@ -25,9 +25,9 @@ The `META_ARCHITECTURE.md`, `ADOPTION.md`, and `samples/` files describe pattern
 
 ## Out of scope
 
-- Vulnerabilities in **Claude Code itself** — report to [anthropics/claude-code](https://github.com/anthropics/claude-code) under their security policy.
-- Vulnerabilities in **third-party tools** this repo references (e.g. `restic`, `lychee`, `prettier`) — report upstream.
-- General Claude Code usage questions — see [SUPPORT.md](SUPPORT.md).
+- Vulnerabilities in **Claude Code itself**: report to [anthropics/claude-code](https://github.com/anthropics/claude-code) under their security policy.
+- Vulnerabilities in **third-party tools** this repo references (e.g. `restic`, `lychee`, `prettier`): report upstream.
+- General Claude Code usage questions: see [SUPPORT.md](SUPPORT.md).
 
 ## Maintainer response
 
@@ -35,4 +35,4 @@ Private security advisories get a first response within a week. A published fix 
 
 ---
 
-*Last verified against the repo structure on **2026-04-19**.*
+*Last verified against the repo structure on **2026-05-30**.*
