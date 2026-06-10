@@ -135,7 +135,7 @@ def _stale_staging() -> Observation | None:
 
     search_roots = [
         WORKSPACE / "tasks",
-        WORKSPACE / "Vector",
+        WORKSPACE / "example-project",
         PERSONAL_PROJECTS,
         WORKSPACE / "Personal",
     ]

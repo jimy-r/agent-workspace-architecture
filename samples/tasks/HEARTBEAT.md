@@ -20,7 +20,7 @@ This agent runs under the user's Windows account with unrestricted filesystem ac
 3. **Review-queue cap** — rule 15 below; prevents runaway speculative building.
 4. **Dry-run mode** — rule 16 below; marker file `tasks/.heartbeat-dry-run` switches every `has-default` task to log-without-execute, so the user can observe before trusting.
 
-These are defence-in-depth, not sandbox isolation. The real containerisation work is the Vector central-tension-layer task (post-MVP). Treat each rule as load-bearing — do not rationalise around them.
+These are defence-in-depth, not sandbox isolation. The real containerisation work is the `<project>` central-tension-layer task (post-MVP). Treat each rule as load-bearing — do not rationalise around them.
 
 ## How You Work
 
@@ -67,7 +67,7 @@ For `has-default` tasks, choose the sandbox type based on what the task produces
 | Task shape | Sandbox type | Staging location | Review artifact |
 |---|---|---|---|
 | Research / investigation / summary | Folder (non-git) | `tasks/drafts/<task-slug>.md` | the draft file itself |
-| Code change in a git repo (Vector, agent-workspace-architecture) | **Git worktree** | `<repo-parent>/heartbeat-<task-slug>/` on branch `heartbeat/<task-slug>` | GitHub PR (if repo is on GitHub), otherwise branch cover note |
+| Code change in a git repo (`<project>`, agent-workspace-architecture) | **Git worktree** | `<repo-parent>/heartbeat-<task-slug>/` on branch `heartbeat/<task-slug>` | GitHub PR (if repo is on GitHub), otherwise branch cover note |
 | Config / docs / prose change in a non-git scope | **Staging folder** | `<target-parent>/<task-slug>_staging/` | `REVIEW.md` inside the staging folder |
 | Task-file update (e.g. registry additions) | Staging folder | as above | `REVIEW.md` |
 | New primitives (scripts, skills not yet in use) | **Staging folder** | as above | `REVIEW.md` |
@@ -226,7 +226,7 @@ Never post more than 3 questions per task. Prefer one yes/no or redirect questio
 
 ## Task Categories & Handling
 
-### Technical tasks (Claude/AI, Vector)
+### Technical tasks (Claude/AI, `<project>`)
 - Prefer `has-default`: research, draft, scaffold, implement in staging/worktree.
 - Always confirm approach in `REVIEW.md` before large changes.
 
