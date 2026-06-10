@@ -2,13 +2,13 @@
 
 A worked blueprint for a personal **agent workspace**: the roles, routines, hooks, skills, memory, and task coordination that turn a coding agent into a system you can hand work to and trust to make progress while you're away.
 
+[![A 30-second pass through the interactive tour: the layered architecture, the load-bearing patterns, and one task moving through the system](docs/assets/tour.gif)](https://jimy-r.github.io/agent-workspace-architecture/)
+
+**▶ [Take the interactive tour](https://jimy-r.github.io/agent-workspace-architecture/)** — the clickable five-minute version: the layered architecture, the nine load-bearing patterns, and one task moving through the system end to end.
+
 The example runs in [Claude Code](https://claude.com/claude-code), so the file conventions you'll see (`CLAUDE.md`, `.claude/skills/`, MCP config) are Claude-Code-specific. The architecture is not. The roles library, memory hygiene, audit cadence, classify-then-act heartbeat, dead-man's switch, and tier-by-impact gating port to Cursor, Cline, Continue, Windsurf, or a custom Agent-SDK build. Pick your runtime; the decisions translate.
 
 This is one person's actual setup, redacted and published as a reference. Not a framework, not a product. A documented working arrangement of the pieces Claude Code already gives you, with the reasoning attached.
-
-**▶ [Take the interactive tour](https://jimy-r.github.io/agent-workspace-architecture/)** — a five-minute visual pass: the layered architecture, the nine load-bearing patterns, and one task moving through the system end to end.
-
-[![The interactive tour: layered architecture, nine patterns, a task end to end](docs/assets/tour-hero.png)](https://jimy-r.github.io/agent-workspace-architecture/)
 
 ## What's inside
 

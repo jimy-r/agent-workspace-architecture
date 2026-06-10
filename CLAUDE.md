@@ -52,10 +52,19 @@ Some files need Discussion/Issue agreement before a PR; see the Scope boundaries
    `main` is protected: the `redaction` check must go green before a PR merges, and force-pushes and deletions are blocked. Add `--auto` to queue the merge for when the check passes (if auto-merge is enabled). Contributor PRs follow the same command once the maintainer has reviewed and approved them.
 6. Open the merged commit on GitHub and verify Mermaid / markdown rendered correctly. Any leak or render bug after merge means a follow-up commit; amending never fully erases a public mistake.
 
+## Releases — the ongoing ritual
+
+Cut a tagged release after every milestone batch (roughly: any merge that earns its own dated CHANGELOG entry). Releases reach watchers' feeds and give the changelog stable anchors; an active Releases tab signals the repo is alive.
+
+1. Merge the PR(s) first; tag the merged `main`.
+2. `gh release create vX.Y.Z --title "vX.Y.Z — <short handle>" --notes "<3-6 lines: what changed and why it matters, pointing at the CHANGELOG entry>"`.
+3. Versioning: minor bump for new content (a pattern, a module sync, a tour feature), patch for fixes, major only on repositioning.
+4. Release notes are public content. Same redaction bar and writing rules as files.
+
 ## Tone
 
 Terse, structural, opinionated. No performative politeness. Disagreement welcome; keep it focused on the work.
 
 ---
 
-*Last verified against the repo structure on **2026-05-30**.*
+*Last verified against the repo structure on **2026-06-11**.*

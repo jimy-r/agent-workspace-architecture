@@ -1,8 +1,12 @@
 # Changelog
 
-Human-written record of notable changes — the *why* and the *shape*, not every merged PR. The repo doesn't cut releases; entries are grouped by date, newest first. Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), adapted to a dated scheme.
+Human-written record of notable changes — the *why* and the *shape*, not every merged PR. Milestone batches get a tagged release with short notes (from `v1.0.0`, 2026-06-11); entries are grouped by date, newest first. Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), adapted to a dated scheme.
 
 ## 2026-06-11
+
+- **The README now opens with a 30-second animated pass through the tour.** A scripted recording (layers, modules, a pattern card, the task walkthrough) replaces the static screenshot and links through to the live page. Traffic was reaching the README without converting to the tour; a moving preview is the strongest nudge a README can make. Repo metadata tuned in the same pass: an `llm-orchestration` topic and a keyword-tuned description.
+- **The repo now cuts tagged releases**, starting with `v1.0.0`. Milestone batches get a tag and short notes so watchers see changes in their feeds and the changelog gains stable anchors. The ritual lives in `CLAUDE.md`.
+- **Tour fixes.** The build-section doc cards still said "eight decisions" after the ninth pattern landed (#57), and rendered their title and description run together (the same display bug #53 fixed for layer rows). Both corrected.
 
 - **Ninth pattern: "Context is a budget, not a constant."** The Token Budget module arrived as a module row in the 2026-06-10 sync; this gives the thinking its `PATTERNS.md` entry (problem → pattern → why → cost, pointing at `ghost_token_counter.py` + `token_report.py` samples), adds the ninth card to the tour, and retires the "eight" count from the README, the tour button and heading, and the social-card description.
 

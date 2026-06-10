@@ -128,8 +128,8 @@
   @media (min-width:680px){ .cards{grid-template-columns:1fr 1fr;} }
   .doc{background:var(--card); border:1px solid var(--rule); border-radius:11px; padding:16px 18px; display:block;}
   .doc:hover{border-color:var(--oxblood-soft); text-decoration:none; box-shadow:var(--shadow);}
-  .doc .dt{font-family:Georgia,serif; font-weight:700; font-size:16px; color:var(--ink);}
-  .doc .dd{font-size:14px; color:var(--muted); margin-top:3px;}
+  .doc .dt{display:block; font-family:Georgia,serif; font-weight:700; font-size:16px; color:var(--ink);}
+  .doc .dd{display:block; font-size:14px; color:var(--muted); margin-top:3px;}
   .agentbox{margin-top:22px; background:var(--card); border:1px dashed #cdbfae; border-radius:11px; padding:18px 20px;}
   .agentbox .k{font-size:11.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--oxblood);}
   .agentbox code{display:block; margin-top:8px; font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace; font-size:13.5px; color:var(--ink); background:var(--paper); border:1px solid var(--rule); border-radius:7px; padding:12px 14px; white-space:pre-wrap; line-height:1.5;}
@@ -259,7 +259,7 @@
     <h2>Read it, fork it, or hand it to your agent</h2>
     <p class="lede">The docs follow Diátaxis: why, what, how, and scaffolding to copy.</p>
     <div class="cards">
-      <a class="doc" href="https://github.com/jimy-r/agent-workspace-architecture/blob/main/PATTERNS.md"><span class="dt">PATTERNS.md → Why</span><span class="dd">The eight decisions, with the reasoning and the cost of each.</span></a>
+      <a class="doc" href="https://github.com/jimy-r/agent-workspace-architecture/blob/main/PATTERNS.md"><span class="dt">PATTERNS.md → Why</span><span class="dd">The nine decisions, with the reasoning and the cost of each.</span></a>
       <a class="doc" href="https://github.com/jimy-r/agent-workspace-architecture/blob/main/META_ARCHITECTURE.md"><span class="dt">META_ARCHITECTURE.md → What</span><span class="dd">The full structural map, with diagrams.</span></a>
       <a class="doc" href="https://github.com/jimy-r/agent-workspace-architecture/blob/main/ADOPTION.md"><span class="dt">ADOPTION.md → How</span><span class="dd">A five-step build, minimum-viable at each step.</span></a>
       <a class="doc" href="https://github.com/jimy-r/agent-workspace-architecture/tree/main/samples"><span class="dt">samples/ → Scaffold</span><span class="dd">Role, skill, and context files to fork and adapt.</span></a>
