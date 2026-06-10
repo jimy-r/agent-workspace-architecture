@@ -25,7 +25,7 @@ You perform a comprehensive audit of the Claude Code setup and all project works
 This audit's structure draws on established public patterns. When tuning a phase or extending the tier rules, return to the underlying source to check the design intent — don't reinvent.
 
 - **Architectural fitness functions** — Ford, Parsons, Kua, Sadalage, *Building Evolutionary Architectures* (O'Reilly, 2nd ed. 2023). The weekly multi-phase audit is a *continual holistic fitness function* in their taxonomy. ArchUnit/NetArchTest/jQAssistant are concrete implementations of the same idea for code.
-- **Scorecard pattern** — [Backstage Soundcheck](https://backstage.spotify.com/docs/plugins/soundcheck/core-concepts/tech-health) (Spotify). Phase 2 per-project checks are a scorecard applied across the project catalog.
+- **Scorecard pattern** — [Backstage Soundcheck](https://backstage.spotify.com/plugins/soundcheck/) (Spotify). Phase 2 per-project checks are a scorecard applied across the project catalog.
 - **Infrastructure drift detection** — Terraform plan, [driftctl](https://github.com/snyk/driftctl), AWS Config Rules. Phase 2.5a (MCP/plugin bloat) maps to detecting unmanaged resources.
 - **Compliance automation** — [Vanta](https://www.vanta.com/products/soc-2) (1,200+ tests, hourly), [Drata](https://drata.com/compliance) (80% evidence automation). The Tier-1/2/3 auto-apply tiering maps directly to their automated-vs-human-review controls.
 - **Security scorecard** — [OpenSSF Scorecard](https://scorecard.dev/). Phase 2.6 security parallels its 18-check pattern. **Important: deliberately do NOT emit a numeric score** — Goodhart's Law applies and a self-improving audit would optimise for the score, losing ability to surface unanticipated findings.
