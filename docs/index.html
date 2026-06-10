@@ -5,6 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Agent Workspace Architecture — an interactive tour</title>
 <meta name="description" content="An interactive tour of a working agent workspace: the roles, routines, hooks, memory, and task coordination that turn a coding agent into a system you can hand work to. A redacted reference, with the reasoning attached.">
+<link rel="canonical" href="https://jimy-r.github.io/agent-workspace-architecture/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Agent Workspace Architecture — an interactive tour">
+<meta property="og:description" content="The roles, routines, hooks, memory, and task coordination that turn a coding agent into a system you can hand work to. A worked reference with the reasoning attached.">
+<meta property="og:url" content="https://jimy-r.github.io/agent-workspace-architecture/">
+<meta property="og:image" content="https://jimy-r.github.io/agent-workspace-architecture/assets/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Agent Workspace Architecture — an interactive tour">
+<meta name="twitter:description" content="A worked reference for a personal agent workspace, with the reasoning attached: eight load-bearing patterns and one task moving through the system end to end.">
+<meta name="twitter:image" content="https://jimy-r.github.io/agent-workspace-architecture/assets/social-card.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%237F1D1D'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='38' font-weight='bold' text-anchor='middle' fill='%23FBF9F4'%3EA%3C/text%3E%3C/svg%3E">
 <!-- Static, dependency-free, GitHub-Pages-ready. The markdown docs remain source of truth; this is a view over them. -->
 <style>
   :root{
@@ -62,8 +75,8 @@
   .layer{appearance:none; text-align:left; width:100%; cursor:pointer; background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--rule); border-radius:9px; padding:13px 15px; transition:border-color .15s, box-shadow .15s, transform .1s; font:inherit; color:inherit;}
   .layer:hover{border-left-color:var(--oxblood-soft); box-shadow:var(--shadow);}
   .layer[aria-pressed="true"]{border-left-color:var(--oxblood); box-shadow:var(--shadow);}
-  .layer .lt{font-family:Georgia,serif; font-weight:700; font-size:16px;}
-  .layer .ls{font-size:13.5px; color:var(--muted); margin-top:2px;}
+  .layer .lt{display:block; font-family:Georgia,serif; font-weight:700; font-size:16px;}
+  .layer .ls{display:block; font-size:13.5px; color:var(--muted); margin-top:2px;}
   .layer .arrow{float:right; color:var(--muted); font-size:13px; margin-top:3px;}
   .flowhint{text-align:center; color:var(--muted); font-size:18px; line-height:1; margin:-2px 0;}
   .panel{position:sticky; top:74px; background:var(--card); border:1px solid var(--rule); border-radius:11px; padding:22px; box-shadow:var(--shadow); min-height:160px;}
@@ -186,7 +199,7 @@
     </div>
 
     <p class="eyebrow" style="margin-top:48px;">The pieces</p>
-    <h2>Eleven modules</h2>
+    <h2>The modules</h2>
     <p class="lede">Each is a cohesive cluster with one upgrade boundary. Tap one.</p>
     <div class="explorer">
       <div class="modgrid" id="modules">
