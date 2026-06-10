@@ -8,11 +8,13 @@ This is one person's actual setup, redacted and published as a reference. Not a 
 
 **▶ [Take the interactive tour](https://jimy-r.github.io/agent-workspace-architecture/)** — a five-minute visual pass: the layered architecture, the eight load-bearing patterns, and one task moving through the system end to end.
 
+[![The interactive tour: layered architecture, eight patterns, a task end to end](docs/assets/tour-hero.png)](https://jimy-r.github.io/agent-workspace-architecture/)
+
 ## What's inside
 
 - **Roles library.** 17 pure expert personas (security-auditor, researcher, accountant, developmental-editor, and more) that compose with project `CONTEXT.md` files through thin bindings.
 - **Heartbeat + audit subagents.** A 2-hourly project manager that classifies and advances the task queue, and a weekly auditor that reviews configs, security, and drift.
-- **Custom skills.** `orient`, `wrap`, `tasks`, `terse-mode`, `verify-completion`, `systematic-debugging`, `role-pressure-test`.
+- **Custom skills.** `orient`, `wrap`, `tasks`, `review-queue`, `terse-mode`, `verify-completion`, `systematic-debugging`, `role-pressure-test`.
 - **Scheduled routines.** A daily morning brief (calendar, weather, AI news, task state) and a memory-consolidation pass, fired by the OS scheduler.
 - **Memory system.** Typed files (`user` / `feedback` / `project` / `reference`) indexed by `MEMORY.md`, pointing at sources rather than copying them.
 - **Hardening.** A `PreToolUse` file-and-command guard, a password-manager credential law, encrypted `restic` backups, and container sandboxing for web-facing agents.
@@ -32,7 +34,7 @@ The rest of the docs follow [Diátaxis](https://diataxis.fr/):
 | Tutorial | [ADOPTION.md](ADOPTION.md) | a 5-step build, minimum-viable at each step |
 | How-to | [samples/](samples/) | scaffold files to fork and adapt |
 
-Two more views. **[WORKFLOW.md](WORKFLOW.md)** shows a day of actually using it: session discipline, phone dispatch, how a task moves thought-to-done. And you can hand the repo to your own agent:
+Two more views. **[WORKFLOW.md](WORKFLOW.md)** shows a day of actually using it: session discipline, phone dispatch, how a task moves thought-to-done, and the open structured-vs-autonomous tension the whole design sits inside. And you can hand the repo to your own agent:
 
 > *"Tour this repo. Read PATTERNS.md, then META_ARCHITECTURE.md, then WORKFLOW.md, then scan samples/. Summarise the patterns most applicable to my workspace."*
 
@@ -68,4 +70,4 @@ The repo was renamed from `claude-workspace-architecture` on 2026-05-28; the old
 
 ---
 
-*Last verified against the repo structure on 2026-05-30.*
+*Last verified against the repo structure on 2026-06-10.*
