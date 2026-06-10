@@ -5,7 +5,7 @@ Adopter-reference content illustrating each layer described in [META_ARCHITECTUR
 1. **Minimal scaffold.** Three worked files for a 5-step adoption. Start here if you want to build.
 2. **Full library.** A broader snapshot of a real working workspace (roles, skills, agents, scheduled tasks, Python helpers). Browse when you want concrete implementations to fork.
 
-All paths use generic placeholders (`<workspace>`, `<home>`, `<project-*>`). Substitute your own.
+All paths use generic placeholders (`<workspace>`, `<home>`, `<project>`). Substitute your own.
 
 ## Layout
 
@@ -21,63 +21,74 @@ samples/
 ├── roles/                            # 17 canonical role definitions + template + validator
 │   ├── _template.md                  # role skeleton
 │   ├── _validate.py                  # schema + binding validator
-│   ├── accountant.md                 # tax / deductions / compliance (Australian-flavoured; adopt or localise)
-│   ├── backend-developer.md
-│   ├── bookkeeper.md
-│   ├── data-engineer.md
-│   ├── developmental-editor.md       # diagnostic creative-writing reviewer
-│   ├── developmental-reviser.md      # voice-preserving revision writer
-│   ├── frontend-developer.md
-│   ├── health-data-analyst.md
-│   ├── learning-strategist.md
-│   ├── llm-engineer.md
-│   ├── nutritionist.md
-│   ├── platform-engineer.md
-│   ├── product-thinker.md
-│   ├── researcher.md                 # evidence-based investigator with fabrication guards
-│   ├── security-auditor.md
-│   ├── tester.md
-│   └── wealth-manager.md
+│   ├── accountant.md                 # tax / deductions / compliance (Australian-flavoured; localise)
+│   ├── backend-developer.md … wealth-manager.md   (see the folder for the full set)
 │
 ├── .claude/
 │   ├── settings.example.json         # hook configuration (PreToolUse + PostToolUse + SessionStart)
 │   │
-│   ├── skills/                       # invokable workspace skills
+│   ├── skills/                       # 9 invokable workspace skills
 │   │   ├── orient/SKILL.md           # session-start briefing
 │   │   ├── wrap/SKILL.md             # task close-out ritual (updates registries)
 │   │   ├── tasks/SKILL.md            # task-queue readout
+│   │   ├── review-queue/SKILL.md     # drain the heartbeat's built-work review queue
+│   │   ├── audit-workthrough/SKILL.md# drain the audit's pending-findings ledger
 │   │   ├── terse-mode/SKILL.md       # session-long output compression
 │   │   ├── verify-completion/SKILL.md
 │   │   ├── systematic-debugging/SKILL.md
 │   │   └── role-pressure-test/SKILL.md
 │   │
-│   ├── agents/                       # workspace custom subagents
-│   │   ├── audit.md                  # weekly upgrade auditor (Phase 1–3 setup review)
+│   ├── agents/                       # 4 workspace custom subagents
+│   │   ├── audit.md                  # weekly upgrade auditor (multi-phase setup review)
+│   │   ├── audit-second-opinion.md   # quarterly independent second-opinion auditor
 │   │   ├── heartbeat.md              # 2-hourly project manager
 │   │   └── researcher.md             # auto-routed evidence-based investigator
 │   │
 │   └── scheduled-tasks/              # SKILL.md files fired by OS-level scheduler
-│       ├── morning-brief/SKILL.md    # daily email + receipt + bill + appointment + news orchestrator
+│       ├── morning-brief/SKILL.md    # daily brief orchestrator
 │       ├── consolidate-memory/SKILL.md
 │       ├── heartbeat-monitor/SKILL.md
 │       └── upgrade-audit/SKILL.md
 │
 ├── scripts/                          # Python + PowerShell helpers
-│   ├── ai_news.py                    # RSS/Atom fetcher + SQLite dedup (AI-news section)
-│   ├── memory_lint.py                # path-reference validator for the memory system
-│   ├── email_rules.py                # YAML-based email-triage rules engine
-│   ├── receipts_pipeline.py          # receipt ingestion → FY workbook
-│   ├── bill_tracker.py               # bill matcher + variance alerts
+│   ├── ai_news.py                    # RSS/Atom fetcher + SQLite dedup
 │   ├── appointments.py               # calendar-event formatter + dedup token
-│   ├── send_self_email.py            # narrow self-send SMTP helper (morning brief only)
-│   ├── run-scheduled-skill.ps1       # OS-scheduler wrapper that pipes SKILL.md → `claude --print`
+│   ├── audit-second-opinion.bat      # manual launcher for the second-opinion auditor
+│   ├── audit_cost.py                 # per-audit-run token/duration tracker
+│   ├── audit_ledger.py               # append-only finding ledger (emit/mark/stats)
 │   ├── backup-restic.ps1             # encrypted incremental backup to object storage
-│   └── restic-verify.ps1             # backup integrity + restore round-trip
+│   ├── bill_tracker.py               # bill matcher + variance alerts
+│   ├── email_rules.py                # YAML-based email-triage rules engine
+│   ├── ghost_token_counter.py        # always-loaded-context baseline counter
+│   ├── memory_lint.py                # path-reference validator for the memory system
+│   ├── receipts_pipeline.py          # receipt ingestion → finance workbook
+│   ├── restic-verify.ps1             # backup integrity + restore round-trip
+│   ├── run-scheduled-skill.ps1       # OS-scheduler wrapper: gate → model map → claude --print
+│   ├── send_self_email.py            # narrow self-send SMTP helper (the one audited exception)
+│   ├── token_report.py               # daily spend telemetry (Token Budget module)
+│   │
+│   ├── audit_checks/
+│   │   └── run_all.py                # coded audit assertions (checks-as-code)
+│   ├── heartbeat/
+│   │   ├── classify_task.py          # has-default / needs-intent / out-of-scope classifier
+│   │   ├── check_rejections.py       # rejection-log grep + 3-strike circuit breaker
+│   │   ├── create_staging.py         # worktree-or-folder sandbox selector (slug-validated)
+│   │   ├── idle_observations.py      # idle-cycle local-pattern surfacing
+│   │   ├── preflight_gate.py         # Stage-0 dirty-check gate (skip the LLM when nothing changed)
+│   │   └── review_queue.py           # review-queue cap counter
+│   └── security/
+│       ├── check_bash_command.py     # PreToolUse Bash guard (protected paths + git safety)
+│       └── check_task_freshness.py   # dead-man's switch over scheduled-task logs
+│
+├── tests/
+│   └── audit_canaries/               # known-bad fixtures the audit must keep detecting
 │
 └── tasks/                            # task-coordination layer
     ├── README.md                     # how the coordination layer works
     ├── To-Do-Notes.example.md        # sample master task list
-    └── HEARTBEAT.md                  # heartbeat agent operational instructions
+    ├── HEARTBEAT.md                  # heartbeat agent operational instructions
+    ├── HEARTBEAT_REVIEWS.md          # review queue for sandbox-built work
+    └── HEARTBEAT_REJECTIONS.md       # ADR-style rejection log the agent greps
 ```
 
 ## How to read these
@@ -96,14 +107,15 @@ Follow [`ADOPTION.md`](../ADOPTION.md); the 5-step walkthrough maps these sample
 ### Full library (reference implementations, fork to adapt)
 
 - [`roles/`](roles/): **17 canonical roles**. Each is pure (no entity facts), composed with a project `CONTEXT.md` via a thin binding in `<project>/.claude/agents/`. Domain-specific roles (e.g. `accountant.md` is Australian-CPA flavoured) may need localisation; treat as template.
-- [`.claude/skills/`](.claude/skills/): **7 workspace skills** for session management, output discipline, and verification.
-- [`.claude/agents/`](.claude/agents/): **3 custom subagents**: a periodic setup auditor, a task-queue project manager, and an auto-routed researcher.
-- [`.claude/scheduled-tasks/`](.claude/scheduled-tasks/): **4 SKILL.md files** fired by OS-level scheduler (Windows Task Scheduler / cron / launchd) via the `run-scheduled-skill.ps1` wrapper. The `morning-brief/SKILL.md` shows the full daily-orchestrator pattern (email triage → receipt capture → bill matching → appointment extraction → news → compose + deliver).
-- [`scripts/`](scripts/): **10 helpers** consumed by the scheduled tasks. Each is standalone, stdlib-first where possible.
+- [`.claude/skills/`](.claude/skills/): **9 workspace skills** for session management, queue-draining (heartbeat reviews + audit findings), output discipline, and verification.
+- [`.claude/agents/`](.claude/agents/): **4 custom subagents**: the weekly auditor, its quarterly second-opinion counterpart, a task-queue project manager, and an auto-routed researcher.
+- [`.claude/scheduled-tasks/`](.claude/scheduled-tasks/): **4 SKILL.md files** fired by an OS-level scheduler (Windows Task Scheduler / cron / launchd) via the `run-scheduled-skill.ps1` wrapper — which since 2026-06-10 runs a deterministic preflight gate and a per-skill model map before any model is invoked. The `morning-brief/SKILL.md` shows the full daily-orchestrator pattern.
+- [`scripts/`](scripts/): **~25 helpers** consumed by the scheduled tasks and the audit. Each is standalone, stdlib-first where possible. The newest cluster is the Token Budget module: `token_report.py` (spend telemetry), `heartbeat/preflight_gate.py` (spend avoidance), `audit_checks/run_all.py` (coded assertions).
+- [`tests/audit_canaries/`](tests/audit_canaries/): the known-bad fixtures the audit must keep flagging — detection is asserted end-of-run, not by checking the fixtures exist.
 
 ## Notes on redactions
 
-- Concrete project names substituted with placeholders (`<project-platform>`, `<project-finance>`, `<project-health>`, `<project-creative>`, etc.).
+- Concrete project names substituted with placeholders (`<project>`, `example-project`).
 - Personal identifiers, emails, locations, vendor relationships generalised.
 - Data files (actual email rules, actual services registry, actual task content) are **not** shipped; only the schemas and code that consume them.
 - Some domain-flavoured content remains (Australian tax terms in `accountant.md`, Brisbane-shaped weather fetch in `morning-brief/SKILL.md`). Treat these as templates to localise.
@@ -111,3 +123,7 @@ Follow [`ADOPTION.md`](../ADOPTION.md); the 5-step walkthrough maps these sample
 ## Adoption path
 
 See the root [ADOPTION.md](../ADOPTION.md) for the 5-step walkthrough.
+
+---
+
+*Last verified against the repo structure on **2026-06-10**.*
