@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Workspace Architecture — an interactive tour</title>
+<meta name="description" content="An interactive tour of a working agent workspace: the roles, routines, hooks, memory, and task coordination that turn a coding agent into a system you can hand work to. A redacted reference, with the reasoning attached.">
+<!-- Static, dependency-free, GitHub-Pages-ready. The markdown docs remain source of truth; this is a view over them. -->
+<style>
+  :root{
+    --ink:#1B1A17; --oxblood:#7F1D1D; --oxblood-soft:#9b3b3b;
+    --paper:#FBF9F4; --card:#FFFFFF; --muted:#6B6964; --rule:#E7E3DA;
+    --shadow:0 1px 2px rgba(27,26,23,.05),0 8px 24px rgba(27,26,23,.06);
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} *{transition:none!important;animation:none!important;} }
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    font-size:17px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--oxblood); text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  h1,h2,h3,.serif{font-family:Georgia,"Times New Roman",serif;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 22px;}
+  section{padding:64px 0; border-top:1px solid var(--rule);}
+  section:first-of-type{border-top:none;}
+  .eyebrow{font-size:12.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--oxblood); margin:0 0 14px;}
+  h2{font-size:30px; line-height:1.15; margin:0 0 10px; letter-spacing:-.3px;}
+  .lede{font-size:18px; color:var(--muted); max-width:62ch; margin:0 0 26px;}
+
+  /* nav */
+  nav.top{position:sticky; top:0; z-index:30; background:rgba(251,249,244,.9); backdrop-filter:saturate(140%) blur(8px); border-bottom:1px solid var(--rule);}
+  nav.top .wrap{display:flex; align-items:center; gap:18px; height:56px;}
+  nav.top .brand{font-family:Georgia,serif; font-weight:700; font-size:16px; color:var(--ink); white-space:nowrap;}
+  nav.top .links{display:flex; gap:16px; margin-left:auto; align-items:center; flex-wrap:wrap;}
+  nav.top .links a{color:var(--ink); font-size:14px; font-weight:500;}
+  nav.top .links a.cta{color:#fff; background:var(--oxblood); padding:6px 12px; border-radius:6px;}
+  nav.top .links a.cta:hover{text-decoration:none; background:var(--oxblood-soft);}
+  @media (max-width:720px){ nav.top .links a.hideable{display:none;} }
+
+  /* hero */
+  .hero{padding-top:72px;}
+  .hero h1{font-size:46px; line-height:1.04; margin:0 0 18px; letter-spacing:-1px; max-width:18ch;}
+  .hero p.big{font-size:20px; max-width:60ch; margin:0 0 14px;}
+  .hero .meta{font-size:15px; color:var(--muted); max-width:60ch;}
+  .btns{display:flex; gap:12px; flex-wrap:wrap; margin-top:28px;}
+  .btn{display:inline-block; padding:11px 18px; border-radius:7px; font-weight:600; font-size:15px; border:1px solid var(--oxblood);}
+  .btn.primary{background:var(--oxblood); color:#fff;}
+  .btn.primary:hover{background:var(--oxblood-soft); text-decoration:none;}
+  .btn.ghost{background:transparent; color:var(--oxblood);}
+  .btn.ghost:hover{background:rgba(127,29,29,.06); text-decoration:none;}
+  .pillrow{display:flex; gap:8px; flex-wrap:wrap; margin-top:30px;}
+  .pill{font-size:12.5px; color:var(--muted); border:1px solid var(--rule); background:var(--card); border-radius:999px; padding:5px 11px;}
+
+  /* explorer (layers + modules) */
+  .explorer{display:grid; grid-template-columns:1fr; gap:18px; margin-top:8px;}
+  @media (min-width:780px){ .explorer{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:26px; align-items:start;} }
+  .stack{display:flex; flex-direction:column; gap:8px;}
+  .layer{appearance:none; text-align:left; width:100%; cursor:pointer; background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--rule); border-radius:9px; padding:13px 15px; transition:border-color .15s, box-shadow .15s, transform .1s; font:inherit; color:inherit;}
+  .layer:hover{border-left-color:var(--oxblood-soft); box-shadow:var(--shadow);}
+  .layer[aria-pressed="true"]{border-left-color:var(--oxblood); box-shadow:var(--shadow);}
+  .layer .lt{font-family:Georgia,serif; font-weight:700; font-size:16px;}
+  .layer .ls{font-size:13.5px; color:var(--muted); margin-top:2px;}
+  .layer .arrow{float:right; color:var(--muted); font-size:13px; margin-top:3px;}
+  .flowhint{text-align:center; color:var(--muted); font-size:18px; line-height:1; margin:-2px 0;}
+  .panel{position:sticky; top:74px; background:var(--card); border:1px solid var(--rule); border-radius:11px; padding:22px; box-shadow:var(--shadow); min-height:160px;}
+  .panel h3{margin:0 0 8px; font-size:21px; color:var(--oxblood);}
+  .panel p{margin:0; color:var(--ink); font-size:16px;}
+  @media (max-width:779px){ .panel{position:static;} }
+
+  /* module grid */
+  .modgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:8px;}
+  .mod{appearance:none; cursor:pointer; font:inherit; color:inherit; text-align:left; background:var(--card); border:1px solid var(--rule); border-radius:8px; padding:10px 12px; font-weight:600; font-size:13.5px; transition:border-color .15s, box-shadow .15s;}
+  .mod:hover{border-color:var(--oxblood-soft);}
+  .mod[aria-pressed="true"]{border-color:var(--oxblood); box-shadow:var(--shadow); color:var(--oxblood);}
+
+  /* patterns */
+  .patterns{display:grid; grid-template-columns:1fr; gap:12px; margin-top:8px;}
+  @media (min-width:720px){ .patterns{grid-template-columns:1fr 1fr;} }
+  details.pat{background:var(--card); border:1px solid var(--rule); border-radius:11px; padding:0; overflow:hidden;}
+  details.pat[open]{box-shadow:var(--shadow); border-color:#d9d3c7;}
+  details.pat summary{cursor:pointer; list-style:none; padding:16px 18px; display:flex; gap:12px; align-items:baseline;}
+  details.pat summary::-webkit-details-marker{display:none;}
+  details.pat summary .num{font-family:Georgia,serif; font-weight:700; color:var(--oxblood); font-size:15px; flex:0 0 auto;}
+  details.pat summary .st{font-family:Georgia,serif; font-weight:700; font-size:17px; line-height:1.25;}
+  details.pat summary .sp{display:block; font-family:inherit; font-weight:400; font-size:13.5px; color:var(--muted); margin-top:3px;}
+  details.pat .body{padding:0 18px 18px 18px;}
+  details.pat .body .row{margin-top:12px;}
+  details.pat .body .k{font-size:11.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--oxblood);}
+  details.pat .body .v{font-size:15px; margin-top:2px;}
+  .compose{margin-top:20px; background:#2a1414; color:#f3e9e4; border-radius:12px; padding:22px 24px;}
+  .compose h3{color:#fff; margin:0 0 8px; font-size:20px;}
+  .compose p{margin:0; color:#e8d7d0; font-size:15.5px; max-width:74ch;}
+
+  /* stepper */
+  .pipe{display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 22px;}
+  .pipe .stage{flex:1 1 auto; min-width:96px; text-align:center; font-size:12px; font-weight:600; color:var(--muted); border:1px solid var(--rule); border-radius:7px; padding:8px 6px; background:var(--card);}
+  .pipe .stage.active{color:#fff; background:var(--oxblood); border-color:var(--oxblood);}
+  .pipe .stage.done{color:var(--oxblood); border-color:var(--oxblood-soft);}
+  .stepcard{background:var(--card); border:1px solid var(--rule); border-radius:12px; padding:24px; box-shadow:var(--shadow); min-height:150px;}
+  .stepcard .sn{font-family:Georgia,serif; color:var(--oxblood); font-weight:700; font-size:14px; letter-spacing:.08em;}
+  .stepcard h3{margin:4px 0 8px; font-size:23px;}
+  .stepcard p{margin:0; font-size:16.5px; max-width:70ch;}
+  .stepnav{display:flex; align-items:center; gap:14px; margin-top:18px;}
+  .stepnav button{appearance:none; cursor:pointer; font:inherit; font-weight:600; font-size:15px; padding:9px 16px; border-radius:7px; border:1px solid var(--oxblood); background:var(--oxblood); color:#fff;}
+  .stepnav button.sec{background:transparent; color:var(--oxblood);}
+  .stepnav button[disabled]{opacity:.4; cursor:not-allowed;}
+  .stepnav .count{font-size:14px; color:var(--muted); margin-left:auto;}
+
+  /* build / footer */
+  .cards{display:grid; grid-template-columns:1fr; gap:12px; margin-top:8px;}
+  @media (min-width:680px){ .cards{grid-template-columns:1fr 1fr;} }
+  .doc{background:var(--card); border:1px solid var(--rule); border-radius:11px; padding:16px 18px; display:block;}
+  .doc:hover{border-color:var(--oxblood-soft); text-decoration:none; box-shadow:var(--shadow);}
+  .doc .dt{font-family:Georgia,serif; font-weight:700; font-size:16px; color:var(--ink);}
+  .doc .dd{font-size:14px; color:var(--muted); margin-top:3px;}
+  .agentbox{margin-top:22px; background:var(--card); border:1px dashed #cdbfae; border-radius:11px; padding:18px 20px;}
+  .agentbox .k{font-size:11.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--oxblood);}
+  .agentbox code{display:block; margin-top:8px; font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace; font-size:13.5px; color:var(--ink); background:var(--paper); border:1px solid var(--rule); border-radius:7px; padding:12px 14px; white-space:pre-wrap; line-height:1.5;}
+  .funnel{margin-top:24px; padding:22px 24px; border-radius:12px; background:linear-gradient(180deg,#fff, #f6efe6); border:1px solid var(--rule);}
+  .funnel h3{margin:0 0 6px; font-size:21px;}
+  .funnel p{margin:0; color:var(--muted); font-size:16px; max-width:64ch;}
+  footer{padding:34px 0 56px; color:var(--muted); font-size:13.5px;}
+  footer .wrap{display:flex; gap:14px; flex-wrap:wrap; align-items:center;}
+  footer a{color:var(--muted);}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="Primary">
+  <div class="wrap">
+    <span class="brand">Agent Workspace Architecture</span>
+    <span class="links">
+      <a href="#architecture" class="hideable">Architecture</a>
+      <a href="#patterns" class="hideable">Patterns</a>
+      <a href="#in-motion" class="hideable">In motion</a>
+      <a href="#build" class="hideable">Build it</a>
+      <a href="https://github.com/jimy-r/agent-workspace-architecture">GitHub</a>
+      <a href="https://jamesross.ai" class="cta">jamesross.ai</a>
+    </span>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">A worked reference, not a framework</p>
+    <h1>An agent you can hand work to.</h1>
+    <p class="big">The roles, routines, hooks, memory, and task coordination that turn a coding agent into a system you can trust to make progress while you're away.</p>
+    <p class="meta">One person's actual setup, redacted and published with the reasoning attached. The example runs in Claude Code, but the architecture ports to any agent runtime. This page is the five-minute tour; the docs hold the depth.</p>
+    <div class="btns">
+      <a href="#architecture" class="btn primary">Explore the architecture</a>
+      <a href="#patterns" class="btn ghost">Read the 8 patterns</a>
+    </div>
+    <div class="pillrow" aria-hidden="true">
+      <span class="pill">17 expert roles</span>
+      <span class="pill">classify-then-act heartbeat</span>
+      <span class="pill">weekly self-audit</span>
+      <span class="pill">dead-man's switch</span>
+      <span class="pill">hook-based safety</span>
+      <span class="pill">typed memory</span>
+    </div>
+  </div>
+</header>
+
+<section id="architecture">
+  <div class="wrap">
+    <p class="eyebrow">The shape</p>
+    <h2>Five layers, top to bottom</h2>
+    <p class="lede">From how you talk to it down to the agents that do the work. Select a layer to see what it holds and why it's there.</p>
+    <div class="explorer">
+      <div class="stack" id="layers" role="list">
+        <button class="layer" role="listitem" data-key="input"><span class="arrow">how you ask</span><span class="lt">Input methods</span><span class="ls">Keyboard or voice — the boring, swappable front door</span></button>
+        <div class="flowhint" aria-hidden="true">↓</div>
+        <button class="layer" role="listitem" data-key="entry"><span class="arrow">where it starts</span><span class="lt">Entry points</span><span class="ls">Terminal, desktop &amp; mobile apps, remote dispatch, voice</span></button>
+        <div class="flowhint" aria-hidden="true">↓</div>
+        <button class="layer" role="listitem" data-key="session"><span class="arrow">the core</span><span class="lt">The session</span><span class="ls">Always-loaded context, typed memory, tool-use hooks</span></button>
+        <div class="flowhint" aria-hidden="true">↓</div>
+        <button class="layer" role="listitem" data-key="branches"><span class="arrow">three branches</span><span class="lt">Personas · Routines · MCP</span><span class="ls">Roles, recurring agents, and connections to outside tools</span></button>
+        <div class="flowhint" aria-hidden="true">↓</div>
+        <button class="layer" role="listitem" data-key="subagents"><span class="arrow">the work</span><span class="lt">Subagents &amp; tool servers</span><span class="ls">Where scoped expert work actually happens</span></button>
+      </div>
+      <div class="panel" id="layerPanel" aria-live="polite"></div>
+    </div>
+
+    <p class="eyebrow" style="margin-top:48px;">The pieces</p>
+    <h2>Eleven modules</h2>
+    <p class="lede">Each is a cohesive cluster with one upgrade boundary. Tap one.</p>
+    <div class="explorer">
+      <div class="modgrid" id="modules">
+        <button class="mod" data-key="audit">Audit</button>
+        <button class="mod" data-key="heartbeat">Heartbeat</button>
+        <button class="mod" data-key="brief">Brief</button>
+        <button class="mod" data-key="inbox">Inbox</button>
+        <button class="mod" data-key="roles">Roles</button>
+        <button class="mod" data-key="memory">Memory</button>
+        <button class="mod" data-key="security">Security envelope</button>
+        <button class="mod" data-key="backup">Backup</button>
+        <button class="mod" data-key="session">Session workflow</button>
+        <button class="mod" data-key="mirror">Public mirror</button>
+        <button class="mod" data-key="refdata">Reference data</button>
+      </div>
+      <div class="panel" id="modPanel" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<section id="patterns">
+  <div class="wrap">
+    <p class="eyebrow">The thinking</p>
+    <h2>Eight load-bearing patterns</h2>
+    <p class="lede">If you read one thing, read these — each as problem, pattern, why it beats the obvious alternative, and what it costs. Expand any card.</p>
+    <div class="patterns" id="patterns-grid"></div>
+    <div class="compose">
+      <h3>They're not independent</h3>
+      <p>Three instincts, each applied in two places. <strong>Keep damage out of durable surfaces</strong> — the credential law and the file-protection hook. <strong>One source of truth, referenced not copied</strong> — the roles library and memory hygiene. <strong>Route by consequence, not by confidence</strong> — classify-then-act for tasks, tier-by-impact for findings. Adopt each when you feel the friction it removes, not before.</p>
+    </div>
+  </div>
+</section>
+
+<section id="in-motion">
+  <div class="wrap">
+    <p class="eyebrow">In motion</p>
+    <h2>A task, end to end</h2>
+    <p class="lede">What static files can't show: how one task moves through the system without you babysitting it. Step through it.</p>
+    <div class="pipe" id="pipe" aria-hidden="true"></div>
+    <div class="stepcard" aria-live="polite">
+      <div class="sn" id="stepNum"></div>
+      <h3 id="stepTitle"></h3>
+      <p id="stepBody"></p>
+    </div>
+    <div class="stepnav">
+      <button class="sec" id="prevBtn" type="button">&larr; Prev</button>
+      <button id="nextBtn" type="button">Next &rarr;</button>
+      <span class="count" id="stepCount"></span>
+    </div>
+  </div>
+</section>
+
+<section id="build">
+  <div class="wrap">
+    <p class="eyebrow">Go deeper</p>
+    <h2>Read it, fork it, or hand it to your agent</h2>
+    <p class="lede">The docs follow Diátaxis: why, what, how, and scaffolding to copy.</p>
+    <div class="cards">
+      <a class="doc" href="https://github.com/jimy-r/agent-workspace-architecture/blob/main/PATTERNS.md"><span class="dt">PATTERNS.md → Why</span><span class="dd">The eight decisions, with the reasoning and the cost of each.</span></a>
+      <a class="doc" href="https://github.com/jimy-r/agent-workspace-architecture/blob/main/META_ARCHITECTURE.md"><span class="dt">META_ARCHITECTURE.md → What</span><span class="dd">The full structural map, with diagrams.</span></a>
+      <a class="doc" href="https://github.com/jimy-r/agent-workspace-architecture/blob/main/ADOPTION.md"><span class="dt">ADOPTION.md → How</span><span class="dd">A five-step build, minimum-viable at each step.</span></a>
+      <a class="doc" href="https://github.com/jimy-r/agent-workspace-architecture/tree/main/samples"><span class="dt">samples/ → Scaffold</span><span class="dd">Role, skill, and context files to fork and adapt.</span></a>
+    </div>
+
+    <div class="agentbox">
+      <span class="k">Hand the repo to your own agent</span>
+      <code>Tour this repo. Read PATTERNS.md, then META_ARCHITECTURE.md, then WORKFLOW.md, then scan samples/. Summarise the patterns most applicable to my workspace.</code>
+    </div>
+
+    <div class="funnel">
+      <h3>Standing this up inside an organisation?</h3>
+      <p>I'm James Ross. I design agent workspaces and AI-orchestration systems, and this is the reference version of my own. If you want these patterns adapted to your stack, the practice site is <a href="https://jamesross.ai">jamesross.ai</a>.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>MIT licensed · a curated solo reference, maintained best-effort.</span>
+    <a href="https://github.com/jimy-r/agent-workspace-architecture">Repository</a>
+    <a href="https://jamesross.ai">jamesross.ai</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  var layerData = {
+    input:{title:"Input methods", detail:"Keyboard, or voice dictation that drops transcribed text into whatever field has focus. The entry point is deliberately boring: the intelligence is downstream, so any input surface works and none of them lock you in."},
+    entry:{title:"Entry points", detail:"A terminal launcher, the desktop and mobile apps, remote dispatch from a phone, a voice channel. The same workspace answers from all of them, so work isn't tied to one machine or one room."},
+    session:{title:"The session", detail:"Every session boots with its standing context (an auto-loaded CLAUDE.md, per project and globally), a typed memory index, and hooks that fire on tool use. This is the layer that makes the agent yours: it knows the conventions before it answers the first question."},
+    branches:{title:"Personas · Routines · MCP", detail:"Three working branches. Personas are pure expert roles composed with project facts at invocation. Routines are recurring agents (a 2-hourly project manager, a weekly auditor) plus one-shot launchers. MCP servers connect outside tools — calendar, mail, a browser, a code-packer. Each branch is swappable without touching the others."},
+    subagents:{title:"Subagents & tool servers", detail:"Where the work happens. Composed role-bindings do scoped expert work; scheduled agents advance the task queue and audit the workspace; tool servers reach the outside world. The orchestration above decides who runs and gates what each one is allowed to do."}
+  };
+
+  var moduleData = {
+    audit:{title:"Audit", detail:"A weekly self-review of configs, the security envelope, drift, and context bloat. Findings are tiered and tracked in a ledger; synthetic canaries confirm the audit still catches known-bad fixtures."},
+    heartbeat:{title:"Heartbeat", detail:"A 2-hourly project manager. It classifies the task queue, builds the safe-by-default work in a sandbox, lodges it for review, and logs every rejection so the same idea doesn't return."},
+    brief:{title:"Brief", detail:"A daily situational digest — calendar, weather, AI news, task state, overnight activity — rendered to email and sent to self. Idempotent, so a re-run never double-sends."},
+    inbox:{title:"Inbox", detail:"Hands-on mail and receipt triage. It groups items by proposed action and gates each batch for approval before anything is labelled, archived, or written to a financial file."},
+    roles:{title:"Roles", detail:"Seventeen pure expert personas plus thin project bindings. A validator runs every cycle to catch a binding that points at a role or context that moved."},
+    memory:{title:"Memory", detail:"Typed, indexed notes (user / feedback / project / reference) that point at sources instead of copying them. Every write is add, update, delete, or no-op — never a blind append."},
+    security:{title:"Security envelope", detail:"A PreToolUse guard on file writes and shell commands, a credential law that keeps secrets out of files, transcript backups before compaction, and container sandboxing for web-facing agents."},
+    backup:{title:"Backup", detail:"Encrypted incremental backups to off-machine storage, with the repository credentials resolved at runtime and scrubbed afterward. Verified by a restore round-trip, not by hope."},
+    session:{title:"Session workflow", detail:"The skills that run a session start to finish: orient at the start, checkpoint to bridge a compaction, a task readout, and a wrap ritual that integrates the work at the end."},
+    mirror:{title:"Public mirror", detail:"This repository. A redacted, world-readable snapshot held to its privacy bar by a CI gate and a local pre-commit hook, so nothing identifying slips into a public commit."},
+    refdata:{title:"Reference data", detail:"Durable structured inputs — a services registry, mail rules, research briefs — that several modules read. Each carries its own schema and is validated on write."}
+  };
+
+  var patterns = [
+    {n:"01", title:"Pure roles, composed with project facts", problem:"Run security review across five projects and you get five near-identical 500-line prompts that drift apart the moment one is edited.", pattern:"Keep the expert persona pure: method, constraints, and red flags, with zero entity facts. Project specifics live in a CONTEXT.md. A thin binding composes the two at invocation.", why:"A fix to the auditor's method reaches every project at once, and a new project gets an expert reviewer by writing one CONTEXT.md instead of cloning a prompt that immediately starts to rot.", cost:"Indirection (two files, not one) plus a validator. Worth it past about three projects; overkill for one."},
+    {n:"02", title:"Classify-then-act, not ask-then-wait", problem:"An autonomous background agent has two failure modes: it nags for input on everything, or it acts confidently on tasks it doesn't understand.", pattern:"Classify every task first — has-default, needs-intent, or out-of-scope. Build the has-default work in a sandbox, lodge it for review, act only on approval, and log every rejection.", why:"A pure question-queue stalls on the user; a pure autonomous loop ships things you didn't want. Classification routes each task to safe handling, and the rejection log stops the same bad idea returning.", cost:"A sandbox, a review queue, and a rejection history to maintain. Some speculative work gets discarded."},
+    {n:"03", title:"Make silent failure loud", problem:"A scheduled task that stops firing fails silently. You find out weeks later, when the thing it produced is missing.", pattern:"Each task emits a success sentinel to its log. A watchdog scans for that sentinel inside a staleness window and raises a finding when it's missing or stale. Self-hosted, no external service.", why:"“I'll notice if it breaks” is false — the whole point of a background task is that nobody is watching it. A sentinel converts absence-of-success into a visible, dated finding.", cost:"Per-task staleness configuration, plus a tolerance flag for tasks that run on demand rather than on a clock."},
+    {n:"04", title:"Tier by mechanical impact, not by tone", problem:"A system that auto-applies its own findings needs a line between apply-automatically and ask-first. Drawing it from how confident a finding sounds is a trap.", pattern:"Classify each change by mechanical reversibility. A typo fix and a deleted file sit in different tiers regardless of wording. Trivially reversible changes auto-apply; anything that deletes, publishes, or spends money gets a human gate.", why:"Tone-based heuristics are gameable and drift over time. Mechanical impact is a property of the action itself, not the language describing it.", cost:"An explicit impact table, kept current as new action types appear."},
+    {n:"05", title:"Memory points, it doesn't mirror", problem:"Agent memory that copies your source documents goes stale the moment a source changes, then quietly contradicts it.", pattern:"Memory holds an index plus typed notes that point at the source of truth instead of duplicating it. Every write is one of four operations — add, update, delete, no-op — never a blind append.", why:"Dumping everything into memory feels safe and rots fast. A pointer cannot contradict its source; a copy eventually always does.", cost:"Discipline at write time, plus a periodic consolidation pass to merge duplicates and prune the index."},
+    {n:"06", title:"Credentials live in one place, never in files", problem:"A secret written to a file leaks: into git history, into a backup, into an agent's context window, into a screenshot.", pattern:"A password manager is the single store. Files reference the item name, never the value. Running code resolves the secret at runtime and scrubs it. Allow one narrow, audited exception per genuine need, not a general waiver.", why:"A .env file and “I'll just paste it for now” are how secrets end up in transcripts forever. One store with runtime resolution keeps the value off every durable surface.", cost:"A runtime lookup step, and the discipline to refuse the convenient shortcut."},
+    {n:"07", title:"A cheap hook beats a careful agent", problem:"An agent that misread the task can overwrite a secrets file, delete a record, or force-push. “Be more careful” does not scale.", pattern:"A PreToolUse hook intercepts file writes and shell commands against a blocklist — sensitive paths, destructive verbs, pushes to protected branches — and blocks them before they run. It fails open, so a bug in the guard never wedges the session.", why:"Trusting the model to never err is a hope, not a control. A ten-line deterministic check catches the large majority of accidental damage for almost nothing.", cost:"Occasional false positives, best resolved by naming around them rather than widening the gap."},
+    {n:"08", title:"Audit the workspace like a fitness function", problem:"A workspace degrades. Context bloats, configs drift, a hook stops firing, memory contradicts reality, and nobody's job is to notice.", pattern:"A scheduled auditor sweeps configs, the security envelope, and drift on a cadence, writing tiered findings. Canaries verify it still detects known-bad fixtures. Deliberately no single numeric score — a self-grading audit optimises for the grade.", why:"“I'll clean it up when it bothers me” loses to a cadence with canaries, because drift is gradual and invisible right up until it isn't.", cost:"The audit is itself a system to maintain, and it can cry wolf, so findings are tiered and tracked rather than dumped raw."}
+  ];
+
+  var steps = [
+    {n:"Step 01", stage:"Arrives", title:"A task lands in the queue", body:"Something gets added to the task list — say, “add a docker-compose for local dev.” Nobody is at the keyboard. The next heartbeat cycle, two hours away at most, will pick it up."},
+    {n:"Step 02", stage:"Classify", title:"The heartbeat classifies it", body:"Has-default, needs-intent, or out-of-scope? This one has an obvious correct shape, so it's has-default. An ambiguous task would instead get a clarifying question and wait; an out-of-scope one would be logged and left."},
+    {n:"Step 03", stage:"Sandbox", title:"It builds the work in a sandbox", body:"The agent does the change speculatively in an isolated worktree — never the live workspace. If the idea is wrong, nothing real was touched. It checks the rejection log first, so a previously-declined idea doesn't come back."},
+    {n:"Step 04", stage:"Review", title:"It lodges the result for review", body:"The finished change is surfaced in a review queue with a summary. Nothing has been applied to the real workspace yet. The queue is capped, so the agent can't bury you in proposals."},
+    {n:"Step 05", stage:"Approve", title:"You approve, and only then it lands", body:"You skim the diff and say yes — or no, which becomes a one-line decision record the agent greps before trying anything similar again. Approval is the only path from sandbox to real."},
+    {n:"Step 06", stage:"Audit", title:"The weekly audit checks it held", body:"Later, the scheduled auditor sweeps for drift and confirms the safety canaries still trip. If this change quietly broke something, that becomes a dated finding in the task list — silent failure made loud."}
+  ];
+
+  function wireExplorer(listId, panelId, data){
+    var list = document.getElementById(listId);
+    var panel = document.getElementById(panelId);
+    if(!list || !panel) return;
+    var btns = list.querySelectorAll("[data-key]");
+    function select(key){
+      var item = data[key];
+      if(!item) return;
+      for(var i=0;i<btns.length;i++){ btns[i].setAttribute("aria-pressed", btns[i].getAttribute("data-key")===key ? "true":"false"); }
+      var h = document.createElement("h3"); h.textContent = item.title;
+      var p = document.createElement("p"); p.textContent = item.detail;
+      panel.innerHTML = ""; panel.appendChild(h); panel.appendChild(p);
+    }
+    for(var i=0;i<btns.length;i++){
+      (function(b){ b.addEventListener("click", function(){ select(b.getAttribute("data-key")); }); })(btns[i]);
+    }
+    if(btns[0]) select(btns[0].getAttribute("data-key"));
+  }
+
+  wireExplorer("layers","layerPanel",layerData);
+  wireExplorer("modules","modPanel",moduleData);
+
+  // patterns
+  var grid = document.getElementById("patterns-grid");
+  if(grid){
+    for(var i=0;i<patterns.length;i++){
+      var p = patterns[i];
+      var d = document.createElement("details"); d.className="pat";
+      var s = document.createElement("summary");
+      s.innerHTML = "<span class='num'>"+p.n+"</span><span><span class='st'>"+p.title+"</span><span class='sp'>"+p.problem+"</span></span>";
+      var body = document.createElement("div"); body.className="body";
+      body.innerHTML = "<div class='row'><div class='k'>Pattern</div><div class='v'></div></div>"+
+                       "<div class='row'><div class='k'>Why it beats the obvious</div><div class='v'></div></div>"+
+                       "<div class='row'><div class='k'>Cost</div><div class='v'></div></div>";
+      var vs = body.querySelectorAll(".v");
+      vs[0].textContent = p.pattern; vs[1].textContent = p.why; vs[2].textContent = p.cost;
+      d.appendChild(s); d.appendChild(body); grid.appendChild(d);
+    }
+  }
+
+  // stepper
+  var pipe = document.getElementById("pipe");
+  var stepNum = document.getElementById("stepNum");
+  var stepTitle = document.getElementById("stepTitle");
+  var stepBody = document.getElementById("stepBody");
+  var stepCount = document.getElementById("stepCount");
+  var prevBtn = document.getElementById("prevBtn");
+  var nextBtn = document.getElementById("nextBtn");
+  var idx = 0;
+
+  if(pipe){
+    for(var i=0;i<steps.length;i++){
+      var sp = document.createElement("span"); sp.className="stage"; sp.textContent = steps[i].stage; pipe.appendChild(sp);
+    }
+  }
+  function renderStep(){
+    var s = steps[idx];
+    if(stepNum) stepNum.textContent = s.n;
+    if(stepTitle) stepTitle.textContent = s.title;
+    if(stepBody) stepBody.textContent = s.body;
+    if(stepCount) stepCount.textContent = (idx+1)+" of "+steps.length;
+    if(pipe){
+      var chips = pipe.querySelectorAll(".stage");
+      for(var i=0;i<chips.length;i++){
+        chips[i].className = "stage" + (i===idx ? " active" : (i<idx ? " done" : ""));
+      }
+    }
+    if(prevBtn) prevBtn.disabled = (idx===0);
+    if(nextBtn) nextBtn.disabled = (idx===steps.length-1);
+  }
+  if(prevBtn) prevBtn.addEventListener("click", function(){ if(idx>0){ idx--; renderStep(); } });
+  if(nextBtn) nextBtn.addEventListener("click", function(){ if(idx<steps.length-1){ idx++; renderStep(); } });
+  renderStep();
+})();
+</script>
+</body>
+</html>

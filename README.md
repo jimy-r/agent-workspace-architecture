@@ -6,6 +6,8 @@ The example runs in [Claude Code](https://claude.com/claude-code), so the file c
 
 This is one person's actual setup, redacted and published as a reference. Not a framework, not a product. A documented working arrangement of the pieces Claude Code already gives you, with the reasoning attached.
 
+**▶ [Take the interactive tour](https://jimy-r.github.io/agent-workspace-architecture/)** — a five-minute visual pass: the layered architecture, the eight load-bearing patterns, and one task moving through the system end to end.
+
 ## What's inside
 
 - **Roles library.** 17 pure expert personas (security-auditor, researcher, accountant, developmental-editor, and more) that compose with project `CONTEXT.md` files through thin bindings.
