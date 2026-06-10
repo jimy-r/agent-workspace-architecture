@@ -6,9 +6,9 @@ The example runs in [Claude Code](https://claude.com/claude-code), so the file c
 
 This is one person's actual setup, redacted and published as a reference. Not a framework, not a product. A documented working arrangement of the pieces Claude Code already gives you, with the reasoning attached.
 
-**▶ [Take the interactive tour](https://jimy-r.github.io/agent-workspace-architecture/)** — a five-minute visual pass: the layered architecture, the eight load-bearing patterns, and one task moving through the system end to end.
+**▶ [Take the interactive tour](https://jimy-r.github.io/agent-workspace-architecture/)** — a five-minute visual pass: the layered architecture, the nine load-bearing patterns, and one task moving through the system end to end.
 
-[![The interactive tour: layered architecture, eight patterns, a task end to end](docs/assets/tour-hero.png)](https://jimy-r.github.io/agent-workspace-architecture/)
+[![The interactive tour: layered architecture, nine patterns, a task end to end](docs/assets/tour-hero.png)](https://jimy-r.github.io/agent-workspace-architecture/)
 
 ## What's inside
 
@@ -24,7 +24,7 @@ Tables throughout mark each component `[stock]` / `[plugin]` / `[local]` / `[cus
 
 ## Start with the why
 
-If you read one thing past this page, read **[PATTERNS.md](PATTERNS.md)** — the eight load-bearing architectural decisions, each as *problem → pattern → why it beats the obvious alternative → what it costs*. That's where the actual thinking lives.
+If you read one thing past this page, read **[PATTERNS.md](PATTERNS.md)** — the nine load-bearing architectural decisions, each as *problem → pattern → why it beats the obvious alternative → what it costs*. That's where the actual thinking lives.
 
 The rest of the docs follow [Diátaxis](https://diataxis.fr/):
 

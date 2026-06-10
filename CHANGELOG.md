@@ -2,6 +2,10 @@
 
 Human-written record of notable changes — the *why* and the *shape*, not every merged PR. The repo doesn't cut releases; entries are grouped by date, newest first. Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), adapted to a dated scheme.
 
+## 2026-06-11
+
+- **Ninth pattern: "Context is a budget, not a constant."** The Token Budget module arrived as a module row in the 2026-06-10 sync; this gives the thinking its `PATTERNS.md` entry (problem → pattern → why → cost, pointing at `ghost_token_counter.py` + `token_report.py` samples), adds the ninth card to the tour, and retires the "eight" count from the README, the tour button and heading, and the social-card description.
+
 ## 2026-06-10
 
 - **Workspace-upgrade sync.** The source workspace's latest batch, mirrored in: a twelfth module — **Token Budget** (a deterministic preflight gate that skips no-op scheduled cycles, a model-tier policy for unattended work, daily spend telemetry feeding the audit's trend rule) — plus audit hardening: a coded assertion runner (`samples/scripts/audit_checks/run_all.py` — LLM re-derivation of checks had produced a false positive), canary verification rewritten to assert *detection* end-of-run rather than fixture presence, a provenance gate so externally-sourced findings never auto-apply, a ledger emit-count assertion, the full report relocated out of the task list, and a new `audit-workthrough` skill that drains pending findings. New samples: `preflight_gate.py`, `token_report.py`, the checks runner, and the workthrough skill; the scheduler-wrapper sample gained the gate + a per-skill model map; the tour gained the twelfth module; the samples README inventory corrected (it had drifted well behind the tree). Also fixes the one lychee failure from the consistency pass (a sample-settings link path).

@@ -100,12 +100,24 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** [`samples/.claude/agents/audit.md`](samples/.claude/agents/audit.md) and [`samples/tests/audit_canaries/`](samples/tests/audit_canaries/).
 
+## 9. Context is a budget, not a constant
+
+**Problem.** Everything auto-loaded into a session — instruction files, the memory index, skill descriptions, hook strings — costs tokens on every turn, in every session. No single addition is large, so the total grows a few percent a week, and unattended agents spend with nobody watching. Quality erodes before any cost alarm fires.
+
+**Pattern.** Meter it like money. A baseline counter measures every always-loaded source individually and keeps history. A trend alarm fires when the baseline beats its rolling median by a set margin, because accretion is the common failure, not the blowout. Unattended runs carry hard spend ceilings sized as belts (10–50x a normal cycle), multi-agent fan-outs are bounded by construction, index files carry explicit size ceilings, and a standing note tells the runtime what must survive context compaction.
+
+**Why this beats the obvious.** The obvious control is a size warning on the main instruction file: one source, one absolute threshold. The real failure is distributed (a dozen sources each growing slightly) and relative (this month versus last), so per-source measurement with trend detection catches what a static ceiling misses. Attribution is the payoff: a total says something grew; the breakdown says what to trim.
+
+**Cost.** A counter and its history to maintain, estimates that drift from true tokenizer counts, and ceilings that need sizing judgment — a cap set as a governor instead of a belt aborts legitimately heavy runs.
+
+**Where it lives:** [`samples/scripts/ghost_token_counter.py`](samples/scripts/ghost_token_counter.py) (the per-source baseline) and [`samples/scripts/token_report.py`](samples/scripts/token_report.py) (spend telemetry feeding the audit's trend rule).
+
 ## How they compose
 
-These are not independent. The credential law and the file-protection hook are the same instinct (keep damage out of durable surfaces) applied at two layers. The roles library and memory hygiene are the same instinct (one source of truth, referenced rather than copied) applied in two domains. Classify-then-act and tier-by-impact are the same instinct (route by consequence, not by confidence) applied to tasks and to findings.
+These are not independent. The credential law and the file-protection hook are the same instinct (keep damage out of durable surfaces) applied at two layers. The roles library and memory hygiene are the same instinct (one source of truth, referenced rather than copied) applied in two domains. Classify-then-act and tier-by-impact are the same instinct (route by consequence, not by confidence) applied to tasks and to findings. And the context budget is the audit's instinct (notice drift before it bites) pointed at the one resource every other pattern spends.
 
 Adopt them when you feel the friction each one removes. Not before.
 
 ---
 
-*Last verified against the repo structure on 2026-06-10.*
+*Last verified against the repo structure on 2026-06-11.*
