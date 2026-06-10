@@ -35,6 +35,6 @@ jobs:
           close-pr-message: >
             Closing due to inactivity. Reopen anytime when ready to pick it
             back up.
-          exempt-issue-labels: 'pinned,patterns-board,moderation,blocked'
+          exempt-issue-labels: 'pinned,moderation,blocked'
           exempt-pr-labels: 'pinned,blocked,work-in-progress'
           operations-per-run: 100

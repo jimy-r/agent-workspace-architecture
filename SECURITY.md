@@ -14,7 +14,7 @@ Do **not** include the leaked content in the report. Link to the file and line.
 
 ### 2. Vulnerabilities in the GitHub Actions workflows
 
-The repo runs workflows (`link-check`, `stale`, `validate-samples`, `dependabot`, `labeler`, `lock-closed`) under the repo's `GITHUB_TOKEN`. If you spot an injection risk, permission escalation path, or supply-chain concern in any of these:
+The repo runs workflows (`redaction-check` — the branch-protection-required gate — plus `link-check`, `stale`, `validate-samples`, `dependabot`, `labeler`, `lock-closed`) under the repo's `GITHUB_TOKEN`. If you spot an injection risk, permission escalation path, or supply-chain concern in any of these:
 
 - Use **GitHub's [private security advisories](https://github.com/jimy-r/agent-workspace-architecture/security/advisories/new)** — not a public Issue.
 - Maintainer will triage and coordinate a fix before public disclosure.
@@ -35,4 +35,4 @@ Private security advisories get a first response within a week. A published fix 
 
 ---
 
-*Last verified against the repo structure on **2026-05-30**.*
+*Last verified against the repo structure on **2026-06-10**.*

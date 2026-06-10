@@ -17,6 +17,6 @@ jobs:
         with:
           issue-inactive-days: '90'
           pr-inactive-days: '90'
-          exclude-any-issue-labels: 'pinned,patterns-board'
+          exclude-any-issue-labels: 'pinned'
           exclude-any-pr-labels: 'pinned'
           process-only: 'issues, prs'

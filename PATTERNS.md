@@ -2,9 +2,9 @@
 
 The architectural decisions behind this workspace, stated as patterns: the problem each solves, the shape of the solution, why it beats the obvious alternative, and what it costs. The file conventions are Claude Code's; the patterns travel to any agent runtime.
 
-Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) is the *what* (the structural map), and [ADOPTION.md](ADOPTION.md) is the *how* (where to start).
+Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) is the *what* (the structural map), and [ADOPTION.md](ADOPTION.md) is the *how* (where to start). Each pattern ends with a pointer to the sample files that implement it, so every claim here is inspectable.
 
-## Pure roles, composed with project facts
+## 1. Pure roles, composed with project facts
 
 **Problem.** Run security review across five projects and you end up with five near-identical 500-line prompts that drift apart the moment one is edited.
 
@@ -14,7 +14,9 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Cost.** Indirection (two files, not one) plus a validator to catch bindings that reference a role or context that moved. Worth it past about three projects; overkill for one.
 
-## Classify-then-act, not ask-then-wait
+**Where it lives:** [`samples/roles/`](samples/roles/) (17 roles + the template) and [`samples/example-project/`](samples/example-project/) (a binding composing role + context).
+
+## 2. Classify-then-act, not ask-then-wait
 
 **Problem.** An autonomous background agent has two failure modes: it nags for input on everything, or it acts confidently on tasks it doesn't understand.
 
@@ -24,7 +26,9 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Cost.** A sandbox, a review queue, and a rejection history to maintain. The agent does speculative work that sometimes gets discarded.
 
-## Make silent failure loud (the dead-man's switch)
+**Where it lives:** [`samples/scripts/heartbeat/classify_task.py`](samples/scripts/heartbeat/classify_task.py) and [`samples/tasks/HEARTBEAT.md`](samples/tasks/HEARTBEAT.md).
+
+## 3. Make silent failure loud (the dead-man's switch)
 
 **Problem.** A scheduled task that stops firing fails silently. You find out weeks later, when the thing it was supposed to produce is missing.
 
@@ -34,7 +38,9 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Cost.** Per-task staleness configuration, plus a tolerance flag for tasks that run on demand rather than on a clock.
 
-## Tier by mechanical impact, not by tone
+**Where it lives:** [`samples/scripts/security/check_task_freshness.py`](samples/scripts/security/check_task_freshness.py).
+
+## 4. Tier by mechanical impact, not by tone
 
 **Problem.** A system that auto-applies its own findings needs a line between "apply automatically" and "ask a human first." Drawing that line from how confident a finding *sounds* is a trap.
 
@@ -44,7 +50,9 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Cost.** An explicit impact table, kept current as new action types appear.
 
-## Memory points, it doesn't mirror
+**Where it lives:** [`samples/.claude/agents/audit.md`](samples/.claude/agents/audit.md) (the tier-classification table).
+
+## 5. Memory points, it doesn't mirror
 
 **Problem.** Agent memory that copies your source documents goes stale the moment a source changes, then quietly contradicts it.
 
@@ -54,7 +62,9 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Cost.** Discipline at write time, plus a periodic consolidation pass to merge duplicates and prune the index.
 
-## Credentials live in one place, never in files
+**Where it lives:** [`samples/.claude/scheduled-tasks/consolidate-memory/SKILL.md`](samples/.claude/scheduled-tasks/consolidate-memory/SKILL.md) and [`samples/scripts/memory_lint.py`](samples/scripts/memory_lint.py).
+
+## 6. Credentials live in one place, never in files
 
 **Problem.** A secret written to a file leaks: into git history, into a backup, into an agent's context window, into a screenshot.
 
@@ -64,7 +74,9 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Cost.** A runtime lookup step, and the discipline to refuse the convenient shortcut.
 
-## A cheap hook beats a careful agent
+**Where it lives:** [`samples/scripts/backup-restic.ps1`](samples/scripts/backup-restic.ps1) (runtime resolution + scrub) and [`samples/scripts/send_self_email.py`](samples/scripts/send_self_email.py) (the one narrow, audited exception).
+
+## 7. A cheap hook beats a careful agent
 
 **Problem.** An agent that has misread the task can overwrite your `.env`, delete a record, or force-push. "Be more careful" does not scale.
 
@@ -74,7 +86,9 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Cost.** Occasional false positives (a legitimately named file that matches a protected substring), best resolved by naming around them rather than widening the gap.
 
-## Audit the workspace like a fitness function
+**Where it lives:** [`samples/scripts/security/check_bash_command.py`](samples/scripts/security/check_bash_command.py) and the hook config in [`samples/settings.example.json`](samples/settings.example.json).
+
+## 8. Audit the workspace like a fitness function
 
 **Problem.** A workspace degrades. Context bloats, configs drift, a hook stops firing, memory contradicts reality, and nobody's job is to notice.
 
@@ -84,6 +98,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Cost.** The audit is itself a system to maintain, and it can cry wolf, so findings are tiered and tracked rather than dumped raw into the queue.
 
+**Where it lives:** [`samples/.claude/agents/audit.md`](samples/.claude/agents/audit.md) and [`samples/tests/audit_canaries/`](samples/tests/audit_canaries/).
+
 ## How they compose
 
 These are not independent. The credential law and the file-protection hook are the same instinct (keep damage out of durable surfaces) applied at two layers. The roles library and memory hygiene are the same instinct (one source of truth, referenced rather than copied) applied in two domains. Classify-then-act and tier-by-impact are the same instinct (route by consequence, not by confidence) applied to tasks and to findings.
@@ -92,4 +108,4 @@ Adopt them when you feel the friction each one removes. Not before.
 
 ---
 
-*Last verified against the repo structure on 2026-05-30.*
+*Last verified against the repo structure on 2026-06-10.*

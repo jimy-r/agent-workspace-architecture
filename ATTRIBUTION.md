@@ -37,12 +37,12 @@ The weekly upgrade-audit (`samples/.claude/agents/audit.md`) and its supporting 
 | *Alert fatigue mitigation*: opposing-metric pair (find rate + accept rate); finding ledger w/ acceptance tracking | "Alert Fatigue in Security Operations Centres," [ACM Computing Surveys 2025 (DOI:10.1145/3723158)](https://dl.acm.org/doi/10.1145/3723158); Trend Micro SOC survey (51% overwhelmed, >25% time on false positives). Implementation: `samples/scripts/audit_ledger.py`. |
 | *Goodhart's Law / metric gaming*: why no numeric audit score | Charles Goodhart (1975); [David Manheim on metric gaming](https://kpitree.co/guides/frameworks/goodharts-law); ["Goodhart's Law Is Now an AI Agent Problem"](https://tianpan.co/blog/2026-04-20-goodharts-law-ai-agents-eval-gaming) (TianPan.co, April 2026). |
 | *Two-auditor pattern*: periodic independent second-opinion audit | Financial auditing convention; also Vanta/Drata's independent-third-party-assessment requirements. Implementation: `samples/.claude/agents/audit-second-opinion.md`. |
-| *Memory drift vs staleness*: semantic drift is distinct from file-age staleness | [arxiv:2603.10062](https://arxiv.org/pdf/2602.22406) (March 2026), "Towards Autonomous Memory Agents"; [A-MEM](https://arxiv.org/abs/2502.12110) (Zettelkasten-style re-indexing); [Letta](https://docs.letta.com/) (production MemGPT, three-tier memory). |
+| *Memory drift vs staleness*: semantic drift is distinct from file-age staleness | [arXiv:2602.22406](https://arxiv.org/abs/2602.22406) (February 2026), "Towards Autonomous Memory Agents"; [A-MEM](https://arxiv.org/abs/2502.12110) (Zettelkasten-style re-indexing); [Letta](https://docs.letta.com/) (production MemGPT, three-tier memory). |
 | *Compliance test injections*: known-bad fixtures to verify the audit hasn't regressed | SOC2/security-testing practice. Implementation: `samples/tests/audit_canaries/`. |
 | *Agent observability*: runtime layer (token usage, latency, error rates, traces) | [LangSmith](https://www.langchain.com/langsmith/observability), [Langfuse](https://langfuse.com/), Arize Phoenix. Inspires Phase 2.6b runtime health (lighter than full observability, scoped to log-artefact + MCP-probe checks). |
 | *Eval-driven development for agents*: measuring agent quality with synthetic test harnesses | [DeepEval](https://www.confident-ai.com/), [Promptfoo](https://promptfoo.dev/), [UK AISI Inspect AI](https://inspect.aisi.org.uk/). Not yet implemented in the workspace; flagged as a future direction. |
 
-Full research brief grounding these citations: [Reference/Research/2026-05-28_audit-upgrade-best-practices.md](https://github.com/jimy-r/agent-workspace-architecture/) (private workspace; the brief itself is not mirrored here, only the public-anchor sources).
+The research brief grounding these citations lives in the private workspace and is not mirrored; every public-anchor source above stands on its own.
 
 ## Frameworks and conventions
 
@@ -60,4 +60,4 @@ This repo's content is MIT-licensed, so borrow back freely. If you adapt pattern
 
 ---
 
-*Last verified against the repo structure on **2026-05-30**.*
+*Last verified against the repo structure on **2026-06-10**.*
