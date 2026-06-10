@@ -102,7 +102,7 @@ The pattern: hand the main thread the task and the context pointers; let it rout
 - **A morning brief that is actually actionable.** Calendar, weather, AI news, open questions, and overnight activity in one place.
 - **A heartbeat that narrows questions before asking.** Work doesn't stall waiting on vague user input.
 - **Typed memory.** User profile, feedback, project state, and reference pointers stay separable rather than collapsing into one long note.
-- **A credentials discipline.** Every API key / token lives in a password manager with a plaintext index; nothing persisted in files.
+- **A credentials discipline.** Every API key and token lives in a password manager; files reference item names only, never values.
 - **Routine skills.** `orient`, `tasks`, `wrap`, `verify-completion`, and `systematic-debugging`, invokable the same way whether you're at desktop, phone, or voice.
 
 The cost is real: when the platform ships a new feature, integrating it is work, and the structure can lag what a single autonomous loop gives you out of the box.
@@ -123,4 +123,4 @@ If that shape resonates, you're the audience for this repo. If it feels over-str
 
 ---
 
-*Last verified against the repo structure on **2026-05-30**.*
+*Last verified against the repo structure on **2026-06-10**.*
