@@ -3,8 +3,6 @@ name: review-queue
 description: Triage the heartbeat-PR-agent review queue — walk each pending / reminded entry in tasks/HEARTBEAT_REVIEWS.md, present its artifact (REVIEW.md / PR diff / draft), and action the user's per-item decision (integrate / reject / redirect / skip). Invoke when the morning brief's "Awaiting your review" section shows 3+ items or whenever you want to drain the queue ad-hoc.
 ---
 
-Base directory for this skill: F:\Claude\.claude\skills\review
-
 ## Purpose
 
 Make reviewing heartbeat-built work a one-command operation. Under the heartbeat-as-PR-agent flow, speculative builds land in `tasks/HEARTBEAT_REVIEWS.md` and wait for user decision. This skill walks the queue, presents each artifact with enough context to decide, and actions the decision — integrate / reject / redirect / skip.
