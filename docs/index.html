@@ -214,6 +214,7 @@
         <button class="mod" data-key="session">Session workflow</button>
         <button class="mod" data-key="mirror">Public mirror</button>
         <button class="mod" data-key="refdata">Reference data</button>
+        <button class="mod" data-key="tokenbudget">Token budget</button>
       </div>
       <div class="panel" id="modPanel" aria-live="polite"></div>
     </div>
@@ -307,7 +308,8 @@
     backup:{title:"Backup", detail:"Encrypted incremental backups to off-machine storage, with the repository credentials resolved at runtime and scrubbed afterward. Verified by a restore round-trip, not by hope."},
     session:{title:"Session workflow", detail:"The skills that run a session start to finish: orient at the start, checkpoint to bridge a compaction, a task readout, and a wrap ritual that integrates the work at the end."},
     mirror:{title:"Public mirror", detail:"This repository. A redacted, world-readable snapshot held to its privacy bar by a CI gate and a local pre-commit hook, so nothing identifying slips into a public commit."},
-    refdata:{title:"Reference data", detail:"Durable structured inputs — a services registry, mail rules, research briefs — that several modules read. Each carries its own schema and is validated on write."}
+    refdata:{title:"Reference data", detail:"Durable structured inputs — a services registry, mail rules, research briefs — that several modules read. Each carries its own schema and is validated on write."},
+    tokenbudget:{title:"Token budget", detail:"Measures and caps token spend. A deterministic preflight gate skips scheduled cycles that have nothing to do, scheduled work runs a cheaper model tier with a capped thinking budget, and daily spend telemetry feeds the weekly audit's trend rule."}
   };
 
   var patterns = [

@@ -86,7 +86,7 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Cost.** Occasional false positives (a legitimately named file that matches a protected substring), best resolved by naming around them rather than widening the gap.
 
-**Where it lives:** [`samples/scripts/security/check_bash_command.py`](samples/scripts/security/check_bash_command.py) and the hook config in [`samples/settings.example.json`](samples/settings.example.json).
+**Where it lives:** [`samples/scripts/security/check_bash_command.py`](samples/scripts/security/check_bash_command.py) and the hook config in [`samples/.claude/settings.example.json`](samples/.claude/settings.example.json).
 
 ## 8. Audit the workspace like a fitness function
 

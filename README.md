@@ -18,6 +18,7 @@ This is one person's actual setup, redacted and published as a reference. Not a 
 - **Scheduled routines.** A daily morning brief (calendar, weather, AI news, task state) and a memory-consolidation pass, fired by the OS scheduler.
 - **Memory system.** Typed files (`user` / `feedback` / `project` / `reference`) indexed by `MEMORY.md`, pointing at sources rather than copying them.
 - **Hardening.** A `PreToolUse` file-and-command guard, a password-manager credential law, encrypted `restic` backups, and container sandboxing for web-facing agents.
+- **Token budget.** A deterministic preflight gate that skips no-op scheduled cycles, a model-tier policy for unattended work, and daily spend telemetry feeding the weekly audit.
 
 Tables throughout mark each component `[stock]` / `[plugin]` / `[local]` / `[custom]`, so you can see what ships with Claude Code versus what someone had to write.
 
