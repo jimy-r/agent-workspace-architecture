@@ -90,11 +90,11 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 ## 8. Audit the workspace like a fitness function
 
-**Problem.** A workspace degrades. Context bloats, configs drift, a hook stops firing, memory contradicts reality, and nobody's job is to notice.
+**Problem.** A workspace degrades while the ecosystem around it improves. Context bloats, configs drift, a hook stops firing, memory contradicts reality, better patterns ship every week — and nobody's job is to notice either direction.
 
-**Pattern.** A scheduled auditor sweeps configs, the security envelope, and drift on a cadence, writing findings to the task list. Synthetic canaries verify the audit still detects known-bad fixtures every run. A finding ledger tracks accept and dismiss rates. There is deliberately **no single numeric score**: a self-improving audit that emits its own grade optimises for the grade (Goodhart's law).
+**Pattern.** A scheduled auditor runs on a cadence with two jobs. The first is finding improvements: research public sources for what the ecosystem has learned, and critique the workspace module-by-module against current best practice. The second is housekeeping: sweep configs, the security envelope, and drift. Findings land in the task list. Synthetic canaries verify the audit still detects known-bad fixtures every run. A finding ledger tracks accept and dismiss rates. There is deliberately **no single numeric score**: a self-improving audit that emits its own grade optimises for the grade (Goodhart's law).
 
-**Why this beats the obvious.** "I'll clean it up when it bothers me" loses to a cadence with canaries, because drift is gradual and invisible right up until it isn't.
+**Why this beats the obvious.** "I'll clean it up when it bothers me" loses to a cadence with canaries, because drift is gradual and invisible right up until it isn't; "I'll look for upgrades when I have time" never fires at all.
 
 **Cost.** The audit is itself a system to maintain, and it can cry wolf, so findings are tiered and tracked rather than dumped raw into the queue.
 
