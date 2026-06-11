@@ -59,6 +59,10 @@ This is a **curated solo reference**, maintained best-effort. If you spot a priv
 - Nothing here executes on its own. The repo describes structure and ships sample code; it isn't a runnable product.
 - Domain-flavoured content (Australian tax terms, Brisbane weather) is a template to localise, not a default.
 
+## Related
+
+[signal-sweep](https://github.com/signal-sweep/signal-sweep): the human-gated presence tooling that grew out of this workspace's thread-sweep module, generalized to config-driven form and co-maintained as a standalone project. Its worked-example config is this repo's own topic set.
+
 ## Also here
 
 [SUPPORT.md](SUPPORT.md) (where to go for what) · [STYLE_GUIDE.md](STYLE_GUIDE.md) · [SECURITY.md](SECURITY.md) (privacy-leak and workflow-vuln reporting) · [CHANGELOG.md](CHANGELOG.md) · [ATTRIBUTION.md](ATTRIBUTION.md) (patterns this borrows from) · [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
