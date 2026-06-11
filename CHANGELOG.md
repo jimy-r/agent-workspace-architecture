@@ -4,6 +4,7 @@ Human-written record of notable changes — the *why* and the *shape*, not every
 
 ## 2026-06-11
 
+- **The audit is described as designed.** The README, tour, pattern 08, and two META rows sold the weekly audit as configs/security/drift housekeeping. Its first-class job is finding improvements (public-source research plus an internal module-by-module critique against best practice); the housekeeping rides in the same sweep. Wording aligned across all five surfaces.
 - **The README now opens with a 30-second animated pass through the tour.** A scripted recording (layers, modules, a pattern card, the task walkthrough) replaces the static screenshot and links through to the live page. Traffic was reaching the README without converting to the tour; a moving preview is the strongest nudge a README can make. Repo metadata tuned in the same pass: an `llm-orchestration` topic and a keyword-tuned description.
 - **The repo now cuts tagged releases**, starting with `v1.0.0`. Milestone batches get a tag and short notes so watchers see changes in their feeds and the changelog gains stable anchors. The ritual lives in `CLAUDE.md`.
 - **Tour fixes.** The build-section doc cards still said "eight decisions" after the ninth pattern landed (#57), and rendered their title and description run together (the same display bug #53 fixed for layer rows). Both corrected.
