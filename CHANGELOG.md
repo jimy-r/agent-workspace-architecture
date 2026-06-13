@@ -2,6 +2,10 @@
 
 Human-written record of notable changes — the *why* and the *shape*, not every merged PR. Milestone batches get a tagged release with short notes (from `v1.0.0`, 2026-06-11); entries are grouped by date, newest first. Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), adapted to a dated scheme.
 
+## 2026-06-13
+
+- **The Bash-hook sample gains an env-var injection guard.** The source workspace's full-coverage audit surfaced a third bypass class: an inline prefix like `GIT_SSH_COMMAND='evil' git fetch` or `NODE_OPTIONS='--require ./evil' npm test` runs attacker-chosen code through an otherwise-allowed verb, and the write-verb check never sees it. `check_bash_command.py` now blocks a 20-entry denylist of exec-hijacking env vars when assigned at a command position (pattern credit: OpenClaw's 2026-06 env-control hardening; found by the audit's external-source sweep and applied through the provenance gate as a human-approved Tier 3). Pattern 7, the hooks table, and the samples inventory updated to describe all three categories. The audit sample also retires a dead source: an MCP server uninstalled from the workspace in April had kept its scan slot for six weeks.
+
 ## 2026-06-11
 
 - **The audit is described as designed.** The README, tour, pattern 08, and two META rows sold the weekly audit as configs/security/drift housekeeping. Its first-class job is finding improvements (public-source research plus an internal module-by-module critique against best practice); the housekeeping rides in the same sweep. Wording aligned across all five surfaces.

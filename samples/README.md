@@ -77,7 +77,7 @@ samples/
 │   │   ├── preflight_gate.py         # Stage-0 dirty-check gate (skip the LLM when nothing changed)
 │   │   └── review_queue.py           # review-queue cap counter
 │   └── security/
-│       ├── check_bash_command.py     # PreToolUse Bash guard (protected paths + git safety)
+│       ├── check_bash_command.py     # PreToolUse Bash guard (protected paths + git safety + env-var hijacks)
 │       └── check_task_freshness.py   # dead-man's switch over scheduled-task logs
 │
 ├── tests/
