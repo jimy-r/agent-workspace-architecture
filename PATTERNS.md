@@ -80,7 +80,7 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Problem.** An agent that has misread the task can overwrite your `.env`, delete a record, or force-push. "Be more careful" does not scale.
 
-**Pattern.** A `PreToolUse` hook intercepts file writes and shell commands against a blocklist (sensitive paths, destructive verbs, pushes to protected branches) and blocks them before they run. It fails *open*: a bug in the guard must never wedge the session.
+**Pattern.** A `PreToolUse` hook intercepts file writes and shell commands against a blocklist (sensitive paths, destructive verbs, pushes to protected branches, exec-hijacking env-var prefixes like `GIT_SSH_COMMAND='…' git fetch`) and blocks them before they run. It fails *open*: a bug in the guard must never wedge the session.
 
 **Why this beats the obvious.** Trusting the model to never err is a hope, not a control. A ten-line deterministic check catches the large majority of accidental damage for almost nothing.
 

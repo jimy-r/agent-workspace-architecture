@@ -195,7 +195,7 @@ The subagent should check these **specific sources** (fetch each, do not just se
 
 **Installed MCP servers — check for updates:**
 12. **Repomix** — `https://github.com/yamadashy/repomix/releases` — remote repo packing tool.
-13. **n8n-mcp** — `https://github.com/czlonkowski/n8n-mcp/releases` — workflow automation docs + management.
+13. *(retired 2026-06-11 — n8n-mcp was removed from the workspace 2026-04-24; entry pruned, number kept to preserve source references)*
 
 **Social / community signal (added 2026-04-21 — broader sweep for emerging patterns):**
 14. **HN Algolia — Claude Code stories** — `https://hn.algolia.com/api/v1/search_by_date?tags=story&query=claude+code&hitsPerPage=20` — HN stories referencing Claude Code in the past week. JSON API — catches emerging tools, workflow ideas, complaints before they reach curated lists.

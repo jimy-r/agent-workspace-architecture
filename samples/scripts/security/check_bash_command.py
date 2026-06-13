@@ -9,7 +9,7 @@ substrings. But shell-level filesystem operations (`mv`, `cp`, `sed -i`,
 through the `Bash` tool, not `Edit`/`Write`. Discovered during the
 heartbeat-as-PR-agent cutover on 2026-04-22 (see `tasks/lessons.md`).
 
-This hook wires in as a PreToolUse matcher on `Bash` and refuses two
+This hook wires in as a PreToolUse matcher on `Bash` and refuses three
 categories of command:
 
     1. File writes to protected paths — any write-intent verb (`>` /
@@ -20,6 +20,11 @@ categories of command:
 
     2. Dangerous git operations — `git push` targeting `main` or
        `master`, any force push, `git reset --hard` against main/master.
+
+    3. Exec-hijacking env-var assignments — an inline `VAR=value cmd`
+       prefix for a denylist of env vars (`GIT_SSH_COMMAND`,
+       `NODE_OPTIONS`, `LD_PRELOAD`, `PYTHONSTARTUP`, ...) that make an
+       otherwise-allowed command execute attacker-chosen code.
 
 This is *defence-in-depth*, not paranoia. The bar is "catch casual
 mistakes," not "stop a determined adversary." Python and Node processes
@@ -139,6 +144,51 @@ DANGEROUS_GIT: list[tuple[re.Pattern[str], str]] = [
     ),
 ]
 
+# ---------------------------------------------------------------------------
+# Dangerous environment-variable assignments prefixed to a command.
+# A shell line like `GIT_SSH_COMMAND='evil' git fetch` or
+# `NODE_OPTIONS='--require ./evil' npm test` runs attacker-chosen code
+# through an otherwise-allowed command — the verb check never sees it.
+# Block a curated denylist of exec-hijacking env vars when they appear as
+# an inline assignment at a command position (start of line, or after
+# ; | & && ||). Pattern credit: OpenClaw env-control hardening campaign
+# (2026-06, PRs #91619/#91618/#91615/#92007). Added 2026-06-11 (audit
+# finding bbb1f3e4). Provenance external → surfaced as Tier 3, not auto-applied.
+# ---------------------------------------------------------------------------
+
+# Env vars that cause a child process to load/execute caller-controlled
+# code or redirect tooling. Not exhaustive of all env, just the ones that
+# turn an allowed command into arbitrary code execution.
+DANGEROUS_ENV_VARS: list[str] = [
+    "GIT_SSH_COMMAND",
+    "GIT_SSH",
+    "GIT_PROXY_COMMAND",
+    "GIT_EXTERNAL_DIFF",
+    "GIT_PAGER",
+    "CORE_EDITOR",  # git core.editor via env
+    "LD_PRELOAD",
+    "LD_LIBRARY_PATH",
+    "DYLD_INSERT_LIBRARIES",
+    "DYLD_LIBRARY_PATH",
+    "NODE_OPTIONS",
+    "PYTHONSTARTUP",
+    "PYTHONPATH",
+    "BASH_ENV",
+    "ENV",
+    "PERL5OPT",
+    "RUBYOPT",
+    "RUSTUP_TOOLCHAIN",
+    "RUSTC_WRAPPER",
+    "CARGO",
+]
+
+# Inline assignment at a command position: line start or after a shell
+# separator (; | & newline), optional whitespace, VAR=...  The negative
+# lookbehind on `=`/`!`/`<`/`>` avoids matching comparisons.
+_ENV_ASSIGN = re.compile(
+    r"(?:^|[;&|\n]|&&|\|\|)\s*([A-Za-z_][A-Za-z0-9_]*)\s*=",
+)
+
 
 # ---------------------------------------------------------------------------
 # Checks
@@ -183,6 +233,23 @@ def check_dangerous_git(command: str) -> tuple[bool, str]:
     return False, ""
 
 
+def check_dangerous_env(command: str) -> tuple[bool, str]:
+    """Return (blocked, reason) if a known exec-hijacking env var is
+    assigned inline at a command position."""
+    denyset = {v.upper() for v in DANGEROUS_ENV_VARS}
+    for match in _ENV_ASSIGN.finditer(command):
+        var = match.group(1)
+        if var.upper() in denyset:
+            return True, (
+                f"inline assignment of '{var}' prefixes a command — this can "
+                f"execute attacker-chosen code through an allowed verb "
+                f"(exec-hijacking env var). If legitimate, set it via the "
+                f"session environment or a wrapper script, not inline. "
+                f"(audit bbb1f3e4 / OpenClaw env-control pattern)"
+            )
+    return False, ""
+
+
 # ---------------------------------------------------------------------------
 # Hook entry point
 # ---------------------------------------------------------------------------
@@ -208,6 +275,14 @@ def main() -> int:
         return 2
 
     blocked, reason = check_dangerous_git(command)
+    if blocked:
+        print(
+            json.dumps({"decision": "block", "reason": f"[bash-safety-hook] {reason}"})
+        )
+        print(f"[bash-safety-hook] BLOCKED: {reason}", file=sys.stderr)
+        return 2
+
+    blocked, reason = check_dangerous_env(command)
     if blocked:
         print(
             json.dumps({"decision": "block", "reason": f"[bash-safety-hook] {reason}"})
