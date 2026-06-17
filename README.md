@@ -4,7 +4,7 @@ A worked blueprint for a personal **agent workspace**: the roles, routines, hook
 
 [![A 30-second pass through the interactive tour: the layered architecture, the load-bearing patterns, and one task moving through the system](docs/assets/tour.gif)](https://jimy-r.github.io/agent-workspace-architecture/)
 
-**▶ [Take the interactive tour](https://jimy-r.github.io/agent-workspace-architecture/)** — the clickable five-minute version: the layered architecture, the nine load-bearing patterns, and one task moving through the system end to end.
+**▶ [Take the interactive tour](https://jimy-r.github.io/agent-workspace-architecture/)** — the clickable five-minute version: the layered architecture, the ten load-bearing patterns, and one task moving through the system end to end.
 
 The example runs in [Claude Code](https://claude.com/claude-code), so the file conventions you'll see (`CLAUDE.md`, `.claude/skills/`, MCP config) are Claude-Code-specific. The architecture is not. The roles library, memory hygiene, audit cadence, classify-then-act heartbeat, dead-man's switch, and tier-by-impact gating port to Cursor, Cline, Continue, Windsurf, or a custom Agent-SDK build. Pick your runtime; the decisions translate.
 
@@ -24,7 +24,7 @@ Tables throughout mark each component `[stock]` / `[plugin]` / `[local]` / `[cus
 
 ## Start with the why
 
-If you read one thing past this page, read **[PATTERNS.md](PATTERNS.md)** — the nine load-bearing architectural decisions, each as *problem → pattern → why it beats the obvious alternative → what it costs*. That's where the actual thinking lives.
+If you read one thing past this page, read **[PATTERNS.md](PATTERNS.md)** — the ten load-bearing architectural decisions, each as *problem → pattern → why it beats the obvious alternative → what it costs*. That's where the actual thinking lives.
 
 The rest of the docs follow [Diátaxis](https://diataxis.fr/):
 

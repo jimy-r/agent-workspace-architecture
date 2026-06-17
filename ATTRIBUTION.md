@@ -44,6 +44,14 @@ The weekly upgrade-audit (`samples/.claude/agents/audit.md`) and its supporting 
 
 The research brief grounding these citations lives in the private workspace and is not mirrored; every public-anchor source above stands on its own.
 
+## Self-improving-skill patterns
+
+Pattern 10 (a skill doc is editable weights; gate every self-edit) draws its argument from one source.
+
+| Pattern | Borrowed from |
+|---|---|
+| *Skill-as-trainable-weights; accept a self-edit only behind a strict-improvement gate* | [SkillOpt](https://arxiv.org/abs/2605.23904) (Yang et al., Microsoft Research; MIT-licensed; v0.1.0 alpha, ~7.9k GitHub stars). Models a skill doc as the trainable weights of a frozen model and optimizes it against a scored benchmark, accepting an edit only when a held-out split strictly improves. Its single-seed cautionary run (ungated self-edit on a weak model + degraded signal collapsing 0.554→0.026, −52.8 pts, by learning to echo the document title) is the evidence behind the gate. Single-seed result; gains land only where tasks recur with a checkable correctness signal, flat on saturated or noisy ones. This workspace runs the human-gated cousin, not SkillOpt's training loop: no trajectory-scored gradient, no held-out-validation gate. |
+
 ## Frameworks and conventions
 
 | Convention | Source |
