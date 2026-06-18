@@ -66,6 +66,7 @@ samples/
 │   ├── run-scheduled-skill.ps1       # OS-scheduler wrapper: gate → model map → claude --print
 │   ├── send_self_email.py            # narrow self-send SMTP helper (the one audited exception)
 │   ├── token_report.py               # daily spend telemetry (Token Budget module)
+│   ├── wrap_drift_scan.py            # read-only close-out drift surfacer (loop-selection SURFACE example)
 │   │
 │   ├── audit_checks/
 │   │   └── run_all.py                # coded audit assertions (checks-as-code)
@@ -110,7 +111,7 @@ Follow [`ADOPTION.md`](../ADOPTION.md); the 5-step walkthrough maps these sample
 - [`.claude/skills/`](.claude/skills/): **9 workspace skills** for session management, queue-draining (heartbeat reviews + audit findings), output discipline, and verification.
 - [`.claude/agents/`](.claude/agents/): **4 custom subagents**: the weekly auditor, its quarterly second-opinion counterpart, a task-queue project manager, and an auto-routed researcher.
 - [`.claude/scheduled-tasks/`](.claude/scheduled-tasks/): **4 SKILL.md files** fired by an OS-level scheduler (Windows Task Scheduler / cron / launchd) via the `run-scheduled-skill.ps1` wrapper — which since 2026-06-10 runs a deterministic preflight gate and a per-skill model map before any model is invoked. The `morning-brief/SKILL.md` shows the full daily-orchestrator pattern.
-- [`scripts/`](scripts/): **~25 helpers** consumed by the scheduled tasks and the audit. Each is standalone, stdlib-first where possible. The newest cluster is the Token Budget module: `token_report.py` (spend telemetry), `heartbeat/preflight_gate.py` (spend avoidance), `audit_checks/run_all.py` (coded assertions).
+- [`scripts/`](scripts/): **~25 helpers** consumed by the scheduled tasks and the audit. Each is standalone, stdlib-first where possible. The newest cluster is the Token Budget module: `token_report.py` (spend telemetry), `heartbeat/preflight_gate.py` (spend avoidance), `audit_checks/run_all.py` (coded assertions). `wrap_drift_scan.py` is the read-only close-out surfacer that works the loop-selection pattern (a SURFACE-bucket nudge, never silent autonomy).
 - [`tests/audit_canaries/`](tests/audit_canaries/): the known-bad fixtures the audit must keep flagging — detection is asserted end-of-run, not by checking the fixtures exist.
 
 ## Notes on redactions
