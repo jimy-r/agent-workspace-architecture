@@ -52,6 +52,17 @@ Pattern 10 (a skill doc is editable weights; gate every self-edit) draws its arg
 |---|---|
 | *Skill-as-trainable-weights; accept a self-edit only behind a strict-improvement gate* | [SkillOpt](https://arxiv.org/abs/2605.23904) (Yang et al., Microsoft Research; MIT-licensed; v0.1.0 alpha, ~7.9k GitHub stars). Models a skill doc as the trainable weights of a frozen model and optimizes it against a scored benchmark, accepting an edit only when a held-out split strictly improves. Its single-seed cautionary run (ungated self-edit on a weak model + degraded signal collapsing 0.554→0.026, −52.8 pts, by learning to echo the document title) is the evidence behind the gate. Single-seed result; gains land only where tasks recur with a checkable correctness signal, flat on saturated or noisy ones. This workspace runs the human-gated cousin, not SkillOpt's training loop: no trajectory-scored gradient, no held-out-validation gate. |
 
+## Loop-engineering patterns
+
+Pattern 12 (loop selection: not everything should be a loop) builds its vocabulary on two sources. They supply the loop *stack* and the up/down framing. The *selection* discipline (which work earns a loop, and the restraint that holds it back) is this workspace's own contribution. Both sources lean toward "remove yourself as the bottleneck," which reads differently for a solo operator whose judgment is the product, so the four-box test and the irreversibility override are the deliberate counterweight.
+
+| Pattern | Borrowed from |
+|---|---|
+| *The four-layer loop stack* (agent loop / verification loop / event-driven loop / learning loop) | LangChain, [*The Art of Loop Engineering*](https://blog.langchain.com/the-art-of-loop-engineering/). Frames an agent system as nested loops at distinct layers, each with its own job. |
+| *Stacking loops; move **up** for leverage as models improve, **down** for reliability when things break; "design loops that prompt your agents"* | Swyx / latent.space, [*Loopcraft: the art of stacking loops*](https://www.latent.space/p/ainews-loopcraft-the-art-of-stacking). The up/down navigation framing the selection test tags each candidate against. |
+
+The selection test itself (recurring, mechanically verifiable, low-judgment-per-instance, headless-executable, plus the irreversibility cap and the verify-against-code-not-description rule) is not from either source; it is the workspace's restraint layer over their build-energy.
+
 ## Frameworks and conventions
 
 | Convention | Source |
