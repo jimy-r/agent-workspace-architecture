@@ -59,7 +59,7 @@ Pattern 12 (loop selection: not everything should be a loop) builds its vocabula
 | Pattern | Borrowed from |
 |---|---|
 | *The four-layer loop stack* (agent loop / verification loop / event-driven loop / learning loop) | LangChain, [*The Art of Loop Engineering*](https://blog.langchain.com/the-art-of-loop-engineering/). Frames an agent system as nested loops at distinct layers, each with its own job. |
-| *Stacking loops; move **up** for leverage as models improve, **down** for reliability when things break; "design loops that prompt your agents"* | Swyx / latent.space, [*Loopcraft: the art of stacking loops*](https://www.latent.space/p/loopcraft). The up/down navigation framing the selection test tags each candidate against. |
+| *Stacking loops; move **up** for leverage as models improve, **down** for reliability when things break; "design loops that prompt your agents"* | Swyx / latent.space, [*Loopcraft: the art of stacking loops*](https://www.latent.space/p/ainews-loopcraft-the-art-of-stacking). The up/down navigation framing the selection test tags each candidate against. |
 
 The selection test itself (recurring, mechanically verifiable, low-judgment-per-instance, headless-executable, plus the irreversibility cap and the verify-against-code-not-description rule) is not from either source; it is the workspace's restraint layer over their build-energy.
 
