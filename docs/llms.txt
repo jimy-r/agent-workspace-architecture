@@ -1,0 +1,10 @@
+# Agent Workspace Architecture
+
+> A redacted reference for building agent workspaces: the roles, routines, hooks, memory, and task coordination that turn a coding agent into a system you can hand work to. One person's working setup, published with the reasoning attached.
+
+## Source documents
+
+- [PATTERNS.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/PATTERNS.md): The twelve load-bearing patterns, each as problem, pattern, why it beats the obvious alternative, and what it costs.
+- [META_ARCHITECTURE.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/META_ARCHITECTURE.md): The full structural map of the workspace: layers, modules, personas, routines, hooks, MCP servers, memory, and the task layer.
+- [ADOPTION.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/ADOPTION.md): A five-step build guide, minimum-viable at each step, for standing up your own workspace.
+- [README.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/README.md): Project overview, what the repo is, and how to navigate it.
