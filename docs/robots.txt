@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jimy-r.github.io/agent-workspace-architecture/sitemap.xml
