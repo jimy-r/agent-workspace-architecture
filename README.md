@@ -10,6 +10,8 @@ The example runs in [Claude Code](https://claude.com/claude-code), so the file c
 
 This is one person's actual setup, redacted and published as a reference. Not a framework, not a product. A documented working arrangement of the pieces Claude Code already gives you, with the reasoning attached.
 
+The scale is real: 17 expert roles, 12 load-bearing patterns, a 2-hourly classify-then-act heartbeat, a weekly self-audit with synthetic canaries, a dead-man's switch over scheduled jobs, and typed memory that points at sources instead of copying them — all of it running in one person's daily workspace.
+
 ## What's inside
 
 - **Roles library.** 17 pure expert personas (security-auditor, researcher, accountant, developmental-editor, and more) that compose with project `CONTEXT.md` files through thin bindings.
@@ -43,7 +45,7 @@ The repo's [`CLAUDE.md`](CLAUDE.md) auto-loads on session start, so your agent i
 
 ## Who built this
 
-James Ross. I design agent workspaces and AI-orchestration systems, and this is the reference version of my own. If you're standing up something similar inside an organisation, or want these patterns adapted to your stack, the practice site is **[jamesross.ai](https://jamesross.ai)**.
+James Ross. I design agent workspaces and AI-orchestration systems, and this is the reference version of my own. If you're standing up something similar inside an organisation, or want these patterns adapted to your stack, the practice site is **[jamesross.ai](https://jamesross.ai/?utm_source=github&utm_medium=readme&utm_campaign=flagship)**.
 
 ## Using it
 
