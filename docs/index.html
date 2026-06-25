@@ -224,7 +224,7 @@
 <section id="patterns">
   <div class="wrap">
     <p class="eyebrow">The thinking</p>
-    <h2>Twelve load-bearing patterns</h2>
+    <h2>Thirteen load-bearing patterns</h2>
     <p class="lede">If you read one thing, read these — each as problem, pattern, why it beats the obvious alternative, and what it costs. Expand any card.</p>
     <div class="patterns" id="patterns-grid">
       <details class="pat" id="pattern-01-pure-roles-composed-with-project-facts">
@@ -321,6 +321,14 @@
           <div class="row"><div class="k">Pattern</div><div class="v">A four-box test. A task earns an autonomous loop only when it is all of: recurring, mechanically verifiable (a script, exit code, or diff confirms it worked, not your taste), low-judgment-per-instance (the same decision every time), and headless-executable (it can actually run unattended — no interactive credential, no GUI, no human mid-step). An irreversibility override caps any outward or destructive act (email sent, comment posted, money moved, history pruned) at surface even when all four boxes pass. Three buckets fall out: LOOP (autonomous on a trigger, the verifier is the gate), SURFACE (recurring and verifiable but judgment-heavy or irreversible, so a read-only nudge or an approval-gated act, never silent autonomy), and KEEP MANUAL. The worked example here is a close-out routine that, when a task finishes, runs a read-only scan and surfaces what drifted — stale context docs, fired strategic triggers, stale backups, aging open questions — for the operator to action while still in context. It adds no autonomy; it widens the operator's view at the moment state changed.</div></div>
           <div class="row"><div class="k">Why it beats the obvious</div><div class="v">The obvious move treats autonomy as a pure good and automates whatever can be automated. But a loop only pays where the work is verifiable and low-judgment; pointed at judgment work it removes the value or acts wrongly with nobody watching. This is the same route-by-consequence instinct as classify-then-act, tier-by-impact, the skill-as-weights gate, and the scaffold-as-hypothesis check: gate by consequence, not by how automatable a thing feels.</div></div>
           <div class="row"><div class="k">Cost</div><div class="v">A selection pass before you build, and the restraint to leave high-value judgment work manual when looping it would feel productive. One sharp corollary: verify the target against the code before deciding it loops — does it exist on the right branch, does it do what its description claims, can it run headless — because a task can pass every quality box and still fail the headless one.</div></div>
+        </div>
+      </details>
+      <details class="pat" id="pattern-13-challenge-half-formed-ideas-with-a-different">
+        <summary><span class='num'>13</span><span><span class='st'>Challenge half-formed ideas with a different lens</span><span class='sp'>Every tool that critiques an agent's work assumes a finished artifact — a draft, a decision, a result. None help during the messy part, where you're exploring and nothing is built yet. The tempting fix, a second agent challenging every idea always-on, is the same model rationalizing its own frame, and unmeasurable once it runs on everything.</span></span></summary>
+        <div class="body">
+          <div class="row"><div class="k">Pattern</div><div class="v">A single divergent lens, not a debate: one challenge from a deliberately different frame — strongest objection, baked-in assumption, unconsidered option — grounded in a criterion or a retrieved fact, the human as arbiter. It widens options, never argues to a winner. Then hold a sample back: roll on each fork and skip the challenge ~1 in 3, logging both, and have the human tag each firing changed / considered / noise.</div></div>
+          <div class="row"><div class="k">Why it beats the obvious</div><div class="v">Same-model same-prompt debate loses to majority voting at equal compute, ungrounded self-critique often degrades, and assigned devil's advocacy is weaker than dissent that carries real information (decades of group-decision evidence). And an always-on aid is unmeasurable by construction: if it fires on everything, you never see the one without it. Holding out a sample is a control group for a behavioral aid.</div></div>
+          <div class="row"><div class="k">Cost</div><div class="v">A behavioral trigger that depends on the agent firing it (the log's fire count doubles as the adherence check), a held-out sample you deliberately skip to stay measurable, and a human tagging step — a model grading its own challenges is self-biased.</div></div>
         </div>
       </details>
     </div>
