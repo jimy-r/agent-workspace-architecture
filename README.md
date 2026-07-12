@@ -45,7 +45,7 @@ The repo's [`CLAUDE.md`](CLAUDE.md) auto-loads on session start, so your agent i
 
 ## Who built this
 
-James Ross. I design agent workspaces and AI-orchestration systems, and this is the reference version of my own. If you're standing up something similar inside an organisation, or want these patterns adapted to your stack, the practice site is **[jamesross.ai](https://jamesross.ai/?utm_source=github&utm_medium=readme&utm_campaign=flagship)**.
+James Ross. I work as an AI Knowledge Architect; the practice is **Agent-Ready Knowledge Architecture** — making an organisation's knowledge legible to AI agents. This workspace is the reference version of my own agent-ready memory layer: the source-of-truth conventions, context architecture, and memory governance the practice teaches, running daily in production. If you're standing up something similar inside an organisation, or want these patterns adapted to your stack, the practice site is **[jamesross.ai](https://jamesross.ai/?utm_source=github&utm_medium=readme&utm_campaign=flagship)**.
 
 ## Using it
 

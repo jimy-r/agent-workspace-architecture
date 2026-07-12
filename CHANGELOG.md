@@ -2,6 +2,10 @@
 
 Human-written record of notable changes — the *why* and the *shape*, not every merged PR. Milestone batches get a tagged release with short notes (from `v1.0.0`, 2026-06-11); entries are grouped by date, newest first. Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), adapted to a dated scheme.
 
+## 2026-07-13
+
+- **The author byline caught up with the practice.** README "Who built this", the tour's funnel card, and SUPPORT's engagement row now carry the current positioning (AI Knowledge Architect; the practice is Agent-Ready Knowledge Architecture) and frame the repo as the reference version of the practice's agent-ready memory layer. Same batch: `llms.txt` now lists the tour itself plus CHANGELOG and WORKFLOW as sources, and this changelog was backfilled for the merges since v1.5.0 that had gone unrecorded.
+
 ## 2026-07-12
 
 - **signal-sweep cross-linked from the README and the tour.** The sibling repo (a narrower, single-purpose extraction of the thread-sweep pattern) had no path back to the broader architecture it came from; the README's repo list and the tour's closing section now both point at it.
