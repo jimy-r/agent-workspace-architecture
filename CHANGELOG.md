@@ -2,6 +2,22 @@
 
 Human-written record of notable changes — the *why* and the *shape*, not every merged PR. Milestone batches get a tagged release with short notes (from `v1.0.0`, 2026-06-11); entries are grouped by date, newest first. Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), adapted to a dated scheme.
 
+## 2026-07-12
+
+- **signal-sweep cross-linked from the README and the tour.** The sibling repo (a narrower, single-purpose extraction of the thread-sweep pattern) had no path back to the broader architecture it came from; the README's repo list and the tour's closing section now both point at it.
+
+## 2026-06-29
+
+- **Sentinel's deny floor gained a deny-to-ask exception for one config file.** A legitimate, routine edit to a project config was catching on the `permissions.deny` floor; rather than loosen the floor wholesale, that one path moved to ask-not-deny and the rest of the floor stayed intact.
+
+## 2026-06-28
+
+- **Weekly audit moved from a rotating sub-phase schedule to a full sweep every run**, trading a heavier per-run cost for removing the staleness class rotation had let creep in between runs. Same batch: backlog dedup so a finding logged across two runs no longer double-counts, and a tour fix for a pattern-count footer that had again drifted behind the tree.
+
+## 2026-06-25
+
+- **Thirteenth pattern: "Challenge half-formed ideas with a different lens."** The auto-fired divergent-lens check for open-ended ideation — one grounded objection, surfaced not auto-decided, the user as arbiter — becomes the tour's thirteenth card. Tagged `v1.5.0`.
+
 ## 2026-06-24
 
 - **The tour's twelve patterns are now server-rendered, so search and AI answer engines can read them.** The Pages tour built its pattern cards from a client-side JavaScript array into an empty grid, so anything that does not run JS (search crawlers, and the answer engines people increasingly ask "how do I gate agent self-edits" or "stop a scheduled agent failing silently") saw an empty patterns section, the substantive cited content invisible to it. The twelve cards now render as static, deep-linkable HTML (`#pattern-01` … `#pattern-12`) in the initial markup, using the same card structure and text; the dead JS array and its injection loop are gone, and the interactive layers, modules, and stepper are unchanged. Added `robots.txt`, `sitemap.xml`, and an `llms.txt` pointing agents at the raw source docs (PATTERNS, META_ARCHITECTURE, ADOPTION, README).
