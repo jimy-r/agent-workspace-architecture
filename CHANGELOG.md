@@ -2,6 +2,10 @@
 
 Human-written record of notable changes — the *why* and the *shape*, not every merged PR. Milestone batches get a tagged release with short notes (from `v1.0.0`, 2026-06-11); entries are grouped by date, newest first. Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), adapted to a dated scheme.
 
+## 2026-07-24
+
+- **Weekly-audit standing directives + a canary-assertion rule for fan-out runs** (mirrored from the source workspace's META). Five rules the operator had been restating every audit now live in the audit agent's definition: the scope split for separately-audited repos, an ideas-and-best-practice capture bar for the external dive (patterns count as findings, not just installable tools), a communication-upgrades lens on this repo's own surfaces, a batch-then-walk-one-at-a-time protocol for findings needing operator input, and an explicit Phase-0 canary assertion at synthesis for decomposed runs — a full run showed all three audit canaries can go undetected purely through unit scoping while their fixtures remain intact. Also recorded: the mid-run rate-limit recovery pattern (re-dispatch only the dead agents on the next model tier down; keep every completed result). *(Dates in the 07-12/07-13 entries below were stamped by a machine clock later found ~11 days behind; the changes are real, the dates approximate.)*
+
 ## 2026-07-13
 
 - **The author byline caught up with the practice.** README "Who built this", the tour's funnel card, and SUPPORT's engagement row now carry the current positioning (AI Knowledge Architect; the practice is Agent-Ready Knowledge Architecture) and frame the repo as the reference version of the practice's agent-ready memory layer. Same batch: `llms.txt` now lists the tour itself plus CHANGELOG and WORKFLOW as sources, and this changelog was backfilled for the merges since v1.5.0 that had gone unrecorded.
