@@ -16,7 +16,7 @@ The scale is real: 17 expert roles, 13 load-bearing patterns, a 2-hourly classif
 
 - **Roles library.** 17 pure expert personas (security-auditor, researcher, accountant, developmental-editor, and more) that compose with project `CONTEXT.md` files through thin bindings.
 - **Heartbeat + audit subagents.** A 2-hourly project manager that classifies and advances the task queue, and a weekly upgrade audit whose first job is finding improvements (public-source research plus a module-by-module critique against current best practice), with configs, security, and drift checked in the same sweep.
-- **Custom skills.** `orient`, `wrap`, `tasks`, `review-queue`, `terse-mode`, `verify-completion`, `systematic-debugging`, `role-pressure-test`.
+- **Custom skills.** `orient`, `wrap`, `tasks`, `review-queue`, `audit-workthrough`, `terse-mode`, `verify-completion`, `systematic-debugging`, `goal-design`, `role-pressure-test`.
 - **Scheduled routines.** A daily morning brief (calendar, weather, AI news, task state) and a memory-consolidation pass, fired by the OS scheduler.
 - **Memory system.** Typed files (`user` / `feedback` / `project` / `reference`) indexed by `MEMORY.md`, pointing at sources rather than copying them.
 - **Hardening.** A `PreToolUse` file-and-command guard, a password-manager credential law, encrypted `restic` backups, and container sandboxing for web-facing agents.

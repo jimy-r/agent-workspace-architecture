@@ -27,7 +27,7 @@ samples/
 ├── .claude/
 │   ├── settings.example.json         # hook configuration (PreToolUse + PostToolUse + SessionStart)
 │   │
-│   ├── skills/                       # 9 invokable workspace skills
+│   ├── skills/                       # 10 invokable workspace skills
 │   │   ├── orient/SKILL.md           # session-start briefing
 │   │   ├── wrap/SKILL.md             # task close-out ritual (updates registries)
 │   │   ├── tasks/SKILL.md            # task-queue readout
@@ -36,6 +36,7 @@ samples/
 │   │   ├── terse-mode/SKILL.md       # session-long output compression
 │   │   ├── verify-completion/SKILL.md
 │   │   ├── systematic-debugging/SKILL.md
+│   │   ├── goal-design/SKILL.md      # pre-flight interview → a checkable /goal artifact
 │   │   └── role-pressure-test/SKILL.md
 │   │
 │   ├── agents/                       # 4 workspace custom subagents
@@ -108,7 +109,7 @@ Follow [`ADOPTION.md`](../ADOPTION.md); the 5-step walkthrough maps these sample
 ### Full library (reference implementations, fork to adapt)
 
 - [`roles/`](roles/): **17 canonical roles**. Each is pure (no entity facts), composed with a project `CONTEXT.md` via a thin binding in `<project>/.claude/agents/`. Domain-specific roles (e.g. `accountant.md` is Australian-CPA flavoured) may need localisation; treat as template.
-- [`.claude/skills/`](.claude/skills/): **9 workspace skills** for session management, queue-draining (heartbeat reviews + audit findings), output discipline, and verification.
+- [`.claude/skills/`](.claude/skills/): **10 workspace skills** for session management, queue-draining (heartbeat reviews + audit findings), output discipline, verification, and goal-loop design.
 - [`.claude/agents/`](.claude/agents/): **4 custom subagents**: the weekly auditor, its quarterly second-opinion counterpart, a task-queue project manager, and an auto-routed researcher.
 - [`.claude/scheduled-tasks/`](.claude/scheduled-tasks/): **4 SKILL.md files** fired by an OS-level scheduler (Windows Task Scheduler / cron / launchd) via the `run-scheduled-skill.ps1` wrapper — which since 2026-06-10 runs a deterministic preflight gate and a per-skill model map before any model is invoked. The `morning-brief/SKILL.md` shows the full daily-orchestrator pattern.
 - [`scripts/`](scripts/): **~25 helpers** consumed by the scheduled tasks and the audit. Each is standalone, stdlib-first where possible. The newest cluster is the Token Budget module: `token_report.py` (spend telemetry), `heartbeat/preflight_gate.py` (spend avoidance), `audit_checks/run_all.py` (coded assertions). `wrap_drift_scan.py` is the read-only close-out surfacer that works the loop-selection pattern (a SURFACE-bucket nudge, never silent autonomy).
