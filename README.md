@@ -1,6 +1,6 @@
 # agent-workspace-architecture
 
-A worked blueprint for a personal **agent workspace**: the roles, routines, hooks, skills, memory, and task coordination that turn a coding agent into a system you can hand work to and trust to make progress while you're away.
+A reference implementation of **agent-ready knowledge architecture**: the roles, routines, hooks, skills, memory, and task coordination that make a body of working knowledge legible to AI agents, and turn a coding agent into a system you can hand work to and trust to make progress while you're away.
 
 [![A 30-second pass through the interactive tour: the layered architecture, the load-bearing patterns, and one task moving through the system](docs/assets/tour.gif)](https://jimy-r.github.io/agent-workspace-architecture/)
 
@@ -8,7 +8,7 @@ A worked blueprint for a personal **agent workspace**: the roles, routines, hook
 
 The example runs in [Claude Code](https://claude.com/claude-code), so the file conventions you'll see (`CLAUDE.md`, `.claude/skills/`, MCP config) are Claude-Code-specific. The architecture is not. The roles library, memory hygiene, audit cadence, classify-then-act heartbeat, dead-man's switch, and tier-by-impact gating port to Cursor, Cline, Continue, Windsurf, or a custom Agent-SDK build. Pick your runtime; the decisions translate.
 
-This is one person's actual setup, redacted and published as a reference. Not a framework, not a product. A documented working arrangement of the pieces Claude Code already gives you, with the reasoning attached.
+This is one person's actual setup, redacted and published as a reference. Not a framework, not a product. A documented working arrangement of the pieces Claude Code already gives you, with the reasoning attached. It is also the reference version of the agent-ready memory layer I build for organisations, running at one-person scale.
 
 The scale is real: 17 expert roles, 13 load-bearing patterns, a 2-hourly classify-then-act heartbeat, a weekly self-audit with synthetic canaries, a dead-man's switch over scheduled jobs, and typed memory that points at sources instead of copying them — all of it running in one person's daily workspace.
 
