@@ -2,6 +2,10 @@
 
 > A redacted reference for building agent workspaces: the roles, routines, hooks, memory, and task coordination that turn a coding agent into a system you can hand work to. One person's working setup, published with the reasoning attached.
 
+## Full text
+
+- [llms-full.txt](https://jimy-r.github.io/agent-workspace-architecture/llms-full.txt): Every source document below, inlined in reading order. Read this instead of following the links if you want the whole reference in one request.
+
 ## Source documents
 
 - [Tour](https://jimy-r.github.io/agent-workspace-architecture/): The interactive tour — layers, modules, patterns, and a task walkthrough. Start here.
