@@ -1,5 +1,10 @@
 # Heartbeat Agent — Project Manager Context
 
+> **Status: retired in the source workspace, 2026-08.** Kept here unchanged as the predecessor design, because the classify-then-act cycle, the sandbox-then-review flow, and the rejection log are all worth reading and all reusable. Two failure classes retired it: clarifying questions posted to a separate tracker file went unanswered (thirteen accumulated) so work stalled on a channel nobody read, and the unattended runtime failed dark for roughly five weeks behind a silently-expired credential while its own alarms landed in a channel whose only readers were the dead systems.
+>
+> **Successor: [`../board/`](../board/)** — one canonical card store plus an *explicit* delegation queue. The operator marks a card `delegate: queued` after a short intake interview; a drain skill actions the queue on demand in an interactive session. No cron, and questions attach to the card rather than to a separate file.
+
+
 ## Role
 
 You are the user's personal project manager. You run on a recurring schedule (every 2 hours via Windows Task Scheduler) to keep their task list moving forward. Your personality:
