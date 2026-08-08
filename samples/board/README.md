@@ -146,11 +146,17 @@ A board that rots quietly is worse than no board, because it keeps the reassuran
 
 The audit finding ledger, the open questions, the lesson candidates, and the review queue stay canonical in their own systems and appear here as one card each, carrying a live count. They are never exploded into individual cards. Fifty audit findings as fifty cards recreates exactly the overwhelm the board exists to remove, in prettier form.
 
-## Metrics ride the close-out ritual
+## The analytics pages: flow and metrics
 
-A `/metrics` page charts per-task cost and weekly throughput. The data behind it is written by the close-out ritual, where a `wrap` step logs a per-task token record as work finishes.
+Two read-only pages ride the served view, each computed from its sources on every load. Neither writes anything.
 
-That makes freshness **event-driven, never scheduled**, and the page says so on its face. A stale tail means no close-out has run, not that capacity dropped. A scheduled refresh would have been the obvious build, and it would have reintroduced the exact fragility described below.
+**`/flow`** reads the card store alone and shows the board's motion. A vitals strip, closes per week, cycle time, an aging profile of active cards by days since last touch, and a what-changed list. It answers "is work actually moving" without anyone maintaining a report.
+
+**`/metrics`** joins the card store with two token logs and shows what the work costs. Daily spend, a full-history weekly capacity chart with dashed average lines for the last four weeks and for all time, per-task cost, a per-model usage profile, and board throughput beside the delegation queue's health. The capacity chart is the planning instrument. One glance gives the recent run-rate against the long-term base, gap weeks draw a hollow tick instead of a column so missing data never reads as a quiet week, and the in-progress week is hatched because it sits outside both averages.
+
+The data behind the cost panels is written by the close-out ritual, where a `wrap` step logs a per-task token record as work finishes and refreshes the day's usage row.
+
+That makes freshness **event-driven, never scheduled**, and the pages say so on their face. A stale tail means no close-out has run, not that capacity dropped. A scheduled refresh would have been the obvious build, and it would have reintroduced the exact fragility described below.
 
 ## Why this replaced the scheduled agent
 
