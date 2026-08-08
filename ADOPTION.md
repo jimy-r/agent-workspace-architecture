@@ -17,7 +17,7 @@ The full architecture is described in [META_ARCHITECTURE.md](META_ARCHITECTURE.m
 
 **Minimum viable:** start with [`samples/CLAUDE.md.example`](samples/CLAUDE.md.example). Trim it to the principles you actually hold, then add a "Command shortcuts" table as you notice yourself saying the same phrase twice.
 
-**Why it matters:** this is the foundation. Every other layer below assumes `CLAUDE.md` is loaded: roles bind against what it declares, hooks rely on paths it specifies, the heartbeat agent reads its conventions.
+**Why it matters:** this is the foundation. Every other layer below assumes `CLAUDE.md` is loaded: roles bind against what it declares, hooks rely on paths it specifies, a delegated drain reads its conventions.
 
 See: [Claude Code memory docs](https://docs.claude.com/en/docs/claude-code/memory).
 
@@ -47,13 +47,21 @@ See: [Claude Code hooks docs](https://docs.claude.com/en/docs/claude-code/hooks)
 
 ---
 
-## Step 4: Register a scheduled task
+## Step 4: Build a task board with an explicit delegation queue
 
-Scheduled tasks run Claude on a cadence: every 2 hours, daily, weekly. The classic starter is a "heartbeat" that reads a task list and asks clarifying questions.
+One markdown file holds every outstanding thing as a `###` card. `status` and `area` are fields rather than sections, so moving a card is a one-line edit. Give each card a literal next action and an honest owner, and the file answers "what is actually on me" in one read.
 
-**Minimum viable:** use the Claude Code app's Routines UI (or the `scheduled-tasks` MCP) to register a task. Point it at a `SKILL.md` that describes what the heartbeat does: read `tasks/To Do Notes.md`, post questions to `tasks/To Do Questions.md`, action any task where the user has answered enough questions. See [samples/tasks/README.md](samples/tasks/README.md) for the coordination layer this agent reads.
+Then add delegation. A card is agent work only when you mark it, which is the whole authorization surface.
 
-**Why it matters:** it flips the workspace from "the user remembers to follow up" to "the agent drives forward progress." Drop notes in; work gets done while you're away.
+**Minimum viable:** three pieces, no code required.
+
+1. A cards file. Copy [`samples/board/board.example.md`](samples/board/board.example.md) and keep the field format.
+2. A marker. Put `delegate: queued` on a card once you have answered four questions about it in writing: what does done look like, which folders may be written, what constrains the approach, and how should the one or two foreseeable decision points be ruled.
+3. A drain you run yourself. Open a session and work the queued cards. When one hits a fork you did not pre-rule, write the question into that card's `blocked:` field and move on. See [`samples/board/agent-queue.SKILL.example.md`](samples/board/agent-queue.SKILL.example.md) for the full intake and drain procedure, and [`samples/board/README.md`](samples/board/README.md) for the card schema.
+
+**Why it matters:** it removes the guesswork about what an agent is allowed to pick up, and it puts the context in the card at the moment you have it in your head. Questions land where you already look, so nothing waits behind a channel you never open.
+
+**The predecessor, studied not recommended.** A scheduled "heartbeat" that reads the task list every two hours and asks clarifying questions is the classic starter, and this workspace ran one for months before retiring it. It fails in two places. The agent has to infer intent from lines written for a human reader, so it asks a lot, and its questions go to a file nobody opens. And an unattended runtime dies quietly, which here meant roughly five weeks of dark runs behind an expired credential. The design is preserved in [samples/tasks/](samples/tasks/) if you want the classifier and rejection-log ideas, both of which hold up wherever the mandate is already unambiguous.
 
 ---
 
@@ -74,7 +82,7 @@ See: [Claude Code skills docs](https://docs.claude.com/en/docs/claude-code/skill
 Once the five basics above work, the harder-to-adopt parts start paying off:
 
 - **Role binding composition.** A role (`roles/security-auditor.md`) plus a project's `CONTEXT.md` makes a project-scoped subagent invoked via `@project-security`. See [`samples/example-project/.claude/agents/example-security.md`](samples/example-project/.claude/agents/example-security.md).
-- **Question-then-action heartbeat loop.** Async progress while you're off-screen. See [`samples/tasks/README.md`](samples/tasks/README.md).
+- **A rendered board view.** A local server that re-renders the cards file on every request and writes edits straight back to it, so no browser buffer ever holds canonical state. Add it once reading the raw markdown gets tiring. See [`samples/board/README.md`](samples/board/README.md).
 - **Typed memory files** (`user` / `feedback` / `project` / `reference`) indexed by a `MEMORY.md`, for persistence across sessions.
 - **MCP servers** for external capabilities: browser automation, calendar, mail.
 - **Container sandboxing** for agents that touch the open web (security isolation, not reproducibility).
@@ -83,4 +91,4 @@ Adopt these when you feel the friction they solve, not before. The pattern only 
 
 ---
 
-*Last verified against the repo structure on **2026-05-30**. Flag drift via an Issue or correct in a PR.*
+*Last verified against the repo structure on **2026-08-08**. Flag drift via an Issue or correct in a PR.*
