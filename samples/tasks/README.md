@@ -1,5 +1,7 @@
 # Task coordination layer
 
+> **Status: the heartbeat half of this layer was retired in the source workspace, 2026-08.** The question-tracker channel described below accumulated thirteen unanswered blocks, and the scheduled runtime failed dark for roughly five weeks behind a silently-expired credential. Everything here is kept as the predecessor design. Successor: [`../board/`](../board/) — one canonical card store plus an explicit delegation queue drained on demand, with questions written onto the card instead of into a separate file.
+
 A handful of markdown files that let the user and Claude track work across sessions. The layer is built around a single state machine:
 
 ```
@@ -32,3 +34,5 @@ user note  →  Claude asks clarifying Q  →  user answers  →  Claude actions
 ## See also
 
 - [`To-Do-Notes.example.md`](To-Do-Notes.example.md): sample master list with active, completed, and archived sections.
+- [`HEARTBEAT.md`](HEARTBEAT.md): the retired scheduled agent's operational instructions, kept as the predecessor design.
+- [`../board/README.md`](../board/README.md): the successor module: card store, three design rules, and the explicit delegation queue that replaced agent-discovered work.

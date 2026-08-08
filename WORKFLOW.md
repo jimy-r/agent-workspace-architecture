@@ -43,14 +43,14 @@ Work happens primarily in the **Claude desktop app**, treated as a command dashb
 ### During the day
 - Work flows across two or three live sessions. When one hits a blocker or waits on a subagent, focus shifts to another. Sessions aren't "background"; they're parked and resumed.
 - New task surfaces → new session, named for the task. Context doesn't get switched inside an existing session; a new session gets spun up.
-- Items that don't warrant action this minute → captured to the task queue. The heartbeat agent (every two hours) picks them up, drafts clarifying questions, and actions cleared items next cycle.
+- Items that don't warrant action this minute → dumped into the board's scratchpad, unstructured. A later session turns each note into a card carrying a literal next action and an honest owner, and strikes the note it came from.
 
 ### Away from desk
 - Phone takes over. Claude Android app + voice dictation + Remote Control terminals. Same workflow, different surface.
 - Can run several hours a day this way; the remote terminals keep state warm between interactions.
 
 ### Close-out
-- Task complete → invoke the [`wrap`](samples/.claude/skills/wrap/SKILL.md) skill. It handles the close-out ritual: update the task list, resolve linked heartbeat questions, sweep registries.
+- Task complete → invoke the [`wrap`](samples/.claude/skills/wrap/SKILL.md) skill. It handles the close-out ritual: close the card, resolve anything linked to it, sweep registries, and log a per-task token record for the metrics page.
 - Task ongoing → just walk away. Session stays open. Pick up next time.
 
 ---
@@ -70,19 +70,21 @@ Work happens primarily in the **Claude desktop app**, treated as a command dashb
 ## How tasks flow
 
 ### Capture first, action later
-- Raw notes land in a shared task list. No pressure to structure them at capture time.
-- The 2-hourly heartbeat agent reads the list, posts clarifying questions for each new item, and actions cleared items on later cycles.
-- The user works items as interest dictates, not strict priority or FIFO. The queue is a standing offer, not a schedule.
+- Raw notes land in the board's scratchpad. No pressure to structure them at capture time, and a note is never counted as a task until someone decides it is one.
+- Triage happens in a session. Each note becomes a card with a real next action and an honest owner, or it gets struck as nothing. Judgment sits here, not at capture.
+- The user works cards as interest dictates, not strict priority or FIFO. The board is a standing offer, not a schedule.
 
 ### When the user plans, when the agent plans
 - Session starts → user states the goal → agent proposes a plan → user OKs or redirects.
 - No fixed threshold for "needs a plan first". Simple changes just happen. Anything structural gets a plan written before code.
 
-### Heartbeat as a working colleague
-- The heartbeat doesn't grind the queue mechanically. It asks for missing context, holds items until they're actionable, batches similar questions.
-- The user answers inline in the questions file. The next cycle picks the answers up.
+### Delegation, and the colleague that used to do it
+- A heartbeat agent held this job until August 2026. Every two hours it read the task list, held items until they looked actionable, batched similar questions, and asked for whatever context it judged missing. It did not grind the queue mechanically, and that part worked.
+- The asking is what broke. Questions went into a separate tracker file and thirteen accumulated unanswered, each one freezing the task behind it. Separately, the schedule itself failed dark for about five weeks behind an expired credential nobody was watching.
+- Delegation is now explicit. The user marks a card delegated, answers a short intake round on the spot (what done looks like, which folders are writable, what constrains the approach, how the likely forks should be ruled), and a drain skill works the queued cards on demand inside a live session.
+- A question raised mid-work goes onto the card being worked, in the same view the user already reads. Answering it is a one-line edit.
 
-This interplay between heartbeat-led planning and in-session planning is still under active tuning.
+The interplay between queued delegation and in-session planning is still under active tuning. Two cards have been drained this way, both clean, which is early evidence rather than a track record.
 
 ---
 
@@ -98,9 +100,9 @@ The pattern: hand the main thread the task and the context pointers; let it rout
 
 ## What the workspace gives you that a single long loop does not
 
-- **Resumable state across many surfaces.** Desktop, phone, voice, and remote terminals all see the same task queue and memory.
+- **Resumable state across many surfaces.** Desktop, phone, voice, and remote terminals all see the same card store and memory.
 - **A morning brief that is actually actionable.** Calendar, weather, AI news, open questions, and overnight activity in one place.
-- **A heartbeat that narrows questions before asking.** Work doesn't stall waiting on vague user input.
+- **A delegation queue where a question tracker used to sit.** The old claim here was that a background agent narrowing its questions kept work from stalling on vague input. Work stalled anyway, thirteen questions deep, in a file nobody opened. Intent is now taken at the moment of delegation from the person who holds it, and anything the work raises later is written on the card being worked.
 - **Typed memory.** User profile, feedback, project state, and reference pointers stay separable rather than collapsing into one long note.
 - **A credentials discipline.** Every API key and token lives in a password manager; files reference item names only, never values.
 - **Routine skills.** `orient`, `tasks`, `wrap`, `verify-completion`, and `systematic-debugging`, invokable the same way whether you're at desktop, phone, or voice.
@@ -113,7 +115,7 @@ The cost is real: when the platform ships a new feature, integrating it is work,
 
 Worth naming: there's a real question about how much structure versus autonomy is optimal.
 
-**Structured workspaces** (this approach) buy: predictable entry points, reusable skills and roles, a shared task queue, credential safety, a morning brief, a heartbeat. Cost: platform features land in the framework on a lag; integrations are ongoing work.
+**Structured workspaces** (this approach) buy: predictable entry points, reusable skills and roles, a shared card store, credential safety, a morning brief, an explicit delegation queue. Cost: platform features land in the framework on a lag; integrations are ongoing work.
 
 **Autonomous agents** (single loop, long-horizon) buy: pace-of-platform, less integration work, more emergent behaviour. Cost: weaker auditability, fewer guardrails, harder to split work across days and surfaces.
 
@@ -123,4 +125,4 @@ If that shape resonates, you're the audience for this repo. If it feels over-str
 
 ---
 
-*Last verified against the repo structure on **2026-06-10**.*
+*Last verified against the repo structure on **2026-08-08**.*

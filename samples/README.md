@@ -42,13 +42,13 @@ samples/
 │   ├── agents/                       # 4 workspace custom subagents
 │   │   ├── audit.md                  # weekly upgrade auditor (multi-phase setup review)
 │   │   ├── audit-second-opinion.md   # quarterly independent second-opinion auditor
-│   │   ├── heartbeat.md              # 2-hourly project manager
+│   │   ├── heartbeat.md              # 2-hourly project manager (retired 2026-08; see board/)
 │   │   └── researcher.md             # auto-routed evidence-based investigator
 │   │
 │   └── scheduled-tasks/              # SKILL.md files fired by OS-level scheduler
 │       ├── morning-brief/SKILL.md    # daily brief orchestrator
 │       ├── consolidate-memory/SKILL.md
-│       ├── heartbeat-monitor/SKILL.md
+│       ├── heartbeat-monitor/SKILL.md# retired 2026-08 with the agent it fired
 │       └── upgrade-audit/SKILL.md
 │
 ├── scripts/                          # Python + PowerShell helpers
@@ -85,8 +85,13 @@ samples/
 ├── tests/
 │   └── audit_canaries/               # known-bad fixtures the audit must keep detecting
 │
-└── tasks/                            # task-coordination layer
-    ├── README.md                     # how the coordination layer works
+├── board/                            # task board + explicit delegation queue (current design)
+│   ├── README.md                     # module design doc: card schema, the three rules, why it replaced the scheduled agent
+│   ├── board.example.md              # synthetic card store (ten cards, four areas, backlog notes)
+│   └── agent-queue.SKILL.example.md  # delegation skill: intake interview, drain procedure, Iron Laws
+│
+└── tasks/                            # task-coordination layer (retired predecessor, kept for study)
+    ├── README.md                     # how the coordination layer worked
     ├── To-Do-Notes.example.md        # sample master task list
     ├── HEARTBEAT.md                  # heartbeat agent operational instructions
     ├── HEARTBEAT_REVIEWS.md          # review queue for sandbox-built work
@@ -102,15 +107,16 @@ samples/
 - [`roles/_template.md`](roles/_template.md): role skeleton + fields.
 - [`.claude/settings.example.json`](.claude/settings.example.json): hook configuration.
 - [`.claude/skills/orient/SKILL.md`](.claude/skills/orient/SKILL.md): example skill.
-- [`tasks/README.md`](tasks/README.md): async Q&A coordination layer.
+- [`board/board.example.md`](board/board.example.md): the card store the coordination layer runs on. [`board/README.md`](board/README.md) is its design doc.
 
 Follow [`ADOPTION.md`](../ADOPTION.md); the 5-step walkthrough maps these samples to concrete setup steps.
 
 ### Full library (reference implementations, fork to adapt)
 
+- [`board/`](board/): the **task board module** — the current coordination design. A card schema where `status` and `area` are fields, a recurring lane, and an explicit delegation queue whose intake interview runs at the moment the operator delegates. Read `README.md` there for the succession reasoning; it replaced the scheduled agent in `tasks/`.
 - [`roles/`](roles/): **17 canonical roles**. Each is pure (no entity facts), composed with a project `CONTEXT.md` via a thin binding in `<project>/.claude/agents/`. Domain-specific roles (e.g. `accountant.md` is Australian-CPA flavoured) may need localisation; treat as template.
-- [`.claude/skills/`](.claude/skills/): **10 workspace skills** for session management, queue-draining (heartbeat reviews + audit findings), output discipline, verification, and goal-loop design.
-- [`.claude/agents/`](.claude/agents/): **4 custom subagents**: the weekly auditor, its quarterly second-opinion counterpart, a task-queue project manager, and an auto-routed researcher.
+- [`.claude/skills/`](.claude/skills/): **10 workspace skills** for session management, queue-draining (heartbeat reviews + audit findings), output discipline, verification, and goal-loop design. The board module's own two skills ship alongside it in [`board/`](board/).
+- [`.claude/agents/`](.claude/agents/): **4 custom subagents**: the weekly auditor, its quarterly second-opinion counterpart, a task-queue project manager (retired 2026-08, kept as the studied predecessor), and an auto-routed researcher.
 - [`.claude/scheduled-tasks/`](.claude/scheduled-tasks/): **4 SKILL.md files** fired by an OS-level scheduler (Windows Task Scheduler / cron / launchd) via the `run-scheduled-skill.ps1` wrapper — which since 2026-06-10 runs a deterministic preflight gate and a per-skill model map before any model is invoked. The `morning-brief/SKILL.md` shows the full daily-orchestrator pattern.
 - [`scripts/`](scripts/): **~25 helpers** consumed by the scheduled tasks and the audit. Each is standalone, stdlib-first where possible. The newest cluster is the Token Budget module: `token_report.py` (spend telemetry), `heartbeat/preflight_gate.py` (spend avoidance), `audit_checks/run_all.py` (coded assertions). `wrap_drift_scan.py` is the read-only close-out surfacer that works the loop-selection pattern (a SURFACE-bucket nudge, never silent autonomy).
 - [`tests/audit_canaries/`](tests/audit_canaries/): the known-bad fixtures the audit must keep flagging — detection is asserted end-of-run, not by checking the fixtures exist.
@@ -128,4 +134,4 @@ See the root [ADOPTION.md](../ADOPTION.md) for the 5-step walkthrough.
 
 ---
 
-*Last verified against the repo structure on **2026-06-10**.*
+*Last verified against the repo structure on **2026-08-08**.*

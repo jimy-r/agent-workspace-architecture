@@ -15,7 +15,7 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Agent Workspace Architecture — an interactive tour">
-<meta name="twitter:description" content="A worked reference for a personal agent workspace, with the reasoning attached: thirteen load-bearing patterns and one task moving through the system end to end.">
+<meta name="twitter:description" content="A worked reference for a personal agent workspace, with the reasoning attached: fourteen load-bearing patterns and one task moving through the system end to end.">
 <meta name="twitter:image" content="https://jimy-r.github.io/agent-workspace-architecture/assets/social-card.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%237F1D1D'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='38' font-weight='bold' text-anchor='middle' fill='%23FBF9F4'%3EA%3C/text%3E%3C/svg%3E">
 <!-- Static, dependency-free, GitHub-Pages-ready. The markdown docs remain source of truth; this is a view over them. -->
@@ -165,11 +165,11 @@
     <p class="meta">One person's actual setup, redacted and published with the reasoning attached. The example runs in Claude Code, but the architecture ports to any agent runtime. This page is the five-minute tour; the docs hold the depth.</p>
     <div class="btns">
       <a href="#architecture" class="btn primary">Explore the architecture</a>
-      <a href="#patterns" class="btn ghost">Read the 13 patterns</a>
+      <a href="#patterns" class="btn ghost">Read the 14 patterns</a>
     </div>
     <div class="pillrow" aria-hidden="true">
       <span class="pill">17 expert roles</span>
-      <span class="pill">classify-then-act heartbeat</span>
+      <span class="pill">explicit delegation queue</span>
       <span class="pill">weekly self-audit</span>
       <span class="pill">dead-man's switch</span>
       <span class="pill">hook-based safety</span>
@@ -204,7 +204,7 @@
     <div class="explorer">
       <div class="modgrid" id="modules">
         <button class="mod" data-key="audit">Audit</button>
-        <button class="mod" data-key="heartbeat">Heartbeat</button>
+        <button class="mod" data-key="heartbeat">Heartbeat (retired)</button>
         <button class="mod" data-key="brief">Brief</button>
         <button class="mod" data-key="inbox">Inbox</button>
         <button class="mod" data-key="roles">Roles</button>
@@ -215,6 +215,8 @@
         <button class="mod" data-key="mirror">Public mirror</button>
         <button class="mod" data-key="refdata">Reference data</button>
         <button class="mod" data-key="tokenbudget">Token budget</button>
+        <button class="mod" data-key="sentinel">Sentinel</button>
+        <button class="mod" data-key="taskboard">Task board</button>
       </div>
       <div class="panel" id="modPanel" aria-live="polite"></div>
     </div>
@@ -224,7 +226,7 @@
 <section id="patterns">
   <div class="wrap">
     <p class="eyebrow">The thinking</p>
-    <h2>Thirteen load-bearing patterns</h2>
+    <h2>Fourteen load-bearing patterns</h2>
     <p class="lede">If you read one thing, read these — each as problem, pattern, why it beats the obvious alternative, and what it costs. Expand any card.</p>
     <div class="patterns" id="patterns-grid">
       <details class="pat" id="pattern-01-pure-roles-composed-with-project-facts">
@@ -302,7 +304,7 @@
       <details class="pat" id="pattern-10-a-skill-is-editable-weights-never-adopt">
         <summary><span class='num'>10</span><span><span class='st'>A skill is editable weights — never adopt a self-edit without a gate</span><span class='sp'>A CLAUDE.md or skill doc is plain text the agent can rewrite, and an agent watching its own transcripts can propose better wording every day. Let that loop close on itself and the system edits its own controlling instructions with nobody checking whether each edit helped.</span></span></summary>
         <div class="body">
-          <div class="row"><div class="k">Pattern</div><div class="v">Treat instruction text as optimizable weights, and gate the path from proposal to live file. Here the gate is human: the heartbeat sandboxes a change and applies nothing until approval, memory consolidation runs add/update/delete/no-op instead of blind appends, and the file-protection hook blocks even an approved edit on an unwatched path. Stage, review, adopt.</div></div>
+          <div class="row"><div class="k">Pattern</div><div class="v">Treat instruction text as optimizable weights, and gate the path from proposal to live file. Here the gate is human: a proposed change is sandboxed and applies nothing until approval, memory consolidation runs add/update/delete/no-op instead of blind appends, and the file-protection hook blocks even an approved edit on an unwatched path. Stage, review, adopt.</div></div>
           <div class="row"><div class="k">Why it beats the obvious</div><div class="v">Microsoft Research's SkillOpt (arXiv:2605.23904, MIT, v0.1.0 alpha) models a skill doc as a frozen model's trainable weights and accepts an edit only when a held-out split strictly improves. Their single-seed cautionary run: an ungated loop on a weak model with a degraded signal collapsed 0.554→0.026 (−52.8 pts) by learning to echo the document title verbatim, while the gated twin rejected every bad edit and stayed flat. Single-seed result, gains only where tasks recur with a checkable signal; the durable lesson is that a self-edit loop without an accept/reject check can optimize off a cliff. This workspace runs the human-gated cousin — no training gradient, no held-out gate, just the refusal to adopt an edit on its own say-so.</div></div>
           <div class="row"><div class="k">Cost</div><div class="v">The gate is the slow part: instruction improvements land in days, not seconds, and a rejected edit's speculative work is discarded. That latency buys never waking to a controlling file an unsupervised loop quietly rewrote.</div></div>
         </div>
@@ -331,10 +333,18 @@
           <div class="row"><div class="k">Cost</div><div class="v">A behavioral trigger that depends on the agent firing it (the log's fire count doubles as the adherence check), a held-out sample you deliberately skip to stay measurable, and a human tagging step — a model grading its own challenges is self-biased.</div></div>
         </div>
       </details>
+      <details class="pat" id="pattern-14-delegation-is-a-queue-you-fill-not">
+        <summary><span class='num'>14</span><span><span class='st'>Delegation is a queue you fill, not work the agent finds</span><span class='sp'>A background agent that finds its own work has to guess what you meant by it. This one classified the task list every two hours and posted a clarifying question when it wasn't sure. Thirteen piled up unanswered in a file nobody opened, and every task behind one stopped moving. Then an expired ambient credential let the scheduled runs fail dark for about five weeks, and the dead-man's-switch alarms landed in channels whose only readers were the dead systems themselves.</span></span></summary>
+        <div class="body">
+          <div class="row"><div class="k">Pattern</div><div class="v">Invert the direction of authorization. Work reaches the agent only when the operator marks a board card delegated, and marking it runs a one-minute intake while the intent is still in the operator's head: what done looks like, which folders may be written, what constrains the approach, and pre-rulings for the one or two decisions the work will probably hit. A drain skill actions the queue on demand inside an ordinary interactive session, validating a template floor on each card first (a literal next action, a link to a folder that exists, a checkable done-when, an effort size). A fork the intake didn't pre-rule is written back onto the card. No cron sits behind any of it.</div></div>
+          <div class="row"><div class="k">Why it beats the obvious</div><div class="v">The obvious design is the one that failed. Let the agent discover work, classify it, and ask when unsure. Discovery makes authorization ambiguous, so the agent's first job becomes inferring intent from a line written for a human reader, and that inference is where the thirteen questions came from. A queued card is the mandate, stated by the person who holds the intent at the moment they hold it. The same move fixes the question channel. A fork written on the card gets read because the board is where work gets picked up, while a dedicated questions file is a channel with no reader. And running on demand in a live session removes the whole class of unattended-runtime failure. The credential is the session's own, the operator is present, and a broken drain is visible in the moment rather than five weeks later.</div></div>
+          <div class="row"><div class="k">Cost</div><div class="v">Nothing happens while you're away. The queue is inert until someone runs the drain, so a queue nobody drains goes stale as quietly as a dead scheduler; the session-start briefing that reports the queue count is the mitigation. Delegation also costs a minute of attention per card, at the moment you would rather move on, and that minute is where the quality comes from — a card queued in a hurry buys plausible-wrong work later. Early evidence is thin but positive. The first drain closed two of two cards with no rework.</div></div>
+        </div>
+      </details>
     </div>
     <div class="compose">
       <h3>They're not independent</h3>
-      <p>Three instincts, each applied in two places. <strong>Keep damage out of durable surfaces</strong> — the credential law and the file-protection hook. <strong>One source of truth, referenced not copied</strong> — the roles library and memory hygiene. <strong>Route by consequence, not by confidence</strong> — classify-then-act for tasks, tier-by-impact for findings. Adopt each when you feel the friction it removes, not before.</p>
+      <p>Three instincts, each applied in two places. <strong>Keep damage out of durable surfaces</strong> — the credential law and the file-protection hook. <strong>One source of truth, referenced not copied</strong> — the roles library and memory hygiene. <strong>Route by consequence, not by confidence</strong> — tier-by-impact for findings, and the gate on the agent's edits to its own instructions. Turned on the coordinator itself, that instinct came back negative. Classify-then-act ran here for months and was retired, because letting the agent discover its own work left authorization ambiguous and the unattended runtime failed silently. Adopt each when you feel the friction it removes, not before.</p>
     </div>
   </div>
 </section>
@@ -343,7 +353,7 @@
   <div class="wrap">
     <p class="eyebrow">In motion</p>
     <h2>A task, end to end</h2>
-    <p class="lede">What static files can't show: how one task moves through the system without you babysitting it. Step through it.</p>
+    <p class="lede">What static files can't show: how one task moves through the system, from a captured note to verified work. Step through it.</p>
     <div class="pipe" id="pipe" aria-hidden="true"></div>
     <div class="stepcard" aria-live="polite">
       <div class="sn" id="stepNum"></div>
@@ -364,7 +374,7 @@
     <h2>Read it, fork it, or hand it to your agent</h2>
     <p class="lede">The docs follow Diátaxis: why, what, how, and scaffolding to copy.</p>
     <div class="cards">
-      <a class="doc" href="https://github.com/jimy-r/agent-workspace-architecture/blob/main/PATTERNS.md"><span class="dt">PATTERNS.md → Why</span><span class="dd">The thirteen decisions, with the reasoning and the cost of each.</span></a>
+      <a class="doc" href="https://github.com/jimy-r/agent-workspace-architecture/blob/main/PATTERNS.md"><span class="dt">PATTERNS.md → Why</span><span class="dd">The fourteen decisions, with the reasoning and the cost of each.</span></a>
       <a class="doc" href="https://github.com/jimy-r/agent-workspace-architecture/blob/main/META_ARCHITECTURE.md"><span class="dt">META_ARCHITECTURE.md → What</span><span class="dd">The full structural map, with diagrams.</span></a>
       <a class="doc" href="https://github.com/jimy-r/agent-workspace-architecture/blob/main/ADOPTION.md"><span class="dt">ADOPTION.md → How</span><span class="dd">A five-step build, minimum-viable at each step.</span></a>
       <a class="doc" href="https://github.com/jimy-r/agent-workspace-architecture/tree/main/samples"><span class="dt">samples/ → Scaffold</span><span class="dd">Role, skill, and context files to fork and adapt.</span></a>
@@ -400,13 +410,13 @@
     input:{title:"Input methods", detail:"Keyboard, or voice dictation that drops transcribed text into whatever field has focus. The entry point is deliberately boring: the intelligence is downstream, so any input surface works and none of them lock you in."},
     entry:{title:"Entry points", detail:"A terminal launcher, the desktop and mobile apps, remote dispatch from a phone, a voice channel. The same workspace answers from all of them, so work isn't tied to one machine or one room."},
     session:{title:"The session", detail:"Every session boots with its standing context (an auto-loaded CLAUDE.md, per project and globally), a typed memory index, and hooks that fire on tool use. This is the layer that makes the agent yours: it knows the conventions before it answers the first question."},
-    branches:{title:"Personas · Routines · MCP", detail:"Three working branches. Personas are pure expert roles composed with project facts at invocation. Routines are recurring agents (a 2-hourly project manager, a weekly auditor) plus one-shot launchers. MCP servers connect outside tools — calendar, mail, a browser, a code-packer. Each branch is swappable without touching the others."},
-    subagents:{title:"Subagents & tool servers", detail:"Where the work happens. Composed role-bindings do scoped expert work; scheduled agents advance the task queue and audit the workspace; tool servers reach the outside world. The orchestration above decides who runs and gates what each one is allowed to do."}
+    branches:{title:"Personas · Routines · MCP", detail:"Three working branches. Personas are pure expert roles composed with project facts at invocation. Routines are recurring agents (a weekly auditor, a daily brief) plus one-shot launchers. MCP servers connect outside tools — calendar, mail, a browser, a code-packer. Each branch is swappable without touching the others."},
+    subagents:{title:"Subagents & tool servers", detail:"Where the work happens. Composed role-bindings do scoped expert work; scheduled agents audit the workspace and file the daily brief; a drain skill actions whatever the operator has delegated on the board; tool servers reach the outside world. The orchestration above decides who runs and gates what each one is allowed to do."}
   };
 
   var moduleData = {
     audit:{title:"Audit", detail:"A weekly upgrade audit. Its first job is finding improvements: public-source research plus a module-by-module critique of the workspace against current best practice. The same sweep covers configs, the security envelope, drift, and context bloat; findings are tiered and tracked in a ledger, and synthetic canaries confirm it still catches known-bad fixtures."},
-    heartbeat:{title:"Heartbeat", detail:"A 2-hourly project manager. It classifies the task queue, builds the safe-by-default work in a sandbox, lodges it for review, and logs every rejection so the same idea doesn't return."},
+    heartbeat:{title:"Heartbeat (retired)", detail:"The predecessor. A 2-hourly project manager that classified the task queue, built the safe-by-default work in a sandbox, lodged it for review, and logged every rejection. Retired after two failures. Its clarifying questions went to a channel nobody read, thirteen of them unanswered, and an expired ambient credential let the scheduled runs fail dark for about five weeks. The Task board's delegation queue is the successor."},
     brief:{title:"Brief", detail:"A daily situational digest — calendar, weather, AI news, task state, overnight activity — rendered to email and sent to self. Idempotent, so a re-run never double-sends."},
     inbox:{title:"Inbox", detail:"Hands-on mail and receipt triage. It groups items by proposed action and gates each batch for approval before anything is labelled, archived, or written to a financial file."},
     roles:{title:"Roles", detail:"Seventeen pure expert personas plus thin project bindings. A validator runs every cycle to catch a binding that points at a role or context that moved."},
@@ -416,16 +426,18 @@
     session:{title:"Session workflow", detail:"The skills that run a session start to finish: orient at the start, checkpoint to bridge a compaction, a task readout, and a wrap ritual that integrates the work at the end."},
     mirror:{title:"Public mirror", detail:"This repository. A redacted, world-readable snapshot held to its privacy bar by a CI gate and a local pre-commit hook, so nothing identifying slips into a public commit."},
     refdata:{title:"Reference data", detail:"Durable structured inputs — a services registry, mail rules, research briefs — that several modules read. Each carries its own schema and is validated on write."},
-    tokenbudget:{title:"Token budget", detail:"Measures and caps token spend. A deterministic preflight gate skips scheduled cycles that have nothing to do, scheduled work runs a cheaper model tier with a capped thinking budget, and daily spend telemetry feeds the weekly audit's trend rule."}
+    tokenbudget:{title:"Token budget", detail:"Measures and caps token spend. A deterministic preflight gate skips scheduled cycles that have nothing to do, scheduled work runs a cheaper model tier with a capped thinking budget, and daily spend telemetry feeds the weekly audit's trend rule."},
+    sentinel:{title:"Sentinel", detail:"The zero-prompt posture. Interactive approvals are removed wholesale, an always-applies deny floor silently blocks the irreversible, outward, and self-modifying minority, and a deterministic action log with a closed set of hard tripwires is the post-hoc monitor. Prompts turn out to be separable from enforcement."},
+    taskboard:{title:"Task board", detail:"One canonical markdown card store rendered to a local web view, and the single pane over outstanding work. Every card carries a literal next action and an honest owner; columns are categories, never workflow stages. Cards the operator marks delegated form an explicit agent queue that a drain skill actions on demand, never on a schedule."}
   };
 
   var steps = [
-    {n:"Step 01", stage:"Arrives", title:"A task lands in the queue", body:"Something gets added to the task list — say, “add a docker-compose for local dev.” Nobody is at the keyboard. The next heartbeat cycle, two hours away at most, will pick it up."},
-    {n:"Step 02", stage:"Classify", title:"The heartbeat classifies it", body:"Has-default, needs-intent, or out-of-scope? This one has an obvious correct shape, so it's has-default. An ambiguous task would instead get a clarifying question and wait; an out-of-scope one would be logged and left."},
-    {n:"Step 03", stage:"Sandbox", title:"It builds the work in a sandbox", body:"The agent does the change speculatively in an isolated worktree — never the live workspace. If the idea is wrong, nothing real was touched. It checks the rejection log first, so a previously-declined idea doesn't come back."},
-    {n:"Step 04", stage:"Review", title:"It lodges the result for review", body:"The finished change is surfaced in a review queue with a summary. Nothing has been applied to the real workspace yet. The queue is capped, so the agent can't bury you in proposals."},
-    {n:"Step 05", stage:"Approve", title:"You approve, and only then it lands", body:"You skim the diff and say yes — or no, which becomes a one-line decision record the agent greps before trying anything similar again. Approval is the only path from sandbox to real."},
-    {n:"Step 06", stage:"Audit", title:"The weekly audit checks it held", body:"Later, the scheduled auditor sweeps for drift and confirms the safety canaries still trip. If this change quietly broke something, that becomes a dated finding in the task list — silent failure made loud."}
+    {n:"Step 01", stage:"Captured", title:"A note becomes a card", body:"Something gets dumped into the scratchpad, say “add a docker-compose for local dev.” A later triage pass turns it into a board card with a literal next action and an honest owner. Capture is meant to be thoughtless; the judgment happens at triage."},
+    {n:"Step 02", stage:"Delegate", title:"You mark it delegated", body:"The operator sets the card's delegate field, and only the operator. No agent adds itself to the queue and no triage pass delegates on your behalf, so the agent never has to infer whether it was allowed to start. The card is the mandate."},
+    {n:"Step 03", stage:"Intake", title:"A one-minute intake fills in the context", body:"Delegating runs a short interview while you still hold the intent. What does done look like, which folders may be written, what constrains the approach, and how should the one or two decisions the work will probably hit be ruled. The answers land on the card."},
+    {n:"Step 04", stage:"Drain", title:"A session drains the queue on demand", body:"There is no cron. You open a session, orientation reports the queue count, and you run the drain. It validates the template floor on each card, stamps a claim so a parallel session can't double-run it, and works inside the write-scope you set."},
+    {n:"Step 05", stage:"Verify", title:"It checks the artifact, or asks on the card", body:"Done is judged against the card's done-when by reading the artifact itself, never a subagent's summary of it. A fork the intake didn't pre-rule gets written back onto the card as a blocked question — the board is the only question surface, and it's the one you already look at."},
+    {n:"Step 06", stage:"Close", title:"The close-out ritual records what it cost", body:"The card closes with a dated result line, and the wrap step logs the task's token record so the metrics page can chart weekly capacity. Freshness is event-driven, and the page says so. A stale tail means no wrap has run, not that the week was quiet."}
   ];
 
   function wireExplorer(listId, panelId, data){
