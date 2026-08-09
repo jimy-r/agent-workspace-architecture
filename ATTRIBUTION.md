@@ -21,6 +21,9 @@ The patterns in this repo were not invented here. They were borrowed, adapted, a
 | Sample validation workflow pattern, auto-categorised release notes via label matching, Dependabot-for-Actions setup, PR-size disciplines | [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code) |
 | Production-quality subagent layout, `plugin.json`/`marketplace.json` validation ideas | [wshobson/agents](https://github.com/wshobson/agents) |
 | Role-as-first-class-object, CONTEXT.md binding pattern, repo shape | Reviewed [antfu/skills](https://github.com/antfu/skills), [wshobson/commands](https://github.com/wshobson/commands), [jqueryscript/awesome-claude-code](https://github.com/jqueryscript/awesome-claude-code) |
+| Choice-scored judge specs (prompt + choice→score map), CoT-before-verdict, graded partial credit; judge templates descended from OpenAI evals | [braintrustdata/autoevals](https://github.com/braintrustdata/autoevals) (MIT; templates originally adapted from [openai/evals](https://github.com/openai/evals)) |
+| Behavior-spec format (BEHAVIOR.md, six conduct dimensions), five-class calibration matrix incl. the lucky-correct negative, code-enforced trajectory-judge contract (code folds verdicts, NA scores null, citations validated, violated clause quoted verbatim) | [braintrustdata/agentbehavior](https://github.com/braintrustdata/agentbehavior) (Apache-2.0) |
+| Per-criterion boolean judge decomposition (one isolated call per rubric criterion; aggregate computed in code) | [braintrustdata/braintrust-claude-plugin](https://github.com/braintrustdata/braintrust-claude-plugin) `evals/scorers.py` (MIT) — the plugin itself was reviewed and not installed |
 
 ## Audit-system patterns
 
