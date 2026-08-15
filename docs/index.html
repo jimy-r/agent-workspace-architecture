@@ -15,7 +15,7 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Agent Workspace Architecture — an interactive tour">
-<meta name="twitter:description" content="A worked reference for a personal agent workspace, with the reasoning attached: fourteen load-bearing patterns and one task moving through the system end to end.">
+<meta name="twitter:description" content="A worked reference for a personal agent workspace, with the reasoning attached: fifteen load-bearing patterns and one task moving through the system end to end.">
 <meta name="twitter:image" content="https://jimy-r.github.io/agent-workspace-architecture/assets/social-card.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%237F1D1D'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='38' font-weight='bold' text-anchor='middle' fill='%23FBF9F4'%3EA%3C/text%3E%3C/svg%3E">
 <!-- Plain-text views of the same reference, for models that read llms.txt. -->
@@ -250,7 +250,7 @@
 <section id="patterns">
   <div class="wrap">
     <p class="eyebrow">The thinking</p>
-    <h2>Fourteen load-bearing patterns</h2>
+    <h2>Fifteen load-bearing patterns</h2>
     <p class="lede">If you read one thing, read these — each as problem, pattern, why it beats the obvious alternative, and what it costs. Expand any card.</p>
     <div class="patterns" id="patterns-grid">
       <details class="pat" id="pattern-01-pure-roles-composed-with-project-facts">
@@ -365,6 +365,14 @@
           <div class="row"><div class="k">Cost</div><div class="v">Nothing happens while you're away. The queue is inert until someone runs the drain, so a queue nobody drains goes stale as quietly as a dead scheduler; the session-start briefing that reports the queue count is the mitigation. Delegation also costs a minute of attention per card, at the moment you would rather move on, and that minute is where the quality comes from — a card queued in a hurry buys plausible-wrong work later. Early evidence is thin but positive. The first drain closed two of two cards with no rework.</div></div>
         </div>
       </details>
+      <details class="pat" id="pattern-15-price-the-lane-before-you-migrate-it">
+        <summary><span class='num'>15</span><span><span class='st'>Price the lane before you migrate it</span><span class='sp'>Token consumption climbs even after efficiency work, because every saving gets reinvested in more agent work. At the subscription ceiling the instinctive fix is structural: migrate execution to cheaper open-weight models, buy a GPU, stand up a second inference stack. That plan nearly shipped here — and a transcript walk killed it in an afternoon.</span></span></summary>
+        <div class="body">
+          <div class="row"><div class="k">Pattern</div><div class="v">Instrument before migrating. Split consumption by lane (orchestrator vs subagents), by token class (fresh input, cache writes, cache reads, output), and by model. Then pull the configuration levers the measurement exposes, cheapest first, one variable at a time, each as a registered trial with a kill criterion and an instrument the weekly audit reads: always-on orchestration became opt-in, maximum reasoning effort was scoped to judgment lanes, and execution dropped one rung within the provider's own ladder as a measured trial. Migration stays gated on the re-measure.</div></div>
+          <div class="row"><div class="k">Why it beats the obvious</div><div class="v">The measurement surfaced three facts no price list shows: cost was 88% input-side at a 95% cache-hit rate priced at a tenth of input — a subsidy the migration would silently forfeit, since open-weight endpoints cache weakly or not at all; the local GPU could not serve one day's execution volume; and the per-subagent provider routing the design assumed does not exist in the harness, so the split needed an unaudited proxy in front of a live session credential. The configuration changes captured most of the saving with zero integration risk.</div></div>
+          <div class="row"><div class="k">Cost</div><div class="v">The instrument, and the honesty it demands: a rework-marker convention that only works if every escalation is recorded, a baseline re-verified rather than remembered, and one-variable-at-a-time patience. The meter that proves the upgrade worked is the same meter that will prove it didn't.</div></div>
+        </div>
+      </details>
     </div>
     <div class="compose">
       <h3>They're not independent</h3>
@@ -398,7 +406,7 @@
     <h2>Read it, fork it, or hand it to your agent</h2>
     <p class="lede">The docs follow Diátaxis: why, what, how, and scaffolding to copy.</p>
     <div class="cards">
-      <a class="doc" href="https://github.com/jimy-r/agent-workspace-architecture/blob/main/PATTERNS.md"><span class="dt">PATTERNS.md → Why</span><span class="dd">The fourteen decisions, with the reasoning and the cost of each.</span></a>
+      <a class="doc" href="https://github.com/jimy-r/agent-workspace-architecture/blob/main/PATTERNS.md"><span class="dt">PATTERNS.md → Why</span><span class="dd">The fifteen decisions, with the reasoning and the cost of each.</span></a>
       <a class="doc" href="https://github.com/jimy-r/agent-workspace-architecture/blob/main/META_ARCHITECTURE.md"><span class="dt">META_ARCHITECTURE.md → What</span><span class="dd">The full structural map, with diagrams.</span></a>
       <a class="doc" href="https://github.com/jimy-r/agent-workspace-architecture/blob/main/ADOPTION.md"><span class="dt">ADOPTION.md → How</span><span class="dd">A five-step build, minimum-viable at each step.</span></a>
       <a class="doc" href="https://github.com/jimy-r/agent-workspace-architecture/tree/main/samples"><span class="dt">samples/ → Scaffold</span><span class="dd">Role, skill, and context files to fork and adapt.</span></a>

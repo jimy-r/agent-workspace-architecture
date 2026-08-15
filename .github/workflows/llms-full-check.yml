@@ -1,0 +1,43 @@
+name: Check llms-full.txt
+
+on:
+  pull_request:
+    paths:
+      - 'README.md'
+      - 'PATTERNS.md'
+      - 'META_ARCHITECTURE.md'
+      - 'ADOPTION.md'
+      - 'WORKFLOW.md'
+      - 'docs/llms-full.txt'
+      - 'scripts/gen_llms_full.py'
+      - '.github/workflows/llms-full-check.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'README.md'
+      - 'PATTERNS.md'
+      - 'META_ARCHITECTURE.md'
+      - 'ADOPTION.md'
+      - 'WORKFLOW.md'
+      - 'docs/llms-full.txt'
+      - 'scripts/gen_llms_full.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      # docs/llms-full.txt is generated from the five source documents above.
+      # Editing a source without regenerating publishes a stale full-text
+      # reference to the Pages site, which is what this gate catches.
+      - name: Check llms-full.txt is current
+        run: python scripts/gen_llms_full.py --check
