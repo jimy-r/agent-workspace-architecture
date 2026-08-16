@@ -1,7 +1,11 @@
 ---
 name: heartbeat-monitor
-description: Project manager (every 2 hours) — reads To Do Notes/Questions, posts questions, actions cleared tasks, exits early if no work
+description: RETIRED 2026-08 — project manager (every 2 hours) that read To Do Notes/Questions, posted questions, actioned cleared tasks, and exited early if there was no work
 ---
+
+> **Status: retired in the source workspace, 2026-08**, with the agent it fired. Kept here unchanged as the predecessor design — the exit-early check, the anti-duplication guard and the read-only scans are all reusable. The two failure classes that retired it are recorded in [`../../../tasks/HEARTBEAT.md`](../../../tasks/HEARTBEAT.md).
+>
+> **Successor: [`../../../board/`](../../../board/)** — one canonical card store plus an explicit delegation queue, drained on demand in an interactive session. No cron, and questions attach to the card rather than to a separate file.
 
 You are the Heartbeat project manager running every 2 hours. Read your full operational instructions from `<workspace>\tasks\HEARTBEAT.md` before doing anything else.
 

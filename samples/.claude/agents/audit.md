@@ -1,6 +1,6 @@
 ---
 name: audit
-description: On-demand weekly upgrade audit — multi-phase sweep covering global setup (Phase 1), per-project (Phase 2), plugin/MCP bloat (2.5a), external-opportunity web research (2.5b), security (2.6 — credentials, file protection, hook safety, MCP exposure, git hygiene), memory retrospective (2.7), routing audit (2.8), then writes findings to tasks/To Do Notes.md § Setup Review / Security. Trust-gradient tiered auto-apply; Tier-3 findings require user approval.
+description: On-demand weekly upgrade audit — multi-phase sweep covering global setup (Phase 1), per-project (Phase 2), plugin/MCP bloat (2.5a), external-opportunity web research (2.5b), security (2.6 — credentials, file protection, hook safety, MCP exposure, git hygiene), memory retrospective (2.7), routing audit (2.8), then writes tiered findings to the ledger (`audit_ledger.py`) + `tasks/audit/SETUP_REVIEW.md`, leaving a short digest in the task list. Trust-gradient tiered auto-apply; Tier-3 findings require user approval.
 model: claude-fable-5
 permissionMode: auto
 memory: none
@@ -272,7 +272,7 @@ Each finding must be tagged with a tier. These rules are non-negotiable:
 - New workspace custom subagent with a CSO-style auto-routing description in `<workspace>/.claude/agents/<name>.md` — changes which subagent Claude spawns for certain requests
 - Role schema migration applied across the library
 
-**Tier 3 — REQUIRES APPROVAL (write to `To Do Notes.md` § Setup Review; never auto-apply):**
+**Tier 3 — REQUIRES APPROVAL (emit to the ledger, write to `tasks/audit/SETUP_REVIEW.md` § Setup Review; never auto-apply):**
 - New MCP server (authentication, permissions, network exposure)
 - New scheduled task (background I/O, possible email sends, cron registration)
 - New hook (global tool-behaviour change)
@@ -325,9 +325,9 @@ When the table and the heuristic disagree, the table wins. When both leave a cas
    - **Tier 1:** create / edit the file silently. Add a one-line entry to Phase 3 under `### Auto-applied (Tier 1)` showing: file path + character delta + pre-write mtime.
    - **Tier 2:** create / edit the file. Add a prominent entry to Phase 3 under `### New capabilities this week` at the very top of the Setup Review section.
 7. If a Tier-1 or Tier-2 change touches `<workspace>/META_ARCHITECTURE.md` (e.g. a new skill row), **do NOT push to the public redacted repo.** Note in the Phase 3 report that `/wrap` must be invoked to sync. Weekly automated pushes to a public repo are not appropriate.
-8. **Tier 3 findings: never auto-apply.** Queue to `To Do Notes.md` § Setup Review under Quick Wins or Structural Improvements per effort.
+8. **Tier 3 findings: never auto-apply.** Queue to `tasks/audit/SETUP_REVIEW.md` § Setup Review under Quick Wins or Structural Improvements per effort, and emit each to the ledger per step 10.
 9. **Reporting invariant (added 2026-04-21):** every file this audit run modifies MUST appear in the Phase 3 report under `### Auto-applied (Tier 1)`, `### New capabilities this week` (Tier 2), or `### Safety guardrail activity` (write attempted then aborted). Maintain a running write-log during the audit and cross-check it against the Phase 3 sections before finalising. If the write-log shows file modifications not reflected in Phase 3, the audit has mis-reported and must be re-run — report the discrepancy at the top of the Setup Review block.
-10. **Ledger emit (added 2026-05-28 — R3):** for every Tier-3 finding written to `To Do Notes.md` (and every Tier-1/Tier-2 auto-applied finding), call `python <workspace>/scripts/audit_ledger.py emit --category <C> --tier <T> --title <title> --source upgrade-audit-<YYYY-MM-DD>`. The UUID returned is the finding's durable identifier. Append it in parentheses at the end of the finding's bullet in the Phase 3 report so the user can mark status later via `python <workspace>/scripts/audit_ledger.py mark <uuid> accepted|dismissed|false_positive`. Categories should be consistent across cycles — examples: `Security/Credentials`, `Security/FileProtection`, `Setup/Hooks`, `Setup/Documentation`, `External/Plugins`, `External/MCP`, `Routing/MissingTrigger`, `Memory/Stale`, `Memory/SemanticDrift`, `Runtime/SilentFailure`, `Bloat/MCP`, `Bloat/Permissions`.
+10. **Ledger emit (added 2026-05-28 — R3):** for every Tier-3 finding written to `tasks/audit/SETUP_REVIEW.md` (and every Tier-1/Tier-2 auto-applied finding), call `python <workspace>/scripts/audit_ledger.py emit --category <C> --tier <T> --title <title> --source upgrade-audit-<YYYY-MM-DD>`. The UUID returned is the finding's durable identifier. Append it in parentheses at the end of the finding's bullet in the Phase 3 report so the user can mark status later via `python <workspace>/scripts/audit_ledger.py mark <uuid> accepted|dismissed|false_positive`. Categories should be consistent across cycles — examples: `Security/Credentials`, `Security/FileProtection`, `Setup/Hooks`, `Setup/Documentation`, `External/Plugins`, `External/MCP`, `Routing/MissingTrigger`, `Memory/Stale`, `Memory/SemanticDrift`, `Runtime/SilentFailure`, `Bloat/MCP`, `Bloat/Permissions`.
 
 11. **Emit-count assertion (added 2026-06-10):** before finalising, count the findings written into the full report this run and compare against the number of `audit_ledger.py emit` calls made. They MUST match — partial emission starves the adaptive weighting, the `[DORMANT]` source tagging, and the `audit-workthrough` queue (the ledger, not the markdown, is the durable findings store). On mismatch, emit the missed findings and report the discrepancy under `### Safety guardrail activity`.
 
