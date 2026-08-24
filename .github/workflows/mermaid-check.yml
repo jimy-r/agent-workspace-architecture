@@ -1,0 +1,47 @@
+name: Mermaid check
+
+# GitHub renders Mermaid client-side, so a diagram with a syntax error ships
+# without ever failing at commit time — readers just get a red "Unable to render
+# rich display" box. STYLE_GUIDE tells authors to verify rendering on GitHub
+# after a diagram change; that rule is self-attested and was skipped at least
+# once, putting a reserved-word node id (`call`) into META_ARCHITECTURE §3.
+# This job is the deterministic check behind the rule.
+#
+# docs/llms-full.txt isn't scanned: it is generated from the markdown sources
+# and gated by llms-full-check, so clean sources make it clean.
+
+on:
+  pull_request:
+    paths:
+      - '**/*.md'
+      - 'scripts/check_mermaid.mjs'
+      - '.github/workflows/mermaid-check.yml'
+  push:
+    branches: [main]
+    paths:
+      - '**/*.md'
+      - 'scripts/check_mermaid.mjs'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+
+      # Pinned rather than floating: an upstream Mermaid release should not turn
+      # an unrelated contributor's PR red. Bump deliberately, and re-run the
+      # whole repo when you do — GitHub tracks its own Mermaid version, so the
+      # pin is an approximation of the renderer, not a guarantee.
+      - name: Install Mermaid parser
+        run: npm install --no-save mermaid@11.17.0 jsdom@27.0.0
+
+      - name: Parse every mermaid block
+        run: node scripts/check_mermaid.mjs
