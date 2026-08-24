@@ -470,10 +470,10 @@ flowchart LR
     role["Canonical role<br/>roles/security-auditor.md<br/>(pure, no entity facts)"]
     ctx["Project CONTEXT.md<br/>(entity facts: stack, paths, decisions)"]
     binding["Thin binding<br/>project/.claude/agents/<br/>project-security.md<br/>(role + CONTEXT via @ includes)"]
-    call["@project-security<br/>invocable subagent"]
+    invoke["@project-security<br/>invocable subagent"]
     role --> binding
     ctx --> binding
-    binding --> call
+    binding --> invoke
 ```
 
 **Validation:** a roles validator script checks frontmatter schema + binding composition. It ran every heartbeat cycle until that agent was retired in 2026-08; it now runs inside the `health` composite and on demand, and a non-zero exit surfaces to the operator in session rather than into a questions tracker.
