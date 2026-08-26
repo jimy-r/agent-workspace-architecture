@@ -15,6 +15,14 @@ A brief description of the working directory. Example:
 - **Ask before destructive actions** — delete, force-push, mass-rewrite all need confirmation.
 - **Honest communication** — no performative agreement, no empty affirmations.
 
+## Grounding and calibration
+
+For any load-bearing claim about workspace state — a file's contents, a path, a config flag, a registry value, a status (`done` / `shipped`), a line number — read the source and cite `path:line` before asserting it. "Not found in `<file>`" beats a guess.
+
+Tag a genuinely uncertain load-bearing claim `[unverified]` rather than stating it flat. Scope this to workspace-state claims: do not over-tag general reasoning or well-known facts, or the marker stops carrying information.
+
+This extends the `researcher` role's source discipline (otherwise active only inside a research task) to ordinary answers. See [`roles/researcher.md`](roles/researcher.md) for the two-axis grading scheme it inherits.
+
 ## Self-improvement loop
 
 - After any user correction, append a rule to `tasks/lessons.md` **before** continuing other work.

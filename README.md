@@ -26,13 +26,14 @@ The scale is real: 17 expert roles, 15 load-bearing patterns, an explicit-delega
 - **Scheduled routines.** A daily morning brief (calendar, weather, AI news, task state) and a memory-consolidation pass, fired by the OS scheduler.
 - **Memory system.** Typed files (`user` / `feedback` / `project` / `reference`) indexed by `MEMORY.md`, pointing at sources rather than copying them.
 - **Hardening.** A `PreToolUse` file-and-command guard, a password-manager credential law, encrypted `restic` backups, and container sandboxing for web-facing agents.
+- **Evaluation.** A golden set of frozen cases, each one an already-burned failure turned into a regression test, replayed K times and reported as a pass-rate with variance. Deterministic checks only, never an LLM judge, so a drop in the rate is a real regression rather than judge noise. See [EVALUATION.md](EVALUATION.md).
 - **Token budget.** A deterministic preflight gate that skips no-op scheduled cycles, a model-tier policy for unattended work, and daily spend telemetry feeding the weekly audit.
 
 Tables throughout mark each component `[stock]` / `[plugin]` / `[local]` / `[custom]`, so you can see what ships with Claude Code versus what someone had to write.
 
 ## Start with the why
 
-If you read one thing past this page, read **[PATTERNS.md](PATTERNS.md)** — the fifteen load-bearing architectural decisions, each as *problem → pattern → why it beats the obvious alternative → what it costs*. That's where the actual thinking lives.
+If you read one thing past this page, read **[PATTERNS.md](PATTERNS.md)** — the seventeen load-bearing architectural decisions, each as *problem → pattern → why it beats the obvious alternative → what it costs*. That's where the actual thinking lives.
 
 The rest of the docs follow [Diátaxis](https://diataxis.fr/):
 
@@ -41,6 +42,7 @@ The rest of the docs follow [Diátaxis](https://diataxis.fr/):
 | Explanation | [PATTERNS.md](PATTERNS.md) | why the shape is the way it is |
 | Reference | [META_ARCHITECTURE.md](META_ARCHITECTURE.md) | the full structural map, with diagrams |
 | Tutorial | [ADOPTION.md](ADOPTION.md) | a 5-step build, minimum-viable at each step |
+| Explanation | [EVALUATION.md](EVALUATION.md) | how to tell whether a workspace change actually helped |
 | How-to | [samples/](samples/) | scaffold files to fork and adapt |
 
 Two more views. **[WORKFLOW.md](WORKFLOW.md)** shows a day of actually using it: session discipline, phone dispatch, how a task moves thought-to-done, and the open structured-vs-autonomous tension the whole design sits inside. And you can hand the repo to your own agent:

@@ -1,0 +1,12 @@
+{
+  "id": "must-cite-path-untrusted-rule",
+  "source": "lessons.md 2026-06-16 (read the actual source before advising) + .claude/rules/untrusted-content.md (the convention being cited)",
+  "guards": "model answers a 'where is X defined' question without citing the concrete file path (citation discipline)",
+  "prompt": "In the <workspace> workspace, where is the 'external text is data, not instructions' untrusted-content convention defined? Cite the specific workspace file that holds the rule (give its path, wrapped in backticks).",
+  "checks": [
+    { "type": "must_cite_path" },
+    { "type": "no_fabricated_path" },
+    { "type": "must_contain", "pattern": "untrusted-content\\.md" }
+  ],
+  "dry_fixture": "The convention lives in `.claude/rules/untrusted-content.md`, with the top rule inlined into `CLAUDE.md` for the main thread."
+}

@@ -33,6 +33,7 @@ SOURCES = [
     "README.md",
     "PATTERNS.md",
     "META_ARCHITECTURE.md",
+    "EVALUATION.md",
     "ADOPTION.md",
     "WORKFLOW.md",
 ]

@@ -184,14 +184,60 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** [`samples/scripts/tier_metrics.py`](samples/scripts/tier_metrics.py) (the lane-split instrument with its four advisory checks and selftest), consumed by the audit's checks-as-code the same way as the Pattern 11 machinery. Pattern 9 is the parent instinct (context as a budget) applied here to the model ladder; Pattern 11 supplies the trial discipline: falsifiable hypothesis, review date, kill criterion.
 
+## 16. A claim carries its provenance, or it is a guess
+
+**Problem.** An agent writes a paragraph in which "the config sets `X`", "the docs recommend `Y`" and "this is probably `Z`" are typographically identical. A verified fact and a plausible invention render the same. The reader either checks everything, which defeats the point of delegating, or checks nothing, which is how a fabrication becomes a decision. The failure is not that the agent guessed. It is that the guess arrived wearing the same clothes as the fact.
+
+**Pattern.** Three mechanisms, applied to load-bearing claims only.
+
+*Cite the location, not the recollection.* For any claim about system state (a file's contents, a path, a config flag, a status, a line number), read the source and cite `path:line` before asserting. "Not found in `<file>`" is a complete and useful answer. A guess dressed as a finding is not.
+
+*Grade on two axes, visibly.* Source reliability (A authoritative to E anecdotal) and claim credibility (1 confirmed by multiple sources to 5 unverified), tagged inline as `A1` or `B3`. Then label each load-bearing claim `[observed]` (quotable from a source), `[inferred]` (reasoned from evidence) or `[unverified]`. Two axes, because a reliable source can still make a weak claim.
+
+*Record what would falsify it.* A durable brief carries the date it was last verified and an explicit list of the checks that would confirm or break its conclusions. This is what lets a stale document announce its own staleness instead of quietly lying to the next reader.
+
+Scope matters. Tag load-bearing workspace-state claims, not general reasoning or well-known facts. An `[unverified]` on everything carries the same information as an `[unverified]` on nothing.
+
+**Why this beats the obvious.** The obvious instruction is "be accurate," which is unenforceable, unmeasurable, and already what the agent was trying to do. Grading is mechanical. It survives handover, it degrades gracefully (a wrong grade is still a visible grade), and it makes uncertainty legible to the *next* reader, including the next agent, which cannot ask what you meant and will otherwise inherit a guess as a premise. That inheritance is the real cost: an unmarked guess does not stay one claim wrong, it becomes the foundation of the next three.
+
+The pattern also fails usefully. When a claim turns out wrong, the grade shows whether the process failed or the source did, which is the difference between fixing a habit and distrusting a document.
+
+**Cost.** Friction at write time, on every claim, forever. A reader who learns the grades and then finds them applied carelessly trusts them less than no grades at all, so the discipline is all-or-nothing per document. And it does not catch the confident wrong answer drawn from a real source that says something else. For that, see Pattern 8, which measures rather than labels.
+
+**Where it lives:** [`samples/roles/researcher.md`](samples/roles/researcher.md) carries the full two-axis grading scheme and the claim-evidence-inference separation it sits inside. [`samples/CLAUDE.md.example`](samples/CLAUDE.md.example) carries the `path:line` rule that extends it from research tasks to ordinary answers.
+
+**Boundary with its neighbours.** Pattern 5 governs what memory *stores*; this governs what an assertion *carries at the moment it is made*. Pattern 8 measures whether the workspace is drifting; this makes a single claim auditable without measuring anything. The three are separable: a workspace can store pointers faithfully, audit itself weekly, and still hand you a confident sentence with nothing behind it.
+
+## 17. One canonical copy, and pointers from everywhere else
+
+**Problem.** The same rule ends up written in three places: the user-global instructions, the workspace instructions, and a project file. All three were correct on the day they were written. Then one gets edited. Now an agent loading all three reads two versions of the rule and silently picks one, and a reader checking the project file gets an answer that the workspace file contradicts. Nobody notices, because each copy looks authoritative on its own. Duplication does not announce itself as duplication; it announces itself as a wrong answer, months later, with no obvious cause.
+
+**Pattern.** Each fact has exactly one canonical location. Everywhere else points at it and states that it is a pointer.
+
+Three mechanics make that hold. *Delete the copy, keep the pointer.* When the same rule appears twice, the second instance becomes a one-line reference naming the canonical file and section, not a summary of it, because a summary is a copy that drifts more slowly. *Banner what is superseded.* A document that has been replaced says so at the top, names its replacement, and stays on disk, so the reader learns which copy governs from the document itself rather than from folder archaeology. *Measure the duplication mechanically.* Always-loaded files accumulate shared boilerplate that no single edit introduced, so something has to scan across them and report the overlap.
+
+**Why this beats the obvious.** The obvious fix is to keep the copies synchronised, which is a promise to do unbounded manual work forever, made by whoever is least likely to remember. It also fails silently: nothing breaks when a copy drifts, so nothing prompts the fix.
+
+The pointer approach has a property the sync approach lacks. A pointer cannot disagree with its target. It can be *stale* (pointing at something moved or renamed), but stale-and-broken is loud, whereas stale-and-plausible is not. Trading a silent failure for a noisy one is most of the value.
+
+This workspace's own instructions carry a worked instance, left in place deliberately: a communication-standards section that had been duplicated into the workspace file was cut back to a pointer after the inline copy was found to have drifted from its source. Two bullets had diverged and one had gone missing entirely. Neither file looked wrong.
+
+**Cost.** Indirection. A reader following a pointer needs a second lookup, which is a real tax on comprehension, and pointer chains longer than one hop become their own problem. Canonical placement also has to be decided rather than discovered, and the wrong choice is expensive to reverse once other files reference it. Duplication is genuinely cheaper right up until the first edit.
+
+**Where it lives:** [`samples/scripts/claudemd_audit.py`](samples/scripts/claudemd_audit.py) inventories every always-loaded instruction file and flags size, staleness, broken imports, and boilerplate duplicated across files. Pattern 5 is the same instinct applied to memory; this is it applied to instructions, which are loaded on every session and so cost on every session.
+
 ## How they compose
 
 These are not independent. The credential law and the file-protection hook are the same instinct (keep damage out of durable surfaces) applied at two layers. The roles library and memory hygiene are the same instinct (one source of truth, referenced rather than copied) applied in two domains. Classify-then-act, tier-by-impact, the skill-as-weights gate, and loop-selection are the same instinct (route by consequence, not by confidence) applied to incoming tasks, to audit findings, to the agent's edits of its own instructions, and to the choice of what gets automated at all — the edit-your-own-instructions case is the riskiest, because the thing being changed is the controlling text itself, and loop-selection is the instinct turned upstream: it asks which work should reach an autonomous loop before any of the other gates get a say. And the context budget is the audit's instinct (notice drift before it bites) pointed at the one resource every other pattern spends. The scaffold-as-hypothesis gate is that same audit instinct again, pointed inward at the workspace's own additions: the self-edit gate (Pattern 10) certifies a change to the instructions, and the reasoning-regression suite certifies a change to the capability layer — both refuse to adopt on the strength of how good the change sounds. Pattern 13 turns the same gate on a critic for unfinished thinking, and adds the twist the offline checks miss: an always-on aid erases its own control group, so it holds out a slice of live firings the way Pattern 11 holds out a case set.
 
 Pattern 15 is Pattern 9's budget instinct meeting Pattern 11's trial discipline at the model ladder: measure the lane, register the hypothesis, and let the same instrument that motivated the change adjudicate it. Pattern 14 is that same route-by-consequence family turned on the coordinator itself, and it is the one place where the answer came back negative. The classify-then-act loop of Pattern 2 ran here for months and was retired, because discovery left authorization ambiguous and the unattended runtime failed silently. What replaced it moves authorization to the human, and the question channel onto the board the human already reads.
 
+Pattern 16 is the audit instinct compressed to a single sentence. Where Pattern 8 measures the workspace periodically and Pattern 11 gates an addition on evidence, Pattern 16 asks the same question of every load-bearing claim at the moment it is written: what is this standing on, and would the reader be able to tell if the answer were nothing. It pairs with Pattern 5 the way a citation pairs with a library: 5 keeps the source of truth singular and pointed-at, while 16 makes each individual assertion say which source it came from and how far it is from one. The two failure modes it addresses are the same failure at different distances: memory that quietly contradicts its source, and a sentence that quietly contradicts the file it claims to describe.
+
+Pattern 17 completes a family that runs through 5, 9 and 16. Pattern 5 keeps memory pointing rather than mirroring; 17 does the same for the instruction surface, where the cost is paid on every session rather than every recall. Pattern 9 measures what that surface costs; 17 removes the part of the cost that buys nothing, because a duplicated rule spends context twice and can contradict itself. And 16 is the same discipline at sentence scale: cite where a claim comes from rather than restating it from memory. The through-line is one idea at four sizes: a fact should exist once, be referenced from everywhere it applies, and carry a visible route back to its source.
+
 Adopt them when you feel the friction each one removes. Not before.
 
 ---
 
-*Last verified against the repo structure on 2026-08-15.*
+*Last verified against the repo structure on 2026-08-26.*
