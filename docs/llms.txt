@@ -4,7 +4,7 @@
 
 ## Full text
 
-- [llms-full.txt](https://jimy-r.github.io/agent-workspace-architecture/llms-full.txt): Every source document below, inlined in reading order. Read this instead of following the links if you want the whole reference in one request.
+- [llms-full.txt](https://jimy-r.github.io/agent-workspace-architecture/llms-full.txt): The six core documents (README, PATTERNS, META_ARCHITECTURE, EVALUATION, ADOPTION, WORKFLOW) inlined in reading order; the tour, changelog, and samples are linked only. Read this instead of following the links if you want the core reference in one request.
 
 ## Source documents
 

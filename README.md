@@ -8,7 +8,7 @@ A reference implementation of **agent-ready knowledge architecture**: the roles,
 
 [![A 30-second pass through the interactive tour: the layered architecture, the load-bearing patterns, and one task moving through the system](docs/assets/tour.gif)](https://jimy-r.github.io/agent-workspace-architecture/)
 
-**▶ [Take the interactive tour](https://jimy-r.github.io/agent-workspace-architecture/)** — the clickable five-minute version: the layered architecture, the fifteen load-bearing patterns, and one task moving through the system end to end.
+**▶ [Take the interactive tour](https://jimy-r.github.io/agent-workspace-architecture/)** — the clickable five-minute version: the layered architecture, the seventeen load-bearing patterns, and one task moving through the system end to end.
 
 Feeding this to a model instead? [`llms.txt`](https://jimy-r.github.io/agent-workspace-architecture/llms.txt) is the link map, and [`llms-full.txt`](https://jimy-r.github.io/agent-workspace-architecture/llms-full.txt) inlines the whole reference in a single fetch.
 
@@ -16,7 +16,7 @@ The example runs in [Claude Code](https://claude.com/claude-code), so the file c
 
 This is one person's actual setup, redacted and published as a reference. Not a framework, not a product. A documented working arrangement of the pieces Claude Code already gives you, with the reasoning attached. It is also the reference version of the agent-ready memory layer I build for organisations, running at one-person scale.
 
-The scale is real: 17 expert roles, 15 load-bearing patterns, an explicit-delegation task board that succeeded a retired 2-hourly heartbeat, a weekly self-audit with synthetic canaries, a dead-man's switch over scheduled jobs, and typed memory that points at sources instead of copying them — all of it running in one person's daily workspace.
+The scale is real: 18 expert roles, 17 load-bearing patterns, an explicit-delegation task board that succeeded a retired 2-hourly heartbeat, a weekly self-audit with synthetic canaries, a dead-man's switch over scheduled jobs, and typed memory that points at sources instead of copying them — all of it running in one person's daily workspace.
 
 ## What's inside
 
@@ -86,4 +86,4 @@ The repo was renamed from `claude-workspace-architecture` on 2026-05-28; the old
 
 ---
 
-*Last verified against the repo structure on 2026-08-08.*
+*Last verified against the repo structure on 2026-08-27.*

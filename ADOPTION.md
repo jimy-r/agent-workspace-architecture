@@ -91,4 +91,4 @@ Adopt these when you feel the friction they solve, not before. The pattern only 
 
 ---
 
-*Last verified against the repo structure on **2026-08-08**. Flag drift via an Issue or correct in a PR.*
+*Last verified against the repo structure on **2026-08-27**. Flag drift via an Issue or correct in a PR.*
