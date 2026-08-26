@@ -39,7 +39,7 @@ When in doubt, generalise. If Claude drafts content with identifying info, stop 
 
 ## Scope boundaries
 
-Some files need Discussion/Issue agreement before a PR; see the Scope boundaries section in [CONTRIBUTING.md](CONTRIBUTING.md). Everything else is fair game for direct PRs.
+Some files need Issue agreement before a PR; see the Scope boundaries section in [CONTRIBUTING.md](CONTRIBUTING.md). Everything else is fair game for direct PRs.
 
 ## Before you push
 

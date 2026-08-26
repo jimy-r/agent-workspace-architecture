@@ -18,7 +18,7 @@ This repo gets AI-authored contributions. They're welcome, but there are predict
 1. **Read this file in full**, then re-read the relevant section when you draft the PR description.
 2. **Search existing Issues and PRs** for the thing you're about to submit. Duplicate or near-duplicate submissions are the single most common rejection reason.
 3. **Verify the change addresses a real, experienced problem**, not one you extrapolated from reading the code.
-4. **Check [Scope boundaries](#scope-boundaries).** If a file is in the scope-boundaries table, open a Discussion before a PR.
+4. **Check [Scope boundaries](#scope-boundaries).** If a file is in the scope-boundaries table, open an Issue before a PR.
 5. **One focused change per PR.** Do not bundle unrelated cleanups ("while I was in there..."). File separate PRs.
 6. **Get explicit human approval of the final diff** before pushing. Read the diff back to the human in plain language and ask them to confirm.
 7. **If any of 1–6 hasn't happened, stop and push back on your human partner.** Better to delay than to file a PR that will be bounced.
@@ -126,7 +126,7 @@ Include a `Co-Authored-By:` trailer for Claude-assisted commits.
 
 ## Scope boundaries
 
-Some files affect the whole repo's shape, contribution flow, or privacy posture. **Open a Discussion or Issue before PRing changes to these.** Bulk changes without prior agreement will likely get bounced.
+Some files affect the whole repo's shape, contribution flow, or privacy posture. **Open an Issue before PRing changes to these.** Bulk changes without prior agreement will likely get bounced.
 
 | File | Why |
 |---|---|
