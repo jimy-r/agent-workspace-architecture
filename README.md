@@ -40,6 +40,7 @@ The rest of the docs follow [Diátaxis](https://diataxis.fr/):
 | Quadrant | Doc | Read it for |
 |---|---|---|
 | Explanation | [PATTERNS.md](PATTERNS.md) | why the shape is the way it is |
+| Evidence | [teardowns/](teardowns/) | published architectures read against the patterns |
 | Reference | [META_ARCHITECTURE.md](META_ARCHITECTURE.md) | the full structural map, with diagrams |
 | Tutorial | [ADOPTION.md](ADOPTION.md) | a 5-step build, minimum-viable at each step |
 | Explanation | [EVALUATION.md](EVALUATION.md) | how to tell whether a workspace change actually helped |
