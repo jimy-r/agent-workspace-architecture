@@ -38,7 +38,7 @@ A reference implementation of **agent-ready knowledge architecture**: the roles,
 
 [![A 30-second pass through the interactive tour: the layered architecture, the load-bearing patterns, and one task moving through the system](docs/assets/tour.gif)](https://jimy-r.github.io/agent-workspace-architecture/)
 
-**▶ [Take the interactive tour](https://jimy-r.github.io/agent-workspace-architecture/)** — the clickable five-minute version: the layered architecture, the fifteen load-bearing patterns, and one task moving through the system end to end.
+**▶ [Take the interactive tour](https://jimy-r.github.io/agent-workspace-architecture/)** — the clickable five-minute version: the layered architecture, the eighteen load-bearing patterns, and one task moving through the system end to end.
 
 Feeding this to a model instead? [`llms.txt`](https://jimy-r.github.io/agent-workspace-architecture/llms.txt) is the link map, and [`llms-full.txt`](https://jimy-r.github.io/agent-workspace-architecture/llms-full.txt) inlines the whole reference in a single fetch.
 
@@ -46,7 +46,7 @@ The example runs in [Claude Code](https://claude.com/claude-code), so the file c
 
 This is one person's actual setup, redacted and published as a reference. Not a framework, not a product. A documented working arrangement of the pieces Claude Code already gives you, with the reasoning attached. It is also the reference version of the agent-ready memory layer I build for organisations, running at one-person scale.
 
-The scale is real: 17 expert roles, 15 load-bearing patterns, an explicit-delegation task board that succeeded a retired 2-hourly heartbeat, a weekly self-audit with synthetic canaries, a dead-man's switch over scheduled jobs, and typed memory that points at sources instead of copying them — all of it running in one person's daily workspace.
+The scale is real: 17 expert roles, 18 load-bearing patterns, an explicit-delegation task board that succeeded a retired 2-hourly heartbeat, a weekly self-audit with synthetic canaries, a dead-man's switch over scheduled jobs, and typed memory that points at sources instead of copying them — all of it running in one person's daily workspace.
 
 ## What's inside
 
@@ -63,7 +63,7 @@ Tables throughout mark each component `[stock]` / `[plugin]` / `[local]` / `[cus
 
 ## Start with the why
 
-If you read one thing past this page, read **[PATTERNS.md](PATTERNS.md)** — the seventeen load-bearing architectural decisions, each as *problem → pattern → why it beats the obvious alternative → what it costs*. That's where the actual thinking lives.
+If you read one thing past this page, read **[PATTERNS.md](PATTERNS.md)** — the eighteen load-bearing architectural decisions, each as *problem → pattern → why it beats the obvious alternative → what it costs*. That's where the actual thinking lives.
 
 The rest of the docs follow [Diátaxis](https://diataxis.fr/):
 
@@ -352,6 +352,20 @@ This workspace's own instructions carry a worked instance, left in place deliber
 
 **Where it lives:** [`samples/scripts/claudemd_audit.py`](samples/scripts/claudemd_audit.py) inventories every always-loaded instruction file and flags size, staleness, broken imports, and boilerplate duplicated across files. Pattern 5 is the same instinct applied to memory; this is it applied to instructions, which are loaded on every session and so cost on every session.
 
+## 18. Position is price — a token costs more the earlier you add it
+
+**Problem.** A team optimising context cost measures how *large* the context is and stops there. But the model API is stateless: the entire running transcript is re-sent on every inference step, and an agentic turn is not one message but a chain of them — every tool call, every file read, every edit is a step that carries the whole history back. A long session re-reads its context not once but hundreds of times, so the real cost of a token is its size times the number of steps left after it arrives. A large read at the start is paid on nearly every step that follows; the same read near the end is paid a handful of times. Prompt caching discounts the repeated prefix, often by an order of magnitude, but a tenth of a cost paid hundreds of times is still the largest line on the bill, and the discount does not stop the re-read from happening. Size is the factor everyone watches. Position and step-count are the factors that multiply it.
+
+**Pattern.** Treat context as rent paid per step, and manage both multipliers instead of only the size. *Read somewhere else:* bulk or exploratory reading goes to a subagent whose context is a separate transcript, returning a short summary so the detail never enters the caller — and give that subagent a return budget, writing detail to a file and returning a summary plus the path, because a long report pasted back is re-read for the rest of the session. *Read narrower, and later:* prefer a ranged read to a whole-file read, and defer a necessary large read to the step that needs it, since the same bytes cost a fraction when fewer steps remain to re-pay them. *Cut the steps:* batch independent tool calls into one step — five sequential reads are five full context re-reads, the same five issued together are one — and sequence only when a later call truly depends on an earlier result. *Do not rewrite the standing surface mid-session:* editing an always-loaded instruction or memory file invalidates the cached prefix and forces a fresh, costlier cache write, so batch those edits into one pass near the end. *Compact on purpose:* once carry cost is measurable, compaction is a cost tool and not only hygiene, shortening the prefix that every remaining step re-reads — paired with a pre-compaction dump so the summary loss is safe.
+
+**Why this beats the obvious.** The obvious move is "use less context," which collapses to reading less, and reading less makes the agent dumber. These levers spend the same information for less by changing *where* and *when* it is paid, not *whether* it is available: the subagent still reads the files, the ranged read still finds the fact, the deferred read still happens. Nothing is surrendered except the position that made it expensive. The insight is only actionable once measured, though — "read earlier costs more" is a hunch until an instrument reads per-step usage out of the transcript and shows a single early bulk read dominating a whole session's re-read volume while the same read late would have cost a sliver. Build the meter before trusting the intuition; the meter is what tells you which read to move.
+
+**Cost.** Every lever trades something. A subagent summary loses detail the caller might later want, which is why the return budget pairs with write-to-file rather than replacing it. Batching independent calls removes the chance to reason between them. Aggressive compaction can drop load-bearing state, so it needs the state-dump guard. And the discipline presupposes an instrument that parses per-turn usage — one more read-only tool to maintain. The failure mode to refuse is letting the cost lens override the quality one: the cheapest session is the one that read nothing and answered badly, and no token saved is worth an adversarial review skipped.
+
+**Where it lives:** [`samples/CLAUDE.md.example`](samples/CLAUDE.md.example) carries the read-in-subagent, ranged-read, batch-calls, protect-the-cache, and compact-on-purpose rules as a standing directive. Pattern 9 frames context as a budget; this prices that budget by position and step-count.
+
+**Boundary with its neighbours.** Pattern 9 says context is finite and must be spent deliberately; this says the *same* token costs differently by when in the session it is spent, a claim about price rather than quantity. Reading in a subagent to keep the caller clean is one lever here, not the whole pattern. And Pattern 8's audit instinct supplies the meter: position cost you cannot see is position cost you cannot manage.
+
 ## How they compose
 
 These are not independent. The credential law and the file-protection hook are the same instinct (keep damage out of durable surfaces) applied at two layers. The roles library and memory hygiene are the same instinct (one source of truth, referenced rather than copied) applied in two domains. Classify-then-act, tier-by-impact, the skill-as-weights gate, and loop-selection are the same instinct (route by consequence, not by confidence) applied to incoming tasks, to audit findings, to the agent's edits of its own instructions, and to the choice of what gets automated at all — the edit-your-own-instructions case is the riskiest, because the thing being changed is the controlling text itself, and loop-selection is the instinct turned upstream: it asks which work should reach an autonomous loop before any of the other gates get a say. And the context budget is the audit's instinct (notice drift before it bites) pointed at the one resource every other pattern spends. The scaffold-as-hypothesis gate is that same audit instinct again, pointed inward at the workspace's own additions: the self-edit gate (Pattern 10) certifies a change to the instructions, and the reasoning-regression suite certifies a change to the capability layer — both refuse to adopt on the strength of how good the change sounds. Pattern 13 turns the same gate on a critic for unfinished thinking, and adds the twist the offline checks miss: an always-on aid erases its own control group, so it holds out a slice of live firings the way Pattern 11 holds out a case set.
@@ -362,11 +376,13 @@ Pattern 16 is the audit instinct compressed to a single sentence. Where Pattern 
 
 Pattern 17 completes a family that runs through 5, 9 and 16. Pattern 5 keeps memory pointing rather than mirroring; 17 does the same for the instruction surface, where the cost is paid on every session rather than every recall. Pattern 9 measures what that surface costs; 17 removes the part of the cost that buys nothing, because a duplicated rule spends context twice and can contradict itself. And 16 is the same discipline at sentence scale: cite where a claim comes from rather than restating it from memory. The through-line is one idea at four sizes: a fact should exist once, be referenced from everywhere it applies, and carry a visible route back to its source.
 
+Pattern 18 prices what Pattern 9 budgets. Where 9 says context is finite and spent deliberately, 18 says the same token costs differently by *when* it is spent, because a stateless transcript is re-read on every step, so its levers move a read's position rather than deleting it. It closes a loop with 1 and 8: reading in a subagent — the isolation the roles library uses to keep a caller's context clean — is one of its levers, and the audit instinct of Pattern 8 supplies the meter without which position cost stays invisible.
+
 Adopt them when you feel the friction each one removes. Not before.
 
 ---
 
-*Last verified against the repo structure on 2026-08-26.*
+*Last verified against the repo structure on 2026-08-27.*
 
 
 ==============================================================================
