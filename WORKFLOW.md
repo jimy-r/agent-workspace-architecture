@@ -125,4 +125,4 @@ If that shape resonates, you're the audience for this repo. If it feels over-str
 
 ---
 
-*Last verified against the repo structure on **2026-08-08**.*
+*Last verified against the repo structure on **2026-08-27**.*

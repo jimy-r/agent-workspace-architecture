@@ -16,7 +16,7 @@ This repo is a curated artifact, not a staffed project. Contributions are genuin
 This repo gets AI-authored contributions. They're welcome, but there are predictable traps. Before drafting a PR on behalf of a human partner, do this in order:
 
 1. **Read this file in full**, then re-read the relevant section when you draft the PR description.
-2. **Search existing Issues, PRs, and Discussions** for the thing you're about to submit. Duplicate or near-duplicate submissions are the single most common rejection reason.
+2. **Search existing Issues and PRs** for the thing you're about to submit. Duplicate or near-duplicate submissions are the single most common rejection reason.
 3. **Verify the change addresses a real, experienced problem**, not one you extrapolated from reading the code.
 4. **Check [Scope boundaries](#scope-boundaries).** If a file is in the scope-boundaries table, open a Discussion before a PR.
 5. **One focused change per PR.** Do not bundle unrelated cleanups ("while I was in there..."). File separate PRs.
@@ -29,9 +29,9 @@ Maintainers may close AI-authored PRs that skip these steps without engagement. 
 
 | If you… | Go to |
 |---|---|
-| Have an idea that's still forming | [Discussions → Ideas](https://github.com/jimy-r/agent-workspace-architecture/discussions) |
-| Want to share what you've built | [Discussions → Show and tell](https://github.com/jimy-r/agent-workspace-architecture/discussions) |
-| Have a usage question | [Discussions → Q&A](https://github.com/jimy-r/agent-workspace-architecture/discussions) |
+| Have an idea that's still forming | [Open an Issue](https://github.com/jimy-r/agent-workspace-architecture/issues/new) with the `idea` label |
+| Want to share what you've built | [Open an Issue](https://github.com/jimy-r/agent-workspace-architecture/issues/new) with the `show-and-tell` label |
+| Have a usage question | [Open an Issue](https://github.com/jimy-r/agent-workspace-architecture/issues/new) with the `question` label |
 | Want to propose a concrete component | [Open an Issue → Component proposal](https://github.com/jimy-r/agent-workspace-architecture/issues/new/choose) |
 | Spotted a gap or typo | [Open an Issue → Gap or correction](https://github.com/jimy-r/agent-workspace-architecture/issues/new/choose) |
 | Want to suggest a workflow improvement | [Open an Issue → Workflow improvement](https://github.com/jimy-r/agent-workspace-architecture/issues/new/choose) |
@@ -84,7 +84,7 @@ When in doubt, generalise. Reviewers will bounce PRs that contain identifiers, n
 
 ## Proposing a new component
 
-1. **Start in [Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions).** Sketch the idea and get feedback on shape and fit before you build.
+1. **Start in an [Issue](https://github.com/jimy-r/agent-workspace-architecture/issues/new).** Sketch the idea and get feedback on shape and fit before you build.
 2. **Follow the templates.** [`samples/roles/_template.md`](samples/roles/_template.md) for roles, [`samples/CONTEXT.md.example`](samples/CONTEXT.md.example) for project context files, existing SKILL.md format for skills.
 3. **Keep entity facts out.** Roles are pure (no entity facts); infrastructure-specific details go in a `CONTEXT.md` companion, never in the role itself.
 4. **One component per PR.** Small and reviewable beats big and sprawling.
