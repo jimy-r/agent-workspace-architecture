@@ -57,6 +57,7 @@ The scale is real: 17 expert roles, 18 load-bearing patterns, an explicit-delega
 - **Memory system.** Typed files (`user` / `feedback` / `project` / `reference`) indexed by `MEMORY.md`, pointing at sources rather than copying them.
 - **Hardening.** A `PreToolUse` file-and-command guard, a password-manager credential law, encrypted `restic` backups, and container sandboxing for web-facing agents.
 - **Evaluation.** A golden set of frozen cases, each one an already-burned failure turned into a regression test, replayed K times and reported as a pass-rate with variance. Deterministic checks only, never an LLM judge, so a drop in the rate is a real regression rather than judge noise. See [EVALUATION.md](EVALUATION.md).
+- **Workspace check.** A single-file, read-only linter ([`tools/workspace_check.py`](tools/workspace_check.py)) that scores your own workspace against the mechanically-checkable patterns (context budget, hook shape, permission floor, credential hygiene, skill and agent frontmatter, duplicated instruction blocks) and prints one evidence line per check.
 - **The ecosystem map.** A separately maintained curated index of the wider tooling space: [awesome-agent-workspaces](https://github.com/jimy-r/awesome-agent-workspaces) — memory systems, evaluation, guardrails, observability, with a stated inclusion bar and a public rejection log.
 - **Token budget.** A deterministic preflight gate that skips no-op scheduled cycles, a model-tier policy for unattended work, and daily spend telemetry feeding the weekly audit.
 
@@ -76,6 +77,7 @@ The rest of the docs follow [Diátaxis](https://diataxis.fr/):
 | Tutorial | [ADOPTION.md](ADOPTION.md) | a 5-step build, minimum-viable at each step |
 | Explanation | [EVALUATION.md](EVALUATION.md) | how to tell whether a workspace change actually helped |
 | How-to | [samples/](samples/) | scaffold files to fork and adapt |
+| How-to | [tools/workspace_check.py](tools/workspace_check.py) | run a scored check of your own workspace |
 
 Two more views. **[WORKFLOW.md](WORKFLOW.md)** shows a day of actually using it: session discipline, phone dispatch, how a task moves thought-to-done, and the open structured-vs-autonomous tension the whole design sits inside. And you can hand the repo to your own agent:
 
