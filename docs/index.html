@@ -15,7 +15,7 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Agent Workspace Architecture — an interactive tour">
-<meta name="twitter:description" content="A worked reference for a personal agent workspace, with the reasoning attached: fifteen load-bearing patterns and one task moving through the system end to end.">
+<meta name="twitter:description" content="A worked reference for a personal agent workspace, with the reasoning attached: eighteen load-bearing patterns and one task moving through the system end to end.">
 <meta name="twitter:image" content="https://jimy-r.github.io/agent-workspace-architecture/assets/social-card.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%237F1D1D'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='38' font-weight='bold' text-anchor='middle' fill='%23FBF9F4'%3EA%3C/text%3E%3C/svg%3E">
 <!-- Plain-text views of the same reference, for models that read llms.txt. -->
@@ -189,7 +189,7 @@
     <p class="meta">One person's actual setup, redacted and published with the reasoning attached. The example runs in Claude Code, but the architecture ports to any agent runtime. This page is the five-minute tour; the docs hold the depth.</p>
     <div class="btns">
       <a href="#architecture" class="btn primary">Explore the architecture</a>
-      <a href="#patterns" class="btn ghost">Read the 14 patterns</a>
+      <a href="#patterns" class="btn ghost">Read the 18 patterns</a>
     </div>
     <div class="pillrow" aria-hidden="true">
       <span class="pill">17 expert roles</span>
@@ -250,7 +250,7 @@
 <section id="patterns">
   <div class="wrap">
     <p class="eyebrow">The thinking</p>
-    <h2>Fifteen load-bearing patterns</h2>
+    <h2>Eighteen load-bearing patterns</h2>
     <p class="lede">If you read one thing, read these — each as problem, pattern, why it beats the obvious alternative, and what it costs. Expand any card.</p>
     <div class="patterns" id="patterns-grid">
       <details class="pat" id="pattern-01-pure-roles-composed-with-project-facts">
@@ -433,7 +433,7 @@
     <a href="llms.txt">llms.txt</a>
     <a href="llms-full.txt">llms-full.txt</a>
     <a href="https://jamesross.ai/?utm_source=tour&amp;utm_medium=footer&amp;utm_campaign=flagship">jamesross.ai</a>
-    <span>Last updated: 2026-08-13</span>
+    <span id="last-updated">Last updated: 2026-08-13</span><script>try{var d=new Date(document.lastModified);if(!isNaN(d)){document.getElementById("last-updated").textContent="Last updated: "+d.toISOString().slice(0,10);}}catch(e){}</script>
   </div>
 </footer>
 

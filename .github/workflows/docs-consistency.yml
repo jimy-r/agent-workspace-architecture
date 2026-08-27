@@ -1,0 +1,62 @@
+name: Docs consistency
+
+# Gates the pattern-count claims against PATTERNS.md itself (audit finding
+# 570ab6e2: the tour advertised 14/fifteen patterns while PATTERNS.md carried
+# seventeen). The count is derived, never hand-maintained here.
+
+on:
+  pull_request:
+    paths:
+      - 'PATTERNS.md'
+      - 'README.md'
+      - 'docs/index.html'
+      - '.github/workflows/docs-consistency.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'PATTERNS.md'
+      - 'README.md'
+      - 'docs/index.html'
+
+permissions:
+  contents: read
+
+jobs:
+  pattern-count:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Pattern-count claims match PATTERNS.md
+        run: |
+          python3 - <<'EOF'
+          import re, sys
+          from pathlib import Path
+
+          WORDS = {10: "ten", 11: "eleven", 12: "twelve", 13: "thirteen",
+                   14: "fourteen", 15: "fifteen", 16: "sixteen",
+                   17: "seventeen", 18: "eighteen", 19: "nineteen",
+                   20: "twenty"}
+
+          n = len(re.findall(r"(?m)^## \d+\. ", Path("PATTERNS.md").read_text(encoding="utf-8")))
+          if n == 0:
+              sys.exit("PATTERNS.md has zero '## N. <title>' headings - heading format changed?")
+          word = WORDS.get(n, str(n))
+          errors = []
+          for path in ("README.md", "docs/index.html"):
+              text = Path(path).read_text(encoding="utf-8")
+              # Any 'N load-bearing patterns' / 'N patterns' claim (digit or word)
+              for m in re.finditer(r"\b(\w+)\s+(?:load-bearing\s+)?patterns\b", text, re.IGNORECASE):
+                  token = m.group(1).lower()
+                  if token in ("the", "these", "those", "all", "our", "its"):
+                      continue
+                  claimed = None
+                  if token.isdigit():
+                      claimed = int(token)
+                  elif token in WORDS.values():
+                      claimed = next(k for k, v in WORDS.items() if v == token)
+                  if claimed is not None and claimed != n:
+                      errors.append(f"{path}: claims '{m.group(0)}' but PATTERNS.md has {n}")
+          if errors:
+              sys.exit("\n".join(errors))
+          print(f"OK: every numeric pattern claim matches PATTERNS.md ({n} / '{word}')")
+          EOF
