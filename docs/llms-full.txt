@@ -50,7 +50,7 @@ The scale is real: 18 expert roles, 18 load-bearing patterns, an explicit-delega
 
 ## What's inside
 
-- **Roles library.** 17 pure expert personas (security-auditor, researcher, accountant, developmental-editor, and more) that compose with project `CONTEXT.md` files through thin bindings.
+- **Roles library.** 18 pure expert personas (security-auditor, researcher, accountant, developmental-editor, and more) that compose with project `CONTEXT.md` files through thin bindings.
 - **Task board + audit subagent.** One canonical markdown card store rendered to a local served view, with an explicit delegation queue. The operator marks a card queued, a short intake interview captures what done looks like and which folders may be written, and a drain skill actions the queue inside a live session. The close-out ritual logs a per-task token record, so the metrics page charts capacity from finished work rather than from a schedule. A 2-hourly classify-then-act heartbeat held this job until August 2026. It was retired, and its design stays in [`samples/tasks/`](samples/tasks/) as the studied predecessor. Alongside sits the weekly upgrade audit, whose first job is finding improvements (public-source research plus a module-by-module critique against current best practice), with configs, security, and drift checked in the same sweep.
 - **Custom skills.** `orient`, `wrap`, `tasks`, `review-queue`, `audit-workthrough`, `terse-mode`, `verify-completion`, `systematic-debugging`, `goal-design`, `role-pressure-test`.
 - **Scheduled routines.** A daily morning brief (calendar, weather, AI news, task state) and a memory-consolidation pass, fired by the OS scheduler.
