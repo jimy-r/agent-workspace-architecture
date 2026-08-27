@@ -93,7 +93,7 @@ When in doubt, generalise. Reviewers will bounce PRs that contain identifiers, n
 
 - **One focused change per PR.** Refactors and content additions go in separate PRs.
 - **Run the redaction check before pushing.** A quick `grep` for personal identifiers, paths, business specifics. Any hit, fix it before `git add`. CI runs an automated pattern-based redaction scan on every PR as a backstop; it catches generic shapes only, so the human grep is still the real check.
-- **Preview rendering on GitHub** if you've touched a Mermaid diagram or heavy markdown. Mermaid especially can render differently between editors and GitHub.
+- **Run the Mermaid check if you've touched a diagram:** `npm install --no-save mermaid jsdom && node scripts/check_mermaid.mjs`. CI runs it too. Then still preview on GitHub, because parsing clean and laying out well are different things.
 - **PR description should answer:** what changed, why, and did you run the redaction check?
 - Keep existing tone: terse, structural, opinionated.
 

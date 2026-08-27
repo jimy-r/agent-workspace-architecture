@@ -44,7 +44,8 @@ Markers help readers budget adoption effort at a glance.
 - **Use Mermaid** (GitHub renders it natively). Don't commit ASCII diagrams except inside `<details>` as text fallback.
 - Flowcharts for hierarchy, sequence diagrams for workflows, state diagrams where relevant.
 - Keep node text short; use `<br/>` for line breaks inside a node label.
-- After committing a diagram change, open the file on GitHub and verify rendering. Mermaid renders slightly differently in different editors.
+- **Validate before you push:** `npm install --no-save mermaid jsdom && node scripts/check_mermaid.mjs` parses every diagram in the repo. CI runs the same check, so a syntax error fails the PR instead of shipping as a red "Unable to render rich display" box.
+- Parsing is not rendering. After a diagram change, still open the file on GitHub and look at it. Mermaid lays out slightly differently in different editors.
 
 ## Freshness footer
 

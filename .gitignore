@@ -12,6 +12,10 @@ Thumbs.db
 *.tmp
 *.swp
 
+# Node (scripts/check_mermaid.mjs installs mermaid + jsdom with --no-save)
+node_modules/
+package-lock.json
+
 # Python
 *.pyc
 __pycache__/
