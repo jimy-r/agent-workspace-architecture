@@ -8,7 +8,7 @@ A reference implementation of **agent-ready knowledge architecture**: the roles,
 
 [![A 30-second pass through the interactive tour: the layered architecture, the load-bearing patterns, and one task moving through the system](docs/assets/tour.gif)](https://jimy-r.github.io/agent-workspace-architecture/)
 
-**▶ [Take the interactive tour](https://jimy-r.github.io/agent-workspace-architecture/)** — the clickable five-minute version: the layered architecture, the fifteen load-bearing patterns, and one task moving through the system end to end.
+**▶ [Take the interactive tour](https://jimy-r.github.io/agent-workspace-architecture/)** — the clickable five-minute version: the layered architecture, the eighteen load-bearing patterns, and one task moving through the system end to end.
 
 Feeding this to a model instead? [`llms.txt`](https://jimy-r.github.io/agent-workspace-architecture/llms.txt) is the link map, and [`llms-full.txt`](https://jimy-r.github.io/agent-workspace-architecture/llms-full.txt) inlines the whole reference in a single fetch.
 
@@ -16,7 +16,7 @@ The example runs in [Claude Code](https://claude.com/claude-code), so the file c
 
 This is one person's actual setup, redacted and published as a reference. Not a framework, not a product. A documented working arrangement of the pieces Claude Code already gives you, with the reasoning attached. It is also the reference version of the agent-ready memory layer I build for organisations, running at one-person scale.
 
-The scale is real: 17 expert roles, 15 load-bearing patterns, an explicit-delegation task board that succeeded a retired 2-hourly heartbeat, a weekly self-audit with synthetic canaries, a dead-man's switch over scheduled jobs, and typed memory that points at sources instead of copying them — all of it running in one person's daily workspace.
+The scale is real: 17 expert roles, 18 load-bearing patterns, an explicit-delegation task board that succeeded a retired 2-hourly heartbeat, a weekly self-audit with synthetic canaries, a dead-man's switch over scheduled jobs, and typed memory that points at sources instead of copying them — all of it running in one person's daily workspace.
 
 ## What's inside
 
@@ -28,13 +28,14 @@ The scale is real: 17 expert roles, 15 load-bearing patterns, an explicit-delega
 - **Hardening.** A `PreToolUse` file-and-command guard, a password-manager credential law, encrypted `restic` backups, and container sandboxing for web-facing agents.
 - **Evaluation.** A golden set of frozen cases, each one an already-burned failure turned into a regression test, replayed K times and reported as a pass-rate with variance. Deterministic checks only, never an LLM judge, so a drop in the rate is a real regression rather than judge noise. See [EVALUATION.md](EVALUATION.md).
 - **Workspace check.** A single-file, read-only linter ([`tools/workspace_check.py`](tools/workspace_check.py)) that scores your own workspace against the mechanically-checkable patterns (context budget, hook shape, permission floor, credential hygiene, skill and agent frontmatter, duplicated instruction blocks) and prints one evidence line per check.
+- **The ecosystem map.** A separately maintained curated index of the wider tooling space: [awesome-agent-workspaces](https://github.com/jimy-r/awesome-agent-workspaces) — memory systems, evaluation, guardrails, observability, with a stated inclusion bar and a public rejection log.
 - **Token budget.** A deterministic preflight gate that skips no-op scheduled cycles, a model-tier policy for unattended work, and daily spend telemetry feeding the weekly audit.
 
 Tables throughout mark each component `[stock]` / `[plugin]` / `[local]` / `[custom]`, so you can see what ships with Claude Code versus what someone had to write.
 
 ## Start with the why
 
-If you read one thing past this page, read **[PATTERNS.md](PATTERNS.md)** — the seventeen load-bearing architectural decisions, each as *problem → pattern → why it beats the obvious alternative → what it costs*. That's where the actual thinking lives.
+If you read one thing past this page, read **[PATTERNS.md](PATTERNS.md)** — the eighteen load-bearing architectural decisions, each as *problem → pattern → why it beats the obvious alternative → what it costs*. That's where the actual thinking lives.
 
 The rest of the docs follow [Diátaxis](https://diataxis.fr/):
 

@@ -53,3 +53,13 @@ Rule: when a new shortcut emerges, ask once then add it to this table — so the
 **Iron Law: credentials never live in files.** Passwords, API keys, tokens, recovery codes all live in your password manager. This file references credentials only by their password-manager item name, never their value.
 
 If the user pastes a credential into chat (happens occasionally), refuse to save it, explain why, and recommend regeneration because the transcript has already leaked it.
+
+## Token discipline
+
+Context cost is size times steps. The model API is stateless, so the whole transcript is re-sent on every inference step — every tool call, not only every user message — and a token's cost is its size times the steps remaining after it enters. Manage both multipliers:
+
+- **Read in a subagent.** Bulk or exploratory reading goes to an isolated agent that returns a short summary; its context never enters the caller. Give it a return budget: write detail to a file, return a summary plus the path.
+- **Read ranges, not whole files**, and defer a big read to the step that needs it. Late is cheaper.
+- **Batch independent tool calls into one step.** Sequential calls each re-read the whole context; batched calls re-read it once. Sequence only when a later call depends on an earlier result.
+- **Do not rewrite always-loaded files mid-session.** Editing a standing instruction or memory file invalidates the cached prefix and forces a costlier re-write; batch those edits to one pass near the end.
+- **Compact on purpose** at high context — it shortens the prefix every remaining step re-reads. Pair it with a state dump so nothing load-bearing is lost.
