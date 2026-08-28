@@ -18,11 +18,11 @@ The example runs in [Claude Code](https://claude.com/claude-code), so the file c
 
 This is one person's actual setup, redacted and published as a reference. Not a framework, not a product. A documented working arrangement of the pieces Claude Code already gives you, with the reasoning attached. It is also the reference version of the agent-ready memory layer I build for organisations, running at one-person scale.
 
-The scale is real: 18 expert roles, 18 load-bearing patterns, an explicit-delegation task board that succeeded a retired 2-hourly heartbeat, a weekly self-audit with synthetic canaries, a dead-man's switch over scheduled jobs, and typed memory that points at sources instead of copying them — all of it running in one person's daily workspace.
+The scale is real: 17 expert roles, 18 load-bearing patterns, an explicit-delegation task board that succeeded a retired 2-hourly heartbeat, a weekly self-audit with synthetic canaries, a dead-man's switch over scheduled jobs, and typed memory that points at sources instead of copying them — all of it running in one person's daily workspace.
 
 ## What's inside
 
-- **Roles library.** 18 pure expert personas (security-auditor, researcher, accountant, developmental-editor, and more) that compose with project `CONTEXT.md` files through thin bindings.
+- **Roles library.** 17 pure expert personas (security-auditor, researcher, accountant, developmental-editor, and more) that compose with project `CONTEXT.md` files through thin bindings.
 - **Task board + audit subagent.** One canonical markdown card store rendered to a local served view, with an explicit delegation queue. The operator marks a card queued, a short intake interview captures what done looks like and which folders may be written, and a drain skill actions the queue inside a live session. The close-out ritual logs a per-task token record, so the metrics page charts capacity from finished work rather than from a schedule. A 2-hourly classify-then-act heartbeat held this job until August 2026. It was retired, and its design stays in [`samples/tasks/`](samples/tasks/) as the studied predecessor. Alongside sits the weekly upgrade audit, whose first job is finding improvements (public-source research plus a module-by-module critique against current best practice), with configs, security, and drift checked in the same sweep.
 - **Custom skills.** `orient`, `wrap`, `tasks`, `review-queue`, `audit-workthrough`, `terse-mode`, `verify-completion`, `systematic-debugging`, `goal-design`, `role-pressure-test`.
 - **Scheduled routines.** A daily morning brief (calendar, weather, AI news, task state) and a memory-consolidation pass, fired by the OS scheduler.
@@ -78,6 +78,12 @@ This is a **curated solo reference**, maintained best-effort. If you spot a priv
 ## Related
 
 [signal-sweep](https://github.com/signal-sweep/signal-sweep): the human-gated presence tooling that grew out of this workspace's thread-sweep module, generalized to config-driven form and co-maintained as a standalone project. Its worked-example config is this repo's own topic set.
+
+[agent-workspace-starter](https://github.com/jimy-r/agent-workspace-starter): the runnable template version of this workspace. A minimal scaffold with the session discipline and two safety hooks already running, to start a new workspace from rather than read about one.
+
+[dead-mans-switch](https://github.com/jimy-r/dead-mans-switch): a freshness checker for scheduled agent jobs. It watches for the absence of success rather than for errors, the failure mode [pattern 3](PATTERNS.md) describes.
+
+[redaction-check-action](https://github.com/jimy-r/redaction-check-action): a reusable GitHub Action version of a redaction gate. Scans a pull request's added lines for the shapes of private content before merge.
 
 ## Also here
 

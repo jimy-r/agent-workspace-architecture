@@ -1,6 +1,6 @@
 # Teardowns
 
-Written analyses of published agent architectures: what a design gets right, what it trades off, and what it conspicuously lacks, measured against the [seventeen patterns](../PATTERNS.md) this repository documents.
+Written analyses of published agent architectures: what a design gets right, what it trades off, and what it conspicuously lacks, measured against the [eighteen patterns](../PATTERNS.md) this repository documents.
 
 ## Why teardowns
 
