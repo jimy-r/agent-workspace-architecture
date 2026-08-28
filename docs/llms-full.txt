@@ -36,7 +36,7 @@ URL: https://github.com/jimy-r/agent-workspace-architecture/blob/main/README.md
 
 A reference implementation of **agent-ready knowledge architecture**: the roles, routines, hooks, skills, memory, and task coordination that make a body of working knowledge legible to AI agents, and turn a coding agent into a system you can hand work to and trust to make progress while you're away.
 
-[![A 30-second pass through the interactive tour: the layered architecture, the load-bearing patterns, and one task moving through the system](docs/assets/tour.gif)](https://jimy-r.github.io/agent-workspace-architecture/)
+[![The interactive tour's opening view: the workspace thesis, the 18 patterns, and the working chips — click through for the live tour](docs/assets/tour-static.png)](https://jimy-r.github.io/agent-workspace-architecture/)
 
 **▶ [Take the interactive tour](https://jimy-r.github.io/agent-workspace-architecture/)** — the clickable five-minute version: the layered architecture, the eighteen load-bearing patterns, and one task moving through the system end to end.
 
