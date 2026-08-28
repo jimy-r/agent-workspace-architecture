@@ -16,3 +16,7 @@
 
 # jamesross.ai — Cloudflare AI-bot-block returns 403 to bots; resolves fine in a browser.
 ^https://jamesross\.ai
+
+# Substack — bot protection returns 403 to non-browser agents; the publication
+# resolves fine in a browser (verified 200 with a browser UA, 2026-08-28).
+^https://jimyr\.substack\.com

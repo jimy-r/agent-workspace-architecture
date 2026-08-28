@@ -31,7 +31,7 @@ The `META_ARCHITECTURE.md`, `ADOPTION.md`, and `samples/` files describe pattern
 
 ## Maintainer response
 
-Private security advisories get a first response within a week. A published fix or disclosure timeline follows once the scope is understood. If you don't hear back in two weeks, ping via a Discussion (without revealing the vulnerability).
+Private security advisories get a first response within a week. A published fix or disclosure timeline follows once the scope is understood. If you don't hear back in two weeks, open a new private advisory as a ping (without revealing the vulnerability in a public channel).
 
 ---
 
