@@ -15,6 +15,7 @@ Maintained solo and best-effort. [Issues](https://github.com/jimy-r/agent-worksp
 - **[Conventional Commits](https://www.conventionalcommits.org/).** `feat:`, `fix:`, `docs:`, `refactor:`, `chore:`.
 - **Include a `Co-Authored-By:` trailer** for Claude-assisted commits.
 - **Run the redaction check before every commit** (see below).
+- **Teardown pages pass the style bar before every commit.** Anything under `teardowns/` gets the full [STYLE_GUIDE.md](STYLE_GUIDE.md) editing pass before commit — dash and compound-adjective density included. A teardown analyses someone else's published work, so its prose carries the repo's reputation harder than any other page.
 
 ## Privacy — hard rule
 
