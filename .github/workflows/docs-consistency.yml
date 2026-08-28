@@ -25,7 +25,7 @@ jobs:
   pattern-count:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Pattern-count claims match PATTERNS.md
         run: |
           python3 - <<'EOF'
