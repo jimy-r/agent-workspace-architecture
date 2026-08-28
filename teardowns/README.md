@@ -38,4 +38,10 @@ Body structure, in order: **What it is** (two or three sentences, neutral) · **
 
 Pages here are the canonical copies. Sharing on aggregator venues (with each venue's own etiquette) is a manual act; teardown-sweep's `suggested_venues` field proposes where each subject's audience already is, and its ledger records where a finished teardown actually ran.
 
-*(No teardowns published yet. The first pages land as subjects clear the ranked queue.)*
+## Published
+
+| Date | Subject | Revision read |
+|---|---|---|
+| 2026-08-28 | [herdr](2026-08-28-herdr.md) | `7b675f42af35` |
+| 2026-08-28 | [LifeOS](2026-08-28-lifeos.md) | `ce046f26495c` |
+| 2026-08-27 | [12-Factor Agents](2026-08-27-12-factor-agents.md) | `d20c728` |

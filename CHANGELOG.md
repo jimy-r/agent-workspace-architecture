@@ -2,6 +2,10 @@
 
 Human-written record of notable changes — the *why* and the *shape*, not every merged PR. Milestone batches get a tagged release with short notes (from `v1.0.0`, 2026-06-11); entries are grouped by date, newest first. Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), adapted to a dated scheme.
 
+## 2026-08-28
+
+- **Two teardowns: [LifeOS](teardowns/2026-08-28-lifeos.md) and [herdr](teardowns/2026-08-28-herdr.md).** Both came through the engagement lane rather than the ranked queue — each followed a public design exchange in the subject's own discussions. LifeOS (read at `ce046f26495c`): the single-skill distribution discipline and declined-as-a-first-class capability state earn the praise; the absences cluster on measurement, silent-failure detection, context economics and provenance, and the measurement gap played out in public when a "v7 feels worse" thread ran on single-trial evidence. herdr (read at `7b675f42af35`): the pane-state model and agent-native wait-until-blocked coordination are ahead of the field; the runtime that owns every agent's terminal still accounts for none of what those agents cost or did unattended, and its own discussions show that layer being designed in real time. The teardowns index now lists all three published pages.
+
 ## 2026-08-27
 
 - **The interactive tour caught up to the pattern set, and the reader surface stopped disagreeing with itself.** The tour rendered cards for patterns 1–15 while the set stood at 18; patterns 16 (provenance), 17 (one canonical copy) and 18 (position is price) now render as first-class cards, hand-authored from their PATTERNS.md text. Alongside it, the drift-reconcile pass corrected every stale count and claim across the reader surface (README, META, ADOPTION, SUPPORT, WORKFLOW, the tour, and the llms bundles), including a roles count that disagreed between two lines of the same README, and added a docs-consistency CI check so a numeric pattern claim that drifts from PATTERNS.md fails the build instead of waiting for a reader to notice.
