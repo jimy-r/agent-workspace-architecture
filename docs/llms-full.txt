@@ -42,6 +42,8 @@ A reference implementation of **agent-ready knowledge architecture**: the roles,
 
 Feeding this to a model instead? [`llms.txt`](https://jimy-r.github.io/agent-workspace-architecture/llms.txt) is the link map, and [`llms-full.txt`](https://jimy-r.github.io/agent-workspace-architecture/llms-full.txt) inlines the whole reference in a single fetch.
 
+New work ships irregularly: patterns, teardowns, tools, and the occasional essay. Follow along at [Agent Workspaces](https://jimyr.substack.com), or watch the repo.
+
 The example runs in [Claude Code](https://claude.com/claude-code), so the file conventions you'll see (`CLAUDE.md`, `.claude/skills/`, MCP config) are Claude-Code-specific. The architecture is not. The roles library, memory hygiene, audit cadence, explicit-delegation task board, dead-man's switch, and tier-by-impact gating port to Cursor, Cline, Continue, Windsurf, or a custom Agent-SDK build. Pick your runtime; the decisions translate.
 
 This is one person's actual setup, redacted and published as a reference. Not a framework, not a product. A documented working arrangement of the pieces Claude Code already gives you, with the reasoning attached. It is also the reference version of the agent-ready memory layer I build for organisations, running at one-person scale.
