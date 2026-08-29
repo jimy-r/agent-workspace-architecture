@@ -8,9 +8,9 @@ A reference implementation of **agent-ready knowledge architecture**: the roles,
 
 [![The interactive tour's opening view: the workspace thesis, the 18 patterns, and the working chips — click through for the live tour](docs/assets/tour-static.png)](https://jimy-r.github.io/agent-workspace-architecture/)
 
-**▶ [Take the interactive tour](https://jimy-r.github.io/agent-workspace-architecture/)** — the clickable five-minute version: the layered architecture, the eighteen load-bearing patterns, and one task moving through the system end to end.
+**▣ [The workspace, mapped](https://jimy-r.github.io/agent-workspace-architecture/workspace-map.html)** — start here: the entire architecture in one diagram, a thirty-second read. Entry points, the session, the governance floor, persistent state, gated outputs, and the watcher layer.
 
-Prefer one picture? **[The workspace, mapped](https://jimy-r.github.io/agent-workspace-architecture/workspace-map.html)** collapses the entire architecture onto a single page — entry points, the session, the governance floor, persistent state, gated outputs, and the watcher layer.
+**▶ [Take the interactive tour](https://jimy-r.github.io/agent-workspace-architecture/)** — the clickable five-minute version: the layered architecture, the eighteen load-bearing patterns, and one task moving through the system end to end.
 
 Feeding this to a model instead? [`llms.txt`](https://jimy-r.github.io/agent-workspace-architecture/llms.txt) is the link map, and [`llms-full.txt`](https://jimy-r.github.io/agent-workspace-architecture/llms-full.txt) inlines the whole reference in a single fetch.
 
