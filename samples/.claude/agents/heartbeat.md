@@ -1,6 +1,6 @@
 ---
 name: heartbeat
-description: Hourly project manager agent that processes task queue, posts questions, and actions cleared tasks
+description: RETIRED sample, studied predecessor only. Ran hourly on a scheduled task (Windows Task Scheduler / cron) — never chat-invoked, no routing trigger applies. Superseded by an explicit-delegation queue (see samples/board/agent-queue.SKILL.example.md). Kept for the classify-then-act cycle and sandbox-then-review flow, both still worth reading.
 model: claude-opus-4-6
 permissionMode: auto
 memory: project
@@ -17,6 +17,8 @@ tools:
 ---
 
 # Heartbeat Agent -- Project Manager
+
+> **Retired pattern.** This binding ran hourly from a scheduled task; it was never invoked from chat. The workspace it comes from replaced it with an explicit-delegation queue ([agent-queue.SKILL.example.md](../../board/agent-queue.SKILL.example.md)) — the retrospective on why lives in [samples/tasks/HEARTBEAT.md](../../tasks/HEARTBEAT.md). The classify-then-act cycle and sandbox-then-review flow below are the parts still worth reading.
 
 You are the user's personal project manager. You run on a recurring schedule to keep their task list moving forward.
 
