@@ -8,13 +8,13 @@
 <link rel="canonical" href="https://jimy-r.github.io/agent-workspace-architecture/workspace-map.html">
 <style>
   :root {
-    --ink: #1e2530;
-    --muted: #5b6472;
-    --accent: #14606a;
-    --accent-soft: #e8f1f2;
-    --rule: #d9dee5;
-    --warn-bg: #fdf6ec;
-    --warn-edge: #d9a441;
+    --ink: #1B1A17;
+    --muted: #5B574F;
+    --accent: #8F6414;
+    --accent-soft: #F5EEDC;
+    --rule: #E6E1D8;
+    --warn-bg: #FFF9EC;
+    --warn-edge: #E2A83E;
     --warn-deep: #9a6b17;
     --good: #2f7d4f;
   }
@@ -23,7 +23,7 @@
     margin: 0;
     font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
     color: var(--ink);
-    background: #fafbfc;
+    background: #FBFAF7;
     line-height: 1.62;
     font-size: 16.5px;
   }
@@ -97,7 +97,7 @@
   <title>Map of the AI workspace: entry points, the session, the governance floor, persistent state, gated outputs, and the watcher layer.</title>
   <defs>
     <marker id="mMuted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#5b6472"/>
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#5B574F"/>
     </marker>
     <marker id="mAmber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#9a6b17"/>
@@ -108,92 +108,92 @@
   </defs>
 
   <!-- YOU -->
-  <rect x="230" y="14" width="200" height="54" rx="27" fill="none" stroke="#5b6472" stroke-width="1.5" stroke-dasharray="5 4"/>
-  <text x="330" y="37" text-anchor="middle" font-size="15" font-weight="700" fill="#1e2530">you</text>
-  <text x="330" y="55" text-anchor="middle" font-size="12" fill="#5b6472">keyboard · voice, desk or phone</text>
-  <line x1="310" y1="70" x2="110" y2="112" stroke="#5b6472" stroke-width="2" marker-end="url(#mMuted)"/>
-  <line x1="330" y1="70" x2="280" y2="112" stroke="#5b6472" stroke-width="2" marker-end="url(#mMuted)"/>
-  <line x1="350" y1="70" x2="450" y2="112" stroke="#5b6472" stroke-width="2" marker-end="url(#mMuted)"/>
+  <rect x="230" y="14" width="200" height="54" rx="27" fill="none" stroke="#5B574F" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="330" y="37" text-anchor="middle" font-size="15" font-weight="700" fill="#1B1A17">you</text>
+  <text x="330" y="55" text-anchor="middle" font-size="12" fill="#5B574F">keyboard · voice, desk or phone</text>
+  <line x1="310" y1="70" x2="110" y2="112" stroke="#5B574F" stroke-width="2" marker-end="url(#mMuted)"/>
+  <line x1="330" y1="70" x2="280" y2="112" stroke="#5B574F" stroke-width="2" marker-end="url(#mMuted)"/>
+  <line x1="350" y1="70" x2="450" y2="112" stroke="#5B574F" stroke-width="2" marker-end="url(#mMuted)"/>
 
   <!-- ENTRY POINTS -->
-  <rect x="20" y="118" width="160" height="64" rx="10" fill="#ffffff" stroke="#5b6472" stroke-width="1.3"/>
-  <text x="100" y="144" text-anchor="middle" font-size="13.5" font-weight="600" fill="#1e2530">Interactive</text>
-  <text x="100" y="163" text-anchor="middle" font-size="11.5" fill="#5b6472">desktop app · terminal</text>
-  <rect x="200" y="118" width="160" height="64" rx="10" fill="#ffffff" stroke="#5b6472" stroke-width="1.3"/>
-  <text x="280" y="144" text-anchor="middle" font-size="13.5" font-weight="600" fill="#1e2530">Remote</text>
-  <text x="280" y="163" text-anchor="middle" font-size="11.5" fill="#5b6472">phone · tablet · voice</text>
-  <rect x="380" y="118" width="160" height="64" rx="10" fill="#ffffff" stroke="#5b6472" stroke-width="1.3"/>
-  <text x="460" y="144" text-anchor="middle" font-size="13.5" font-weight="600" fill="#1e2530">Scheduled</text>
-  <text x="460" y="163" text-anchor="middle" font-size="11.5" fill="#5b6472">six jobs on the OS clock</text>
+  <rect x="20" y="118" width="160" height="64" rx="10" fill="#ffffff" stroke="#5B574F" stroke-width="1.3"/>
+  <text x="100" y="144" text-anchor="middle" font-size="13.5" font-weight="600" fill="#1B1A17">Interactive</text>
+  <text x="100" y="163" text-anchor="middle" font-size="11.5" fill="#5B574F">desktop app · terminal</text>
+  <rect x="200" y="118" width="160" height="64" rx="10" fill="#ffffff" stroke="#5B574F" stroke-width="1.3"/>
+  <text x="280" y="144" text-anchor="middle" font-size="13.5" font-weight="600" fill="#1B1A17">Remote</text>
+  <text x="280" y="163" text-anchor="middle" font-size="11.5" fill="#5B574F">phone · tablet · voice</text>
+  <rect x="380" y="118" width="160" height="64" rx="10" fill="#ffffff" stroke="#5B574F" stroke-width="1.3"/>
+  <text x="460" y="144" text-anchor="middle" font-size="13.5" font-weight="600" fill="#1B1A17">Scheduled</text>
+  <text x="460" y="163" text-anchor="middle" font-size="11.5" fill="#5B574F">six jobs on the OS clock</text>
 
-  <line x1="100" y1="182" x2="100" y2="222" stroke="#5b6472" stroke-width="2" marker-end="url(#mMuted)"/>
-  <line x1="280" y1="182" x2="280" y2="222" stroke="#5b6472" stroke-width="2" marker-end="url(#mMuted)"/>
-  <line x1="460" y1="182" x2="460" y2="222" stroke="#5b6472" stroke-width="2" marker-end="url(#mMuted)"/>
+  <line x1="100" y1="182" x2="100" y2="222" stroke="#5B574F" stroke-width="2" marker-end="url(#mMuted)"/>
+  <line x1="280" y1="182" x2="280" y2="222" stroke="#5B574F" stroke-width="2" marker-end="url(#mMuted)"/>
+  <line x1="460" y1="182" x2="460" y2="222" stroke="#5B574F" stroke-width="2" marker-end="url(#mMuted)"/>
 
   <!-- THE SESSION -->
-  <rect x="20" y="228" width="520" height="250" rx="14" fill="#e8f1f2" stroke="#14606a" stroke-width="1.5"/>
-  <circle cx="52" cy="260" r="14" fill="#14606a"/>
+  <rect x="20" y="228" width="520" height="250" rx="14" fill="#F5EEDC" stroke="#8F6414" stroke-width="1.5"/>
+  <circle cx="52" cy="260" r="14" fill="#8F6414"/>
   <text x="52" y="265" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">1</text>
-  <text x="76" y="266" font-size="19" font-weight="700" fill="#1e2530">THE SESSION</text>
-  <text x="222" y="266" font-size="13.5" fill="#5b6472">one agent, fully loaded</text>
+  <text x="76" y="266" font-size="19" font-weight="700" fill="#1B1A17">THE SESSION</text>
+  <text x="222" y="266" font-size="13.5" fill="#5B574F">one agent, fully loaded</text>
 
-  <text x="40" y="306" font-size="11.5" fill="#5b6472">loads at start</text>
-  <g fill="#ffffff" stroke="#14606a" stroke-width="1.2">
+  <text x="40" y="306" font-size="11.5" fill="#5B574F">loads at start</text>
+  <g fill="#ffffff" stroke="#8F6414" stroke-width="1.2">
     <rect x="40" y="314" width="150" height="26" rx="13"/>
     <rect x="202" y="314" width="112" height="26" rx="13"/>
     <rect x="326" y="314" width="80" height="26" rx="13"/>
   </g>
-  <g font-size="12" fill="#1e2530" text-anchor="middle">
+  <g font-size="12" fill="#1B1A17" text-anchor="middle">
     <text x="115" y="331">rules &amp; instructions</text>
     <text x="258" y="331">typed memory</text>
     <text x="366" y="331">lessons</text>
   </g>
 
-  <text x="40" y="364" font-size="11.5" fill="#5b6472">invokes</text>
-  <g fill="#ffffff" stroke="#14606a" stroke-width="1.2">
+  <text x="40" y="364" font-size="11.5" fill="#5B574F">invokes</text>
+  <g fill="#ffffff" stroke="#8F6414" stroke-width="1.2">
     <rect x="40" y="372" width="182" height="26" rx="13"/>
     <rect x="234" y="372" width="172" height="26" rx="13"/>
     <rect x="418" y="372" width="94" height="26" rx="13"/>
   </g>
-  <g font-size="12" fill="#1e2530" text-anchor="middle">
+  <g font-size="12" fill="#1B1A17" text-anchor="middle">
     <text x="131" y="389">skills: orient · board · wrap …</text>
     <text x="320" y="389">roles ×17 → subagents</text>
     <text x="465" y="389">workflows</text>
   </g>
 
-  <text x="40" y="422" font-size="11.5" fill="#5b6472">reaches out through</text>
-  <g fill="#ffffff" stroke="#14606a" stroke-width="1.2">
+  <text x="40" y="422" font-size="11.5" fill="#5B574F">reaches out through</text>
+  <g fill="#ffffff" stroke="#8F6414" stroke-width="1.2">
     <rect x="40" y="430" width="252" height="26" rx="13"/>
     <rect x="304" y="430" width="110" height="26" rx="13"/>
   </g>
-  <g font-size="12" fill="#1e2530" text-anchor="middle">
+  <g font-size="12" fill="#1B1A17" text-anchor="middle">
     <text x="166" y="447">MCP bridges: mail · calendar · browser</text>
     <text x="359" y="447">git &amp; GitHub</text>
   </g>
 
   <!-- GOVERNANCE FLOOR -->
-  <rect x="20" y="486" width="520" height="40" rx="10" fill="#1e2530"/>
+  <rect x="20" y="486" width="520" height="40" rx="10" fill="#1B1A17"/>
   <circle cx="46" cy="506" r="12" fill="#ffffff"/>
-  <text x="46" y="510" text-anchor="middle" font-size="13" font-weight="700" fill="#1e2530">2</text>
+  <text x="46" y="510" text-anchor="middle" font-size="13" font-weight="700" fill="#1B1A17">2</text>
   <text x="66" y="502" font-size="12" font-weight="700" fill="#ffffff">GOVERNANCE FLOOR</text>
-  <text x="66" y="518" font-size="11.5" fill="#c8cfd8">hooks on every command · no credentials in files · outbound needs a human yes</text>
+  <text x="66" y="518" font-size="11.5" fill="#CFC9BD">hooks on every command · no credentials in files · outbound needs a human yes</text>
 
   <!-- flow: floor -> state, floor -> gate -> ships -->
-  <line x1="270" y1="526" x2="270" y2="554" stroke="#5b6472" stroke-width="2" marker-end="url(#mMuted)"/>
+  <line x1="270" y1="526" x2="270" y2="554" stroke="#5B574F" stroke-width="2" marker-end="url(#mMuted)"/>
   <line x1="450" y1="526" x2="450" y2="552" stroke="#2f7d4f" stroke-width="2.5"/>
   <!-- human gate glyph -->
-  <line x1="438" y1="556" x2="438" y2="584" stroke="#1e2530" stroke-width="3"/>
-  <line x1="462" y1="556" x2="462" y2="584" stroke="#1e2530" stroke-width="3"/>
-  <line x1="434" y1="568" x2="466" y2="568" stroke="#1e2530" stroke-width="3"/>
-  <text x="474" y="573" font-size="11.5" fill="#1e2530">human gate</text>
+  <line x1="438" y1="556" x2="438" y2="584" stroke="#1B1A17" stroke-width="3"/>
+  <line x1="462" y1="556" x2="462" y2="584" stroke="#1B1A17" stroke-width="3"/>
+  <line x1="434" y1="568" x2="466" y2="568" stroke="#1B1A17" stroke-width="3"/>
+  <text x="474" y="573" font-size="11.5" fill="#1B1A17">human gate</text>
   <line x1="450" y1="588" x2="450" y2="606" stroke="#2f7d4f" stroke-width="2.5" marker-end="url(#mGood)"/>
 
   <!-- WHAT PERSISTS -->
-  <rect x="20" y="560" width="300" height="160" rx="14" fill="#fdf6ec" stroke="#d9a441" stroke-width="1.5"/>
+  <rect x="20" y="560" width="300" height="160" rx="14" fill="#FFF9EC" stroke="#E2A83E" stroke-width="1.5"/>
   <circle cx="50" cy="590" r="14" fill="#9a6b17"/>
   <text x="50" y="595" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">3</text>
-  <text x="72" y="596" font-size="16" font-weight="700" fill="#1e2530">WHAT PERSISTS</text>
-  <g fill="#ffffff" stroke="#d9a441" stroke-width="1.2">
+  <text x="72" y="596" font-size="16" font-weight="700" fill="#1B1A17">WHAT PERSISTS</text>
+  <g fill="#ffffff" stroke="#E2A83E" stroke-width="1.2">
     <rect x="36" y="612" width="76" height="24" rx="12"/>
     <rect x="120" y="612" width="88" height="24" rx="12"/>
     <rect x="216" y="612" width="72" height="24" rx="12"/>
@@ -201,7 +201,7 @@
     <rect x="148" y="648" width="116" height="24" rx="12"/>
     <rect x="36" y="684" width="124" height="24" rx="12"/>
   </g>
-  <g font-size="12" fill="#1e2530" text-anchor="middle">
+  <g font-size="12" fill="#1B1A17" text-anchor="middle">
     <text x="74" y="628">strategy</text>
     <text x="164" y="628">task board</text>
     <text x="252" y="628">lessons</text>
@@ -214,43 +214,43 @@
   <rect x="360" y="610" width="180" height="120" rx="14" fill="#ffffff" stroke="#2f7d4f" stroke-width="1.5"/>
   <circle cx="392" cy="640" r="14" fill="#2f7d4f"/>
   <text x="392" y="645" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">4</text>
-  <text x="414" y="646" font-size="18" font-weight="700" fill="#1e2530">SHIPS</text>
+  <text x="414" y="646" font-size="18" font-weight="700" fill="#1B1A17">SHIPS</text>
   <circle cx="378" cy="668" r="3" fill="#2f7d4f"/>
-  <text x="388" y="673" font-size="12" fill="#1e2530">deliverables &amp; briefs</text>
+  <text x="388" y="673" font-size="12" fill="#1B1A17">deliverables &amp; briefs</text>
   <circle cx="378" cy="692" r="3" fill="#2f7d4f"/>
-  <text x="388" y="697" font-size="12" fill="#1e2530">public repos ×6</text>
+  <text x="388" y="697" font-size="12" fill="#1B1A17">public repos ×6</text>
   <circle cx="378" cy="716" r="3" fill="#2f7d4f"/>
-  <text x="388" y="721" font-size="12" fill="#1e2530">replies &amp; posts</text>
+  <text x="388" y="721" font-size="12" fill="#1B1A17">replies &amp; posts</text>
 
   <!-- return arc: state -> next session -->
   <path d="M 34 554 Q 4 400 16 312" fill="none" stroke="#9a6b17" stroke-width="3" marker-end="url(#mAmber)"/>
   <text x="42" y="548" font-size="11.5" font-weight="600" fill="#9a6b17">next session starts already loaded</text>
 
   <!-- WATCHERS rail -->
-  <rect x="565" y="228" width="180" height="502" rx="14" fill="#ffffff" stroke="#1e2530" stroke-width="1.5"/>
-  <circle cx="597" cy="260" r="14" fill="#1e2530"/>
+  <rect x="565" y="228" width="180" height="502" rx="14" fill="#ffffff" stroke="#1B1A17" stroke-width="1.5"/>
+  <circle cx="597" cy="260" r="14" fill="#1B1A17"/>
   <text x="597" y="265" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">5</text>
-  <text x="619" y="266" font-size="16" font-weight="700" fill="#1e2530">WATCHERS</text>
-  <text x="581" y="292" font-size="11.5" fill="#5b6472">the system, checked</text>
+  <text x="619" y="266" font-size="16" font-weight="700" fill="#1B1A17">WATCHERS</text>
+  <text x="581" y="292" font-size="11.5" fill="#5B574F">the system, checked</text>
 
-  <text x="581" y="330" font-size="12.5" font-weight="600" fill="#1e2530">weekly audit</text>
-  <text x="581" y="346" font-size="11" fill="#5b6472">reads everything, files findings</text>
-  <text x="581" y="382" font-size="12.5" font-weight="600" fill="#1e2530">dead-man's switch</text>
-  <text x="581" y="398" font-size="11" fill="#5b6472">flags any lane gone quiet</text>
-  <text x="581" y="434" font-size="12.5" font-weight="600" fill="#1e2530">security digest</text>
-  <text x="581" y="450" font-size="11" fill="#5b6472">tripwires &amp; floor blocks</text>
-  <text x="581" y="486" font-size="12.5" font-weight="600" fill="#1e2530">token meter</text>
-  <text x="581" y="502" font-size="11" fill="#5b6472">spend &amp; context telemetry</text>
-  <text x="581" y="538" font-size="12.5" font-weight="600" fill="#1e2530">backups + verify</text>
-  <text x="581" y="554" font-size="11" fill="#5b6472">restic, off-machine</text>
+  <text x="581" y="330" font-size="12.5" font-weight="600" fill="#1B1A17">weekly audit</text>
+  <text x="581" y="346" font-size="11" fill="#5B574F">reads everything, files findings</text>
+  <text x="581" y="382" font-size="12.5" font-weight="600" fill="#1B1A17">dead-man's switch</text>
+  <text x="581" y="398" font-size="11" fill="#5B574F">flags any lane gone quiet</text>
+  <text x="581" y="434" font-size="12.5" font-weight="600" fill="#1B1A17">security digest</text>
+  <text x="581" y="450" font-size="11" fill="#5B574F">tripwires &amp; floor blocks</text>
+  <text x="581" y="486" font-size="12.5" font-weight="600" fill="#1B1A17">token meter</text>
+  <text x="581" y="502" font-size="11" fill="#5B574F">spend &amp; context telemetry</text>
+  <text x="581" y="538" font-size="12.5" font-weight="600" fill="#1B1A17">backups + verify</text>
+  <text x="581" y="554" font-size="11" fill="#5B574F">restic, off-machine</text>
 
   <text x="581" y="600" font-size="11.5" font-weight="600" fill="#9a6b17">→ findings land on the</text>
   <text x="581" y="616" font-size="11.5" font-weight="600" fill="#9a6b17">task board, as work</text>
 
   <!-- observation lines -->
-  <line x1="561" y1="320" x2="546" y2="320" stroke="#5b6472" stroke-width="1.5" stroke-dasharray="4 3"/>
-  <line x1="561" y1="440" x2="546" y2="440" stroke="#5b6472" stroke-width="1.5" stroke-dasharray="4 3"/>
-  <path d="M 600 224 L 546 186" fill="none" stroke="#5b6472" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <line x1="561" y1="320" x2="546" y2="320" stroke="#5B574F" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <line x1="561" y1="440" x2="546" y2="440" stroke="#5B574F" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <path d="M 600 224 L 546 186" fill="none" stroke="#5B574F" stroke-width="1.5" stroke-dasharray="4 3"/>
 </svg>
 </div>
 
