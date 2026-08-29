@@ -10,6 +10,8 @@ A reference implementation of **agent-ready knowledge architecture**: the roles,
 
 **▶ [Take the interactive tour](https://jimy-r.github.io/agent-workspace-architecture/)** — the clickable five-minute version: the layered architecture, the eighteen load-bearing patterns, and one task moving through the system end to end.
 
+Prefer one picture? **[The workspace, mapped](https://jimy-r.github.io/agent-workspace-architecture/workspace-map.html)** collapses the entire architecture onto a single page — entry points, the session, the governance floor, persistent state, gated outputs, and the watcher layer.
+
 Feeding this to a model instead? [`llms.txt`](https://jimy-r.github.io/agent-workspace-architecture/llms.txt) is the link map, and [`llms-full.txt`](https://jimy-r.github.io/agent-workspace-architecture/llms-full.txt) inlines the whole reference in a single fetch.
 
 New work ships irregularly: patterns, teardowns, tools, and the occasional essay. Follow along at [Agent Workspaces](https://jimyr.substack.com), or watch the repo.
