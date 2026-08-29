@@ -9,6 +9,7 @@
 ## Source documents
 
 - [Tour](https://jimy-r.github.io/agent-workspace-architecture/): The interactive tour — layers, modules, patterns, and a task walkthrough. Start here.
+- [The workspace, mapped](https://jimy-r.github.io/agent-workspace-architecture/workspace-map.html): The entire architecture on one page — entry points, the session, the governance floor, persistent state, gated outputs, and the watcher layer.
 - [PATTERNS.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/PATTERNS.md): The eighteen load-bearing patterns, each as problem, pattern, why it beats the obvious alternative, and what it costs.
 - [META_ARCHITECTURE.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/META_ARCHITECTURE.md): The full structural map of the workspace: layers, modules, personas, routines, hooks, MCP servers, memory, and the task layer.
 - [EVALUATION.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/EVALUATION.md): How to tell whether a workspace change actually helped. A golden set of frozen cases replayed K times, deterministic checks rather than an LLM judge, and the five-class fixture discipline that validates a check.

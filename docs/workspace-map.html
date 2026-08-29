@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The workspace, mapped — Agent Workspace Architecture</title>
+<meta name="description" content="The entire agent workspace architecture on one page: entry points, the session, the governance floor, persistent state, gated outputs, and the watcher layer.">
+<link rel="canonical" href="https://jimy-r.github.io/agent-workspace-architecture/workspace-map.html">
+<style>
+  :root {
+    --ink: #1e2530;
+    --muted: #5b6472;
+    --accent: #14606a;
+    --accent-soft: #e8f1f2;
+    --rule: #d9dee5;
+    --warn-bg: #fdf6ec;
+    --warn-edge: #d9a441;
+    --warn-deep: #9a6b17;
+    --good: #2f7d4f;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    color: var(--ink);
+    background: #fafbfc;
+    line-height: 1.62;
+    font-size: 16.5px;
+  }
+  .page { max-width: 760px; margin: 0 auto; padding: 32px 28px 64px; background: #fff; }
+  nav.mini { margin-bottom: 28px; font-size: 0.9rem; }
+  nav.mini a { color: var(--muted); text-decoration: none; }
+  nav.mini a:hover { color: var(--accent); }
+  a { color: var(--accent); }
+  header { border-bottom: 3px solid var(--accent); padding-bottom: 20px; margin-bottom: 8px; }
+  h1 { font-size: 2.1rem; line-height: 1.15; margin: 0 0 8px; letter-spacing: -0.01em; }
+  .subtitle { color: var(--muted); font-size: 1.1rem; margin: 0; }
+  .kicker {
+    font-size: 0.74rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase;
+    color: var(--accent); margin: 40px 0 10px;
+  }
+  p { margin: 0 0 14px; }
+  .diagram { margin: 10px 0 6px; }
+  .diagram svg { width: 100%; height: auto; display: block; }
+  ol.legend { margin: 14px 0 4px; padding-left: 0; list-style: none; }
+  ol.legend li { margin-bottom: 12px; padding-left: 40px; position: relative; }
+  ol.legend .n {
+    position: absolute; left: 0; top: 2px; width: 26px; height: 26px; border-radius: 50%;
+    color: #fff; font-weight: 700; font-size: 0.9rem; text-align: center; line-height: 26px;
+  }
+  ol.legend li:nth-child(1) .n { background: var(--accent); }
+  ol.legend li:nth-child(2) .n { background: var(--ink); }
+  ol.legend li:nth-child(3) .n { background: var(--warn-deep); }
+  ol.legend li:nth-child(4) .n { background: var(--good); }
+  ol.legend li:nth-child(5) .n { background: var(--ink); }
+  .payoff {
+    background: var(--warn-bg); border-left: 4px solid var(--warn-edge);
+    padding: 13px 16px; margin: 18px 0 0; border-radius: 0 6px 6px 0; font-size: 0.98rem;
+  }
+  .stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 6px 0 4px; }
+  .stats .card {
+    background: var(--accent-soft); border-radius: 10px; padding: 14px 16px; text-align: center;
+  }
+  .stats .card .big { display: block; font-size: 2rem; font-weight: 700; color: var(--accent); line-height: 1.1; }
+  .stats .card .lbl { font-size: 0.9rem; color: var(--muted); }
+  .closer { font-weight: 600; color: var(--accent); }
+  footer { margin-top: 48px; padding-top: 14px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 0.85rem; }
+  @media (max-width: 620px) {
+    .stats { grid-template-columns: 1fr; }
+    .page { padding: 32px 18px 48px; }
+    .diagram { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .diagram svg { min-width: 680px; }
+  }
+  @media print {
+    body { background: #fff; font-size: 10.5pt; }
+    .page { padding: 0; max-width: 175mm; }
+    .kicker { margin: 22px 0 8px; page-break-after: avoid; }
+    .diagram, .payoff, ol.legend, .stats { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<main class="page">
+
+<nav class="mini"><a href="./">&larr; Agent Workspace Architecture</a></nav>
+
+<header>
+  <h1>The workspace, mapped</h1>
+  <p class="subtitle">The whole architecture on one page</p>
+</header>
+
+<div class="kicker">What this is</div>
+<p>This is the map of my AI workspace, the system I run my working day through. Every box on it exists and runs today. You talk to it from anywhere. One session does the work with everything loaded. A governance floor sits under every action. What a session learns persists on the left, what it produces ships on the right, and a watcher layer checks the system itself.</p>
+
+<div class="diagram">
+<svg viewBox="0 0 760 756" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Architecture map. You reach the workspace through three entry points: interactive sessions, remote from phone or tablet, and six scheduled jobs. All feed the session, which loads rules, typed memory, and lessons at start, invokes skills, seventeen roles as subagents, and parallel workflows, and reaches out through MCP bridges and git. Under it sits a governance floor: hooks on every command, no credentials in files, outbound needs a human yes. Below the floor, work splits: state that persists (strategy, task board, lessons, typed memory, project context, evidence ledgers) and work that ships past a human gate (deliverables, six public repos, replies and posts). A watchers rail spans the system: weekly audit, dead-man's switch, security digest, token meter, backups. An arc returns from state to the session: the next session starts already loaded.">
+  <title>Map of the AI workspace: entry points, the session, the governance floor, persistent state, gated outputs, and the watcher layer.</title>
+  <defs>
+    <marker id="mMuted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#5b6472"/>
+    </marker>
+    <marker id="mAmber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#9a6b17"/>
+    </marker>
+    <marker id="mGood" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2f7d4f"/>
+    </marker>
+  </defs>
+
+  <!-- YOU -->
+  <rect x="230" y="14" width="200" height="54" rx="27" fill="none" stroke="#5b6472" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="330" y="37" text-anchor="middle" font-size="15" font-weight="700" fill="#1e2530">you</text>
+  <text x="330" y="55" text-anchor="middle" font-size="12" fill="#5b6472">keyboard · voice, desk or phone</text>
+  <line x1="310" y1="70" x2="110" y2="112" stroke="#5b6472" stroke-width="2" marker-end="url(#mMuted)"/>
+  <line x1="330" y1="70" x2="280" y2="112" stroke="#5b6472" stroke-width="2" marker-end="url(#mMuted)"/>
+  <line x1="350" y1="70" x2="450" y2="112" stroke="#5b6472" stroke-width="2" marker-end="url(#mMuted)"/>
+
+  <!-- ENTRY POINTS -->
+  <rect x="20" y="118" width="160" height="64" rx="10" fill="#ffffff" stroke="#5b6472" stroke-width="1.3"/>
+  <text x="100" y="144" text-anchor="middle" font-size="13.5" font-weight="600" fill="#1e2530">Interactive</text>
+  <text x="100" y="163" text-anchor="middle" font-size="11.5" fill="#5b6472">desktop app · terminal</text>
+  <rect x="200" y="118" width="160" height="64" rx="10" fill="#ffffff" stroke="#5b6472" stroke-width="1.3"/>
+  <text x="280" y="144" text-anchor="middle" font-size="13.5" font-weight="600" fill="#1e2530">Remote</text>
+  <text x="280" y="163" text-anchor="middle" font-size="11.5" fill="#5b6472">phone · tablet · voice</text>
+  <rect x="380" y="118" width="160" height="64" rx="10" fill="#ffffff" stroke="#5b6472" stroke-width="1.3"/>
+  <text x="460" y="144" text-anchor="middle" font-size="13.5" font-weight="600" fill="#1e2530">Scheduled</text>
+  <text x="460" y="163" text-anchor="middle" font-size="11.5" fill="#5b6472">six jobs on the OS clock</text>
+
+  <line x1="100" y1="182" x2="100" y2="222" stroke="#5b6472" stroke-width="2" marker-end="url(#mMuted)"/>
+  <line x1="280" y1="182" x2="280" y2="222" stroke="#5b6472" stroke-width="2" marker-end="url(#mMuted)"/>
+  <line x1="460" y1="182" x2="460" y2="222" stroke="#5b6472" stroke-width="2" marker-end="url(#mMuted)"/>
+
+  <!-- THE SESSION -->
+  <rect x="20" y="228" width="520" height="250" rx="14" fill="#e8f1f2" stroke="#14606a" stroke-width="1.5"/>
+  <circle cx="52" cy="260" r="14" fill="#14606a"/>
+  <text x="52" y="265" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">1</text>
+  <text x="76" y="266" font-size="19" font-weight="700" fill="#1e2530">THE SESSION</text>
+  <text x="222" y="266" font-size="13.5" fill="#5b6472">one agent, fully loaded</text>
+
+  <text x="40" y="306" font-size="11.5" fill="#5b6472">loads at start</text>
+  <g fill="#ffffff" stroke="#14606a" stroke-width="1.2">
+    <rect x="40" y="314" width="150" height="26" rx="13"/>
+    <rect x="202" y="314" width="112" height="26" rx="13"/>
+    <rect x="326" y="314" width="80" height="26" rx="13"/>
+  </g>
+  <g font-size="12" fill="#1e2530" text-anchor="middle">
+    <text x="115" y="331">rules &amp; instructions</text>
+    <text x="258" y="331">typed memory</text>
+    <text x="366" y="331">lessons</text>
+  </g>
+
+  <text x="40" y="364" font-size="11.5" fill="#5b6472">invokes</text>
+  <g fill="#ffffff" stroke="#14606a" stroke-width="1.2">
+    <rect x="40" y="372" width="182" height="26" rx="13"/>
+    <rect x="234" y="372" width="172" height="26" rx="13"/>
+    <rect x="418" y="372" width="94" height="26" rx="13"/>
+  </g>
+  <g font-size="12" fill="#1e2530" text-anchor="middle">
+    <text x="131" y="389">skills: orient · board · wrap …</text>
+    <text x="320" y="389">roles ×17 → subagents</text>
+    <text x="465" y="389">workflows</text>
+  </g>
+
+  <text x="40" y="422" font-size="11.5" fill="#5b6472">reaches out through</text>
+  <g fill="#ffffff" stroke="#14606a" stroke-width="1.2">
+    <rect x="40" y="430" width="252" height="26" rx="13"/>
+    <rect x="304" y="430" width="110" height="26" rx="13"/>
+  </g>
+  <g font-size="12" fill="#1e2530" text-anchor="middle">
+    <text x="166" y="447">MCP bridges: mail · calendar · browser</text>
+    <text x="359" y="447">git &amp; GitHub</text>
+  </g>
+
+  <!-- GOVERNANCE FLOOR -->
+  <rect x="20" y="486" width="520" height="40" rx="10" fill="#1e2530"/>
+  <circle cx="46" cy="506" r="12" fill="#ffffff"/>
+  <text x="46" y="510" text-anchor="middle" font-size="13" font-weight="700" fill="#1e2530">2</text>
+  <text x="66" y="502" font-size="12" font-weight="700" fill="#ffffff">GOVERNANCE FLOOR</text>
+  <text x="66" y="518" font-size="11.5" fill="#c8cfd8">hooks on every command · no credentials in files · outbound needs a human yes</text>
+
+  <!-- flow: floor -> state, floor -> gate -> ships -->
+  <line x1="270" y1="526" x2="270" y2="554" stroke="#5b6472" stroke-width="2" marker-end="url(#mMuted)"/>
+  <line x1="450" y1="526" x2="450" y2="552" stroke="#2f7d4f" stroke-width="2.5"/>
+  <!-- human gate glyph -->
+  <line x1="438" y1="556" x2="438" y2="584" stroke="#1e2530" stroke-width="3"/>
+  <line x1="462" y1="556" x2="462" y2="584" stroke="#1e2530" stroke-width="3"/>
+  <line x1="434" y1="568" x2="466" y2="568" stroke="#1e2530" stroke-width="3"/>
+  <text x="474" y="573" font-size="11.5" fill="#1e2530">human gate</text>
+  <line x1="450" y1="588" x2="450" y2="606" stroke="#2f7d4f" stroke-width="2.5" marker-end="url(#mGood)"/>
+
+  <!-- WHAT PERSISTS -->
+  <rect x="20" y="560" width="300" height="160" rx="14" fill="#fdf6ec" stroke="#d9a441" stroke-width="1.5"/>
+  <circle cx="50" cy="590" r="14" fill="#9a6b17"/>
+  <text x="50" y="595" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">3</text>
+  <text x="72" y="596" font-size="16" font-weight="700" fill="#1e2530">WHAT PERSISTS</text>
+  <g fill="#ffffff" stroke="#d9a441" stroke-width="1.2">
+    <rect x="36" y="612" width="76" height="24" rx="12"/>
+    <rect x="120" y="612" width="88" height="24" rx="12"/>
+    <rect x="216" y="612" width="72" height="24" rx="12"/>
+    <rect x="36" y="648" width="104" height="24" rx="12"/>
+    <rect x="148" y="648" width="116" height="24" rx="12"/>
+    <rect x="36" y="684" width="124" height="24" rx="12"/>
+  </g>
+  <g font-size="12" fill="#1e2530" text-anchor="middle">
+    <text x="74" y="628">strategy</text>
+    <text x="164" y="628">task board</text>
+    <text x="252" y="628">lessons</text>
+    <text x="88" y="664">typed memory</text>
+    <text x="206" y="664">project context</text>
+    <text x="98" y="700">evidence ledgers</text>
+  </g>
+
+  <!-- SHIPS -->
+  <rect x="360" y="610" width="180" height="120" rx="14" fill="#ffffff" stroke="#2f7d4f" stroke-width="1.5"/>
+  <circle cx="392" cy="640" r="14" fill="#2f7d4f"/>
+  <text x="392" y="645" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">4</text>
+  <text x="414" y="646" font-size="18" font-weight="700" fill="#1e2530">SHIPS</text>
+  <circle cx="378" cy="668" r="3" fill="#2f7d4f"/>
+  <text x="388" y="673" font-size="12" fill="#1e2530">deliverables &amp; briefs</text>
+  <circle cx="378" cy="692" r="3" fill="#2f7d4f"/>
+  <text x="388" y="697" font-size="12" fill="#1e2530">public repos ×6</text>
+  <circle cx="378" cy="716" r="3" fill="#2f7d4f"/>
+  <text x="388" y="721" font-size="12" fill="#1e2530">replies &amp; posts</text>
+
+  <!-- return arc: state -> next session -->
+  <path d="M 34 554 Q 4 400 16 312" fill="none" stroke="#9a6b17" stroke-width="3" marker-end="url(#mAmber)"/>
+  <text x="42" y="548" font-size="11.5" font-weight="600" fill="#9a6b17">next session starts already loaded</text>
+
+  <!-- WATCHERS rail -->
+  <rect x="565" y="228" width="180" height="502" rx="14" fill="#ffffff" stroke="#1e2530" stroke-width="1.5"/>
+  <circle cx="597" cy="260" r="14" fill="#1e2530"/>
+  <text x="597" y="265" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">5</text>
+  <text x="619" y="266" font-size="16" font-weight="700" fill="#1e2530">WATCHERS</text>
+  <text x="581" y="292" font-size="11.5" fill="#5b6472">the system, checked</text>
+
+  <text x="581" y="330" font-size="12.5" font-weight="600" fill="#1e2530">weekly audit</text>
+  <text x="581" y="346" font-size="11" fill="#5b6472">reads everything, files findings</text>
+  <text x="581" y="382" font-size="12.5" font-weight="600" fill="#1e2530">dead-man's switch</text>
+  <text x="581" y="398" font-size="11" fill="#5b6472">flags any lane gone quiet</text>
+  <text x="581" y="434" font-size="12.5" font-weight="600" fill="#1e2530">security digest</text>
+  <text x="581" y="450" font-size="11" fill="#5b6472">tripwires &amp; floor blocks</text>
+  <text x="581" y="486" font-size="12.5" font-weight="600" fill="#1e2530">token meter</text>
+  <text x="581" y="502" font-size="11" fill="#5b6472">spend &amp; context telemetry</text>
+  <text x="581" y="538" font-size="12.5" font-weight="600" fill="#1e2530">backups + verify</text>
+  <text x="581" y="554" font-size="11" fill="#5b6472">restic, off-machine</text>
+
+  <text x="581" y="600" font-size="11.5" font-weight="600" fill="#9a6b17">→ findings land on the</text>
+  <text x="581" y="616" font-size="11.5" font-weight="600" fill="#9a6b17">task board, as work</text>
+
+  <!-- observation lines -->
+  <line x1="561" y1="320" x2="546" y2="320" stroke="#5b6472" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <line x1="561" y1="440" x2="546" y2="440" stroke="#5b6472" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <path d="M 600 224 L 546 186" fill="none" stroke="#5b6472" stroke-width="1.5" stroke-dasharray="4 3"/>
+</svg>
+</div>
+
+<ol class="legend">
+  <li><span class="n" aria-hidden="true">1</span><strong>The session.</strong> Every piece of work happens inside one of these. It wakes up already knowing the rules, the current state, and every past correction, then does the task through skills, seventeen expert roles it can hand work to, and parallel agent workflows when the job is wide.</li>
+  <li><span class="n" aria-hidden="true">2</span><strong>The governance floor.</strong> Not advice, mechanism. Hooks screen every command before it runs, credentials live in a password manager the agent never reads, and nothing outbound moves without an approval, one item at a time.</li>
+  <li><span class="n" aria-hidden="true">3</span><strong>What persists.</strong> The part most setups skip. Strategy, the task board, lessons, typed memory, per-project context. Because this layer exists, no session ever starts from zero, and a correction made once holds forever.</li>
+  <li><span class="n" aria-hidden="true">4</span><strong>Ships.</strong> Client deliverables, six public repos, replies and posts. All of it exits through the human gate.</li>
+  <li><span class="n" aria-hidden="true">5</span><strong>Watchers.</strong> The system checks itself. A weekly audit reads the whole workspace. A dead-man's switch flags any scheduled lane that goes quiet, tripwires log what the floor blocked and a meter tracks spend, with verified off-machine backups under everything. What they find becomes work on the board.</li>
+</ol>
+
+<p class="payoff">Fourteen modules, seventeen roles, six scheduled jobs and a six-repo public mirror collapse to five boxes: one engine, a floor it stands on, state that persists, an exit with a human on it, and watchers over the whole. The complexity is quantity. The shape is simple.</p>
+
+<div class="kicker">Check my work</div>
+<p>The architecture on this page is published. <a href="https://github.com/jimy-r/agent-workspace-architecture/blob/main/PATTERNS.md">PATTERNS.md</a> documents the patterns behind every box, extracted from the live system, and <a href="./">the tour</a> walks it in five minutes. If you want to know whether this is real, read it the way the audit would.</p>
+
+<div class="stats">
+  <div class="card"><span class="big">18</span><span class="lbl">patterns published from this workspace</span></div>
+  <div class="card"><span class="big">6</span><span class="lbl">public repos of its tooling</span></div>
+  <div class="card"><span class="big">1</span><span class="lbl">human gate on everything outbound</span></div>
+</div>
+
+<p class="closer">One page, on purpose. The full version is the system itself.</p>
+
+<footer>One person's actual setup, redacted and published with the reasoning attached · <a href="./">back to the tour</a></footer>
+
+</main>
+</body>
+</html>
