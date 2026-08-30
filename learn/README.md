@@ -6,7 +6,7 @@ This is the *learning order*. [ADOPTION.md](../ADOPTION.md) is the *installation
 
 ## Where to start
 
-Take the [workspace maturity check](https://jamesross.ai/tools/maturity-check.html?utm_source=github&utm_medium=repo&utm_campaign=learn-track) — 18 questions, scored across the same six dimensions as these modules. Your weakest dimension is your first module. No time for that? Start at [M0](00-foundations.md) and go in order.
+Take the [workspace maturity check](https://jamesross.ai/tools/maturity-check?utm_source=github&utm_medium=repo&utm_campaign=learn-track) — 18 questions, scored across the same six dimensions as these modules. Your weakest dimension is your first module. No time for that? Start at [M0](00-foundations.md) and go in order.
 
 If you'd rather build than read, take the hands-on companion track — [stand up a working workspace from the starter template](https://github.com/jimy-r/agent-workspace-starter/blob/main/docs/tutorial.md) — then come back here for the why.
 

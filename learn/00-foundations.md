@@ -1,6 +1,6 @@
 # M0. Foundations — the session loop
 
-> [Learn track](README.md) · start here, or wherever the [maturity check](https://jamesross.ai/tools/maturity-check.html?utm_source=github&utm_medium=repo&utm_campaign=learn-track) says you're weakest.
+> [Learn track](README.md) · start here, or wherever the [maturity check](https://jamesross.ai/tools/maturity-check?utm_source=github&utm_medium=repo&utm_campaign=learn-track) says you're weakest.
 
 A governed agent workspace is an ordinary folder with three properties: the agent starts every session knowing where things stand, nothing important happens outside a recorded plan, and every correction you make becomes a rule the next session reads. None of that requires a framework. It requires files, a few skills, and the discipline to use them.
 
@@ -21,6 +21,6 @@ Run the loop once end to end. Either in your own workspace (any folder with a `C
 
 ## Measure it
 
-Take the [maturity check](https://jamesross.ai/tools/maturity-check.html?utm_source=github&utm_medium=repo&utm_campaign=learn-track) and keep the six-dimension result. It's the baseline the rest of the track moves.
+Take the [maturity check](https://jamesross.ai/tools/maturity-check?utm_source=github&utm_medium=repo&utm_campaign=learn-track) and keep the six-dimension result. It's the baseline the rest of the track moves.
 
 Next: [M1. Canonical knowledge](01-canonical-knowledge.md), or jump to your weakest dimension.

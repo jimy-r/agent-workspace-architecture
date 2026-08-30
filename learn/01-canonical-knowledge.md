@@ -1,6 +1,6 @@
 # M1. Canonical knowledge — one source of truth
 
-> [Learn track](README.md) · dimension: **Canonical knowledge** in the [maturity check](https://jamesross.ai/tools/maturity-check.html?utm_source=github&utm_medium=repo&utm_campaign=learn-track).
+> [Learn track](README.md) · dimension: **Canonical knowledge** in the [maturity check](https://jamesross.ai/tools/maturity-check?utm_source=github&utm_medium=repo&utm_campaign=learn-track).
 
 The failure this module prevents is quiet: the same rule written in three files, all correct on the day they were written, one edited later. An agent loading all three now reads two versions and silently picks one. Nothing breaks. You just get a wrong answer months later with no obvious cause.
 

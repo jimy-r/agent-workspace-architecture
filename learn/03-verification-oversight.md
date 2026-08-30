@@ -1,6 +1,6 @@
 # M3. Verification & oversight — trust through checks
 
-> [Learn track](README.md) · dimension: **Verification & oversight** in the [maturity check](https://jamesross.ai/tools/maturity-check.html?utm_source=github&utm_medium=repo&utm_campaign=learn-track).
+> [Learn track](README.md) · dimension: **Verification & oversight** in the [maturity check](https://jamesross.ai/tools/maturity-check?utm_source=github&utm_medium=repo&utm_campaign=learn-track).
 
 An agent workspace accumulates two kinds of change nobody verifies by default: changes to the workspace (configs drift, hooks stop firing, memory contradicts reality) and changes *by* the workspace to itself (a better-worded skill, a folded-in lesson, a new reasoning rule). Both feel fine right up until they aren't. The shared discipline: nothing is adopted on the strength of how good it sounds. A change earns its place through a check that could have rejected it.
 

@@ -1,6 +1,6 @@
 # M4. Safety & permissions — cheap mechanical guards
 
-> [Learn track](README.md) · dimension: **Safety & permissions** in the [maturity check](https://jamesross.ai/tools/maturity-check.html?utm_source=github&utm_medium=repo&utm_campaign=learn-track).
+> [Learn track](README.md) · dimension: **Safety & permissions** in the [maturity check](https://jamesross.ai/tools/maturity-check?utm_source=github&utm_medium=repo&utm_campaign=learn-track).
 
 "Be more careful" does not scale to an agent that runs hundreds of tool calls a day. What scales is a small set of deterministic guards that intercept the casual failure modes — an output redirect over your `.env`, a force-push, a delete aimed one folder too high — before they run. The guards are mistake-catchers, not security boundaries: a determined process writing files from inside Python is out of scope, and that honesty matters, because a guard you believe is a boundary is worse than no guard.
 

@@ -1,6 +1,6 @@
 # M2. Context economics — context is spend
 
-> [Learn track](README.md) · dimension: **Memory & context economics** in the [maturity check](https://jamesross.ai/tools/maturity-check.html?utm_source=github&utm_medium=repo&utm_campaign=learn-track).
+> [Learn track](README.md) · dimension: **Memory & context economics** in the [maturity check](https://jamesross.ai/tools/maturity-check?utm_source=github&utm_medium=repo&utm_campaign=learn-track).
 
 Two facts most workspaces learn late. First, everything auto-loaded into a session — instructions, memory index, skill descriptions — costs tokens on every turn of every session, and it grows a few percent a week because no single addition is large. Second, the model API is stateless: the whole transcript is re-sent on every tool call, so a token's real cost is its size times the number of steps that follow it. A large file read at turn 3 is re-paid hundreds of times; the same read at turn 180, a handful. Size is what everyone watches. Position and step-count are what multiply it.
 
@@ -19,6 +19,6 @@ Two moves, same session. (1) Measure your always-loaded surface — every file t
 
 ## Measure it
 
-[`ghost_token_counter.py`](../samples/scripts/ghost_token_counter.py) is the per-source baseline with history; [`token_report.py`](../samples/scripts/token_report.py) reads real spend per session. The [context carry-cost calculator](https://jamesross.ai/tools/context-cost.html?utm_source=github&utm_medium=repo&utm_campaign=learn-track) prices a read by position if you want the intuition before the instrument.
+[`ghost_token_counter.py`](../samples/scripts/ghost_token_counter.py) is the per-source baseline with history; [`token_report.py`](../samples/scripts/token_report.py) reads real spend per session. The [context carry-cost calculator](https://jamesross.ai/tools/context-cost?utm_source=github&utm_medium=repo&utm_campaign=learn-track) prices a read by position if you want the intuition before the instrument.
 
 Next: [M3. Verification & oversight](03-verification-oversight.md).

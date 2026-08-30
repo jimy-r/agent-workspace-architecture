@@ -1,6 +1,6 @@
 # M6. Provenance & delegation — sourced claims, mandated work
 
-> [Learn track](README.md) · dimension: **Provenance & delegation** in the [maturity check](https://jamesross.ai/tools/maturity-check.html?utm_source=github&utm_medium=repo&utm_campaign=learn-track).
+> [Learn track](README.md) · dimension: **Provenance & delegation** in the [maturity check](https://jamesross.ai/tools/maturity-check?utm_source=github&utm_medium=repo&utm_campaign=learn-track).
 
 Two questions decide whether you can trust work you didn't watch happen. For any claim: *what is this standing on, and could I tell if the answer were nothing?* For any autonomous act: *who authorised this, and would they recognise the mandate?* A workspace that can't answer the first hands you confident sentences with nothing behind them. One that can't answer the second either nags you about everything or acts on guesses.
 
@@ -23,4 +23,4 @@ Two passes. (1) Run the **four-box test** on three tasks you're tempted to autom
 
 [`wrap_drift_scan.py`](../samples/scripts/wrap_drift_scan.py) is the worked *surface* case (read-only close-out scan). For provenance, sample five load-bearing claims from your agent's last substantive answer: each should carry a source or an honest `[unverified]`. Count the ones that don't.
 
-End of track. Retake the [maturity check](https://jamesross.ai/tools/maturity-check.html?utm_source=github&utm_medium=repo&utm_campaign=learn-track) and diff against your M0 baseline — that diff is the track's own done-check.
+End of track. Retake the [maturity check](https://jamesross.ai/tools/maturity-check?utm_source=github&utm_medium=repo&utm_campaign=learn-track) and diff against your M0 baseline — that diff is the track's own done-check.

@@ -1,6 +1,6 @@
 # M5. Telemetry & cost — loud failure, priced lanes
 
-> [Learn track](README.md) · dimension: **Telemetry & cost** in the [maturity check](https://jamesross.ai/tools/maturity-check.html?utm_source=github&utm_medium=repo&utm_campaign=learn-track).
+> [Learn track](README.md) · dimension: **Telemetry & cost** in the [maturity check](https://jamesross.ai/tools/maturity-check?utm_source=github&utm_medium=repo&utm_campaign=learn-track).
 
 The whole point of a scheduled task is that nobody is watching it — which is exactly why nobody notices when it dies. The worked failure behind this module: a morning-brief lane in a real workspace failed on an expired credential for **34 consecutive days**, wrapper exiting cleanly the whole time, alarms firing into channels whose only readers were the dead systems themselves. Detection isn't remediation, and an alarm needs a live human reader.
 
