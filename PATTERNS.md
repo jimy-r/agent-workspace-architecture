@@ -14,7 +14,7 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Cost.** Indirection (two files, not one) plus a validator to catch bindings that reference a role or context that moved. Worth it past about three projects; overkill for one.
 
-**Where it lives:** [`samples/roles/`](samples/roles/) (17 roles + the template) and [`samples/example-project/`](samples/example-project/) (a binding composing role + context).
+**Where it lives:** [`samples/roles/`](samples/roles/) (18 roles + the template) and [`samples/example-project/`](samples/example-project/) (a binding composing role + context).
 
 ## 2. Classify-then-act, not ask-then-wait
 
