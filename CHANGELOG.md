@@ -2,6 +2,10 @@
 
 Human-written record of notable changes — the *why* and the *shape*, not every merged PR. Milestone batches get a tagged release with short notes (from `v1.0.0`, 2026-06-11); entries are grouped by date, newest first. Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), adapted to a dated scheme.
 
+## 2026-08-30
+
+- **A guided learn track: seven modules over the eighteen patterns.** [`learn/`](learn/README.md) opens on a foundations module that runs the session loop once, then walks six maturity dimensions: canonical knowledge, context economics, verification and oversight, safety and permissions, telemetry and cost, and provenance and delegation. Each module explains why the capability matters, points at the patterns that build it, and ends on an exercise with a mechanical done-check rather than a reflect-on prompt. A hands-on companion tutorial ships in the starter repo: seven steps that stand up a working scaffold instead of reading about one.
+
 ## 2026-08-29
 
 - **The reader surface moved to the charcoal-amber palette, and the map became the front door.** The tour and the map page now share one look — charcoal ink on cream with bronze and amber accents, the same palette the map wears on the author's practice site — replacing the oxblood scheme, favicon included. Prominence followed the palette: the README now opens with the map itself rendered inline as the hero image (the diagram extracted to a standalone SVG plus a 2x PNG in assets), and the tour hero carries a "See it on one page" button. Still red until regenerated: the README's static tour screenshot and the social card.
