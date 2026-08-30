@@ -79,6 +79,7 @@ The rest of the docs follow [Diátaxis](https://diataxis.fr/):
 | Evidence | [teardowns/](teardowns/) | published architectures read against the patterns |
 | Reference | [META_ARCHITECTURE.md](META_ARCHITECTURE.md) | the full structural map, with diagrams |
 | Tutorial | [ADOPTION.md](ADOPTION.md) | a 5-step build, minimum-viable at each step |
+| Tutorial | [learn/](learn/) | a guided track through the patterns, by capability, with exercises |
 | Explanation | [EVALUATION.md](EVALUATION.md) | how to tell whether a workspace change actually helped |
 | How-to | [samples/](samples/) | scaffold files to fork and adapt |
 | How-to | [tools/workspace_check.py](tools/workspace_check.py) | run a scored check of your own workspace |
