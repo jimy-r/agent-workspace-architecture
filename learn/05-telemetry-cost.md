@@ -21,6 +21,6 @@ Pick your one scheduled or recurring automated task (backup, digest, sync — an
 
 ## Measure it
 
-[`check_task_freshness.py`](../samples/scripts/check_task_freshness.py) is the watchdog shape; [`tier_metrics.py`](../samples/scripts/tier_metrics.py) is the lane-split spend instrument. Instrument the artefact the task produces, not the wrapper's exit code — a wrapper can exit 0 with nothing written.
+[`check_task_freshness.py`](../samples/scripts/security/check_task_freshness.py) is the watchdog shape; [`tier_metrics.py`](../samples/scripts/tier_metrics.py) is the lane-split spend instrument. Instrument the artefact the task produces, not the wrapper's exit code — a wrapper can exit 0 with nothing written.
 
 Next: [M6. Provenance & delegation](06-provenance-delegation.md).
