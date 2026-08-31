@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # Redacted sample from the private workspace - see PATTERNS.md Pattern 15
 # ("Price the lane before you migrate it"). Measures a token-management
-# intervention set: lane split, cache-hit, model adoption, rework markers.
+# intervention set: lane split, cache-hit, model adoption, rework markers,
+# cost per accepted dispatch, spend-tail concentration.
 # Adapt TRANSCRIPT_ROOT, INTERVENTION_DATE, and the FLAG thresholds to yours.
 """Read-only measurement instrument for the 2026-08-13 token-management
 interventions (ultracode default off, differentiated effort map, Fable to
@@ -10,7 +11,7 @@ Sonnet execution trial).
 INTERVENTION_DATE marks the day those interventions landed: rows/transcript
 activity on or after it are "post", the 28 days before it are "baseline".
 
-Computes four things:
+Computes six things:
   1. Spend trend      - token_history.jsonl daily $ before/after the date.
   2. Lane split        - main vs subagent-lane transcript cost share, the
                           subagent lane's cache-hit rate, and Sonnet-adoption
@@ -18,10 +19,18 @@ Computes four things:
   3. Rework markers     - "SONNET-REWORK" occurrences in tasks/todo.md against
                           subagent-lane Sonnet DISPATCHES (one transcript file
                           = one task; the 20% kill criterion is per task).
-  4. Assessment          - PASS / FLAG / INFO verdicts on the four checks
-                          above (sonnet-adoption, rework-rate, spend-trend,
-                          cache-hit). Advisory only: never exits non-zero for
-                          a FLAG, only for a --selftest failure or a crash.
+  4. Cost per task      - dispatch_ledger.jsonl verdicts joined with the
+                          lane's per-family cost: $ per ACCEPTED dispatch by
+                          tier. A tier trial is ruled on cost per accepted
+                          task, not cost per token.
+  5. Spend tail          - share of subagent-lane cost carried by the top
+                          decile of transcript files. A concentrated tail is
+                          where tiering/effort levers pay.
+  6. Assessment          - PASS / FLAG / INFO verdicts on the checks above
+                          (sonnet-adoption, rework-rate, spend-trend,
+                          cache-hit, cost-per-task, spend-tail). Advisory
+                          only: never exits non-zero for a FLAG, only for a
+                          --selftest failure or a crash.
 
 Never writes anything. scripts/audit_checks/run_all.py consumes this tool's
 `--json` output as the data source for its own check_tier_trial_metrics.
@@ -47,6 +56,9 @@ INTERVENTION_DATE = "2026-08-13"  # set to the date YOUR interventions landed
 WORKSPACE = Path(__file__).resolve().parents[1]
 TOKEN_HISTORY_PATH = WORKSPACE / "scripts" / "_state" / "token_history.jsonl"
 TODO_PATH = WORKSPACE / "tasks" / "todo.md"
+# Event log written by a per-dispatch router (route + outcome rows per id);
+# absent file = the cost-per-task section degrades to INFO, nothing fails.
+LEDGER_PATH = WORKSPACE / "scripts" / "_state" / "dispatch_ledger.jsonl"
 # Point this at your own project transcript directory under ~/.claude/projects/
 TRANSCRIPT_ROOT = Path.home() / ".claude" / "projects" / "YOUR-PROJECT-DIR"
 
@@ -182,10 +194,12 @@ def build_lane_stats(files: list[Path]) -> dict:
     active_days_post: set[str] = set()
     sonnet_calls_subagent = 0
     sonnet_dispatches_subagent = 0
+    subagent_file_costs: list[float] = []
 
     for path in files:
         lane = classify_lane(str(path))
         file_has_sonnet = False
+        file_cost = 0.0
         try:
             fh = path.open("r", encoding="utf-8", errors="ignore")
         except OSError:
@@ -211,6 +225,7 @@ def build_lane_stats(files: list[Path]) -> dict:
                 bucket["cache_read"] += int(usage.get("cache_read_input_tokens") or 0)
                 bucket["output"] += int(usage.get("output_tokens") or 0)
                 if lane == "subagent":
+                    file_cost += cost
                     fam = family_of(model)
                     family_cost[fam] = family_cost.get(fam, 0.0) + cost
                     if fam == "sonnet":
@@ -223,8 +238,10 @@ def build_lane_stats(files: list[Path]) -> dict:
                         and ts[:10] >= INTERVENTION_DATE
                     ):
                         active_days_post.add(ts[:10])
-        if lane == "subagent" and file_has_sonnet:
-            sonnet_dispatches_subagent += 1
+        if lane == "subagent":
+            subagent_file_costs.append(file_cost)
+            if file_has_sonnet:
+                sonnet_dispatches_subagent += 1
 
     total_cost = totals["main"]["cost"] + totals["subagent"]["cost"]
     cost_share_pct = {
@@ -251,6 +268,98 @@ def build_lane_stats(files: list[Path]) -> dict:
         "files_scanned": len(files),
         "sonnet_calls_subagent": sonnet_calls_subagent,
         "sonnet_dispatches_subagent": sonnet_dispatches_subagent,
+        "subagent_file_costs": subagent_file_costs,
+    }
+
+
+def load_dispatch_states(path: Path, since_date: str) -> dict:
+    """Reduce the route/outcome event log to latest-state-per-id.
+
+    dispatch_ledger.jsonl is an EVENT LOG (route + outcome rows share an id) -
+    never row-count it. Keeps dispatches whose route ts date >= since_date.
+    """
+    states: dict[str, dict] = {}
+    try:
+        with path.open("r", encoding="utf-8", errors="ignore") as fh:
+            for line in fh:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    obj = json.loads(line)
+                except (ValueError, TypeError):
+                    continue
+                id_ = obj.get("id")
+                if not isinstance(id_, str) or not id_:
+                    continue
+                event = obj.get("event")
+                if event == "route":
+                    s = states.setdefault(id_, {})
+                    s["tier"] = obj.get("tier")
+                    s["ts"] = obj.get("ts") or ""
+                elif event == "outcome":
+                    states.setdefault(id_, {})["verdict"] = obj.get("verdict")
+    except OSError:
+        return {}
+    return {
+        i: s
+        for i, s in states.items()
+        if isinstance(s.get("ts"), str) and s["ts"][:10] >= since_date
+    }
+
+
+def cost_per_task(lane: dict, states: dict) -> dict:
+    """Average subagent-lane cost per ledger-ACCEPTED dispatch, by tier.
+
+    Family cost is the whole window's transcript cost for that model family;
+    ledger dispatches are the router-consulted subset. So the figure is an
+    average over the lane, not a per-task join - labeled as such in output.
+    """
+    by_tier: dict[str, dict] = {}
+    for s in states.values():
+        tier = s.get("tier") or "unknown"
+        b = by_tier.setdefault(
+            tier,
+            {
+                "dispatches": 0,
+                "accepted": 0,
+                "rework": 0,
+                "escalated": 0,
+                "no_outcome": 0,
+            },
+        )
+        b["dispatches"] += 1
+        v = s.get("verdict")
+        if v in ("accepted", "rework", "escalated"):
+            b[v] += 1
+        else:
+            b["no_outcome"] += 1
+    for tier, b in by_tier.items():
+        fam_cost = lane["subagent_family_cost"].get(tier)
+        b["family_cost"] = fam_cost
+        b["cost_per_accepted"] = (
+            fam_cost / b["accepted"]
+            if isinstance(fam_cost, (int, float)) and fam_cost > 0 and b["accepted"] > 0
+            else None
+        )
+    return by_tier
+
+
+def tail_concentration(file_costs: list[float]) -> dict | None:
+    """Share of subagent-lane cost carried by the top decile of transcript
+    files. Anthropic's production observation: the hardest 10% of tasks carry
+    ~43% of spend - the tail is where tiering/effort levers pay."""
+    if len(file_costs) < 10:
+        return None
+    xs = sorted(file_costs, reverse=True)
+    k = max(1, len(xs) // 10)
+    total = sum(xs)
+    if total <= 0:
+        return None
+    return {
+        "files": len(xs),
+        "top_decile_files": k,
+        "top_decile_share": sum(xs[:k]) / total,
     }
 
 
@@ -272,7 +381,13 @@ def compute_rework(todo_path: Path, sonnet_dispatches: int, sonnet_calls: int) -
     }
 
 
-def assess(spend: dict, lane: dict, rework: dict) -> list[dict]:
+def assess(
+    spend: dict,
+    lane: dict,
+    rework: dict,
+    cpt: dict | None = None,
+    tail: dict | None = None,
+) -> list[dict]:
     out = []
 
     sub_cost = lane["subagent"]["cost"]
@@ -392,6 +507,38 @@ def assess(spend: dict, lane: dict, rework: dict) -> list[dict]:
             }
         )
 
+    # Advisory INFO only: a tier trial is ruled on cost per ACCEPTED task,
+    # not per token. No FLAG threshold until your own baseline exists.
+    if cpt:
+        parts = []
+        for tier, b in sorted(cpt.items()):
+            if b.get("cost_per_accepted") is not None:
+                parts.append(
+                    f"{tier} ${b['cost_per_accepted']:.2f}/accepted "
+                    f"({b['accepted']}/{b['dispatches']} accepted)"
+                )
+        if parts:
+            out.append(
+                {
+                    "check": "cost-per-task",
+                    "status": "INFO",
+                    "detail": "; ".join(parts),
+                }
+            )
+
+    if tail:
+        out.append(
+            {
+                "check": "spend-tail",
+                "status": "INFO",
+                "detail": (
+                    f"top decile ({tail['top_decile_files']} of {tail['files']} "
+                    f"subagent files) carries {tail['top_decile_share']:.0%} of "
+                    "lane cost"
+                ),
+            }
+        )
+
     return out
 
 
@@ -404,6 +551,8 @@ def build_report(days: int) -> dict:
         lane["sonnet_dispatches_subagent"],
         lane["sonnet_calls_subagent"],
     )
+    cpt = cost_per_task(lane, load_dispatch_states(LEDGER_PATH, INTERVENTION_DATE))
+    tail = tail_concentration(lane["subagent_file_costs"])
     return {
         "intervention_date": INTERVENTION_DATE,
         "days_window": days,
@@ -411,7 +560,9 @@ def build_report(days: int) -> dict:
         "spend_trend": spend,
         "lane_split": lane,
         "rework": rework,
-        "assessment": assess(spend, lane, rework),
+        "cost_per_task": cpt,
+        "tail_concentration": tail,
+        "assessment": assess(spend, lane, rework, cpt, tail),
     }
 
 
@@ -461,6 +612,28 @@ def _print_human(report: dict) -> None:
         f"  SONNET-REWORK markers: {rw['markers']}  sonnet dispatches: {rw['sonnet_dispatches']}"
         f"  (calls: {rw['sonnet_calls']})  ratio: {ratio_str}"
     )
+
+    cpt = report.get("cost_per_task") or {}
+    if cpt:
+        print("\nCost per accepted dispatch (lane average, by tier):")
+        for tier, b in sorted(cpt.items()):
+            cpa = (
+                f"${b['cost_per_accepted']:.2f}/accepted"
+                if b.get("cost_per_accepted") is not None
+                else "n/a"
+            )
+            print(
+                f"  {tier}: {cpa}  ({b['accepted']} accepted / {b['rework']} rework /"
+                f" {b['escalated']} escalated / {b['no_outcome']} no-outcome"
+                f" of {b['dispatches']} dispatches)"
+            )
+
+    tail = report.get("tail_concentration")
+    if tail:
+        print(
+            f"\nSpend tail: top {tail['top_decile_files']} of {tail['files']} subagent"
+            f" files carry {tail['top_decile_share']:.0%} of lane cost"
+        )
 
     print("\nAssessment:")
     for a in report["assessment"]:
@@ -591,6 +764,47 @@ def selftest() -> int:
         )
         == "PASS",
     )
+
+    # Cost per task: event-log reduce (route+outcome share an id) + the join.
+    import tempfile
+
+    ledger_rows = [
+        {"ts": "2026-08-20T10:00:00", "event": "route", "id": "a1", "tier": "sonnet"},
+        {"event": "outcome", "id": "a1", "verdict": "accepted"},
+        {"ts": "2026-08-21T10:00:00", "event": "route", "id": "a2", "tier": "sonnet"},
+        {"event": "outcome", "id": "a2", "verdict": "rework"},
+        {"ts": "2026-08-22T10:00:00", "event": "route", "id": "a3", "tier": "opus"},
+        {"ts": "2026-08-01T10:00:00", "event": "route", "id": "old", "tier": "opus"},
+    ]
+    with tempfile.TemporaryDirectory() as td:
+        lp = Path(td) / "ledger.jsonl"
+        lp.write_text("\n".join(json.dumps(r) for r in ledger_rows), encoding="utf-8")
+        states = load_dispatch_states(lp, "2026-08-13")
+        check(
+            "ledger reduce: 3 in-window dispatches, old row dropped", len(states) == 3
+        )
+        cpt = cost_per_task(lane_fixture(100.0, 50.0, 0.95), states)
+        check(
+            "cost_per_accepted: sonnet $50 family cost / 1 accepted = $50",
+            abs((cpt["sonnet"]["cost_per_accepted"] or 0) - 50.0) < 1e-9,
+        )
+        check(
+            "cost_per_accepted: opus no accepted -> None",
+            cpt["opus"]["cost_per_accepted"] is None and cpt["opus"]["no_outcome"] == 1,
+        )
+    check(
+        "load_dispatch_states: absent file -> {}",
+        load_dispatch_states(Path("does/not/exist.jsonl"), "2026-08-13") == {},
+    )
+
+    tail = tail_concentration([100.0] + [1.0] * 19)
+    check(
+        "tail: 2 of 20 files, dominant file concentrates the share",
+        tail is not None
+        and tail["top_decile_files"] == 2
+        and tail["top_decile_share"] > 0.8,
+    )
+    check("tail: under 10 files -> None", tail_concentration([1.0] * 9) is None)
 
     passed = sum(1 for _, ok in results if ok)
     total = len(results)
