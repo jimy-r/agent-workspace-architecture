@@ -62,4 +62,5 @@ Context cost is size times steps. The model API is stateless, so the whole trans
 - **Read ranges, not whole files**, and defer a big read to the step that needs it. Late is cheaper.
 - **Batch independent tool calls into one step.** Sequential calls each re-read the whole context; batched calls re-read it once. Sequence only when a later call depends on an earlier result.
 - **Do not rewrite always-loaded files mid-session.** Editing a standing instruction or memory file invalidates the cached prefix and forces a costlier re-write; batch those edits to one pass near the end.
+- **Reuse a spawned worker while its cache is warm.** When follow-up work shares an agent's context, continue that agent with a message rather than dispatching a fresh one: its accumulated context re-serves at the cached-read rate, but only within the provider's short subagent cache TTL, so send the continuation promptly.
 - **Compact on purpose** at high context — it shortens the prefix every remaining step re-reads. Pair it with a state dump so nothing load-bearing is lost.
