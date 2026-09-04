@@ -163,7 +163,7 @@ Two health checks run alongside the classify-then-act cycle:
 
 ### Stale CONTEXT.md scan
 
-Walk every project `CONTEXT.md` in the workspace (and `Personal/Health/health_profile.md`). For each, search for stale markers:
+Walk every project `CONTEXT.md` in the workspace (and any sensitive-lane profile file, e.g. `Personal/<lane>/profile.md`). For each, search for stale markers:
 
 - `not yet built`
 - `outstanding`

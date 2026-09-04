@@ -9,14 +9,22 @@ on:
     paths:
       - 'PATTERNS.md'
       - 'README.md'
+      - 'META_ARCHITECTURE.md'
       - 'docs/index.html'
+      - 'docs/workspace-map.html'
+      - 'samples/README.md'
+      - 'samples/roles/**'
       - '.github/workflows/docs-consistency.yml'
   push:
     branches: [main]
     paths:
       - 'PATTERNS.md'
       - 'README.md'
+      - 'META_ARCHITECTURE.md'
       - 'docs/index.html'
+      - 'docs/workspace-map.html'
+      - 'samples/README.md'
+      - 'samples/roles/**'
 
 permissions:
   contents: read
@@ -59,4 +67,56 @@ jobs:
           if errors:
               sys.exit("\n".join(errors))
           print(f"OK: every numeric pattern claim matches PATTERNS.md ({n} / '{word}')")
+          EOF
+
+  role-count:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Role-count claims match samples/roles/
+        run: |
+          python3 - <<'EOF'
+          import re, sys
+          from pathlib import Path
+
+          WORDS = {10: "ten", 11: "eleven", 12: "twelve", 13: "thirteen",
+                   14: "fourteen", 15: "fifteen", 16: "sixteen",
+                   17: "seventeen", 18: "eighteen", 19: "nineteen",
+                   20: "twenty"}
+
+          # Ground truth: every role file in samples/roles/, minus the
+          # template and the validator (files starting with '_').
+          roles_dir = Path("samples/roles")
+          n = len([p for p in roles_dir.glob("*.md") if not p.name.startswith("_")])
+          if n == 0:
+              sys.exit("samples/roles/ has zero role .md files - directory moved or emptied?")
+          word = WORDS.get(n, str(n))
+          errors = []
+          FILES = ("README.md", "PATTERNS.md", "META_ARCHITECTURE.md",
+                   "docs/index.html", "docs/workspace-map.html", "samples/README.md")
+          for path in FILES:
+              text = Path(path).read_text(encoding="utf-8")
+              if path == "META_ARCHITECTURE.md":
+                  # Skip the rolling "Last updated" header: it narrates past
+                  # states ("...corrected to eighteen roles on 2026-08-30")
+                  # that are history, not a live claim. Scan the body only.
+                  text = text.split("\n## ", 1)[-1]
+              # Any 'N (pure expert|expert|canonical) roles/personas' claim (digit or word)
+              for m in re.finditer(
+                  r"\b(\w+)\s+(?:pure\s+expert\s+|expert\s+|canonical\s+)?(?:roles?|personas?)\b",
+                  text, re.IGNORECASE,
+              ):
+                  token = m.group(1).lower()
+                  if token in ("the", "these", "those", "all", "our", "its", "a", "any", "every", "new"):
+                      continue
+                  claimed = None
+                  if token.isdigit():
+                      claimed = int(token)
+                  elif token in WORDS.values():
+                      claimed = next(k for k, v in WORDS.items() if v == token)
+                  if claimed is not None and claimed != n:
+                      errors.append(f"{path}: claims '{m.group(0)}' but samples/roles/ has {n}")
+          if errors:
+              sys.exit("\n".join(errors))
+          print(f"OK: every numeric role claim matches samples/roles/ ({n} / '{word}')")
           EOF
