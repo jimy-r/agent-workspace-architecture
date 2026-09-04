@@ -42,6 +42,7 @@ Pages here are the canonical copies. Sharing on aggregator venues (with each ven
 
 | Date | Subject | Revision read |
 |---|---|---|
+| 2026-09-05 | [DeepSeek Harness](2026-09-05-deepseek-harness.md) | `d347e703908d` |
 | 2026-08-28 | [herdr](2026-08-28-herdr.md) | `7b675f42af35` |
 | 2026-08-28 | [LifeOS](2026-08-28-lifeos.md) | `ce046f26495c` |
 | 2026-08-27 | [12-Factor Agents](2026-08-27-12-factor-agents.md) | `d20c728` |
