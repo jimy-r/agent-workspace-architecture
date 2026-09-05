@@ -27,6 +27,11 @@ samples/
 ├── .claude/
 │   ├── settings.example.json         # hook configuration (PreToolUse + PostToolUse + SessionStart); timeout is seconds
 │   │
+│   ├── hooks/                        # the three scripts settings.example.json wires
+│   │   ├── protect-files.py          # PreToolUse Edit/Write guard — exit 2 blocks an edit to a protected path
+│   │   ├── auto-format.py            # PostToolUse Edit/Write — formats the file just written, skips if no formatter
+│   │   └── session-start.py          # SessionStart — date, git state and the top of the task file into context
+│   │
 │   ├── skills/                       # 10 invokable workspace skills
 │   │   ├── orient/SKILL.md           # session-start briefing
 │   │   ├── wrap/SKILL.md             # task close-out ritual (updates registries)
@@ -105,7 +110,7 @@ samples/
 - [`CLAUDE.md.example`](CLAUDE.md.example): root-level context that Claude auto-loads.
 - [`CONTEXT.md.example`](CONTEXT.md.example): blank project-entity template. Filled counterpart: [`example-project/CONTEXT.md`](example-project/CONTEXT.md).
 - [`roles/_template.md`](roles/_template.md): role skeleton + fields.
-- [`.claude/settings.example.json`](.claude/settings.example.json): hook configuration.
+- [`.claude/settings.example.json`](.claude/settings.example.json): hook configuration, and [`.claude/hooks/`](.claude/hooks/): the three scripts it points at.
 - [`.claude/skills/orient/SKILL.md`](.claude/skills/orient/SKILL.md): example skill.
 - [`board/board.example.md`](board/board.example.md): the card store the coordination layer runs on. [`board/README.md`](board/README.md) is its design doc.
 
@@ -117,6 +122,7 @@ Follow [`ADOPTION.md`](../ADOPTION.md); the 5-step walkthrough maps these sample
 - [`roles/`](roles/): **17 canonical roles**. Each is pure (no entity facts), composed with a project `CONTEXT.md` via a thin binding in `<project>/.claude/agents/`. Domain-specific roles (e.g. `accountant.md` is Australian-CPA flavoured) may need localisation; treat as template.
 - [`.claude/skills/`](.claude/skills/): **10 workspace skills** for session management, queue-draining (heartbeat reviews + audit findings), output discipline, verification, and goal-loop design. The board module's own two skills ship alongside it in [`board/`](board/).
 - [`.claude/agents/`](.claude/agents/): **4 custom subagents**: the weekly auditor, its quarterly second-opinion counterpart, a task-queue project manager (retired 2026-08, kept as the studied predecessor), and an auto-routed researcher.
+- [`.claude/hooks/`](.claude/hooks/): the three hook scripts [`settings.example.json`](.claude/settings.example.json) wires. [`protect-files.py`](.claude/hooks/protect-files.py) is the PreToolUse guard ADOPTION step 3 asks you to write: it exits `2` on an edit to a protected path, which blocks the tool call. [`auto-format.py`](.claude/hooks/auto-format.py) formats whatever the agent just wrote and skips quietly when the formatter is not installed. [`session-start.py`](.claude/hooks/session-start.py) prints the date, the git state and a capped excerpt of the task file into the opening context. All three are stdlib-only and fail open, because a hook that breaks the session gets deleted on day one. The Bash-side counterpart to the first is [`scripts/security/check_bash_command.py`](scripts/security/check_bash_command.py); wire both, since shell writes never reach a PreToolUse Edit hook.
 - [`.claude/scheduled-tasks/`](.claude/scheduled-tasks/): **4 SKILL.md files** fired by an OS-level scheduler (Windows Task Scheduler / cron / launchd) via the `run-scheduled-skill.ps1` wrapper — which since 2026-06-10 runs a deterministic preflight gate and a per-skill model map before any model is invoked. The `morning-brief/SKILL.md` shows the full daily-orchestrator pattern.
 - [`scripts/`](scripts/): **~25 helpers** consumed by the scheduled tasks and the audit. Each is standalone, stdlib-first where possible. The newest cluster is the Token Budget module: `token_report.py` (spend telemetry), `heartbeat/preflight_gate.py` (spend avoidance), `audit_checks/run_all.py` (coded assertions). `wrap_drift_scan.py` is the read-only close-out surfacer that works the loop-selection pattern (a SURFACE-bucket nudge, never silent autonomy).
 - [`tests/audit_canaries/`](tests/audit_canaries/): the known-bad fixtures the audit must keep flagging — detection is asserted end-of-run, not by checking the fixtures exist.
