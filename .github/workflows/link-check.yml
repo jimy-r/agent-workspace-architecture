@@ -23,6 +23,10 @@ permissions:
 jobs:
   lychee:
     runs-on: ubuntu-latest
+    env:
+      # One title for the standing issue. The lookup below matches on it and
+      # create-issue-from-file writes it, so the two must not drift apart.
+      ISSUE_TITLE: 'Link check failed (scheduled run)'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -69,11 +73,36 @@ jobs:
             './**/*.md'
           fail: false
 
-      - name: Open issue on scheduled failure
-        if: github.event_name == 'schedule' && env.lychee_exit_code != '0'
+      # lychee-action v2 reports its exit code as a step output. It writes
+      # nothing to $GITHUB_ENV, so the earlier `env.lychee_exit_code` guard
+      # read an undefined value, compared it against '0' as a number, and
+      # skipped these steps on every scheduled run including genuine failures.
+      - name: Find the standing link-check issue
+        id: standing
+        if: github.event_name == 'schedule' && steps.lychee_full.outputs.exit_code != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          number=$(gh issue list --repo "$GITHUB_REPOSITORY" \
+            --label ci --state open --limit 100 \
+            --json number,title \
+            --jq 'map(select(.title == $ENV.ISSUE_TITLE)) | first | .number // empty')
+          if [ -n "$number" ]; then
+            echo "Refreshing standing issue #${number}."
+          else
+            echo "No open standing issue; a new one will be opened."
+          fi
+          echo "number=${number}" >> "$GITHUB_OUTPUT"
+
+      - name: Open or refresh the issue on scheduled failure
+        if: github.event_name == 'schedule' && steps.lychee_full.outputs.exit_code != '0'
         uses: peter-evans/create-issue-from-file@fca9117c27cdc29c6c4db3b86c48e4115a786710 # v6.0.0
         with:
-          title: 'Link check failed (scheduled run)'
+          # Empty when the lookup found nothing, which makes the action open a
+          # fresh issue. Passing it is what stops each weekly run filing a
+          # duplicate of the one already open.
+          issue-number: ${{ steps.standing.outputs.number }}
+          title: ${{ env.ISSUE_TITLE }}
           content-filepath: ./lychee/out.md
           labels: |
             ci
