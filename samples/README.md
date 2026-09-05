@@ -25,7 +25,7 @@ samples/
 │   ├── backend-developer.md … wealth-manager.md   (see the folder for the full set)
 │
 ├── .claude/
-│   ├── settings.example.json         # hook configuration (PreToolUse + PostToolUse + SessionStart)
+│   ├── settings.example.json         # hook configuration (PreToolUse + PostToolUse + SessionStart); timeout is seconds
 │   │
 │   ├── skills/                       # 10 invokable workspace skills
 │   │   ├── orient/SKILL.md           # session-start briefing

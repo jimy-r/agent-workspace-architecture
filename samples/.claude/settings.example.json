@@ -6,8 +6,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python .claude/hooks/protect-files.py",
-            "timeout": 5000
+            "command": "python3 \"${CLAUDE_PROJECT_DIR}/.claude/hooks/protect-files.py\"",
+            "timeout": 5
           }
         ]
       },
@@ -16,8 +16,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python <workspace>/scripts/security/check_bash_command.py",
-            "timeout": 5000
+            "command": "python3 \"${CLAUDE_PROJECT_DIR}/scripts/security/check_bash_command.py\"",
+            "timeout": 5
           }
         ]
       }
@@ -28,8 +28,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python .claude/hooks/auto-format.py",
-            "timeout": 30000
+            "command": "python3 \"${CLAUDE_PROJECT_DIR}/.claude/hooks/auto-format.py\"",
+            "timeout": 30
           }
         ]
       }
@@ -39,8 +39,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python .claude/hooks/session-start.py",
-            "timeout": 2000
+            "command": "python3 \"${CLAUDE_PROJECT_DIR}/.claude/hooks/session-start.py\"",
+            "timeout": 2
           }
         ]
       }
