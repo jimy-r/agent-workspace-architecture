@@ -24,7 +24,7 @@ jobs:
   lychee:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           # Full history so we can diff the PR head against base.
           fetch-depth: 0
@@ -48,7 +48,7 @@ jobs:
       - name: Run lychee (PR — diff only)
         id: lychee_pr
         if: github.event_name == 'pull_request' && steps.changed.outputs.any_changed == 'true'
-        uses: lycheeverse/lychee-action@v2
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
           args: >-
             --verbose
@@ -60,7 +60,7 @@ jobs:
       - name: Run lychee (scheduled / manual — full repo)
         id: lychee_full
         if: github.event_name != 'pull_request'
-        uses: lycheeverse/lychee-action@v2
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
           args: >-
             --verbose
@@ -71,7 +71,7 @@ jobs:
 
       - name: Open issue on scheduled failure
         if: github.event_name == 'schedule' && env.lychee_exit_code != '0'
-        uses: peter-evans/create-issue-from-file@v6
+        uses: peter-evans/create-issue-from-file@fca9117c27cdc29c6c4db3b86c48e4115a786710 # v6.0.0
         with:
           title: 'Link check failed (scheduled run)'
           content-filepath: ./lychee/out.md
