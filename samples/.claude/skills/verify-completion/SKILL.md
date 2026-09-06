@@ -53,7 +53,7 @@ Skipping any step means the claim is unverified.
 1. **Evidence must span what the claim covers.** A container passing is never evidence for its members — name the enumeration probe. A claim about a UI needs browser evidence, not compiler evidence.
 2. **Evidence must arrive when the failure can exist.** A probe taken before the cache expires, the scheduler fires, or the cold path runs proves nothing about the steady state.
 
-*(Both rows are incident-derived — lifted from an external verification-gate doctrine that names the same failure modes.)*
+*(Both rows are incident-derived — lifted from the LifeOS VerificationGate evidence-modality doctrine; see the [LifeOS teardown](../../../../teardowns/2026-08-28-lifeos.md).)*
 
 ## Rules
 
