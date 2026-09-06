@@ -2,8 +2,9 @@
 
 Human-written record of notable changes — the *why* and the *shape*, not every merged PR. Milestone batches get a tagged release with short notes (from `v1.0.0`, 2026-06-11); entries are grouped by date, newest first. Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), adapted to a dated scheme. A date that carries a tagged release names the version in its heading, and that version links to the diff against the release before it, so anyone arriving from a release page can find the matching section. Dates without a version were merged between releases.
 
-## 2026-09-06 - Unreleased
+## 2026-09-06 - [v1.16.0]
 
+- **Teardown: GPT-RAG, read at `76a8a4d6fd88` (v3.8.3, 2026-09-03).** Fifth in the series and the first Microsoft subject: the umbrella repository of the Foundry solution accelerator, read for the contract it gives the coding agents that work on it. Five of the eighteen patterns are present and twelve partial. The page credits decision records that carry an expiry date and a list of falsifiers, fail-closed flags enforced in the code path rather than in prose, contract schemas pinned by hash with the line-ending rule that keeps the hash portable, and a changelog that publishes its own root causes. The absences cluster on execution: about 300 KB of tests that no workflow runs, a release-pinning test that fails four of six assertions against the manifest beside it, two decision records sharing a number, and three shared skills kept as fifteen divergent copies across five repositories. Every quote was checked against the pinned revision, and the few live facts are dated. At [`teardowns/2026-09-06-azure-gpt-rag.md`](teardowns/2026-09-06-azure-gpt-rag.md).
 - **Twentieth-audit batch, published.** Five PRs (#132 to #136) landed the audit's public-side fixes: SHA-pinned CI actions and dependency pins, the sample hooks and their timeouts, changelog anchors, the redaction scanner's UTF-8 git output and the redaction-action wiring, all nine workflows named in SECURITY.md, the map's roles label, and the discovery files (`llms.txt`, `AGENTS.md`, a freshness check, the sitemap, Discussions and learn links). META's change history moved to [docs/history.md](docs/history.md) and the wrap sample was refreshed. The meta-architecture header now carries the audit itself: every finding decided or deferred, the router ledger listing unlabeled dispatches, three audit checks with known-positive fixtures, Red Flags on all eighteen roles.
 - **The routines layer gains the `promo-capture` lane.** A twice-weekly read-only capture of repo traffic, stars and referrers, because the traffic API keeps a rolling 14-day window and an uncaptured fortnight is gone for good. Capture is the only scheduled part; reporting stays manual by standing constraint. Written 2026-08-27 on a branch that never reached a PR, published now.
 
@@ -221,6 +222,7 @@ Human-written record of notable changes — the *why* and the *shape*, not every
 
 *Last verified against the repo structure on **2026-06-10**.*
 
+[v1.16.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.15.0...v1.16.0
 [v1.15.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.14.0...v1.15.0
 [v1.14.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.13.1...v1.14.0
 [v1.13.1]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.13.0...v1.13.1
