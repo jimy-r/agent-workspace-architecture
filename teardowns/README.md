@@ -32,7 +32,12 @@ One file per teardown: `YYYY-MM-DD-<subject-slug>.md`, opening with a header blo
 - **Date:** YYYY-MM-DD
 ```
 
-Body structure, in order: **What it is** (two or three sentences, neutral) · **What works** (the strongest choices, credited) · **The trade-offs** (what the design pays for those choices) · **What's conspicuously absent** (patterns the design would benefit from, and why their absence shows) · **What this teaches** (what transfers to other workspaces, which is the reason the page exists).
+Body structure, in order: **What it is** (two or three sentences, neutral) · **What works** (the strongest choices, credited) · **The trade-offs** (what the design pays for those choices) · **What's conspicuously absent** (patterns the design would benefit from, and why their absence shows) · **What this teaches** (what transfers to other workspaces, which is the reason the page exists) · **What changed here** (the concrete edit this reading produced in *this* workspace, cited to a commit, PR or CHANGELOG entry, or an explicit "nothing yet" with the reason).
+
+Two more rules the pages hold to:
+
+- **Every pattern number is a link.** In the header block and in the body, a pattern number resolves to its anchor in [`../PATTERNS.md`](../PATTERNS.md). A reader arriving from an aggregator lands mid-page and needs one click to the reasoning.
+- **The last section is the action item.** A teardown that ends on an abstract lesson has no way of being wrong later. "What changed here" is the field that keeps the practice honest, and "nothing yet, and here is why" is a legitimate answer.
 
 ## Distribution
 
@@ -46,3 +51,11 @@ Pages here are the canonical copies. Sharing on aggregator venues (with each ven
 | 2026-08-28 | [herdr](2026-08-28-herdr.md) | `7b675f42af35` |
 | 2026-08-28 | [LifeOS](2026-08-28-lifeos.md) | `ce046f26495c` |
 | 2026-08-27 | [12-Factor Agents](2026-08-27-12-factor-agents.md) | `d20c728` |
+
+## Disagree with a reading?
+
+Say so in [Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions) — that's the canonical Q&A home, and it is the right venue for a subject's maintainers too, since ground rule 4 keeps these pages out of anyone else's tracker. Corrections are appended to the page, dated. Factual errors can also go to [issues](https://github.com/jimy-r/agent-workspace-architecture/issues).
+
+---
+
+*New teardowns, patterns and tools ship irregularly: [Agent Workspaces](https://jimyr.substack.com) · The guided track over the patterns: [learn/](../learn/README.md)*

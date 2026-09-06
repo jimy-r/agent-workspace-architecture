@@ -16,6 +16,26 @@ Feeding this to a model instead? [`llms.txt`](https://jimy-r.github.io/agent-wor
 
 New work ships irregularly: patterns, teardowns, tools, and the occasional essay. Follow along at [Agent Workspaces](https://jimyr.substack.com), or watch the repo.
 
+## Try it in 60 seconds
+
+One runnable artefact ships here: a single-file, read-only linter that scores a workspace against the checkable patterns and prints one evidence line per check. No install, no dependencies beyond Python 3.9+, and it writes nothing.
+
+```bash
+curl -sSLO https://raw.githubusercontent.com/jimy-r/agent-workspace-architecture/main/tools/workspace_check.py
+python3 workspace_check.py /path/to/your/workspace
+```
+
+What you see (this repo's own score, abbreviated):
+
+```text
+[PASS] context-budget — 4.7 KB across 1 always-loaded file(s) (pattern 9)
+[FAIL] secrets-in-files — 2 hit(s) (pattern 6)
+
+Score 6.4/10 — maturing (7 scored, 5 not applicable)
+```
+
+Each check names the pattern it comes from, so a `[FAIL]` is a link into [PATTERNS.md](PATTERNS.md) rather than a scolding. Post your score in [Show and tell](https://github.com/jimy-r/agent-workspace-architecture/discussions/categories/show-and-tell) if you want a second read on it.
+
 The example runs in [Claude Code](https://claude.com/claude-code), so the file conventions you'll see (`CLAUDE.md`, `.claude/skills/`, MCP config) are Claude-Code-specific. The architecture is not. The roles library, memory hygiene, audit cadence, explicit-delegation task board, dead-man's switch, and tier-by-impact gating port to Cursor, Cline, Continue, Windsurf, or a custom Agent-SDK build. Pick your runtime; the decisions translate.
 
 This is one person's actual setup, redacted and published as a reference. Not a framework, not a product. A documented working arrangement of the pieces Claude Code already gives you, with the reasoning attached. It is also the reference version of the agent-ready memory layer I build for organisations, running at one-person scale.
@@ -68,7 +88,7 @@ James Ross. I work as an AI Knowledge Architect; the practice is **Agent-Ready K
 
 Fork freely ([MIT](LICENSE)); that's what it's for. Adapt the samples, lift the patterns, localise the domain-flavoured bits (the `accountant` role is Australian-CPA shaped, the morning brief fetches Brisbane weather).
 
-This is a **curated solo reference**, maintained best-effort. If you spot a privacy leak, a broken link, or a pattern that's plainly wrong, [open an issue](https://github.com/jimy-r/agent-workspace-architecture/issues/new/choose) and I'll get to it when time allows. Substantial PRs are welcome, but a good one can still be declined if it pulls the doc off its shape: it stays one coherent worked example, not a grab-bag.
+This is a **curated solo reference**, maintained best-effort. Questions, comparisons with your own setup, and "does this hold at team scale" go to [Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions), the canonical Q&A home, where answers stay findable. If you spot a privacy leak, a broken link, or a pattern that's plainly wrong, [open an issue](https://github.com/jimy-r/agent-workspace-architecture/issues/new/choose) and I'll get to it when time allows. Substantial PRs are welcome, but a good one can still be declined if it pulls the doc off its shape: it stays one coherent worked example, not a grab-bag.
 
 **One hard rule for anything you send:** no personal identifiers, no credentials, no business / health / financial specifics. Every commit is safe for a public audience. Full guidance in [CONTRIBUTING.md](CONTRIBUTING.md).
 
@@ -90,7 +110,7 @@ This is a **curated solo reference**, maintained best-effort. If you spot a priv
 
 ## Also here
 
-[SUPPORT.md](SUPPORT.md) (where to go for what) · [STYLE_GUIDE.md](STYLE_GUIDE.md) · [SECURITY.md](SECURITY.md) (privacy-leak and workflow-vuln reporting) · [CHANGELOG.md](CHANGELOG.md) · [ATTRIBUTION.md](ATTRIBUTION.md) (patterns this borrows from) · [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+[Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions) (Q&A, and Show and tell for your own workspace score) · [AGENTS.md](AGENTS.md) (instructions for an agent working in this repo) · [SUPPORT.md](SUPPORT.md) (where to go for what) · [STYLE_GUIDE.md](STYLE_GUIDE.md) · [SECURITY.md](SECURITY.md) (privacy-leak and workflow-vuln reporting) · [CHANGELOG.md](CHANGELOG.md) · [ATTRIBUTION.md](ATTRIBUTION.md) (patterns this borrows from) · [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 
 The repo was renamed from `claude-workspace-architecture` on 2026-05-28; the old URL 301-redirects, so external links keep working.
 
@@ -100,4 +120,4 @@ The repo was renamed from `claude-workspace-architecture` on 2026-05-28; the old
 
 ---
 
-*Last verified against the repo structure on 2026-08-27.*
+*Last verified against the repo structure on 2026-09-06.*

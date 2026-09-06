@@ -18,8 +18,12 @@ Find one rule that exists in two of your instruction files (a communication pref
 
 **Done-check:** the phrase now greps to exactly one file plus pointers, and the pointer names its target explicitly.
 
+Record it: tick the module on the [track checklist](README.md#track-your-progress), or post the output in [Show and tell](https://github.com/jimy-r/agent-workspace-architecture/discussions/categories/show-and-tell) where the next reader can compare.
+
 ## Measure it
 
 [`claudemd_audit.py`](../samples/scripts/claudemd_audit.py) inventories every always-loaded instruction file and flags cross-file duplicated boilerplate. Run it before and after; the duplication count should drop by at least one.
 
-Next: [M2. Context economics](02-context-economics.md) — what the duplicated copy was costing you per session.
+---
+
+*Next: [M2. Context economics](02-context-economics.md), what the duplicated copy was costing you per session · Stuck, or done? [Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions) · New modules, teardowns and tools: [Agent Workspaces](https://jimyr.substack.com)*
