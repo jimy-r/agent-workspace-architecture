@@ -1,17 +1,22 @@
 ---
 name: tasks
-description: Use when the user says "tasks", "/tasks", "show me the tasks", "what's on the list", or "what questions are open". Produces a concise readout of active items in To Do Notes.md and open questions in To Do Questions.md. Lighter and more focused than `orient`.
+description: Use when the user says "tasks", "/tasks", "show me the tasks", "what's on the list", or "what questions are open". Concise readout of active items in To Do Notes.md and open questions in To Do Questions.md; lighter than `orient`. For outstanding work itself use /board, the canonical store.
 ---
 
 ## Purpose
 
 Quick status readout of the task queue. No briefing, no recommendation — just what's on the list and what's open. Use when the user wants to see the state of work, not decide what to do next.
 
+> **The board is now the task store.** Outstanding work lives in the task board (see the `board` module). For "what's on my plate", prefer the **`board`** skill: `python scripts/board.py stats` gives lane/owner/area counts, WIP and overdue in one shot, and it is the canonical answer.
+>
+> This skill remains for the *legacy* surfaces below — `To Do Notes.md` is now a raw capture inbox (un-triaged notes may sit in it), and `To Do Questions.md` is still its own store. Use it to check what has NOT yet been triaged onto the board.
+
 ## Procedure
 
 ### 1. Read
 
-- `<workspace>/tasks/To Do Notes.md`
+- `<workspace>/board/board.md` (via `python scripts/board.py stats`) — the canonical outstanding work
+- `<workspace>/tasks/To Do Notes.md` — the raw capture inbox: report anything un-triaged (not struck through, not yet a card)
 - `<workspace>/tasks/To Do Questions.md`
 
 ### 2. Parse

@@ -1,11 +1,11 @@
 ---
 name: audit-workthrough
-description: Walk the pending audit-finding queue interactively — read scripts/_state/audit_findings.jsonl, present each pending finding with its evidence (from tasks/audit/SETUP_REVIEW.md when available), action the user's per-item decision (apply / dismiss / false-positive / defer), and mark the ledger. Invoke via "work through the audit", "/audit-workthrough", "drain audit findings", "action the audit findings". Sibling of review-queue (which drains heartbeat builds); this drains audit findings.
+description: Walk the pending audit-finding queue (scripts/_state/audit_findings.jsonl) interactively - present each with its evidence, action apply / dismiss / false-positive / defer, mark the ledger. Invoke via "work through the audit", "/audit-workthrough", "drain audit findings", "action the audit findings". Sibling of review-queue (which drains heartbeat builds); this drains audit findings.
 ---
 
 # Audit work-through
 
-Walk the audit's pending findings one at a time and close the loop the ledger was built for: every finding ends as `accepted`, `dismissed`, or `false_positive` — never silently forgotten. This skill replaces the ad-hoc "work-through" sessions (e.g. 2026-06-04) with a repeatable ritual, and it is what feeds the R6 adaptive weighting + `[DORMANT]` source tagging their data.
+Walk the audit's pending findings one at a time and close the loop the ledger was built for: every finding ends as `accepted`, `dismissed`, or `false_positive` — never silently forgotten. This skill replaces ad-hoc "work-through" sessions with a repeatable ritual, and it is what feeds the adaptive source weighting + dormant-source tagging their data.
 
 ## Procedure
 
@@ -16,9 +16,10 @@ Walk the audit's pending findings one at a time and close the loop the ledger wa
 3. **Present one finding at a time:** title, category, tier, source run, age, and the evidence paragraph from the report if found. Then ask for the decision: **apply** / **dismiss** / **false-positive** / **defer** / **skip rest**.
 
 4. **On apply:**
-   - **Verify the flagged gap against actual state FIRST** (lessons 2026-05-29 + 2026-06-04): grep/read the target file before editing. If the gap turns out to already be fixed, that is a `false_positive` mark, not an apply.
+   - **Verify the flagged gap against actual state FIRST**: grep/read the target file before editing. If the gap turns out to already be fixed, that is a `false_positive` mark, not an apply.
    - Make the change with normal tools, then run any validator the touched file falls under (`roles/_validate.py` for role files, `hookify` validate for settings hooks, JSON parse for settings.json).
    - Mark: `python <workspace>/scripts/audit_ledger.py mark <uuid> accepted --note "<what was done>"`.
+   - **Close the tasklist end too.** If the finding has a matching bullet in a task list or a task-board card, annotate/close it in the same action. A ledger entry closing while its task-list bullet stays open is a real one-way-loop failure — the two stores silently drift apart otherwise.
 
 5. **On dismiss / false-positive:** `python <workspace>/scripts/audit_ledger.py mark <uuid> dismissed|false_positive --note "<why>"`. The note matters — it is what future audits read to stop re-flagging the same shape.
 
