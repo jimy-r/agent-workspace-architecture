@@ -1,0 +1,49 @@
+name: Freshness stamps
+
+# Four dated claims on the reader surface are hand-maintained: the README
+# footer, the tour's JSON-LD dateModified, the tour's no-JS "Last updated"
+# fallback, and every <lastmod> in the sitemap. All four drifted inside a
+# single week (audit findings fb7e71dd, 7686989c, and 3be18837 before them),
+# because nothing tied a stamp to the file it describes.
+#
+# This gate does. `scripts/check_freshness.py` reads each stamp and compares it
+# to the last commit touching the file the stamp is *about* — the sitemap's
+# lastmod entries are checked against their own pages, not against the sitemap.
+#
+# pull_request only, deliberately. On a squash merge GitHub dates the commit at
+# merge time, so a PR opened one day and merged the next would leave main
+# permanently red through no fault of the content. The gate belongs where it is
+# actionable: before the merge, in the branch that carries both the edit and
+# the stamp.
+
+on:
+  pull_request:
+    paths:
+      - 'README.md'
+      - 'docs/index.html'
+      - 'docs/sitemap.xml'
+      - 'docs/workspace-map.html'
+      - 'docs/llms.txt'
+      - 'docs/llms-full.txt'
+      - 'scripts/check_freshness.py'
+      - '.github/workflows/freshness-check.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  freshness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # Full history: the check reads `git log` per file.
+          fetch-depth: 0
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+
+      - name: Freshness stamps match git history
+        run: python scripts/check_freshness.py

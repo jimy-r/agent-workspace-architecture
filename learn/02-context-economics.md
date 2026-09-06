@@ -17,8 +17,12 @@ Two moves, same session. (1) Measure your always-loaded surface — every file t
 
 **Done-check:** you can name your three most expensive always-loaded sources with numbers, and one habitual read has demonstrably moved (the session start no longer contains it).
 
+Record it: tick the module on the [track checklist](README.md#track-your-progress), or post the output in [Show and tell](https://github.com/jimy-r/agent-workspace-architecture/discussions/categories/show-and-tell) where the next reader can compare.
+
 ## Measure it
 
 [`ghost_token_counter.py`](../samples/scripts/ghost_token_counter.py) is the per-source baseline with history; [`token_report.py`](../samples/scripts/token_report.py) reads real spend per session. The [context carry-cost calculator](https://jamesross.ai/tools/context-cost?utm_source=github&utm_medium=repo&utm_campaign=learn-track) prices a read by position if you want the intuition before the instrument.
 
-Next: [M3. Verification & oversight](03-verification-oversight.md).
+---
+
+*Next: [M3. Verification & oversight](03-verification-oversight.md) · Stuck, or done? [Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions) · New modules, teardowns and tools: [Agent Workspaces](https://jimyr.substack.com)*

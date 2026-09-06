@@ -16,11 +16,31 @@
 - [ADOPTION.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/ADOPTION.md): A five-step build guide, minimum-viable at each step, for standing up your own workspace.
 - [WORKFLOW.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/WORKFLOW.md): How work actually moves through the workspace, session to session.
 - [README.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/README.md): Project overview, what the repo is, and how to navigate it.
-- [CHANGELOG.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/CHANGELOG.md): Recent activity — dated, newest first.
+- [AGENTS.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/AGENTS.md): Runtime-neutral instructions for an agent working in the repo: reading order, the redaction rule, the checks to run, and the commit conventions.
 
-## Samples
+## Learn track
 
+- [learn/README.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/README.md): The guided track index: seven modules over the eighteen patterns, organised by capability, with a time estimate and prerequisite per module.
+- [M0. Foundations](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/00-foundations.md): The session loop (orient, plan, work, wrap), run once end to end.
+- [M1. Canonical knowledge](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/01-canonical-knowledge.md): One source of truth per fact, with pointers from everywhere else. Patterns 1, 5, 17.
+- [M2. Context economics](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/02-context-economics.md): Context as spend: the always-loaded surface, and why position multiplies the price of a read. Patterns 9, 18.
+- [M3. Verification & oversight](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/03-verification-oversight.md): Trust through checks: golden cases, audit canaries, and gating a scaffold behind a measurable hypothesis. Patterns 8, 10, 11, 13.
+- [M4. Safety & permissions](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/04-safety-permissions.md): Cheap mechanical guards: hooks, tiering by impact, and keeping credentials out of files. Patterns 4, 6, 7.
+- [M5. Telemetry & cost](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/05-telemetry-cost.md): Loud failure and priced lanes: the dead-man's switch, and instrumenting a lane before migrating it. Patterns 3, 15.
+- [M6. Provenance & delegation](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/06-provenance-delegation.md): Claims that carry sources, work that carries a mandate. Patterns 2, 12, 14, 16.
+
+## Teardowns
+
+- [teardowns/README.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md): The teardown index, ground rules, and page conventions. Published architectures read against the eighteen patterns.
+- [DeepSeek Harness](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/2026-09-05-deepseek-harness.md): DeepSeek's plugin-everything agent runtime, read at `d347e703908d`. Strong on one-home-per-fact and guards proven to fail; no first-party memory, by recorded decision.
+- [herdr](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/2026-08-28-herdr.md): The Rust runtime that owns the terminals coding agents live in, read at `7b675f42af35`. Pane state and agent-native coordination are ahead of the field; spend, freshness, and provenance are unaccounted.
+- [LifeOS](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/2026-08-28-lifeos.md): A personal AI operating layer shipped as one self-contained skill, read at `ce046f26495c`. Distribution discipline is exemplary; measurement, silent-failure detection, and provenance are absent.
+- [12-Factor Agents](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/2026-08-27-12-factor-agents.md): HumanLayer's principles for production LLM applications, read at `d20c728`. The strongest statement of the application layer; the operational layer around it is out of scope by design.
+
+## Optional
+
+- [CHANGELOG.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/CHANGELOG.md): Recent activity, dated, newest first. Useful for what changed lately, not for understanding the architecture.
+- [samples/](https://github.com/jimy-r/agent-workspace-architecture/tree/main/samples): The full scaffold library — roles, skills, subagents, scheduled tasks, hooks, and Python helpers to fork.
 - [samples/board/README.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/board/README.md): The task board module design — card schema, the three rules that carry it, the explicit delegation queue, and why it replaced the retired scheduled project-manager agent.
 - [samples/board/board.example.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/board/board.example.md): A synthetic card store in the real field format: ten cards across four areas, a recurring lane, and a queued card.
 - [samples/board/agent-queue.SKILL.example.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/board/agent-queue.SKILL.example.md): The delegation skill — the intake interview run at delegation time, the on-demand drain procedure, and its Iron Laws.
-- [samples/](https://github.com/jimy-r/agent-workspace-architecture/tree/main/samples): The full scaffold library — roles, skills, subagents, scheduled tasks, hooks, and Python helpers to fork.

@@ -19,8 +19,12 @@ Run the loop once end to end. Either in your own workspace (any folder with a `C
 
 **Done-check:** your task file shows one item added and struck through, and the session ended with a wrap that updated it — not with a summary in chat that no file records.
 
+Record it: tick the module on the [track checklist](README.md#track-your-progress), or post the output in [Show and tell](https://github.com/jimy-r/agent-workspace-architecture/discussions/categories/show-and-tell) where the next reader can compare.
+
 ## Measure it
 
 Take the [maturity check](https://jamesross.ai/tools/maturity-check?utm_source=github&utm_medium=repo&utm_campaign=learn-track) and keep the six-dimension result. It's the baseline the rest of the track moves.
 
-Next: [M1. Canonical knowledge](01-canonical-knowledge.md), or jump to your weakest dimension.
+---
+
+*Next: [M1. Canonical knowledge](01-canonical-knowledge.md), or jump to your weakest dimension · Stuck, or done? [Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions) · New modules, teardowns and tools: [Agent Workspaces](https://jimyr.substack.com)*
