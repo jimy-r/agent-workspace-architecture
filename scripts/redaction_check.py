@@ -22,6 +22,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import os
 import re
 import subprocess
 import sys
@@ -83,11 +84,22 @@ def scan(text: str) -> list[tuple[str, str]]:
 
 
 def added_lines(base: str):
-    """Yield (path, lineno, text) for every added line vs base."""
+    """Yield (path, lineno, text) for every added line vs base.
+
+    Decoded as UTF-8, not with `text=True` alone: that picks the host's
+    preferred encoding, which on Windows is the console codepage (cp1252). A
+    diff carrying any byte outside it — a smart quote pasted into a doc, a
+    UTF-8 filename, a binary hunk header — raised UnicodeDecodeError inside
+    the reader thread, left `.stdout` as None, and killed the caller on
+    `None.splitlines()`. The gate then failed on content it never scanned. A
+    replacement character in a diff line is still scannable; a crash is not.
+    """
     diff = subprocess.run(
         ["git", "diff", "--no-color", "--unified=0", base],
         capture_output=True,
         text=True,
+        encoding="utf-8",
+        errors="replace",
         check=True,
     ).stdout
     path = None
@@ -131,8 +143,61 @@ def run_selftest() -> int:
         if scan(s):
             print(f"SELFTEST FAIL (should pass): {s} -> {scan(s)}", file=sys.stderr)
             ok = False
+    if not _selftest_encoding():
+        ok = False
     print("selftest: PASS" if ok else "selftest: FAIL")
     return 0 if ok else 1
+
+
+def _selftest_encoding() -> bool:
+    """A diff carrying bytes outside the host codepage must still be scannable.
+
+    Builds a throwaway repo whose second commit adds a line with a raw 0x9d
+    byte (undefined in cp1252, and not valid UTF-8 either). Before the encoding
+    fix in added_lines(), this returned None from the git call and the caller
+    died on `None.splitlines()`.
+    """
+    import subprocess as sp
+    import tempfile
+    from pathlib import Path
+
+    with tempfile.TemporaryDirectory() as tmp:
+        env = {
+            **os.environ,
+            "GIT_CONFIG_GLOBAL": os.devnull,
+            "GIT_CONFIG_SYSTEM": os.devnull,
+        }
+        for cmd in (
+            ["git", "init", "-q"],
+            ["git", "config", "user.email", "selftest@example.com"],
+            ["git", "config", "user.name", "selftest"],
+        ):
+            sp.run(cmd, cwd=tmp, check=True, env=env)
+        Path(tmp, "base.txt").write_text("nothing here\n", encoding="utf-8")
+        sp.run(["git", "add", "-A"], cwd=tmp, check=True, env=env)
+        sp.run(["git", "commit", "-qm", "base"], cwd=tmp, check=True, env=env)
+        Path(tmp, "odd.txt").write_bytes(b"contact real.person@gmail.com caf\x9d\n")
+        sp.run(["git", "add", "-A"], cwd=tmp, check=True, env=env)
+        sp.run(["git", "commit", "-qm", "odd"], cwd=tmp, check=True, env=env)
+
+        cwd = os.getcwd()
+        try:
+            os.chdir(tmp)
+            rows = list(added_lines("HEAD~1"))
+        except Exception as exc:  # noqa: BLE001 - any failure here is the bug
+            print(f"SELFTEST FAIL (encoding): {exc!r}", file=sys.stderr)
+            return False
+        finally:
+            os.chdir(cwd)
+
+    if not any(scan(text) for _p, _n, text in rows):
+        print(
+            "SELFTEST FAIL (encoding): planted email not found in a diff "
+            "containing a non-cp1252 byte",
+            file=sys.stderr,
+        )
+        return False
+    return True
 
 
 # This scanner's own source carries leak-shaped fixtures by necessity; exclude

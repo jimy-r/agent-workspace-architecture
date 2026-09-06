@@ -23,6 +23,8 @@ Two consequences bind. **The main thread does not re-read what the executor edit
 
 **A1. Trivial exit.** If nothing material changed, say so and stop. Don't fabricate a close-out. If verification has not happened, run your verification skill first.
 
+**A1b. Light wrap.** If the brief carries no Plan, Board, Questions, Registry or Lesson edits (only measurement, the drift scan, and at most one memory or changelog line), run Phase B inline as ONE batched message and mark `inline (light)` under Wrap cost. A dispatch costs two extra main-thread inferences, the review and the report after the return, which exceeds the work when everything fits in a single batch with no dependent second round. The split earns its keep on a real close-out, not on every close-out.
+
 **A2. Compose the close-out brief** in the message text using the template. Every edit the executor will make is written HERE, in full. Today's date comes from the session date cross-checked against the OS clock and is passed in the brief; the executor never derives a date.
 
 ```
@@ -44,7 +46,9 @@ Two consequences bind. **The main thread does not re-read what the executor edit
 - Session: <this-session-id> (your own transcript's id; B8 passes it to the token log)
 ```
 
-**A3. Dispatch, in the same message.** Note the context size at wrap start (status line or `/context`) for the report, then call the `Agent` tool with `subagent_type: "general-purpose"`, `model: "sonnet"` (or your execution tier), `run_in_background: false`, and this prompt:
+**A3. Dispatch, in the same message, batched.** Everything Phase A still owes goes in ONE message so it costs one inference, not three: the context-size measurement for the report (your context-analysis script, or the status line / `/context` if you have no script), your dispatch-routing call if you keep a routing ledger, and the `Agent` call itself. Batch them. Sequential tool calls each re-send the whole transcript, and wrap runs at the most expensive point in the session to pay that.
+
+Call `Agent` with `subagent_type: "general-purpose"`, `model: "sonnet"` (or your execution tier), `run_in_background: false`, and this prompt:
 
 ```
 You are the wrap EXECUTOR for the <workspace> workspace. Today is YYYY-MM-DD.
@@ -129,7 +133,7 @@ Token cost: <B8 headline> · daily row <refreshed | WARN>
 - **Skipped:** registries/files considered and deliberately not updated, with reason
 - **Needs user confirmation:** anything requiring a user decision (credential rotation, external signup, a pending push, a verification awaiting its next fire)
 - **Token cost:** the B8 headline, or its WARN; the daily-row line
-- **Wrap cost:** context at wrap start · main-thread inferences this wrap · `executor: sonnet` or `inline fallback`
+- **Wrap cost:** context at wrap start · main-thread inferences this wrap · `executor: sonnet`, `inline (light)` per A1b, or `inline fallback`
 - **Drift noticed:** the B7 block, surfacing-only. These belong to other tasks; the one exception is drift caused by the task just closed, which is fixed via the registry sweep.
 
 #### Post-settings-change verification (main thread, only if applicable)
