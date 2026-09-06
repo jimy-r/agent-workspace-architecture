@@ -19,15 +19,16 @@ jobs:
   redaction:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-python@v7
+      # The scanner is published as a reusable action from this same
+      # workspace. Running it here rather than a repo-local copy is both the
+      # dogfooding case and the fix for a real drift: the inline copy had
+      # frozen at 182 lines while the published scanner grew to 498.
+      - uses: jimy-r/redaction-check-action@b9ccb7555377b6119fa21586ba13de5d13c55758 # v1.0.0
         with:
-          python-version: '3.12'
-
-      - name: Scan added lines for private-content shapes
-        run: |
-          git fetch origin "${{ github.base_ref }}" --depth=1 || true
-          python scripts/redaction_check.py --base "origin/${{ github.base_ref }}"
+          # github.base_ref is empty on workflow_dispatch, which left the
+          # manual trigger declared above with nothing to diff against.
+          base-ref: ${{ github.base_ref || github.event.repository.default_branch }}
