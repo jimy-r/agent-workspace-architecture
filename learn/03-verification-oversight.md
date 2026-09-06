@@ -19,8 +19,12 @@ Two artefacts, an hour total. (1) Write one **golden case**: a prompt your works
 
 **Done-check:** both exist as files, and the register row's hypothesis is falsifiable — someone else could run the check and tell you the scaffold failed.
 
+Record it: tick the module on the [track checklist](README.md#track-your-progress), or post the output in [Show and tell](https://github.com/jimy-r/agent-workspace-architecture/discussions/categories/show-and-tell) where the next reader can compare.
+
 ## Measure it
 
 The audit machinery in [`samples/.claude/agents/audit.md`](../samples/.claude/agents/audit.md) shows the full shape: cadence, canaries, tiered findings. Your golden case is its seed — one case is a smoke test, twenty is a regression suite.
 
-Next: [M4. Safety & permissions](04-safety-permissions.md).
+---
+
+*Next: [M4. Safety & permissions](04-safety-permissions.md) · Stuck, or done? [Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions) · New modules, teardowns and tools: [Agent Workspaces](https://jimyr.substack.com)*

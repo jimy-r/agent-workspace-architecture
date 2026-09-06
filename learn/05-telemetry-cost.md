@@ -19,8 +19,12 @@ Pick your one scheduled or recurring automated task (backup, digest, sync — an
 
 **Done-check:** kill the task deliberately (disable it for a cycle) and confirm the staleness flag surfaces where you'd genuinely see it. An alarm you had to go looking for fails the check.
 
+Record it: tick the module on the [track checklist](README.md#track-your-progress), or post the output in [Show and tell](https://github.com/jimy-r/agent-workspace-architecture/discussions/categories/show-and-tell) where the next reader can compare.
+
 ## Measure it
 
 [`check_task_freshness.py`](../samples/scripts/security/check_task_freshness.py) is the watchdog shape; [`tier_metrics.py`](../samples/scripts/tier_metrics.py) is the lane-split spend instrument. Instrument the artefact the task produces, not the wrapper's exit code — a wrapper can exit 0 with nothing written.
 
-Next: [M6. Provenance & delegation](06-provenance-delegation.md).
+---
+
+*Next: [M6. Provenance & delegation](06-provenance-delegation.md) · Stuck, or done? [Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions) · New modules, teardowns and tools: [Agent Workspaces](https://jimyr.substack.com)*

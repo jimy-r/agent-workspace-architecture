@@ -18,8 +18,12 @@ Install the two guards from the [starter template](https://github.com/jimy-r/age
 
 **Done-check:** two deliberate violations attempted, two blocks observed. A hook that has never fired on a known-bad input is configuration, not protection.
 
+Record it: tick the module on the [track checklist](README.md#track-your-progress), or post the output in [Show and tell](https://github.com/jimy-r/agent-workspace-architecture/discussions/categories/show-and-tell) where the next reader can compare.
+
 ## Measure it
 
 The live-fire *is* the measurement — repeat it whenever the hook config changes. For the credential rule, grep your workspace for anything shaped like a secret (`sk-`, `token`, `Bearer`): the count should be zero values, any number of item names.
 
-Next: [M5. Telemetry & cost](05-telemetry-cost.md).
+---
+
+*Next: [M5. Telemetry & cost](05-telemetry-cost.md) · Stuck, or done? [Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions) · New modules, teardowns and tools: [Agent Workspaces](https://jimyr.substack.com)*

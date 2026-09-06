@@ -19,8 +19,14 @@ Two passes. (1) Run the **four-box test** on three tasks you're tempted to autom
 
 **Done-check:** the three verdicts are written down with the failing box named, and the delegated card's done-when is checkable by someone who didn't write it.
 
+Record it: tick the module on the [track checklist](README.md#track-your-progress), or post the output in [Show and tell](https://github.com/jimy-r/agent-workspace-architecture/discussions/categories/show-and-tell) where the next reader can compare.
+
 ## Measure it
 
 [`wrap_drift_scan.py`](../samples/scripts/wrap_drift_scan.py) is the worked *surface* case (read-only close-out scan). For provenance, sample five load-bearing claims from your agent's last substantive answer: each should carry a source or an honest `[unverified]`. Count the ones that don't.
 
 End of track. Retake the [maturity check](https://jamesross.ai/tools/maturity-check?utm_source=github&utm_medium=repo&utm_campaign=learn-track) and diff against your M0 baseline — that diff is the track's own done-check.
+
+---
+
+*Post the diff in [Show and tell](https://github.com/jimy-r/agent-workspace-architecture/discussions/categories/show-and-tell) · Stuck, or done? [Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions) · New modules, teardowns and tools: [Agent Workspaces](https://jimyr.substack.com)*
