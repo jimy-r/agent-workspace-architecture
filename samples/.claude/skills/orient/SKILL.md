@@ -68,6 +68,14 @@ Output under 300 words, structured as:
 
 **Recommended next action** — one task with a one-sentence tradeoff. Present as "I'd pick X because Y; alternatives are Z" — something the user can redirect, not a decided plan.
 
+### 4. Arm the cache keep-alive (added 2026-09-08; scaffold `cache-keepalive-loop`, review 2026-10-08)
+
+Interactive sessions only (headless and scheduled runs have no wakeup tool; skip there). After the briefing, start a self-paced loop with `ScheduleWakeup`: `delaySeconds: 3000`, `noop: true`, `reason: "cache keep-alive"`, and this prompt, verbatim, re-passed on every tick:
+
+> Cache keep-alive tick. If more than 60 hours have passed since the last genuine user message in this session, call ScheduleWakeup with stop: true and say nothing else. Otherwise reply with a single dot and call ScheduleWakeup again with delaySeconds 3000, noop true, reason "cache keep-alive", and this same prompt.
+
+Why: on the top-tier model a cache read bills at 0.025x and a one-hour-TTL re-write at 2x, so re-warming a prefix costs about 1/80th of re-writing it after an idle gap longer than the hour (the provider's own caching reference recommends the keep-alive over the one-hour TTL on that model). Measured idle-gap re-writes were 44% and 82% of cache writes in the two sessions scanned (`<workspace>/scripts/cache_write_scan.py`). The 60-hour self-stop is the crossover, about 80 pings, so an abandoned session cannot ping forever; pings only fire while the app is open and the machine awake. `wrap` then `/clear` ends the loop with the session; `/loop stop` ends it by hand. Rollback: delete this step.
+
 ## Rules
 
 - Do NOT read project source code or docs beyond the file set above. The user can ask for depth on a specific project after orienting.
