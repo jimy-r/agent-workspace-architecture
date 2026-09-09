@@ -4,6 +4,8 @@ Human-written record of notable changes — the *why* and the *shape*, not every
 
 ## Unreleased
 
+- **The content machinery became a learning loop.** Three months of outward work (60 answers posted in other people's threads, 54 replies drawn, five teardowns, six index submissions, a newsletter and a free-tools funnel) changed a standing file three times. Reading other people's systems closely, a lane nobody was measuring, changed dozens. So the layer keeps one metric: did an interaction change a standing file? It lives in an append-only learning ledger where a drained reply becomes a row, a human later rules it a lift, a reject or a defer, and the report warns when ten decided items in a row produced no lift. Reviews of external systems become the rhythm, teardowns publish only when something was lifted, the publishing cadences and the twice-weekly traffic capture are retired, and the demand registers are parked.
+
 - **The cache clock gained a keep-alive.** Pattern 18's cache-clock lever said wrap and clear before any break that outlives the cache. Measured on two more sessions, the idle-gap resume was 44% and 82% of cache-write tokens, and on a model whose cache reads are priced at 0.025x of input a refresh costs about 1/80th of a 2x re-write. So `samples/.claude/skills/orient/SKILL.md` gains step 4: arm a self-paced wakeup every 50 minutes that replies with a single dot and stops itself after 60 hours without a user message, the point where pings cost as much as the re-write. `samples/CLAUDE.md.example` and the META Token Budget row carry the rule, and the META routines list now names the settings-file TTL key, since the launcher env var never reached the desktop app.
 
 ## 2026-09-06 - [v1.16.0]
