@@ -3,6 +3,11 @@ name: Docs consistency
 # Gates the pattern-count claims against PATTERNS.md itself (audit finding
 # 570ab6e2: the tour advertised 14/fifteen patterns while PATTERNS.md carried
 # seventeen). The count is derived, never hand-maintained here.
+#
+# The same principle now covers three more hand-maintained claims: the learn
+# track's partition of the patterns (14874284), docs/llms.txt's coverage of
+# the teardown and learn pages (7782aa7c, which lost a teardown), and
+# SECURITY.md's workflow inventory (2572450c, which lost a workflow twice).
 
 on:
   pull_request:
@@ -14,7 +19,11 @@ on:
       - 'docs/workspace-map.html'
       - 'samples/README.md'
       - 'samples/roles/**'
-      - '.github/workflows/docs-consistency.yml'
+      - 'learn/**'
+      - 'teardowns/**'
+      - 'docs/llms.txt'
+      - 'SECURITY.md'
+      - '.github/workflows/**'
   push:
     branches: [main]
     paths:
@@ -25,6 +34,11 @@ on:
       - 'docs/workspace-map.html'
       - 'samples/README.md'
       - 'samples/roles/**'
+      - 'learn/**'
+      - 'teardowns/**'
+      - 'docs/llms.txt'
+      - 'SECURITY.md'
+      - '.github/workflows/**'
 
 permissions:
   contents: read
@@ -119,4 +133,113 @@ jobs:
           if errors:
               sys.exit("\n".join(errors))
           print(f"OK: every numeric role claim matches samples/roles/ ({n} / '{word}')")
+          EOF
+
+  pattern-partition:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Learn modules partition PATTERNS.md exactly once
+        run: |
+          python3 - <<'EOF'
+          import re, sys
+          from pathlib import Path
+
+          patterns = {int(m) for m in re.findall(
+              r"(?m)^## (\d+)\. ", Path("PATTERNS.md").read_text(encoding="utf-8"))}
+          if not patterns:
+              sys.exit("PATTERNS.md has zero '## N. <title>' headings - heading format changed?")
+
+          lines = Path("learn/README.md").read_text(encoding="utf-8").splitlines()
+
+          def cells(row):
+              return [c.strip() for c in row.strip().strip("|").split("|")]
+
+          # Find the module table's header and the index of its Patterns column,
+          # so a column reorder fails loudly instead of reading the wrong cell.
+          col = None
+          for line in lines:
+              if line.startswith("| Module "):
+                  head = [c.lower() for c in cells(line)]
+                  if "patterns" in head:
+                      col = head.index("patterns")
+                  break
+          if col is None:
+              sys.exit("learn/README.md: no module table header with a 'Patterns' column")
+
+          rows = [l for l in lines if l.startswith("| [M")]
+          if not rows:
+              sys.exit("learn/README.md has no '| [Mn. ...]' module rows - table shape changed?")
+
+          assigned = []
+          for row in rows:
+              cell = cells(row)[col]
+              if cell in ("", "-", "\u2014"):
+                  continue
+              for token in cell.split(","):
+                  token = token.strip()
+                  if not token.isdigit():
+                      sys.exit(f"learn/README.md: unparseable pattern token {token!r} in: {row}")
+                  assigned.append(int(token))
+
+          errors = []
+          dupes = sorted({n for n in assigned if assigned.count(n) > 1})
+          if dupes:
+              errors.append(f"patterns assigned to more than one module: {dupes}")
+          missing = sorted(patterns - set(assigned))
+          if missing:
+              errors.append(f"patterns in PATTERNS.md that no module covers: {missing}")
+          extra = sorted(set(assigned) - patterns)
+          if extra:
+              errors.append(f"modules cite patterns PATTERNS.md does not have: {extra}")
+          if errors:
+              sys.exit("\n".join(errors))
+          print(f"OK: {len(rows)} modules partition all {len(patterns)} patterns, no duplicates")
+          EOF
+
+  llms-txt-coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Every teardown and learn page is in docs/llms.txt
+        run: |
+          python3 - <<'EOF'
+          import sys
+          from pathlib import Path
+
+          llms = Path("docs/llms.txt").read_text(encoding="utf-8")
+          pages = sorted(
+              p.as_posix()
+              for d in ("teardowns", "learn")
+              for p in Path(d).glob("*.md")
+          )
+          if not pages:
+              sys.exit("teardowns/ and learn/ hold no .md pages - directories moved?")
+          missing = [p for p in pages if p not in llms]
+          if missing:
+              sys.exit("docs/llms.txt references neither the path nor a URL for:\n  "
+                       + "\n  ".join(missing))
+          print(f"OK: all {len(pages)} teardown and learn pages are referenced in docs/llms.txt")
+          EOF
+
+  security-workflow-inventory:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Every workflow is named in SECURITY.md
+        run: |
+          python3 - <<'EOF'
+          import sys
+          from pathlib import Path
+
+          security = Path("SECURITY.md").read_text(encoding="utf-8")
+          names = sorted({p.stem for p in Path(".github/workflows").glob("*.yml")}
+                         | {p.stem for p in Path(".github/workflows").glob("*.yaml")})
+          if not names:
+              sys.exit(".github/workflows/ holds no workflow files - directory moved?")
+          missing = [n for n in names if f"`{n}`" not in security]
+          if missing:
+              sys.exit("SECURITY.md's workflow inventory does not name:\n  "
+                       + "\n  ".join(missing))
+          print(f"OK: all {len(names)} workflows are named in SECURITY.md")
           EOF

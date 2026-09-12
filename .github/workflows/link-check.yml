@@ -104,6 +104,11 @@ jobs:
           issue-number: ${{ steps.standing.outputs.number }}
           title: ${{ env.ISSUE_TITLE }}
           content-filepath: ./lychee/out.md
+          # link-rot is exempted in stale.yml. Without it the standing issue goes
+          # stale after 60 quiet days - the healthy case - auto-closes, and the
+          # --state open lookup above then files a duplicate on the next real
+          # failure instead of refreshing this one.
           labels: |
             ci
             docs
+            link-rot
