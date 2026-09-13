@@ -34,17 +34,22 @@ What you see (this repo's own score, abbreviated):
 Score 6.4/10 — maturing (7 scored, 5 not applicable)
 ```
 
+*Scored at `34ddd30` on 2026-09-13; full table: [docs/self-score.md](docs/self-score.md).* That page
+also explains the `[FAIL]`, which is the audit canaries doing their job, and why the check was left
+with its teeth in rather than excluded into a higher number. CI re-runs the linter and fails if the
+score line moves.
+
 Each check names the pattern it comes from, so a `[FAIL]` is a link into [PATTERNS.md](PATTERNS.md) rather than a scolding. Post your score in [Show and tell](https://github.com/jimy-r/agent-workspace-architecture/discussions/categories/show-and-tell) if you want a second read on it.
 
 The example runs in [Claude Code](https://claude.com/claude-code), so the file conventions you'll see (`CLAUDE.md`, `.claude/skills/`, MCP config) are Claude-Code-specific. The architecture is not. The roles library, memory hygiene, audit cadence, explicit-delegation task board, dead-man's switch, and tier-by-impact gating port to Cursor, Cline, Continue, Windsurf, or a custom Agent-SDK build. Pick your runtime; the decisions translate.
 
 This is one person's actual setup, redacted and published as a reference. Not a framework, not a product. A documented working arrangement of the pieces Claude Code already gives you, with the reasoning attached. It is also the reference version of the agent-ready memory layer I build for organisations, running at one-person scale.
 
-The scale is real: 17 expert roles, 18 load-bearing patterns, an explicit-delegation task board that succeeded a retired 2-hourly heartbeat, a weekly self-audit with synthetic canaries, a dead-man's switch over scheduled jobs, and typed memory that points at sources instead of copying them — all of it running in one person's daily workspace.
+The scale is real: 18 expert roles, 18 load-bearing patterns, an explicit-delegation task board that succeeded a retired 2-hourly heartbeat, a weekly self-audit with synthetic canaries, a dead-man's switch over scheduled jobs, and typed memory that points at sources instead of copying them — all of it running in one person's daily workspace.
 
 ## What's inside
 
-- **Roles library.** 17 pure expert personas (security-auditor, researcher, accountant, developmental-editor, and more) that compose with project `CONTEXT.md` files through thin bindings.
+- **Roles library.** 18 pure expert personas (security-auditor, researcher, accountant, developmental-editor, and more) that compose with project `CONTEXT.md` files through thin bindings.
 - **Task board + audit subagent.** One canonical markdown card store rendered to a local served view, with an explicit delegation queue. The operator marks a card queued, a short intake interview captures what done looks like and which folders may be written, and a drain skill actions the queue inside a live session. The close-out ritual logs a per-task token record, so the metrics page charts capacity from finished work rather than from a schedule. A 2-hourly classify-then-act heartbeat held this job until August 2026. It was retired, and its design stays in [`samples/tasks/`](samples/tasks/) as the studied predecessor. Alongside sits the weekly upgrade audit, whose first job is finding improvements (public-source research plus a module-by-module critique against current best practice), with configs, security, and drift checked in the same sweep.
 - **Custom skills.** `orient`, `wrap`, `tasks`, `review-queue`, `audit-workthrough`, `terse-mode`, `verify-completion`, `systematic-debugging`, `goal-design`, `role-pressure-test`.
 - **Scheduled routines.** A daily morning brief (calendar, weather, AI news, task state) and a memory-consolidation pass, fired by the OS scheduler.
