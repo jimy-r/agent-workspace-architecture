@@ -130,7 +130,7 @@ Some files affect the whole repo's shape, contribution flow, or privacy posture.
 
 | File | Why |
 |---|---|
-| `META_ARCHITECTURE.md` §1–§15 | Core structural narrative. Section order, framing, and the opinionated shape are load-bearing. (§16 "Planned future upgrades" is a living list; edit freely.) |
+| `META_ARCHITECTURE.md` §1–§15 | Core structural narrative. Section order, framing, and the opinionated shape are load-bearing. |
 | `samples/roles/_template.md` | Schema contract for every contributed role. A change ripples through every existing role and every future one. |
 | `samples/CONTEXT.md.example` | Schema contract for project `CONTEXT.md` files (same rationale). |
 | `CONTRIBUTING.md` (this file) | The contribution contract itself. Changes affect everyone's future PRs. |

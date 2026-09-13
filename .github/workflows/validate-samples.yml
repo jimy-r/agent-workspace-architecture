@@ -5,12 +5,17 @@ on:
     paths:
       - 'samples/**'
       - 'scripts/validate_samples.py'
+      - 'tools/workspace_check.py'
+      - 'docs/self-score.md'
       - '.github/workflows/validate-samples.yml'
   push:
     branches: [main]
     paths:
       - 'samples/**'
       - 'scripts/validate_samples.py'
+      - 'tools/workspace_check.py'
+      - 'docs/self-score.md'
+      - '.github/workflows/validate-samples.yml'
   workflow_dispatch:
 
 permissions:
@@ -31,3 +36,50 @@ jobs:
 
       - name: Run sample validator
         run: python scripts/validate_samples.py
+
+  self-score:
+    # The README quotes this repo's own workspace_check score, and docs/self-score.md
+    # carries the full run with its commit and date (audit finding 9e33f455: the most
+    # quoted number in the repo had no provenance). Derive it, never hand-maintain it.
+    # Only the "Score N/10 ..." line is compared, so re-wording a check's evidence text
+    # does not fail the build; a change in the score does.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+
+      - name: Recorded self-score still matches a fresh run
+        run: |
+          python3 - <<'EOF'
+          import re, subprocess, sys
+          from pathlib import Path
+
+          SCORE_RE = re.compile(r"(?m)^Score \d+(?:\.\d+)?/10\b.*$")
+
+          recorded = SCORE_RE.findall(
+              Path("docs/self-score.md").read_text(encoding="utf-8"))
+          if not recorded:
+              sys.exit("docs/self-score.md has no 'Score N/10 ...' line - format changed?")
+          if len(set(recorded)) > 1:
+              sys.exit("docs/self-score.md records more than one distinct score line:\n  "
+                       + "\n  ".join(sorted(set(recorded))))
+
+          run = subprocess.run([sys.executable, "tools/workspace_check.py", "."],
+                               capture_output=True, text=True, encoding="utf-8")
+          fresh = SCORE_RE.findall(run.stdout)
+          if not fresh:
+              sys.exit("workspace_check.py printed no 'Score N/10 ...' line.\n"
+                       f"exit={run.returncode}\nstdout:\n{run.stdout}\nstderr:\n{run.stderr}")
+
+          if fresh[0] != recorded[0]:
+              sys.exit("The recorded self-score is stale.\n"
+                       f"  docs/self-score.md: {recorded[0]}\n"
+                       f"  fresh run:          {fresh[0]}\n"
+                       "Re-run 'python tools/workspace_check.py .' and update "
+                       "docs/self-score.md (full table, commit sha, date) and the "
+                       "README block that quotes it.")
+          print(f"OK: docs/self-score.md matches a fresh run - {fresh[0]}")
+          EOF

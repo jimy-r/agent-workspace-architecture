@@ -23,7 +23,6 @@
 13. [Where things live (quick reference)](#13-where-things-live-quick-reference)
 14. [Source attribution — patterns this workspace draws on](#14-source-attribution--patterns-this-workspace-draws-on)
 15. [Maintenance](#15-maintenance)
-16. [Planned future upgrades](#16-planned-future-upgrades)
 
 Companion docs: [ADOPTION.md](ADOPTION.md) — 5-step walkthrough for setting up a similar workspace · [samples/](samples/) — scaffold files illustrating each layer.
 
@@ -69,7 +68,7 @@ A *module* is a cohesive cluster of files (subagents, skills, scripts, state) th
 | **Heartbeat** *(retired)* | **RETIRED 2026-08 in the source workspace**, superseded by the *Task board* module's explicit delegation queue. The row stays as predecessor documentation, because the classify-then-act half still holds wherever the mandate is already unambiguous; discovery is the half that failed. What it was: a cron-driven (2h) project manager, **gated from 2026-06-10**, where a Stage-0 wrapper preflight (`preflight_gate.py`) skipped the LLM entirely when the watched task files were unchanged, the deterministic scans passed, and an agent cycle had run <24h ago, and the act stage ran the work-tier model at max effort. Classify-then-act on the task + questions files; build `has-default` tasks in sandbox; lodge to review queue; log rejections as ADRs. Why it went: clarifying questions landed in a tracker file nobody opened (thirteen unanswered at the end) and the unattended runtime failed dark for about five weeks behind an expired ambient credential. The container-isolated variant was parked before retirement (the agent CLI's subscription auth needs the desktop app's IPC). | `heartbeat` | `review-queue` | `<workspace>/scripts/heartbeat/*` (preflight_gate, classify_task, create_staging, check_rejections, idle_observations, host_reviewer, anthropic_proxy, observe_cycles) | `<workspace>/tasks/HEARTBEAT_REVIEWS.md`, `HEARTBEAT_REJECTIONS.md`, `tasks/heartbeat-sandbox/`, `scripts/_state/heartbeat_gate.json`, `tasks/scheduled-logs/heartbeat-monitor_*.log` | `<workspace>/tasks/HEARTBEAT.md`, project-level `OBSERVATION.md` runbook |
 | **Brief** | Daily situational-awareness digest: appointments (14d), local weather, AI news, task counts, open questions, overnight activity → markdown → HTML → SMTP self-email. Idempotent. | — | — | `appointments.py`, `ai_news.py`, `brief_render.py`, `send_self_email.py` | `<workspace>/tasks/morning_brief_YYYY-MM-DD.md`, `scripts/_state/ai_news_seen.db`, `tasks/scheduled-logs/morning-brief_*.log` | `<home>/.claude/scheduled-tasks/morning-brief/SKILL.md` |
 | **Inbox** | Hands-on processing of email + photo inbox. Classify against rules/registry, group by proposed action, gate per-batch approval before applying labels/archive/trash or writing to a personal finance ledger. Iron rule: no state changes without approval. | — | `email-triage`, `file-receipts` | `email_rules.py`, `receipts_pipeline.py`, `bill_tracker.py` | personal-finance ledger workbooks + photo inbox folder; consumes the email-rules + services-registry (owned by *Reference data*) | skill `SKILL.md` files + a feedback memory codifying the iron rule |
-| **Roles** | Pure persona library (17 canonical roles) + project bindings under `.claude/agents/`. Composition: thin binding `@`-imports canonical role + project `CONTEXT.md`. Validator runs manually or in the audit's checks phase (the 2-hourly heartbeat that ran it was retired 2026-08-08). | 17 canonical + project bindings | `role-pressure-test` | `<workspace>/roles/_validate.py` | — | `<workspace>/roles/README.md`, `<workspace>/roles/_template.md` |
+| **Roles** | Pure persona library (18 canonical roles) + project bindings under `.claude/agents/`. Composition: thin binding `@`-imports canonical role + project `CONTEXT.md`. Validator runs manually or in the audit's checks phase (the 2-hourly heartbeat that ran it was retired 2026-08-08). | 18 canonical + project bindings | `role-pressure-test` | `<workspace>/roles/_validate.py` | — | `<workspace>/roles/README.md`, `<workspace>/roles/_template.md` |
 | **Memory** | User-global file-based memory: `MEMORY.md` index + topic files (`user_*`, `feedback_*`, `project_*`, `reference_*`) + `episodes/`. Weekly consolidation, run through a structural no-regression gate before adoption: snapshot the memory tree → let the pass edit → re-check after, and reject the whole pass on a newly broken source reference, an index-ceiling breach, a dropped standing-rule line, or injected directive-shaped text. A consolidation pass rewrites the agent's own standing context, so a correctness signal alone can't certify it safe to keep. Four-op discipline per fact. | — | `consolidate-memory` (scheduled-task) | `<workspace>/scripts/memory_lint.py` | `<home>/.claude/projects/<workspace-id>/memory/*` | `<home>/.claude/scheduled-tasks/consolidate-memory/SKILL.md`, user-global `CLAUDE.md § Memory hygiene` |
 | **Security envelope** | Multi-layer file/command protection: PreToolUse hooks (Edit/Write + Bash), command-safety plugin (interactive CLI only), PreCompact transcript backup, the always-applies `permissions.deny` floor (re-homed from `autoMode.hard_deny` on the 2026-06-16 *Sentinel* cutover; `autoMode` doesn't apply under bypass). Credential discipline (password-manager + `.env` exception). The *Sentinel* module owns the zero-prompt posture + post-hoc monitor built on these hooks. | — | — | `<workspace>/scripts/security/check_bash_command.py`, `check_file_protection.py`, `precompact_backup.py` | hook execution log, `<workspace>/tasks/transcript-backups/` | META_ARCH § Hooks + § File protection |
 | **Backup** | Encrypted incremental backup to S3-compatible object storage via `restic`. Credentials resolved from a password-manager CLI at runtime. Verify via check + file-level restore round-trip. | — | — | `backup-restic.bat`/`.ps1`, `restic-verify.bat`/`.ps1`, `backup-excludes.txt` | off-machine restic repo | META_ARCH § Routines launcher rows |
@@ -133,7 +132,7 @@ A *module* is a cohesive cluster of files (subagents, skills, scripts, state) th
 
 > See also: [Claude Code subagents documentation](https://docs.claude.com/en/docs/claude-code/sub-agents).
 
-**Library:** `<workspace>/roles/` — 17 pure, reusable canonical role definitions, each with a fixed schema (frontmatter + Identity / Directives / Constraints / Method / Output format / Red Flags / Rationalization Table).
+**Library:** `<workspace>/roles/` — 18 pure, reusable canonical role definitions, each with a fixed schema (frontmatter + Identity / Directives / Constraints / Method / Output format / Red Flags / Rationalization Table).
 
 **Canonical roles (17):** `accountant`, `backend-developer`, `bookkeeper`, `data-engineer`, `developmental-editor`, `developmental-reviser`, `frontend-developer`, `health-data-analyst`, `learning-strategist`, `llm-engineer`, `nutritionist`, `platform-engineer`, `product-thinker`, `researcher`, `security-auditor`, `tester`, `wealth-manager`.
 
@@ -164,7 +163,7 @@ flowchart LR
 
 **Not yet bound to any project:** `data-engineer`, `platform-engineer`, `researcher`. The `researcher` role is intentionally unbound — it's domain-agnostic (`requires_context: false`) and invoked directly for evidence-based investigation on any topic.
 
-**See also:** a `roles/README.md` with the schema and binding quick-reference; a `roles/_template.md` for new roles. A filled-in example lives at [`samples/roles/security-auditor.md`](samples/roles/security-auditor.md) (one of 17 canonical roles shipped in `samples/roles/`).
+**See also:** a `roles/README.md` with the schema and binding quick-reference; a `roles/_template.md` for new roles. A filled-in example lives at [`samples/roles/security-auditor.md`](samples/roles/security-auditor.md) (one of 18 canonical roles shipped in `samples/roles/`).
 
 ---
 
@@ -570,54 +569,6 @@ This file is the source of truth for the *meta* shape of the workspace. Update i
 - A new top-level project folder is created
 
 **Do not** put project-specific application architecture here — that belongs in the project's own architecture doc.
-
----
-
-## 16. Planned future upgrades
-
-Drawn from the live task list and implementation-plan file as of 2026-04-19. Items already shipped are not listed.
-
-### AI / workspace upgrades
-
-- **Bittorrent integration** — scope TBD (media server stack / public-domain ebook fetcher / general download manager)
-- **Home integration** — scope TBD (Home Assistant or direct smart-home device integration; potential tie-in with health data — sleep-room temp, morning light)
-- **Job scanner** — scope TBD (career scanner across major boards, grants/RFP scanner, or similar)
-- **`PreCompact` hook** — add to selected project settings to prevent loss of in-flight state during long tasks
-- **1-hour prompt-cache TTL** — `promptCacheTtl: "1h"` in the user settings file (the launcher-script env var only ever reached terminal sessions, never the desktop app); pair it with the orient keep-alive loop for gaps longer than the hour
-
-### Containerisation — sandbox for external-facing agents
-
-Any agent that interacts with the open web — browser automation, web scraping, telephony integrations, retailer checkouts — is being moved behind a container boundary. The goal is security isolation of risky operations, **not** reproducibility; interactive Claude Code dev sessions continue to run on the host unchanged.
-
-**Pattern:**
-- Shared `agent-sandbox` base image (browser + agent runtime + minimal tooling), with per-project `docker-compose.yml` layered on top.
-- Agent and the browser it drives are co-located in the same container so automated traffic stays internal.
-- Credentials passed in at runtime via the password-manager CLI; never baked into the image.
-- Per-project persisted browser profile — store logins survive between runs, and the agent looks like a real user rather than a headless bot (sidesteps most storefront bot-detection).
-
-**Blast radius:** the container cannot see `.env` files, the personal finance folder, the credential-manager state, or any unrelated project directories. Only what the compose file explicitly mounts is reachable from inside.
-
-**Rollout:**
-- The shopping agent is the pilot — its `PLAN.md` already includes a "Phase 1b — container isolation" block.
-- The appointments agent and reselling pipeline inherit the same pattern when their next phases activate.
-- Status: plan drafted, Docker installable on host, not yet implemented.
-
-### Personal projects (scaffolded, awaiting build-out)
-
-- **Shopping agent** — Phase 1b: container isolation (sandbox for browser automation); Phase 2-4: add additional retailers + pantry awareness (agent proactively suggests based on household consumption). Currently blocked on a prepaid-card setup by the user.
-- **Appointments agent** — Phase 1: online booking via browser automation (now unblocked by Google Calendar); Phase 2: phone calling via a hosted voice clone + telephony provider; Phase 3: proactive scheduling (agent books recurring checkups)
-- **Reselling pipeline** — Phase 2: agent-executed listing and payment acceptance; Phase 3: sales analytics + listing optimisation
-
-### Health
-
-- **Fitness log** — structure decision pending (spreadsheet mirroring existing nutrition tracker / smartwatch sync / voice-channel freeform log)
-- **Health-device rollout** — BP monitor → smartwatch → smart scale → CGM, staggered
-
-### Structural / quality
-
-- **Python unit tests for admin scripts** — cover categorisation + workbook update + extract scripts for regression protection on financial data
-- **Path-scoped rules for the personal-finance folder** — bank-code conventions, FY conventions, xlsx write guards
-- **Extend PreToolUse hook to cover more health data** — pathology, medication, immunisations folders; tracking workbooks
 
 ---
 
