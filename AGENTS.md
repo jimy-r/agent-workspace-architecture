@@ -55,18 +55,21 @@ happened.
 ## Checks to run before you commit
 
 ```bash
-python scripts/validate_samples.py      # sample frontmatter, links, schemas
-python scripts/gen_llms_full.py --check # llms-full.txt matches its sources
-python scripts/check_freshness.py       # dated stamps match git history
+python scripts/validate_samples.py         # sample frontmatter, links, schemas
+python scripts/gen_llms_full.py --check    # llms-full.txt matches its sources
+python scripts/check_freshness.py          # dated stamps, teardown re-check dates
+python scripts/teardown_matrix.py --check  # teardown matrix matches the pages
 python tools/workspace_check.py --self-test
 # redaction runs in CI (redaction-check.yml); there is no local script
 ```
 
 Regenerate rather than hand-edit: `python scripts/gen_llms_full.py` rewrites
-`docs/llms-full.txt`, and `python scripts/check_freshness.py --fix` rewrites the
-dated stamps. CI runs these same commands, so a green local run is the gate
-for all of them. Redaction is the exception: it has no local script and runs
-only in CI.
+`docs/llms-full.txt`, `python scripts/teardown_matrix.py` rewrites the marked
+block in `teardowns/README.md`, and `python scripts/check_freshness.py --fix`
+rewrites the dated stamps. CI runs these same commands, so a green local run is
+the gate for all of them. Two of the checks have no local repair. Redaction has
+no script here and runs only in CI, and a teardown past its `Re-check by` date
+needs the subject re-read, or the page marked `ageing` or `superseded`.
 
 ## Conventions
 

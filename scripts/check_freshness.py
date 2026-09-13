@@ -12,6 +12,15 @@ that touched the file the stamp describes. Note "describes", not "contains" —
 `docs/sitemap.xml` carries lastmod dates for the *pages* it lists, so each
 entry is checked against its own page, not against the sitemap.
 
+A fifth class of stamp works the other way round. Every teardown page carries
+a `Re-check by:` date in its header, the day its reading stops being claimable
+as current, and that one is checked against the calendar rather than against
+git: a reading of a moving subject decays whether or not anyone edits the file.
+A missing field fails too, so the convention cannot quietly lapse on the next
+page. Neither is auto-fixable — the remedy is re-reading the subject and
+restamping, or marking the page `ageing`/`superseded` — so `--fix` reports
+these and leaves them alone.
+
 Usage:
     python scripts/check_freshness.py            # report drift, exit 1 if any
     python scripts/check_freshness.py --fix      # rewrite every stale stamp
@@ -23,10 +32,17 @@ import argparse
 import re
 import subprocess
 import sys
+from datetime import date
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 SITE = "https://jimy-r.github.io/agent-workspace-architecture/"
+
+# Teardown pages date their own reading, not their source. README.md is the
+# index and the convention block, not a reading, so it carries the template
+# placeholder rather than a real date.
+TEARDOWNS = "teardowns"
+RECHECK = re.compile(r"(?m)^- \*\*Re-check by:\*\* (\d{4}-\d{2}-\d{2})\s*$")
 
 # (file holding the stamp, regex with one date group, file the stamp describes)
 # A stamp that describes its own file uses the same path twice.
@@ -107,6 +123,29 @@ def collect() -> list[tuple[str, str, str, str, str]]:
     return rows
 
 
+def expired_teardowns(today: str | None = None) -> list[str]:
+    """Return one line per teardown whose `Re-check by` is past or missing."""
+    today = today or date.today().isoformat()
+    pages = sorted(p for p in (REPO / TEARDOWNS).glob("*.md") if p.name != "README.md")
+    if not pages:
+        sys.exit(f"{TEARDOWNS}/ holds no teardown pages — directory moved?")
+
+    problems = []
+    for page in pages:
+        rel = f"{TEARDOWNS}/{page.name}"
+        match = RECHECK.search(page.read_text(encoding="utf-8"))
+        if not match:
+            problems.append(
+                f"  {rel}: no '- **Re-check by:** YYYY-MM-DD' header field "
+                f"(see {TEARDOWNS}/README.md § Page conventions)"
+            )
+        elif match.group(1) < today:
+            problems.append(
+                f"  {rel}: re-check was due {match.group(1)}, today is {today}"
+            )
+    return problems
+
+
 def fix() -> int:
     """Rewrite every stale stamp to its file's last-commit date."""
     changed = 0
@@ -158,6 +197,8 @@ def main() -> int:
     )
     args = parser.parse_args()
 
+    expired = expired_teardowns()
+
     if args.fix:
         n = fix()
         print(
@@ -165,6 +206,13 @@ def main() -> int:
             if n
             else "Every stamp is current; nothing to fix."
         )
+        if expired:
+            # Not auto-fixable: the remedy is re-reading the subject, so say so
+            # rather than exiting green on a check --fix cannot satisfy.
+            print(
+                "\nTeardown readings past their re-check date (--fix cannot "
+                "repair these):\n" + "\n".join(expired)
+            )
         return 0
 
     stale = []
@@ -174,12 +222,27 @@ def main() -> int:
                 f"  {holder}: {label!r} says {stamp}, but {described} last changed {expected}"
             )
 
+    failed = False
     if stale:
         print("Stale freshness stamps:\n" + "\n".join(stale))
         print("\nFix with: python scripts/check_freshness.py --fix")
+        failed = True
+
+    if expired:
+        print("Teardown readings past their re-check date:\n" + "\n".join(expired))
+        print(
+            "\nRe-read the subject and restamp `Re-check by`, or set `Status` to "
+            "ageing/superseded and say what replaced it."
+        )
+        failed = True
+
+    if failed:
         return 1
 
-    print("OK: every freshness stamp is at least as new as the file it describes.")
+    print(
+        "OK: every freshness stamp is at least as new as the file it describes, "
+        "and every teardown reading is inside its re-check date."
+    )
     return 0
 
 
