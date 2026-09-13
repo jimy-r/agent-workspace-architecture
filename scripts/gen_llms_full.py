@@ -7,17 +7,26 @@ companion convention that inlines that content, so a model absorbs the whole
 reference in one request. Both are served from the Pages site root.
 
 Sources are concatenated in reading order with a machine-readable separator
-before each, carrying the source path and its canonical URL, so relative
-markdown links inside a section can still be resolved.
+before each, carrying the source path and its canonical URL.
+
+Relative markdown links are rewritten to absolute URLs on the way in. The
+bundle is served from the Pages site root, which is the `docs/` directory, so
+a relative `PATTERNS.md` written for the repo root would resolve against the
+site root and 404. Every target is therefore resolved against its own source
+document's directory and pointed at the repo browser, or at the site for the
+files the site actually serves.
 
 Usage:
     python scripts/gen_llms_full.py            # write docs/llms-full.txt
     python scripts/gen_llms_full.py --check    # exit 1 if the file is stale
+    python scripts/gen_llms_full.py --selftest # assert the link resolver
 """
 
 from __future__ import annotations
 
 import argparse
+import posixpath
+import re
 import sys
 from pathlib import Path
 
@@ -26,6 +35,17 @@ OUTPUT = REPO / "docs" / "llms-full.txt"
 
 BLOB = "https://github.com/jimy-r/agent-workspace-architecture/blob/main/"
 SITE = "https://jimy-r.github.io/agent-workspace-architecture/"
+
+# A markdown link target that is not a bare anchor. The target cannot contain a
+# closing paren, which no target in the sources does.
+LINK = re.compile(r"\]\(([^)#][^)]*)\)")
+
+# Anything carrying a URI scheme (http:, https: and mailto: are the ones that
+# occur) or written protocol-relative is already absolute.
+ABSOLUTE = re.compile(r"^(?:[A-Za-z][A-Za-z0-9+.\-]*:|//)")
+
+# docs/ is the Pages site root, so a file under it is reachable on the site.
+DOCS = "docs/"
 
 # Reading order: what the repo is, why the shape is the way it is, the full
 # structural map, how to build one, how a day of using it goes.
@@ -65,13 +85,58 @@ Contents, in reading order:
 SEPARATOR = "=" * 78
 
 
+def resolve_link(target: str, source: str) -> str | None:
+    """Absolute URL for one markdown link target, or None to leave it alone.
+
+    `source` is the repo-relative path of the document the link was found in, so
+    a `../PATTERNS.md` written inside `teardowns/` lands on the repo root rather
+    than on a path that exists nowhere.
+    """
+    if target.startswith("#") or ABSOLUTE.match(target):
+        return None
+
+    path, _, anchor = target.partition("#")
+    if not path:
+        return None
+    suffix = f"#{anchor}" if anchor else ""
+
+    # normpath drops the trailing slash, so record the directory shape first.
+    is_dir = path.endswith("/")
+    resolved = posixpath.normpath(posixpath.join(posixpath.dirname(source), path))
+    if resolved == "." or resolved == ".." or resolved.startswith("../"):
+        # The repo root itself, or a path escaping the repo. Neither has an
+        # honest absolute form; leaving it untouched beats inventing one.
+        return None
+
+    # A directory is not served by the site at all, so it stays on the repo
+    # browser even under docs/. GitHub redirects a blob URL for a directory.
+    if is_dir:
+        return f"{BLOB}{resolved}{suffix}"
+
+    if resolved == DOCS.rstrip("/"):
+        return f"{SITE}{suffix}"
+    if resolved.startswith(DOCS):
+        return f"{SITE}{resolved[len(DOCS) :]}{suffix}"
+    return f"{BLOB}{resolved}{suffix}"
+
+
+def rewrite_links(text: str, source: str) -> str:
+    """Point every relative markdown link in `text` at an absolute URL."""
+
+    def replace(match: re.Match[str]) -> str:
+        url = resolve_link(match.group(1), source)
+        return match.group(0) if url is None else f"]({url})"
+
+    return LINK.sub(replace, text)
+
+
 def build() -> str:
     parts = [HEADER]
     for name in SOURCES:
         path = REPO / name
         if not path.exists():
             raise SystemExit(f"ERROR: source document not found: {name}")
-        text = path.read_text(encoding="utf-8").strip()
+        text = rewrite_links(path.read_text(encoding="utf-8").strip(), name)
         parts.append(
             f"\n\n{SEPARATOR}\n"
             f"SOURCE: {name}\n"
@@ -82,6 +147,40 @@ def build() -> str:
     return "".join(parts)
 
 
+def run_self_test() -> int:
+    """Assert the link resolver on the shapes the sources actually contain."""
+    cases = [
+        # (target, source document, expected URL or None to leave alone)
+        ("PATTERNS.md", "README.md", f"{BLOB}PATTERNS.md"),
+        ("../PATTERNS.md", "teardowns/2026-08-28-herdr.md", f"{BLOB}PATTERNS.md"),
+        ("docs/history.md", "README.md", f"{SITE}history.md"),
+        ("PATTERNS.md#pattern-16", "README.md", f"{BLOB}PATTERNS.md#pattern-16"),
+        ("samples/tasks/", "README.md", f"{BLOB}samples/tasks"),
+        ("https://example.com/x.md", "README.md", None),
+        ("mailto:someone@example.com", "README.md", None),
+    ]
+    failures = []
+    for target, source, expected in cases:
+        actual = resolve_link(target, source)
+        if actual != expected:
+            failures.append(f"  {target!r} in {source!r}: {actual!r} != {expected!r}")
+
+    # The rewrite must leave everything except the target untouched, including
+    # the nested-image link shape the README opens with.
+    nested = "[![map](docs/assets/m.png)](https://example.com/tour)"
+    rewritten = rewrite_links(nested, "README.md")
+    expected_nested = f"[![map]({SITE}assets/m.png)](https://example.com/tour)"
+    if rewritten != expected_nested:
+        failures.append(f"  nested image link: {rewritten!r} != {expected_nested!r}")
+
+    if failures:
+        print("self-test: FAIL", file=sys.stderr)
+        print("\n".join(failures), file=sys.stderr)
+        return 1
+    print(f"self-test: PASS ({len(cases) + 1} link-resolver checks).")
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -89,7 +188,15 @@ def main() -> int:
         action="store_true",
         help="verify the committed file matches the sources; do not write",
     )
+    parser.add_argument(
+        "--selftest",
+        action="store_true",
+        help="assert the link resolver against fixed cases; do not write",
+    )
     args = parser.parse_args()
+
+    if args.selftest:
+        return run_self_test()
 
     content = build()
     size = len(content.encode("utf-8"))
