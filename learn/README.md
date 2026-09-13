@@ -28,7 +28,7 @@ Every pattern in [PATTERNS.md](../PATTERNS.md) appears in exactly one module and
 
 ## How each module works
 
-**Read** the module page (five minutes). **Do** the exercise — each has a done-check you can verify mechanically, not a "reflect on" prompt. **Measure** with the named instrument, so you know the exercise took. **Record** the done-check somewhere outside your own head. A module without its exercise done is a module read, not learned.
+**Read** the module page (five minutes). **Do** the exercise — most done-checks are mechanical rather than a "reflect on" prompt, and two are not: M2 asks you to name your three costliest always-loaded sources, which is a self-report, and M6 asks whether a delegated card's done-when is checkable by someone who did not write it, which needs a second reader. **Measure** with the named instrument, so you know the exercise took. **Record** the done-check somewhere outside your own head. A module without its exercise done is a module read, not learned.
 
 ## Track your progress
 
