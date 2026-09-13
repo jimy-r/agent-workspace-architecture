@@ -2,7 +2,12 @@
 
 Human-written record of notable changes — the *why* and the *shape*, not every merged PR. Milestone batches get a tagged release with short notes (from `v1.0.0`, 2026-06-11); entries are grouped by date, newest first. Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), adapted to a dated scheme. A date that carries a tagged release names the version in its heading, and that version links to the diff against the release before it, so anyone arriving from a release page can find the matching section. Dates without a version were merged between releases.
 
-## Unreleased
+## 2026-09-13 - [v1.17.0]
+
+- **Twenty-first-audit drain, published.** Four PRs (#144 to #147; the link rewrite opened as #148 and landed inside #146) carried the drain's public-side fixes. The discovery files and the redaction instruction were corrected: `AGENTS.md` pointed every agent at a script that had left the repo, `SECURITY.md`'s inventory missed a workflow, and `llms.txt` missed the fifth teardown and handed agents HTML without saying so. Three hand-maintained claims gained CI gates (the pattern partition across the learn modules, every teardown and learn page named in `llms.txt`, every workflow named in `SECURITY.md`), and the link-rot signal became visible, with a `link-rot` label the stale bot leaves alone and a badge scoped to pull requests. `llms-full.txt`, the bundle built for one-fetch machine reading, carried 115 relative links that all missed at the site root, so the generator now resolves every link to an absolute URL. The teardown lane gained a practice link, `Status` and `Re-check by` header fields with a weekly check that fails once a reading passes its date, a generated eighteen-by-five presence matrix with a cross-case reading, and the GPT-RAG page's missing "What changed here". The README's 6.4/10 score carries its commit and date, with the full run at [docs/self-score.md](docs/self-score.md) and a CI job that fails if the score moves; the tour shows the 60-second artefact; the mirror reaches eighteen roles, so the role-count gate now certifies a true sentence; public META's orphaned section 16 is gone; the wrap sample caught up with the live skill. Findings: c235cd61, 2572450c, 7782aa7c, 64602ce5, bef33998, 73bfe5ea, 506167c6, b13fa084, 14874284, bb5280ca, 3e587eb7, 3d49d9a4, 3cf5857b, 62cbd5a3, 9e33f455, aa77b100, 710d5c08, e8b11d6f, cd8929b6.
+- **Release hygiene, from the GPT-RAG reading.** That teardown named a three-way gap between tag, changelog and release and said this repository had the same gap. It did: two dated entries had sat Unreleased for a week past v1.16.0. This release carries them, and the same drain closed the shape in two sibling repositories (signal-sweep v0.6.1, dead-mans-switch v0.2.0). Finding ab897364.
+
+## 2026-09-09
 
 - **The content machinery became a learning loop.** Three months of outward work (60 answers posted in other people's threads, 54 replies drawn, five teardowns, six index submissions, a newsletter and a free-tools funnel) changed a standing file three times. Reading other people's systems closely, a lane nobody was measuring, changed dozens. So the layer keeps one metric: did an interaction change a standing file? It lives in an append-only learning ledger where a drained reply becomes a row, a human later rules it a lift, a reject or a defer, and the report warns when ten decided items in a row produced no lift. Reviews of external systems become the rhythm, teardowns publish only when something was lifted, the publishing cadences and the twice-weekly traffic capture are retired, and the demand registers are parked.
 
@@ -228,6 +233,7 @@ Human-written record of notable changes — the *why* and the *shape*, not every
 
 *Last verified against the repo structure on **2026-06-10**.*
 
+[v1.17.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.16.0...v1.17.0
 [v1.16.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.15.0...v1.16.0
 [v1.15.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.14.0...v1.15.0
 [v1.14.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.13.1...v1.14.0
