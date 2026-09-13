@@ -5,6 +5,8 @@
 - **Patterns present:** [1](../PATTERNS.md#1-pure-roles-composed-with-project-facts), [3](../PATTERNS.md#3-make-silent-failure-loud-the-dead-mans-switch), [4](../PATTERNS.md#4-tier-by-mechanical-impact-not-by-tone), [6](../PATTERNS.md#6-credentials-live-in-one-place-never-in-files), [7](../PATTERNS.md#7-a-cheap-hook-beats-a-careful-agent), [9](../PATTERNS.md#9-context-is-a-budget-not-a-constant), [11](../PATTERNS.md#11-a-scaffold-is-a-hypothesis--gate-it-behind-a-measurable-signal), [16](../PATTERNS.md#16-a-claim-carries-its-provenance-or-it-is-a-guess), [17](../PATTERNS.md#17-one-canonical-copy-and-pointers-from-everywhere-else), [18](../PATTERNS.md#18-position-is-price--a-token-costs-more-the-earlier-you-add-it) ([8](../PATTERNS.md#8-audit-the-workspace-like-a-fitness-function), [10](../PATTERNS.md#10-a-skill-is-editable-weights--never-adopt-a-self-edit-without-a-gate), [12](../PATTERNS.md#12-loop-selection-not-everything-should-be-a-loop) and [15](../PATTERNS.md#15-price-the-lane-before-you-migrate-it) partial)
 - **Patterns absent worth noting:** [5](../PATTERNS.md#5-memory-points-it-doesnt-mirror), [13](../PATTERNS.md#13-challenge-half-formed-ideas-with-a-different-lens--and-hold-a-sample-back-to-prove-it-helps), [14](../PATTERNS.md#14-delegation-is-a-queue-you-fill-not-work-the-agent-finds)
 - **Date:** 2026-09-05
+- **Status:** current <!-- as at 2026-09-13 -->
+- **Re-check by:** 2026-12-05
 
 ## What it is
 
@@ -52,4 +54,4 @@ Two lifts transfer straight across. Symlink the duplicate instruction file inste
 
 *Found via the engagement lane: the exchange on memory write discipline in discussion #1345 preceded this page. Conventions: [teardowns/README.md](README.md). Corrections welcome and will be appended, dated.*
 
-*Next: [12-Factor Agents](2026-08-27-12-factor-agents.md), the first of the series · All teardowns: [index](README.md) · Questions: [Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions) · New teardowns and patterns: [Agent Workspaces](https://jimyr.substack.com)*
+*Next: [12-Factor Agents](2026-08-27-12-factor-agents.md), the first of the series · All teardowns: [index](README.md) · Questions: [Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions) · Patterns adapted to your stack: [jamesross.ai](https://jamesross.ai/?utm_source=github&utm_medium=teardown&utm_campaign=flagship) · New teardowns and patterns: [Agent Workspaces](https://jimyr.substack.com)*

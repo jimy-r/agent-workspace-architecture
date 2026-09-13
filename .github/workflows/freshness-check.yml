@@ -15,6 +15,10 @@ name: Freshness stamps
 # permanently red through no fault of the content. The gate belongs where it is
 # actionable: before the merge, in the branch that carries both the edit and
 # the stamp.
+#
+# The one exception is the teardown re-check date, a calendar gate that does
+# not depend on commit dates: a reading can expire with no PR in sight, so a
+# weekly run checks only that rule.
 
 on:
   pull_request:
@@ -27,6 +31,9 @@ on:
       - 'docs/llms-full.txt'
       - 'scripts/check_freshness.py'
       - '.github/workflows/freshness-check.yml'
+      - 'teardowns/**'
+  schedule:
+    - cron: '17 21 * * 0'
   workflow_dispatch:
 
 permissions:
@@ -46,4 +53,9 @@ jobs:
           python-version: '3.12'
 
       - name: Freshness stamps match git history
+        if: github.event_name != 'schedule'
         run: python scripts/check_freshness.py
+
+      - name: Teardown readings are inside their re-check dates
+        if: github.event_name == 'schedule'
+        run: python scripts/check_freshness.py --teardowns
