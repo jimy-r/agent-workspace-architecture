@@ -4,10 +4,12 @@ name: Docs consistency
 # 570ab6e2: the tour advertised 14/fifteen patterns while PATTERNS.md carried
 # seventeen). The count is derived, never hand-maintained here.
 #
-# The same principle now covers three more hand-maintained claims: the learn
+# The same principle now covers four more hand-maintained claims: the learn
 # track's partition of the patterns (14874284), docs/llms.txt's coverage of
-# the teardown and learn pages (7782aa7c, which lost a teardown), and
-# SECURITY.md's workflow inventory (2572450c, which lost a workflow twice).
+# the teardown and learn pages (7782aa7c, which lost a teardown),
+# SECURITY.md's workflow inventory (2572450c, which lost a workflow twice),
+# and the teardown presence matrix (62cbd5a3), which is derived from the
+# pages' own header lines rather than typed out beside them.
 
 on:
   pull_request:
@@ -21,6 +23,7 @@ on:
       - 'samples/roles/**'
       - 'learn/**'
       - 'teardowns/**'
+      - 'scripts/teardown_matrix.py'
       - 'docs/llms.txt'
       - 'SECURITY.md'
       - '.github/workflows/**'
@@ -36,6 +39,7 @@ on:
       - 'samples/roles/**'
       - 'learn/**'
       - 'teardowns/**'
+      - 'scripts/teardown_matrix.py'
       - 'docs/llms.txt'
       - 'SECURITY.md'
       - '.github/workflows/**'
@@ -221,6 +225,16 @@ jobs:
                        + "\n  ".join(missing))
           print(f"OK: all {len(pages)} teardown and learn pages are referenced in docs/llms.txt")
           EOF
+
+  teardown-matrix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Teardown matrix matches the pages it is derived from
+        run: python scripts/teardown_matrix.py --check
 
   security-workflow-inventory:
     runs-on: ubuntu-latest

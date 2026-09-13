@@ -5,6 +5,8 @@
 - **Patterns present:** [4](../PATTERNS.md#4-tier-by-mechanical-impact-not-by-tone), [6](../PATTERNS.md#6-credentials-live-in-one-place-never-in-files), [7](../PATTERNS.md#7-a-cheap-hook-beats-a-careful-agent), [11](../PATTERNS.md#11-a-scaffold-is-a-hypothesis--gate-it-behind-a-measurable-signal), [16](../PATTERNS.md#16-a-claim-carries-its-provenance-or-it-is-a-guess) ([1](../PATTERNS.md#1-pure-roles-composed-with-project-facts), [2](../PATTERNS.md#2-classify-then-act-not-ask-then-wait), [3](../PATTERNS.md#3-make-silent-failure-loud-the-dead-mans-switch), [5](../PATTERNS.md#5-memory-points-it-doesnt-mirror), [8](../PATTERNS.md#8-audit-the-workspace-like-a-fitness-function), [9](../PATTERNS.md#9-context-is-a-budget-not-a-constant), [10](../PATTERNS.md#10-a-skill-is-editable-weights--never-adopt-a-self-edit-without-a-gate), [12](../PATTERNS.md#12-loop-selection-not-everything-should-be-a-loop), [13](../PATTERNS.md#13-challenge-half-formed-ideas-with-a-different-lens--and-hold-a-sample-back-to-prove-it-helps), [14](../PATTERNS.md#14-delegation-is-a-queue-you-fill-not-work-the-agent-finds), [17](../PATTERNS.md#17-one-canonical-copy-and-pointers-from-everywhere-else) and [18](../PATTERNS.md#18-position-is-price--a-token-costs-more-the-earlier-you-add-it) partial)
 - **Patterns absent worth noting:** [15](../PATTERNS.md#15-price-the-lane-before-you-migrate-it), which a solution accelerator has little reason to carry. The absences that cost something are the unbuilt halves of [3](../PATTERNS.md#3-make-silent-failure-loud-the-dead-mans-switch), [8](../PATTERNS.md#8-audit-the-workspace-like-a-fitness-function) and [17](../PATTERNS.md#17-one-canonical-copy-and-pointers-from-everywhere-else), below.
 - **Date:** 2026-09-06
+- **Status:** current <!-- as at 2026-09-13 -->
+- **Re-check by:** 2027-03-06
 
 ## What it is
 
@@ -52,8 +54,10 @@ A check you do not run is a comment. The whole culture of fitness functions is h
 
 Three lifts transfer for an afternoon each. Pin the bytes and pin the line endings that keep the bytes stable. Give every decision record a review date and a list of falsifiers, then give the same to your instruction files. And run a three-way set difference, tag against changelog against published release, on every release. That last one belongs in this repository's own release ritual too, which has the same three artefacts and, until now, the same gap.
 
+**What changed here:** Nothing at publication. The four lifts were noted as card candidates and never filed, and the three-way release check the page recommends is still not built. The gap it named did close a week later by another route. The 2026-09-12 audit found two sibling repositories with the same shape, a changelog advertising fixes no release carried and a version declared with no tag, and the 2026-09-13 drain released both (signal-sweep v0.6.1, dead-mans-switch v0.2.0).
+
 ---
 
 *Found via the discovery lane: the teardown sweep of 2026-09-06 ranked the repository high on stars and architecture keywords, and the tree did the rest. Conventions: [teardowns/README.md](README.md). Corrections welcome and will be appended, dated.*
 
-*Next: [DeepSeek Harness](2026-09-05-deepseek-harness.md), the previous teardown · All teardowns: [index](README.md) · Questions: [Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions) · New teardowns and patterns: [Agent Workspaces](https://jimyr.substack.com)*
+*Next: [DeepSeek Harness](2026-09-05-deepseek-harness.md), the previous teardown · All teardowns: [index](README.md) · Questions: [Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions) · Patterns adapted to your stack: [jamesross.ai](https://jamesross.ai/?utm_source=github&utm_medium=teardown&utm_campaign=flagship) · New teardowns and patterns: [Agent Workspaces](https://jimyr.substack.com)*
