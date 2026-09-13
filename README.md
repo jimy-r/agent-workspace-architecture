@@ -1,7 +1,7 @@
 # agent-workspace-architecture
 
 [![Redaction check](https://img.shields.io/github/actions/workflow/status/jimy-r/agent-workspace-architecture/redaction-check.yml?label=redaction)](https://github.com/jimy-r/agent-workspace-architecture/actions/workflows/redaction-check.yml)
-[![Link check](https://img.shields.io/github/actions/workflow/status/jimy-r/agent-workspace-architecture/link-check.yml?label=links)](https://github.com/jimy-r/agent-workspace-architecture/actions/workflows/link-check.yml)
+[![Link check](https://img.shields.io/github/actions/workflow/status/jimy-r/agent-workspace-architecture/link-check.yml?label=links&event=pull_request)](https://github.com/jimy-r/agent-workspace-architecture/actions/workflows/link-check.yml)
 [![Validate samples](https://img.shields.io/github/actions/workflow/status/jimy-r/agent-workspace-architecture/validate-samples.yml?label=samples)](https://github.com/jimy-r/agent-workspace-architecture/actions/workflows/validate-samples.yml)
 
 A reference implementation of **agent-ready knowledge architecture**: the roles, routines, hooks, skills, memory, and task coordination that make a body of working knowledge legible to AI agents, and turn a coding agent into a system you can hand work to and trust to make progress while you're away.
@@ -120,4 +120,4 @@ The repo was renamed from `claude-workspace-architecture` on 2026-05-28; the old
 
 ---
 
-*Last verified against the repo structure on 2026-09-06.*
+*Last verified against the repo structure on 2026-09-13.*
