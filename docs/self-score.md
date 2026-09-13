@@ -22,11 +22,6 @@ workspace check — <repo root>
 
 [PASS] claude-md-present — CLAUDE.md at the root, 4.7 KB (pattern 9)
 [PASS] context-budget — 4.7 KB across 1 always-loaded file(s) (pattern 9)
-<<<<<<< HEAD
-[WARN] settings-parse — no .claude/settings.json or settings.local.json found (pattern 7)
-=======
-[WARN] settings-parse — no .claude/settings.json or settings.local.json found (pattern 7)   (redaction-ok: the linter names its own config file here, not a host)
->>>>>>> origin/main
 [WARN] hooks-guard — no parseable settings file to read hooks from (pattern 7)
 [WARN] permissions-floor — no permissions block in settings (pattern 4)
 [FAIL] secrets-in-files — 2 hit(s): samples/tests/audit_canaries/canary.json:10 Anthropic key sk-ant-a****************, samples/tests/audit_canaries/credential_pattern_canary.md:11 Anthropic key sk-ant-a**************** (pattern 6)
