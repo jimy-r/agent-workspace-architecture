@@ -5,6 +5,8 @@
 - **Patterns present:** [1](../PATTERNS.md#1-pure-roles-composed-with-project-facts), [2](../PATTERNS.md#2-classify-then-act-not-ask-then-wait), [9](../PATTERNS.md#9-context-is-a-budget-not-a-constant), [12](../PATTERNS.md#12-loop-selection-not-everything-should-be-a-loop), [17](../PATTERNS.md#17-one-canonical-copy-and-pointers-from-everywhere-else) (several partially — see body)
 - **Patterns absent worth noting:** [3](../PATTERNS.md#3-make-silent-failure-loud-the-dead-mans-switch), [5](../PATTERNS.md#5-memory-points-it-doesnt-mirror), [6](../PATTERNS.md#6-credentials-live-in-one-place-never-in-files), [7](../PATTERNS.md#7-a-cheap-hook-beats-a-careful-agent), [8](../PATTERNS.md#8-audit-the-workspace-like-a-fitness-function), [11](../PATTERNS.md#11-a-scaffold-is-a-hypothesis--gate-it-behind-a-measurable-signal), [16](../PATTERNS.md#16-a-claim-carries-its-provenance-or-it-is-a-guess)
 - **Date:** 2026-08-27
+- **Status:** current <!-- as at 2026-09-13 -->
+- **Re-check by:** 2027-02-27
 
 ## What it is
 
@@ -47,4 +49,4 @@ The two pattern sets compose rather than compete. 12-Factor Agents is the strong
 
 *Conventions: [teardowns/README.md](README.md). Corrections welcome and will be appended, dated.*
 
-*Next: [LifeOS](2026-08-28-lifeos.md) · All teardowns: [index](README.md) · Questions: [Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions) · New teardowns and patterns: [Agent Workspaces](https://jimyr.substack.com)*
+*Next: [LifeOS](2026-08-28-lifeos.md) · All teardowns: [index](README.md) · Questions: [Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions) · Patterns adapted to your stack: [jamesross.ai](https://jamesross.ai/?utm_source=github&utm_medium=teardown&utm_campaign=flagship) · New teardowns and patterns: [Agent Workspaces](https://jimyr.substack.com)*
