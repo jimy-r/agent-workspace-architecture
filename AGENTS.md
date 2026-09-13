@@ -42,11 +42,12 @@ financial or legal data, and absolute paths that reveal a machine layout. Use
 the generic placeholders the repo already uses: `<workspace>`, `<home>`,
 `<project>`, "the user".
 
-Run the scanner before every commit:
-
-```bash
-python scripts/redaction_check.py
-```
+The automated gate runs in CI, not locally. `redaction-check.yml` calls the
+scanner published as
+[`jimy-r/redaction-check-action`](https://github.com/jimy-r/redaction-check-action),
+and that is the check branch protection requires on every pull request. No
+copy of the scanner ships in this repo, so the pre-commit step is the manual
+scrub above.
 
 When in doubt, generalise. A leak survives amendment because the push already
 happened.
@@ -54,16 +55,18 @@ happened.
 ## Checks to run before you commit
 
 ```bash
-python scripts/redaction_check.py       # privacy gate, always
 python scripts/validate_samples.py      # sample frontmatter, links, schemas
 python scripts/gen_llms_full.py --check # llms-full.txt matches its sources
 python scripts/check_freshness.py       # dated stamps match git history
 python tools/workspace_check.py --self-test
+# redaction runs in CI (redaction-check.yml); there is no local script
 ```
 
 Regenerate rather than hand-edit: `python scripts/gen_llms_full.py` rewrites
 `docs/llms-full.txt`, and `python scripts/check_freshness.py --fix` rewrites the
-dated stamps. CI runs the same commands, so a green local run is the gate.
+dated stamps. CI runs these same commands, so a green local run is the gate
+for all of them. Redaction is the exception: it has no local script and runs
+only in CI.
 
 ## Conventions
 
