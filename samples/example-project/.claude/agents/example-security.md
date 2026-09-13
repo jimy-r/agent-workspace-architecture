@@ -5,7 +5,7 @@ tools: Read, Grep, Glob, Bash
 model: claude-sonnet-4-6
 ---
 
-@../../../roles/example-security-auditor.md
+@../../../roles/security-auditor.md
 
 ---
 

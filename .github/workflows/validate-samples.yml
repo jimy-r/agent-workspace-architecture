@@ -37,6 +37,14 @@ jobs:
       - name: Run sample validator
         run: python scripts/validate_samples.py
 
+      # scripts/validate_samples.py checks frontmatter keys only. The roles
+      # library ships its own validator, whose second phase resolves every
+      # sample binding's @-included role against the files in samples/roles/.
+      # Nothing in CI ran that phase, so a binding pointing at a role no
+      # sample defines shipped undetected (audit finding df392230).
+      - name: Run roles library validator
+        run: python samples/roles/_validate.py
+
   self-score:
     # The README quotes this repo's own workspace_check score, and docs/self-score.md
     # carries the full run with its commit and date (audit finding 9e33f455: the most
