@@ -18,7 +18,7 @@ samples/
 │   └── .claude/agents/
 │       └── example-security.md       # thin binding: role + CONTEXT.md
 │
-├── roles/                            # 17 canonical role definitions + template + validator
+├── roles/                            # 18 canonical role definitions + template + validator
 │   ├── _template.md                  # role skeleton
 │   ├── _validate.py                  # schema + binding validator
 │   ├── accountant.md                 # tax / deductions / compliance (Australian-flavoured; localise)
@@ -119,7 +119,7 @@ Follow [`ADOPTION.md`](../ADOPTION.md); the 5-step walkthrough maps these sample
 ### Full library (reference implementations, fork to adapt)
 
 - [`board/`](board/): the **task board module** — the current coordination design. A card schema where `status` and `area` are fields, a recurring lane, and an explicit delegation queue whose intake interview runs at the moment the operator delegates. Read `README.md` there for the succession reasoning; it replaced the scheduled agent in `tasks/`.
-- [`roles/`](roles/): **17 canonical roles**. Each is pure (no entity facts), composed with a project `CONTEXT.md` via a thin binding in `<project>/.claude/agents/`. Domain-specific roles (e.g. `accountant.md` is Australian-CPA flavoured) may need localisation; treat as template.
+- [`roles/`](roles/): **18 canonical roles**. Each is pure (no entity facts), composed with a project `CONTEXT.md` via a thin binding in `<project>/.claude/agents/`. Domain-specific roles (e.g. `accountant.md` is Australian-CPA flavoured) may need localisation; treat as template.
 - [`.claude/skills/`](.claude/skills/): **10 workspace skills** for session management, queue-draining (heartbeat reviews + audit findings), output discipline, verification, and goal-loop design. The board module's own two skills ship alongside it in [`board/`](board/).
 - [`.claude/agents/`](.claude/agents/): **4 custom subagents**: the weekly auditor, its quarterly second-opinion counterpart, a task-queue project manager (retired 2026-08, kept as the studied predecessor), and an auto-routed researcher.
 - [`.claude/hooks/`](.claude/hooks/): the three hook scripts [`settings.example.json`](.claude/settings.example.json) wires. [`protect-files.py`](.claude/hooks/protect-files.py) is the PreToolUse guard ADOPTION step 3 asks you to write: it exits `2` on an edit to a protected path, which blocks the tool call. [`auto-format.py`](.claude/hooks/auto-format.py) formats whatever the agent just wrote and skips quietly when the formatter is not installed. [`session-start.py`](.claude/hooks/session-start.py) prints the date, the git state and a capped excerpt of the task file into the opening context. All three are stdlib-only and fail open, because a hook that breaks the session gets deleted on day one. The Bash-side counterpart to the first is [`scripts/security/check_bash_command.py`](scripts/security/check_bash_command.py); wire both, since shell writes never reach a PreToolUse Edit hook.

@@ -157,6 +157,7 @@
   .doc .dd{display:block; font-size:14px; color:var(--muted); margin-top:3px;}
   .agentbox{margin-top:22px; background:var(--card); border:1px dashed #CDBF9E; border-radius:11px; padding:18px 20px;}
   .agentbox .k{font-size:11.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--oxblood);}
+  .agentbox p{margin:8px 0 0; font-size:14.5px; color:var(--muted); max-width:64ch;}
   .agentbox code{display:block; margin-top:8px; font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace; font-size:13.5px; color:var(--ink); background:var(--paper); border:1px solid var(--rule); border-radius:7px; padding:12px 14px; white-space:pre-wrap; line-height:1.5;}
   .funnel{margin-top:24px; padding:22px 24px; border-radius:12px; background:linear-gradient(180deg,#fff, #F5EEDC); border:1px solid var(--rule);}
   .funnel h3{margin:0 0 6px; font-size:21px;}
@@ -197,7 +198,7 @@
       <a href="workspace-map.html" class="btn ghost">See it on one page &rarr;</a>
     </div>
     <div class="pillrow" aria-hidden="true">
-      <span class="pill">17 expert roles</span>
+      <span class="pill">18 expert roles</span>
       <span class="pill">explicit delegation queue</span>
       <span class="pill">weekly self-audit</span>
       <span class="pill">dead-man's switch</span>
@@ -443,6 +444,19 @@
       <a class="doc" href="https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md"><span class="dt">teardowns/ → Evidence</span><span class="dd">Published architectures read against these patterns: what each gets right, and what is conspicuously missing.</span></a>
     </div>
 
+    <div class="agentbox">
+      <span class="k">Try it in 60 seconds</span>
+      <p>One runnable artefact ships here: a single-file, read-only linter that scores a workspace against the checkable patterns and prints one evidence line per check. No install, no dependencies beyond Python 3.9+, and it writes nothing.</p>
+      <code>curl -sSLO https://raw.githubusercontent.com/jimy-r/agent-workspace-architecture/main/tools/workspace_check.py
+python3 workspace_check.py /path/to/your/workspace</code>
+      <p>What you see (this repo's own score, abbreviated):</p>
+      <code>[PASS] context-budget — 4.7 KB across 1 always-loaded file(s) (pattern 9)
+[FAIL] secrets-in-files — 2 hit(s) (pattern 6)
+
+Score 6.4/10 — maturing (7 scored, 5 not applicable)</code>
+      <p>Each check names the pattern it comes from, so a failing line is a link into <a href="https://github.com/jimy-r/agent-workspace-architecture/blob/main/PATTERNS.md">PATTERNS.md</a> rather than a scolding. Scored at 34ddd30 on 2026-09-13; the full twelve-check table, including why the one failure was left failing, is in <a href="https://github.com/jimy-r/agent-workspace-architecture/blob/main/docs/self-score.md">docs/self-score.md</a>.</p>
+    </div>
+
     <p style="font-size:14.5px; color:var(--muted); margin:18px 0 0;"><strong style="color:var(--ink);">Spun out as a standalone tool:</strong> <a href="https://github.com/signal-sweep/signal-sweep">signal-sweep</a> generalizes this workspace's thread-sweep module into a human-gated toolkit for finding the open GitHub threads your project's docs already answer.</p>
 
     <div class="agentbox">
@@ -453,7 +467,7 @@
     <div class="funnel">
       <h3>Standing this up inside an organisation?</h3>
       <p>I'm James Ross, an AI Knowledge Architect. The practice is Agent-Ready Knowledge Architecture: making an organisation's knowledge legible to AI agents. This workspace is the reference version of my own agent-ready memory layer. If you want these patterns adapted to your stack, the practice site is <a href="https://jamesross.ai/?utm_source=tour&amp;utm_medium=funnel&amp;utm_campaign=flagship">jamesross.ai</a>.</p>
-      <p style="margin:12px 0 0;">Not ready for that? New patterns, teardowns and tools ship irregularly at <a href="https://jimyr.substack.com/?utm_source=tour&amp;utm_medium=funnel&amp;utm_campaign=flagship">Agent Workspaces</a>, and questions go to <a href="https://github.com/jimy-r/agent-workspace-architecture/discussions">Discussions</a>.</p>
+      <p style="margin:12px 0 0;">Not ready for that? New patterns, teardowns and tools ship irregularly at <a href="https://jimyr.substack.com/?utm_source=tour&amp;utm_medium=funnel&amp;utm_campaign=flagship">Agent Workspaces</a>, and questions go to <a href="https://github.com/jimy-r/agent-workspace-architecture/discussions">Discussions</a>, the canonical Q&amp;A home.</p>
     </div>
   </div>
 </section>
@@ -487,7 +501,7 @@
     heartbeat:{title:"Heartbeat (retired)", detail:"The predecessor. A 2-hourly project manager that classified the task queue, built the safe-by-default work in a sandbox, lodged it for review, and logged every rejection. Retired after two failures. Its clarifying questions went to a channel nobody read, thirteen of them unanswered, and an expired ambient credential let the scheduled runs fail dark for about five weeks. The Task board's delegation queue is the successor."},
     brief:{title:"Brief", detail:"A daily situational digest — calendar, weather, AI news, task state, overnight activity — rendered to email and sent to self. Idempotent, so a re-run never double-sends."},
     inbox:{title:"Inbox", detail:"Hands-on mail and receipt triage. It groups items by proposed action and gates each batch for approval before anything is labelled, archived, or written to a financial file."},
-    roles:{title:"Roles", detail:"Seventeen pure expert personas plus thin project bindings. A validator runs every cycle to catch a binding that points at a role or context that moved."},
+    roles:{title:"Roles", detail:"Eighteen pure expert personas plus thin project bindings. A validator runs every cycle to catch a binding that points at a role or context that moved."},
     memory:{title:"Memory", detail:"Typed, indexed notes (user / feedback / project / reference) that point at sources instead of copying them. Every write is add, update, delete, or no-op — never a blind append."},
     security:{title:"Security envelope", detail:"A PreToolUse guard on file writes and shell commands, a credential law that keeps secrets out of files, transcript backups before compaction, and container sandboxing for web-facing agents."},
     backup:{title:"Backup", detail:"Encrypted incremental backups to off-machine storage, with the repository credentials resolved at runtime and scrubbed afterward. Verified by a restore round-trip, not by hope."},
