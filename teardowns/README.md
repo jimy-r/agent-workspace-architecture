@@ -83,10 +83,10 @@ What each reading changed here, first line of its own answer:
 | [herdr](2026-08-28-herdr.md) | none |
 | [LifeOS](2026-08-28-lifeos.md) | none |
 | [DeepSeek Harness](2026-09-05-deepseek-harness.md) | This repo gained a root [`AGENTS.md`](../AGENTS.md) on 2026-09-06, after this reading. |
-| [GPT-RAG](2026-09-06-azure-gpt-rag.md) | _not yet recorded_ |
+| [GPT-RAG](2026-09-06-azure-gpt-rag.md) | Nothing at publication. |
 <!-- teardown-matrix:end -->
 
-<!-- PROSE-TOP-TIER: three to five sentences, the universally present pattern, the universally absent one, the most surprising split -->
+Five readings, and no pattern is present in all five. Pure roles come closest, present in three subjects and partial in a fourth, and a cheap hook in the execution path is present in three of the four subjects where it was assessed. Six patterns are fully present in no subject, and they are the judgment and measurement patterns rather than the mechanical ones: the workspace audit, pointer memory, gated self-edits, the held-out divergent lens, the delegation queue and lane pricing. The two most recent subjects carry provenance on every claim and tier their gates by mechanical impact, and still have none of the six in full. The split that surprised most runs the other way. The dead man's switch, the cheapest control in the set, is absent from the three earlier subjects and named as worth noting on each, so the pattern most often missing is the one that costs an afternoon.
 
 ## Published
 

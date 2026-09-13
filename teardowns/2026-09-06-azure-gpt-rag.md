@@ -54,9 +54,7 @@ A check you do not run is a comment. The whole culture of fitness functions is h
 
 Three lifts transfer for an afternoon each. Pin the bytes and pin the line endings that keep the bytes stable. Give every decision record a review date and a list of falsifiers, then give the same to your instruction files. And run a three-way set difference, tag against changelog against published release, on every release. That last one belongs in this repository's own release ritual too, which has the same three artefacts and, until now, the same gap.
 
-## What changed here
-
-<!-- PROSE-TOP-TIER: what the GPT-RAG reading changed in the workspace -->
+**What changed here:** Nothing at publication. The four lifts were noted as card candidates and never filed, and the three-way release check the page recommends is still not built. The gap it named did close a week later by another route. The 2026-09-12 audit found two sibling repositories with the same shape, a changelog advertising fixes no release carried and a version declared with no tag, and the 2026-09-13 drain released both (signal-sweep v0.6.1, dead-mans-switch v0.2.0).
 
 ---
 

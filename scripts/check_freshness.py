@@ -195,9 +195,21 @@ def main() -> int:
     parser.add_argument(
         "--fix", action="store_true", help="rewrite stale stamps in place"
     )
+    parser.add_argument(
+        "--teardowns",
+        action="store_true",
+        help="check only the teardown re-check dates (a calendar gate, safe on a schedule)",
+    )
     args = parser.parse_args()
 
     expired = expired_teardowns()
+
+    if args.teardowns:
+        if expired:
+            print("Teardown readings past their re-check date:" + chr(10) + chr(10).join(expired))
+            return 1
+        print("Every teardown reading is inside its re-check date.")
+        return 0
 
     if args.fix:
         n = fix()
