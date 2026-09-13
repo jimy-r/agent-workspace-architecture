@@ -37,7 +37,6 @@ jobs:
       - name: Run sample validator
         run: python scripts/validate_samples.py
 
-<<<<<<< HEAD
       # scripts/validate_samples.py checks frontmatter keys only. The roles
       # library ships its own validator, whose second phase resolves every
       # sample binding's @-included role against the files in samples/roles/.
@@ -46,8 +45,6 @@ jobs:
       - name: Run roles library validator
         run: python samples/roles/_validate.py
 
-=======
->>>>>>> origin/main
   self-score:
     # The README quotes this repo's own workspace_check score, and docs/self-score.md
     # carries the full run with its commit and date (audit finding 9e33f455: the most
