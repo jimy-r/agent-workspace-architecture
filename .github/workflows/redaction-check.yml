@@ -27,7 +27,7 @@ jobs:
       # workspace. Running it here rather than a repo-local copy is both the
       # dogfooding case and the fix for a real drift: the inline copy had
       # frozen at 182 lines while the published scanner grew to 498.
-      - uses: jimy-r/redaction-check-action@b9ccb7555377b6119fa21586ba13de5d13c55758 # v1.0.0
+      - uses: jimy-r/redaction-check-action@5d0367ec0a56da7568b61201dedde744867e6eb9 # v1.0.1
         with:
           # github.base_ref is empty on workflow_dispatch, which left the
           # manual trigger declared above with nothing to diff against.
