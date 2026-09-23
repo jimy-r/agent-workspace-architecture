@@ -121,9 +121,9 @@ Token cost: <B8 headline> · daily row <refreshed | WARN>
 
 - **Public mirror push pending** and the redaction check was clean: the git chain as ONE shell call, then verify the rendered diff on the hosting site. A real identifier leak on the merged commit gets a follow-up commit immediately; amending never erases it.
   ```
-  cd <workspace>/<public-repo> && git checkout -b docs/<slug> && git add -A && git commit -m "docs: <summary>" && git push -u origin HEAD && gh pr create --title "docs: <summary>" --body "<body>" && gh pr merge --squash --delete-branch
+  cd <workspace>/<public-repo> && git checkout -b docs/<slug> && git add -A && git commit -m "docs: <summary>" && git push -u origin HEAD && gh pr create --title "docs: <summary>" --body "<body>" && gh pr merge --auto --squash --delete-branch --author-email <ID+USERNAME@users.noreply.github.com>
   ```
-  The public repo's own `CLAUDE.md` requires branching; never commit to `main` directly.
+  The public repo's own `CLAUDE.md` requires branching; never commit to `main` directly. `--auto` holds the merge until the required checks pass, and `--author-email` keeps the squash commit on your GitHub noreply address (drop it when merging a contributor's PR).
 - **`Settings touched: yes`** → the post-settings verification below.
 - **Backup staleness** beyond your threshold → whatever backup offer your workspace carries; fresh → say nothing.
 

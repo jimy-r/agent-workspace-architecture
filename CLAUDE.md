@@ -10,7 +10,7 @@ Maintained solo and best-effort. [Issues](https://github.com/jimy-r/agent-worksp
 
 ## Working principles
 
-- **Always branch.** Never commit to `main` directly. Branch protection blocks force-pushes and deletions and requires the `redaction` check to pass on PRs (admins can still self-merge).
+- **Always branch.** Never commit to `main` directly. Branch protection blocks force-pushes and deletions and requires the `redaction` check to pass on PRs. The rules apply to admins as well, so no one can merge ahead of the check.
 - **One focused change per PR.**
 - **[Conventional Commits](https://www.conventionalcommits.org/).** `feat:`, `fix:`, `docs:`, `refactor:`, `chore:`.
 - **Include a `Co-Authored-By:` trailer** for Claude-assisted commits.
@@ -48,9 +48,10 @@ Some files need Issue agreement before a PR; see the Scope boundaries section in
 2. `git diff`, and eyeball every changed line.
 3. Conventional commit message.
 4. Push your branch; open a PR using the template.
-5. Merge once the `redaction` check passes:
-   `gh pr merge --squash --delete-branch`.
-   `main` is protected: the `redaction` check must go green before a PR merges, and force-pushes and deletions are blocked. Add `--auto` to queue the merge for when the check passes (if auto-merge is enabled). Contributor PRs follow the same command once the maintainer has reviewed and approved them.
+5. Queue the merge so it lands only after the checks pass. For the maintainer's own PRs:
+   `gh pr merge <n> --auto --squash --delete-branch --author-email 4570080+jimy-r@users.noreply.github.com`.
+   Contributor PRs, once the maintainer has reviewed and approved them, drop the author flag and run `gh pr merge <n> --auto --squash --delete-branch`.
+   `--auto` holds the merge until the required `redaction` check is green, so no PR lands before its scan has run. `--author-email` keeps the maintainer's squash commits on the GitHub noreply address, while a contributor's squash commit already carries the contributor as author. Force-pushes and deletions on `main` are blocked for everyone.
 6. Open the merged commit on GitHub and verify Mermaid / markdown rendered correctly. Any leak or render bug after merge means a follow-up commit; amending never fully erases a public mistake.
 
 ## Releases — the ongoing ritual
