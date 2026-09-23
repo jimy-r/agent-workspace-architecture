@@ -4,10 +4,10 @@ logs actuals, computes variance, emits alerts.
 Inputs (bill JSON, produced by agent after Gmail extraction):
 {
   "date": "2026-04-19",              # billing date
-  "sender": "agl@energy.agl.com.au", # From email
-  "sender_name": "AGL Energy",       # display name (optional)
-  "amount": 189.40,                  # amount due
-  "service_hint": "AGL Energy",      # optional; agent's best guess at which registry row
+  "sender": "bills@energy.example",  # From email
+  "sender_name": "Example Energy",   # display name (optional)
+  "amount": 123.45,                  # amount due
+  "service_hint": "Example Energy",  # optional; agent's best guess at which registry row
   "source_id": "gmail:msgId",        # traceability
   "subject": "Your bill"             # optional context
 }
@@ -267,7 +267,7 @@ def match_bill(bill: dict[str, Any], services: list[Service]) -> Service | None:
     # 3. Sender local/domain substring match
     if sender and "@" in sender:
         domain = sender.split("@", 1)[1]
-        parts = [domain.split(".")[0]]  # e.g. "agl"
+        parts = [domain.split(".")[0]]  # e.g. "energy"
         for s in haystacks:
             nm = s.name.lower()
             for p in parts:

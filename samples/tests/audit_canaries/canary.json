@@ -7,7 +7,7 @@
       "name": "credential_pattern_canary",
       "path": "tests/audit_canaries/credential_pattern_canary.md",
       "purpose": "Verifies Phase 2.6 credential grep still detects sk-ant- pattern outside of .env.",
-      "expected_pattern": "sk-ant-api-CANARY-FAKE-NEVER-USE-",
+      "expected_pattern": "sk-ant-api-CANARY-FAKE-NEVER-USE-", "_scan_note": "redaction-ok: deliberate fake canary key",
       "expected_phase": "2.6",
       "expected_category": "Security/Credentials",
       "report_as": "CANARY-CONFIRMED (not a real exposure)"

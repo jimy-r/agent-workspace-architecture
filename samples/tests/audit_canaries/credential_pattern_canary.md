@@ -8,7 +8,7 @@ reporting `CANARY-CONFIRMED: C1`, the credential grep has regressed.
 Expected pattern (the audit must find this on every run):
 
 ```
-ANTHROPIC_API_KEY=sk-ant-api-CANARY-FAKE-NEVER-USE-0123456789abcdef0123456789abcdef
+ANTHROPIC_API_KEY=sk-ant-api-CANARY-FAKE-NEVER-USE-0123456789abcdef0123456789abcdef  # redaction-ok: deliberate fake canary key
 ```
 
 The string above is **not a real credential**. It contains the literal token

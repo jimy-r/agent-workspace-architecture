@@ -14,7 +14,7 @@ functions can also be imported directly.
 Usage:
     python email_rules.py validate
     python email_rules.py stats
-    python email_rules.py match --from "noreply@uber.com" --subject "Your trip receipt"
+    python email_rules.py match --from "noreply@rideshare.example" --subject "Your trip receipt"
     python email_rules.py match-batch messages.json
     python email_rules.py draft-rule --from "newsender@example.com" --subject "Promo"
 """
@@ -35,7 +35,7 @@ import yaml
 RULES_FILE = Path(__file__).resolve().parent.parent / "Reference" / "email-rules.md"
 VALID_CONSUMERS = {
     "bill-monitor",
-    "bill-monitor-father",
+    "bill-monitor-secondary",
     "receipt-capture",
     "email-triage",
     "morning-brief",
