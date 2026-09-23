@@ -35,7 +35,7 @@ import yaml
 RULES_FILE = Path(__file__).resolve().parent.parent / "Reference" / "email-rules.md"
 VALID_CONSUMERS = {
     "bill-monitor",
-    "bill-monitor-father",
+    "bill-monitor-secondary",
     "receipt-capture",
     "email-triage",
     "morning-brief",

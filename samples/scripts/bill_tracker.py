@@ -6,7 +6,7 @@ Inputs (bill JSON, produced by agent after Gmail extraction):
   "date": "2026-04-19",              # billing date
   "sender": "bills@energy.example",  # From email
   "sender_name": "Example Energy",   # display name (optional)
-  "amount": 189.40,                  # amount due
+  "amount": 123.45,                  # amount due
   "service_hint": "Example Energy",  # optional; agent's best guess at which registry row
   "source_id": "gmail:msgId",        # traceability
   "subject": "Your bill"             # optional context

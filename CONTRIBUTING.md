@@ -120,7 +120,7 @@ Include a `Co-Authored-By:` trailer for Claude-assisted commits.
 
 ## Branching
 
-- Main branch is `main`. Fork → branch → PR. **Never commit directly to `main`.** Branch protection blocks force-pushes and deletions and requires the `redaction` check on PRs; direct commits aren't blocked for admins, so the convention still matters.
+- Main branch is `main`. Fork → branch → PR. **Never commit directly to `main`.** Branch protection blocks force-pushes and deletions and requires the `redaction` check on PRs. The rules apply to admins as well.
 - Branch names: short and descriptive (`add-role-X`, `fix-mermaid-section-9`, `improve-heartbeat-loop`).
 - Delete merged branches; the repo has auto-delete enabled.
 

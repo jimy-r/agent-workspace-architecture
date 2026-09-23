@@ -12,7 +12,7 @@ receipts-JSON payload; this script handles:
 Receipt schema (input JSON object):
 {
   "date": "2026-04-19",           # ISO date, required
-  "vendor": "Uber Eats",          # required; used for description if no description
+  "vendor": "Acme Eats",          # required; used for description if no description
   "amount": 24.50,                # required; always positive
   "description": "2 items",       # optional
   "account": "<Bank> Credit Card",   # optional; blank if unknown — user fills later
