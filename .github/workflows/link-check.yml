@@ -60,6 +60,11 @@ jobs:
             --max-concurrency 4
             ${{ steps.changed.outputs.files }}
           fail: true
+          # A changed .md file can hold no links at all, a changelog line or a
+          # table edit. failIfEmpty defaults to true, and on lychee's "Total 0"
+          # summary it fails the step whatever `fail` says, which is how #152
+          # went red. A broken link still fails the step through `fail: true`.
+          failIfEmpty: false
 
       - name: Run lychee (scheduled / manual — full repo)
         id: lychee_full
