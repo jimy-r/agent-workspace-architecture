@@ -1,31 +1,20 @@
 ---
 name: upgrade-audit
-description: Weekly setup audit — internal review + skills/MCP review + external upgrades research, writes recs to To Do Notes
+description: MANUAL (no scheduled task exists) -- run the full audit agent. Invoked by the user inside the desktop app (scripts/audit.bat remains a valid alternate path). Phases are defined ONLY by the canonical instructions -- this file must not enumerate them (its list drifted: named the stripped Phase 2.5c, omitted Phases 0/2.6b/2.9; finding d2eaa65b). Canonical instructions in <workspace>/.claude/agents/audit.md.
 ---
 
-You are the Setup Audit agent running on a weekly schedule. Read your full instructions from `<workspace>\.claude\agents\audit.md` first.
+# Upgrade audit cycle
 
-Then perform the full setup audit as described in those instructions:
+You are firing as the `upgrade-audit` lane. This lane is MANUAL and is normally invoked by the user inside the DESKTOP APP (`scripts/audit.bat` still works but is not the usual path), NOT by Windows Task Scheduler -- no scheduled task for it has ever existed (verified 2026-08-26). The dead-man switch tracks it as a manual lane with a 14-day staleness threshold, so a CRITICAL from it means the audit has not been RUN, not that a schedule broke. Dispatch the `audit` subagent.
 
-1. **Phase 1: Global setup audit** — configs, hooks, rules, CLAUDE.md quality across all projects.
-2. **Phase 1.5: Skills & MCP Review** — audit all skills in `<workspace>/.claude/skills/` and MCP servers in use. For skills: check descriptions follow CSO format (triggering conditions only, no workflow summaries), verify skill content is complete and actionable, flag stale or unused skills. For MCP servers: list all configured servers from `.mcp.json` and plugin settings, check for connection issues or deprecated servers, research whether new official MCP servers or plugins have been released that would benefit the workspace.
-3. **Phase 2: Per-project audits** — skip `<legacy-project-A>` entirely.
-4. **Phase 2.5a: Plugin & MCP Bloat Check** — run `claude plugin list`, flag unused plugins, duplication, scope mismatches.
-5. **Phase 2.5b: External Integrations & Upgrades Review** — launch a subagent (general-purpose, with WebSearch + WebFetch) IN PARALLEL with Phase 2. Fetch the specific sources listed in `audit.md` (Anthropic changelog, Claude Code releases, MCP registry, Awesome Claude Code, superpowers, wshobson/agents, wshobson/commands, ECC, antfu/skills, Repomix releases, n8n-mcp releases).
-6. **Phase 2.6: Security Review** — credentials exposure, file protection gaps, permission scope, hook safety, MCP exposure, git hygiene, backup password leakage, trigger permissions, network exposure.
-7. **Phase 3: Write recommendations** to `<workspace>/tasks/To Do Notes.md` under `## Setup Review` and `## Security` sections, with subsections: Quick Wins, Structural Improvements, External Opportunities, Bloat Check.
+Use the Agent tool with `subagent_type: audit` and this prompt:
 
-## Rules
+> Run the full weekly upgrade audit on the <workspace> workspace per the canonical instructions at `<workspace>/.claude/agents/audit.md`. Cover ALL phases exactly as the canonical instructions define them, including the check-phases (0, 2.6b, 2.9) -- the phase list lives in audit.md ONLY, and any enumeration here is presumed stale (finding d2eaa65b: this file named a phase stripped 2026-05-23).
+>
+> Carry-forward check: read the prior week's CRITICAL items from the existing Setup Review block and verify each has been resolved. Unresolved CRITICALs carry forward to this week's findings (marked "carried — unresolved").
+>
+> Auto-apply: enabled per `audit.md` tier rules. Tier-3 findings require user approval and must be lodged as bullets in the Setup Review / Security blocks rather than auto-applied. Tier-1/Tier-2 auto-applies (≤5 per run) must be enumerated under "Files modified this run".
 
-- READ-ONLY for all project files. The ONLY file you may modify is `<workspace>/tasks/To Do Notes.md`.
-- Use subagents (Agent tool) to run phases in parallel where possible.
-- Each recommendation must be tagged with `[Setup Review]` and be specific — "Add X to Y file", not "Consider improving Z".
-- Skip purely cosmetic recommendations.
-- Maximum 15 recommendations total — focus on what matters most.
+When the audit subagent returns, print its summary verbatim (tier counts, top 3 findings, files modified). Then print `UPGRADE_AUDIT_OK` on a final line if no fatal errors. If the subagent reports a fatal error (e.g. auth failure), surface it clearly and do NOT print the sentinel — the wrapper will mark the cycle failed.
 
-## Summary format
-
-When done, write a concise summary:
-- Count of recommendations by category (Setup / Security / External / Bloat)
-- Top 3 most impactful findings
-- Any CRITICAL security issues flagged immediately
+Note: this skill is *also* invoked manually via `<workspace>/scripts/audit.bat`; the audit agent itself is the single source of truth and the same regardless of invocation path.
