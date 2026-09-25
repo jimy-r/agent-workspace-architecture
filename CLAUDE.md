@@ -47,12 +47,13 @@ Some files need Issue agreement before a PR; see the Scope boundaries section in
 1. Run the redaction grep.
 2. `git diff`, and eyeball every changed line.
 3. Conventional commit message.
-4. Push your branch; open a PR using the template.
-5. Queue the merge so it lands only after the checks pass. For the maintainer's own PRs:
+4. Run `python scripts/gen_llms_full.py --check`, and if the bundle is stale, regenerate it with `python scripts/gen_llms_full.py` and commit. Then run `python scripts/check_freshness.py --fix` and commit any stamp it rewrites. The order matters, because a regenerated bundle needs a new stamp. Both checks run on the PR, but only `redaction` is required, so `--auto` would merge past either one red.
+5. Push your branch; open a PR using the template.
+6. Queue the merge so it lands only after the checks pass. For the maintainer's own PRs:
    `gh pr merge <n> --auto --squash --delete-branch --author-email 4570080+jimy-r@users.noreply.github.com`.
    Contributor PRs, once the maintainer has reviewed and approved them, drop the author flag and run `gh pr merge <n> --auto --squash --delete-branch`.
    `--auto` holds the merge until the required `redaction` check is green, so no PR lands before its scan has run. `--author-email` keeps the maintainer's squash commits on the GitHub noreply address, while a contributor's squash commit already carries the contributor as author. Force-pushes and deletions on `main` are blocked for everyone.
-6. Open the merged commit on GitHub and verify Mermaid / markdown rendered correctly. Any leak or render bug after merge means a follow-up commit; amending never fully erases a public mistake.
+7. Open the merged commit on GitHub and verify Mermaid / markdown rendered correctly. Any leak or render bug after merge means a follow-up commit; amending never fully erases a public mistake.
 
 ## Releases — the ongoing ritual
 
