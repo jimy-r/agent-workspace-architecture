@@ -1,6 +1,6 @@
 ---
 name: systematic-debugging
-description: Use when investigating bugs, errors, test failures, or unexpected behavior that is not immediately obvious.
+description: Use when investigating bugs, errors, test failures, or unexpected behavior that is not immediately obvious. Invoke via "debug this", "/systematic-debugging", "why is this failing". Investigates only - to prove a fix's tests/build/lint pass use verify-completion, to check a rendered page use browse.
 ---
 
 ## Iron Law
