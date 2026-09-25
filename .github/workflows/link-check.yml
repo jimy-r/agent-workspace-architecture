@@ -33,32 +33,48 @@ jobs:
           # Full history so we can diff the PR head against base.
           fetch-depth: 0
 
-      - name: Get changed markdown files (PR only)
+      - name: Stage the changed markdown files (PR only)
         id: changed
         if: github.event_name == 'pull_request'
         shell: bash
+        env:
+          BASE_REF: ${{ github.base_ref }}
         run: |
-          files=$(git diff --name-only --diff-filter=ACMR \
-            "origin/${{ github.base_ref }}" HEAD -- '*.md' | tr '\n' ' ')
-          if [ -z "$files" ]; then
+          # The lychee action passes its `args` input through `eval` in its
+          # entrypoint, so a changed filename that holds shell syntax would run
+          # as a command if it were spliced into that input. No filename goes
+          # there. Each changed .md file is copied beside itself under a
+          # `.lychee-pr.md` marker name, and the lychee step below reads one
+          # constant glob for that marker. Relative links keep resolving
+          # because each copy sits in the same directory as its original, and
+          # the report names the copies.
+          git diff --name-only -z --diff-filter=ACMR \
+            "origin/$BASE_REF" HEAD -- '*.md' > "$RUNNER_TEMP/changed-md.lst"
+          mapfile -d '' changed < "$RUNNER_TEMP/changed-md.lst"
+          if [ "${#changed[@]}" -eq 0 ]; then
             echo "No .md files added/modified in this PR — lychee will be skipped."
             echo "any_changed=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "Changed .md files: $files"
-            echo "any_changed=true" >> "$GITHUB_OUTPUT"
-            echo "files=$files" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
+          printf 'Changed .md files (%s):\n' "${#changed[@]}"
+          printf '  %s\n' "${changed[@]}"
+          for f in "${changed[@]}"; do
+            cp -- "$f" "${f%.md}.lychee-pr.md"
+          done
+          echo "any_changed=true" >> "$GITHUB_OUTPUT"
 
-      - name: Run lychee (PR — diff only)
+      - name: Run lychee (PR — changed files only)
         id: lychee_pr
         if: github.event_name == 'pull_request' && steps.changed.outputs.any_changed == 'true'
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
+          # The only input is this constant glob. It matches the marker copies
+          # the step above made, one per changed file, and nothing else.
           args: >-
             --verbose
             --no-progress
             --max-concurrency 4
-            ${{ steps.changed.outputs.files }}
+            './**/*.lychee-pr.md'
           fail: true
           # A changed .md file can hold no links at all, a changelog line or a
           # table edit. failIfEmpty defaults to true, and on lychee's "Total 0"
