@@ -5,7 +5,7 @@
 - **Patterns present:** [1](../PATTERNS.md#1-pure-roles-composed-with-project-facts), [2](../PATTERNS.md#2-classify-then-act-not-ask-then-wait), [9](../PATTERNS.md#9-context-is-a-budget-not-a-constant), [12](../PATTERNS.md#12-loop-selection-not-everything-should-be-a-loop), [17](../PATTERNS.md#17-one-canonical-copy-and-pointers-from-everywhere-else) (several partially — see body)
 - **Patterns absent worth noting:** [3](../PATTERNS.md#3-make-silent-failure-loud-the-dead-mans-switch), [5](../PATTERNS.md#5-memory-points-it-doesnt-mirror), [6](../PATTERNS.md#6-credentials-live-in-one-place-never-in-files), [7](../PATTERNS.md#7-a-cheap-hook-beats-a-careful-agent), [8](../PATTERNS.md#8-audit-the-workspace-like-a-fitness-function), [11](../PATTERNS.md#11-a-scaffold-is-a-hypothesis--gate-it-behind-a-measurable-signal), [16](../PATTERNS.md#16-a-claim-carries-its-provenance-or-it-is-a-guess)
 - **Date:** 2026-08-27
-- **Status:** current <!-- as at 2026-09-13 -->
+- **Status:** current <!-- as at 2026-09-27 -->
 - **Re-check by:** 2027-02-27
 
 ## What it is
@@ -24,7 +24,7 @@ Dex Horthy's principles for building production LLM applications (HumanLayer; co
 
 ## The trade-offs
 
-Own everything, pay for everything. Factors 2, 3, and 8 (own your prompts, context window, control flow) trade framework convenience for control, and the guide is candid that this is a bet on flexibility. The cost shows up as bespoke plumbing every adopter rebuilds. The guide teaches the shape and deliberately ships no reusable substrate; that scope choice is honest, and the rebuilding cost is simply the price of the flexibility it argues for.
+Own everything, pay for everything. Factors 2, 3, and 8 (own your prompts, context window, control flow) trade framework convenience for control, and the guide is candid that this is a bet on flexibility. The cost shows up as bespoke plumbing every adopter rebuilds. The guide itself teaches the shape rather than shipping a framework. Its author has since started a scaffolder, `create-12-factor-agent`, to cut that rebuilding cost, and a work-in-progress template ships in the repository. Until it is finished, the rebuilding cost is the price of the flexibility the guide argues for.
 
 Application altitude. The twelve factors describe building *one agent application* well. Operating a fleet of them day after day (the workspace altitude) is out of frame. That is not a defect of the guide; it marks where its coverage ends, and most of what is absent below sits past that boundary.
 
@@ -37,13 +37,17 @@ Measured against the patterns this repository documents, the differences cluster
 - **Silent failure (Pattern [3](../PATTERNS.md#3-make-silent-failure-loud-the-dead-mans-switch)).** Factor 11 triggers agents from anywhere, including schedules, but nothing addresses the scheduled agent that stops firing. Our measured experience: a credential expired without error and a lane failed dark for five weeks. A methodology that includes triggering on a schedule needs a dead-man's switch beside it.
 - **Memory write discipline and provenance (Patterns [5](../PATTERNS.md#5-memory-points-it-doesnt-mirror) and [16](../PATTERNS.md#16-a-claim-carries-its-provenance-or-it-is-a-guess)).** Factor 3 names memory as context input, but nothing governs the write side: what enters durable memory, how a claim carries its source, how a verified fact stays distinguishable from a plausible guess. This is the largest gap for anyone running the factors over months rather than sessions.
 - **Credentials (Pattern [6](../PATTERNS.md#6-credentials-live-in-one-place-never-in-files)) and deterministic guards (Pattern [7](../PATTERNS.md#7-a-cheap-hook-beats-a-careful-agent)).** The factors trust good structure to produce good behaviour. Production experience says structure needs a blocklist under it: a ten-line PreToolUse check catches the accidental damage that no amount of owned control flow prevents.
-- **Measurement (Patterns [8](../PATTERNS.md#8-audit-the-workspace-like-a-fitness-function) and [11](../PATTERNS.md#11-a-scaffold-is-a-hypothesis--gate-it-behind-a-measurable-signal)).** There is no evaluation harness discipline, no notion that each principle is a hypothesis an adopter should verify against their own system. The factors are asserted from experience (credibly), never framed as measurable.
+- **Measurement (Patterns [8](../PATTERNS.md#8-audit-the-workspace-like-a-fitness-function) and [11](../PATTERNS.md#11-a-scaffold-is-a-hypothesis--gate-it-behind-a-measurable-signal)).** Factor 2 does tell readers to build tests and evals for their prompts like any other code. What is missing is the harness discipline behind that advice, and any notion that each principle is a hypothesis an adopter should verify against their own system. The factors themselves are asserted from experience, credibly, rather than framed as measurable.
 
 ## What this teaches
 
 The two pattern sets compose rather than compete. 12-Factor Agents is the strongest available statement of the *application layer*: how one agent's runtime should be shaped. The patterns here describe the *operational layer* around it: verification, provenance, guards, and measurement for agents that run unattended and accumulate state. Several factors are preconditions for our patterns (structured human contact enables delegation queues; owned context windows enable context budgeting), and none contradict them. An adopter building on the factors should treat the absences above as the checklist of what their second month of operation will demand.
 
 **What changed here:** No pattern changed, because every absence named above was already running in this workspace. Writing this first teardown did produce one rule: teardown pages now take the full style pass before commit ([`CLAUDE.md`](../CLAUDE.md), [#101](https://github.com/jimy-r/agent-workspace-architecture/pull/101)).
+
+## Corrections
+
+- **2026-09-27.** An earlier version said the guide deliberately ships no reusable substrate. The repository ships a work-in-progress scaffolder, `create-12-factor-agent`, and the README invites contributions to it. The measurement bullet now also credits factor 2, which tells readers to build tests and evals for their prompts. A re-check the same day found no commits since the pinned revision.
 
 ---
 
