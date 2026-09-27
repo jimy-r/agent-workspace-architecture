@@ -9,7 +9,7 @@ credit pool at API rates, so the same numbers become directly financial for
 every scheduled task.
 
 Subcommands:
-  report      last-7-days table + totals + cache-hit rate + quiet-day floor
+  report      last-7-days table + totals + cache-hit rate
   log         append a per-day summary to scripts/_state/token_history.jsonl
               (idempotent per date; defaults to yesterday)
   brief-line  ONE line for the morning brief. Never raises — prints a
@@ -132,10 +132,7 @@ def cmd_report(days: int) -> int:
             f"{row['date']:<12}{row['total_cost']:>9.2f}{hit:>11}{row['output']:>12,}"
         )
     costs = [r["total_cost"] for r in rows]
-    print(
-        f"\ntotal ${sum(costs):.2f}   avg ${sum(costs) / len(costs):.2f}/day   "
-        f"quiet-day floor ~${min(costs):.2f}/day (scheduled-baseline estimate)"
-    )
+    print(f"\ntotal ${sum(costs):.2f}   avg ${sum(costs) / len(costs):.2f}/day")
     return 0
 
 
