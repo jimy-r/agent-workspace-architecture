@@ -80,7 +80,7 @@ What each reading changed here, first line of its own answer:
 | Reading | What changed here |
 |---|---|
 | [12-Factor Agents](2026-08-27-12-factor-agents.md) | No pattern changed, because every absence named above was already running in this workspace. |
-| [herdr](2026-08-28-herdr.md) | none |
+| [herdr](2026-08-28-herdr.md) | The teardown procedure, after this page's corrections. |
 | [LifeOS](2026-08-28-lifeos.md) | none |
 | [DeepSeek Harness](2026-09-05-deepseek-harness.md) | This repo gained a root [`AGENTS.md`](../AGENTS.md) on 2026-09-06, after this reading. |
 | [GPT-RAG](2026-09-06-azure-gpt-rag.md) | Nothing at publication. |
