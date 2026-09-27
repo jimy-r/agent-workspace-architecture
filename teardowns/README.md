@@ -32,9 +32,13 @@ One file per teardown: `YYYY-MM-DD-<subject-slug>.md`, opening with a header blo
 - **Date:** YYYY-MM-DD
 - **Status:** current | ageing | superseded  <!-- as at YYYY-MM-DD -->
 - **Re-check by:** YYYY-MM-DD
+- **Verified:** <date>, <N> citations re-read
+- **Maintainer heads-up:** sent <date> / not sent (rule 4)
 ```
 
 `Revision read` dates the source. `Status` and `Re-check by` date the reading, which is what a visitor a year later actually needs. A confidently-worded present-tense analysis of a subject that has since moved on looks identical to a current one. Set `Re-check by` to the read date plus six months, or plus three for a pre-1.0 or preview subject whose half-life the page itself describes. The date is load-bearing rather than decorative. `scripts/check_freshness.py` fails once a page passes it, and the remedy is to re-read the subject and restamp, or to mark the page `ageing` or `superseded` and say what replaced it.
+
+`Verified` records the last pass in which the page's citations were re-read against the revision, with the count, so a restamp says what was checked and not only when. `Maintainer heads-up` records whether the private courtesy note in ground rule 4 went to the subject's author, and the date if it did. Under rule 4 that note stays a judgment call, not a step, so `not sent` is a complete answer. Both fields apply to new pages from now on. Existing pages are backfilled later.
 
 Body structure, in order: **What it is** (two or three sentences, neutral) · **What works** (the strongest choices, credited) · **The trade-offs** (what the design pays for those choices) · **What's conspicuously absent** (patterns the design would benefit from, and why their absence shows) · **What this teaches** (what transfers to other workspaces, which is the reason the page exists) · **What changed here** (the concrete edit this reading produced in *this* workspace, cited to a commit, PR or CHANGELOG entry, or an explicit "nothing yet" with the reason).
 
