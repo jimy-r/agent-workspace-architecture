@@ -60,20 +60,20 @@ Each page's header records its verdict against the [eighteen patterns](../PATTER
 |---|---|---|---|---|---|---|
 | [1. Pure roles](../PATTERNS.md#1-pure-roles-composed-with-project-facts) | ✓ | — | ✓ | ✓ | ~ | ✓ |
 | [2. Classify-then-act](../PATTERNS.md#2-classify-then-act-not-ask-then-wait) | ✓ | ~ | — | — | ~ | — |
-| [3. Make silent failure loud](../PATTERNS.md#3-make-silent-failure-loud-the-dead-mans-switch) | ✗ | ✗ | ✗ | ✓ | ~ | ~ |
+| [3. Make silent failure loud](../PATTERNS.md#3-make-silent-failure-loud-the-dead-mans-switch) | ✗ | ✗ | ~ | ✓ | ~ | ~ |
 | [4. Tier by mechanical impact](../PATTERNS.md#4-tier-by-mechanical-impact-not-by-tone) | — | — | — | ✓ | ✓ | ✓ |
 | [5. Memory points](../PATTERNS.md#5-memory-points-it-doesnt-mirror) | ✗ | — | — | ✗ | ~ | ~ |
 | [6. Credentials live in one place](../PATTERNS.md#6-credentials-live-in-one-place-never-in-files) | ✗ | — | — | ✓ | ✓ | — |
 | [7. A cheap hook beats a careful agent](../PATTERNS.md#7-a-cheap-hook-beats-a-careful-agent) | ✗ | — | ✓ | ✓ | ✓ | ✓ |
 | [8. Audit the workspace like a fitness function](../PATTERNS.md#8-audit-the-workspace-like-a-fitness-function) | ✗ | ✗ | — | ~ | ~ | ✗ |
-| [9. Context is a budget](../PATTERNS.md#9-context-is-a-budget-not-a-constant) | ✓ | ✗ | ✗ | ✓ | ~ | ✗ |
+| [9. Context is a budget](../PATTERNS.md#9-context-is-a-budget-not-a-constant) | ✓ | ✗ | ✓ | ✓ | ~ | ✗ |
 | [10. A skill is editable weights](../PATTERNS.md#10-a-skill-is-editable-weights--never-adopt-a-self-edit-without-a-gate) | — | — | — | ~ | ~ | ✓ |
-| [11. A scaffold is a hypothesis](../PATTERNS.md#11-a-scaffold-is-a-hypothesis--gate-it-behind-a-measurable-signal) | ✗ | — | ✗ | ✓ | ✓ | ✓ |
+| [11. A scaffold is a hypothesis](../PATTERNS.md#11-a-scaffold-is-a-hypothesis--gate-it-behind-a-measurable-signal) | ✗ | — | ~ | ✓ | ✓ | ✓ |
 | [12. Loop selection](../PATTERNS.md#12-loop-selection-not-everything-should-be-a-loop) | ✓ | ✓ | — | ~ | ~ | — |
 | [13. Challenge half-formed ideas with a different lens](../PATTERNS.md#13-challenge-half-formed-ideas-with-a-different-lens--and-hold-a-sample-back-to-prove-it-helps) | — | — | — | ✗ | ~ | ~ |
 | [14. Delegation is a queue you fill](../PATTERNS.md#14-delegation-is-a-queue-you-fill-not-work-the-agent-finds) | — | ~ | — | ✗ | ~ | — |
 | [15. Price the lane before you migrate it](../PATTERNS.md#15-price-the-lane-before-you-migrate-it) | — | — | — | ~ | ✗ | ~ |
-| [16. A claim carries its provenance](../PATTERNS.md#16-a-claim-carries-its-provenance-or-it-is-a-guess) | ✗ | ✗ | ✗ | ✓ | ✓ | ✓ |
+| [16. A claim carries its provenance](../PATTERNS.md#16-a-claim-carries-its-provenance-or-it-is-a-guess) | ✗ | ✗ | ✓ | ✓ | ✓ | ✓ |
 | [17. One canonical copy](../PATTERNS.md#17-one-canonical-copy-and-pointers-from-everywhere-else) | ✓ | — | ~ | ✓ | ~ | ~ |
 | [18. Position is price](../PATTERNS.md#18-position-is-price--a-token-costs-more-the-earlier-you-add-it) | — | — | — | ✓ | ~ | — |
 
@@ -85,13 +85,13 @@ What each reading changed here, first line of its own answer:
 |---|---|
 | [12-Factor Agents](2026-08-27-12-factor-agents.md) | No pattern changed, because every absence named above was already running in this workspace. |
 | [herdr](2026-08-28-herdr.md) | The teardown procedure, after this page's corrections. |
-| [LifeOS](2026-08-28-lifeos.md) | none |
+| [LifeOS](2026-08-28-lifeos.md) | This workspace changed twice because of LifeOS, once after an earlier review of v7 (2026-08-12) and once after this page's own correction. |
 | [DeepSeek Harness](2026-09-05-deepseek-harness.md) | This repo gained a root [`AGENTS.md`](../AGENTS.md) on 2026-09-06, after this reading. |
 | [GPT-RAG](2026-09-06-azure-gpt-rag.md) | Nothing at publication. |
 | [OpenHarness](2026-10-02-openharness.md) | The handoff schema in my own workspace gained four sections on 2026-10-02, the day of this reading. |
 <!-- teardown-matrix:end -->
 
-Six readings, and no pattern is present in all six. Pure roles come closest, present in four subjects and partial in a fifth, and a cheap hook in the execution path is present in four of the five subjects where it was assessed. Five patterns are fully present in no subject, and they are the judgment and measurement patterns rather than the mechanical ones: the workspace audit, pointer memory, the held-out divergent lens, the delegation queue and lane pricing. Gated self-edits left that list with the sixth reading, where a person approves every lesson before it is taught. The three most recent subjects carry provenance on every claim and tier their gates by mechanical impact, and still have none of the five in full. The split that surprised most runs the other way. The dead man's switch, the cheapest control in the set, is absent from the three earlier subjects and named as worth noting on each, so the pattern most often missing is the one that costs an afternoon.
+Six readings, and no pattern is present in all six. Pure roles come closest, present in four subjects and partial in a fifth, and a cheap hook in the execution path is present in four of the five subjects where it was assessed. Five patterns are fully present in no subject, and they are the judgment and measurement patterns rather than the mechanical ones: the workspace audit, pointer memory, the held-out divergent lens, the delegation queue and lane pricing. Gated self-edits left that list with the sixth reading, where a person approves every lesson before it is taught. The three most recent subjects carry provenance on every claim and tier their gates by mechanical impact, and still have none of the five in full. The split that surprised most runs the other way. The dead man's switch, the cheapest control in the set, is absent from two of the three earlier subjects, and the third has written one and left it unscheduled, so a pattern that costs an afternoon is among the most often missing.
 
 ## Published
 
