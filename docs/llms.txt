@@ -38,6 +38,11 @@
 - [LifeOS](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/2026-08-28-lifeos.md): A personal AI operating layer shipped as one self-contained skill, read at `ce046f26495c`. Distribution discipline is exemplary; measurement, silent-failure detection, and provenance are absent.
 - [12-Factor Agents](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/2026-08-27-12-factor-agents.md): HumanLayer's principles for production LLM applications, read at `d20c728`. The strongest statement of the application layer; the operational layer around it is out of scope by design.
 
+## About
+
+- [jamesross.ai](https://jamesross.ai/?utm_source=llms&utm_medium=llms-txt&utm_campaign=flagship): The maintainer's practice site. James Ross maintains this repo and runs the workspace it describes.
+- [Substack](https://jimyr.substack.com/?utm_source=llms&utm_medium=llms-txt&utm_campaign=flagship): Essays and a digest on the same work.
+
 ## Optional
 
 - [CHANGELOG.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/CHANGELOG.md): Recent activity, dated, newest first. Useful for what changed lately, not for understanding the architecture.
