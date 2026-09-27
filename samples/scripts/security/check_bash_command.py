@@ -78,17 +78,12 @@ PROTECTED_SUBSTRINGS: list[str] = [
     "heartbeat.md",
     "heartbeat_rejections.md",  # append-only log — never edit existing blocks
     # Health data
+    # Placeholders: list your own sensitive folders here. A folder prefix
+    # covers everything beneath it.
     "health_profile.md",
-    "personal/health/pathology",
-    "personal/health/medication",
-    "personal/health/immunisations",
-    "personal/health/nutrition",
-    "personal/health/general",
-    "personal/health/sleep",
-    "personal/health/documents to process",
+    "private/health/",
     # Financial data
-    "personal/accounts/results",
-    "personal/accounts/records",
+    "private/finance/",
     # Google OAuth
     "/.claude/google-auth/",
     "google-auth/",
