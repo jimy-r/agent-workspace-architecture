@@ -27,7 +27,7 @@ Skipping any step means the claim is unverified.
 
 | Claim | Required Evidence | NOT Evidence |
 |---|---|---|
-| Tests pass | Test runner output showing 0 failures | "Should pass", previous run, "I'm confident" |
+| Tests pass | Output of the project's full test command, with every failure named, pre-existing ones included | "Should pass", previous run, "I'm confident", only the named file ran |
 | Linter clean | Linter output with 0 warnings/errors | Extrapolation from reading the code |
 | Build succeeds | Build command output with exit code 0 | "No obvious errors", linter passing |
 | Bug fixed | Original symptom no longer reproduces | "The fix addresses the root cause" |
