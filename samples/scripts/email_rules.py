@@ -322,7 +322,7 @@ def _extract_email_and_name(from_header: str) -> tuple[str, str]:
 def match(message: dict[str, Any], rules: list[Rule]) -> Rule | None:
     """Return the most-specific matching Rule, or None if no rule matches.
 
-    `message` must have `from` (string, e.g. 'Name <a@b.com>') and optionally `subject`.
+    `message` must have `from` (string, e.g. 'Name <a@b.example>') and optionally `subject`.
     """
     from_header = message.get("from", "")
     email, name = _extract_email_and_name(from_header)
