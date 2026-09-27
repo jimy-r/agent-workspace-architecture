@@ -5,6 +5,7 @@ Human-written record of notable changes — the *why* and the *shape*, not every
 ## 2026-09-27
 
 - **The herdr teardown's account of discussion #2746, corrected.** The page said herdr's maintainers took part in the budget-and-ledger discussion. None did. A user opened it, and the replies came from the page's author and one other participant. The three passages now say so, a dated correction sits at the foot of the page, and a re-check at herdr v0.9.1 restamped its status.
+- **The 12-Factor Agents teardown, corrected.** It said the guide deliberately ships no reusable substrate, and the repository ships a work-in-progress scaffolder, `create-12-factor-agent`. The measurement bullet now credits factor 2's instruction to build evals for prompts. Both pages carry a dated correction.
 
 ## 2026-09-13 - [v1.17.0]
 
