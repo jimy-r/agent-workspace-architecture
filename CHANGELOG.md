@@ -5,6 +5,7 @@ Human-written record of notable changes — the *why* and the *shape*, not every
 ## 2026-09-27
 
 - **The herdr teardown, corrected.** The page said herdr's maintainers took part in the budget-and-ledger discussion. None did. A user opened it, and the replies came from the page's author and one other participant. A whole-tree re-check at the same revision and at v0.9.1 then confirmed the four absences in the runtime and corrected smaller claims. Third-party plugins had already shipped parts of the accounting layer the page called unshipped, and a server restart restores the layout but not the processes. A dated correction sits at the foot of the page.
+- **The GPT-RAG teardown, corrected.** A claim-gate re-check before distribution found three claims wrong or overstated. The v3.4.2 docs did rebuild, because its release was published on 13 July and later removed. Only two of the five decision records carry a hard review date. And evaluation is documented on the `docs` branch and in the pinned orchestrator, though no workflow runs one. Smaller claims gained dates or narrower scope, and a dated status note records that the release-contract test has matched the manifest since 21 September while no workflow runs it.
 - **The 12-Factor Agents teardown, corrected.** It said the guide deliberately ships no reusable substrate, and the repository ships a work-in-progress scaffolder, `create-12-factor-agent`. The measurement bullet now credits factor 2's instruction to build evals for prompts. Both pages carry a dated correction.
 
 ## 2026-09-13 - [v1.17.0]
