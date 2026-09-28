@@ -4,7 +4,7 @@
 - **Data:** 1,857 main-thread sessions whose first request fell between 2026-08-29 and 2026-09-28, holding 18,482 measured tool results
 - **Registered:** 2026-09-28, with the protocol hashed before any data run
 - **Run:** 2026-09-28, offline, with no model calls. The follow-up, E2b, ran on 2026-09-29.
-- **Status:** Null result, because once E2b separated tool output from injected content, the share never referenced fell to 21.0%, under the pre-registered 25%.
+- **Status:** Null result, because once E2b separated tool output from injected content, the share never referenced came to 21.0%, under the pre-registered 25%.
 
 ## Why it ran
 

@@ -1,6 +1,6 @@
 # Experiments
 
-This workspace runs experiments on itself. Each one asks a narrow question about cost or quality, fixes how it will answer before any data is read, and reports against thresholds set in advance. Most run offline over the workspace's own session transcripts, pricing every request from its usage record. E0a is the exception, with two full replays of the [golden set](../EVALUATION.md), while E5 and E6 measure the files a session loads and reads.
+This workspace runs experiments on itself. Each one asks a narrow question about cost or quality, fixes how it will answer before any data is read, and reports against thresholds set in advance. E1 to E3 run offline over the workspace's own session transcripts, pricing every request from its usage record. E0a replays the [golden set](../EVALUATION.md) twice, and E5 and E6 measure the files a session loads and reads.
 
 Every protocol, with its hypotheses and decision rules, was written before the data it tests. From E2 onward, the sha256 of those sections was saved before the first data run and checked again at the end, so a protocol can't drift toward its result. A deviation the data forces goes into the result and never back into the protocol. Each hypothesis gets one line reading PASS, FAIL or INCONCLUSIVE. A failed hypothesis is published the same way as a passed one.
 

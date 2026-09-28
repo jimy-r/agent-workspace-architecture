@@ -21,7 +21,7 @@ Compaction has its own price. It reads the whole prefix once and writes a summar
 
 The decision rules were fixed before the data.
 
-- Each hypothesis is scored four ways. The primary pricing uses the median real summary size. Two sensitivities use the 25th and 75th percentile sizes, and a third prices every cold prefix as a cache read. PASS means clearing the threshold in all four and FAIL means missing it in all four. Anything between is inconclusive.
+- Each hypothesis is scored four ways. The primary pricing uses the median real summary size. Two sensitivities use the 25th and 75th percentile sizes, and a third prices every compaction's prefix as a cache read, even after the cache has expired. PASS means clearing the threshold in all four and FAIL means missing it in all four. Anything between is inconclusive.
 - No verdict adopts a change. A pass would have been evidence for a fidelity test of what survives a compaction, before any setting moved.
 - An H2 failure is evidence to keep the live threshold at its next review. An H1 failure is evidence against boundary compaction as a cost lever at current prices.
 
