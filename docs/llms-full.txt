@@ -102,6 +102,7 @@ The rest of the docs follow [Diátaxis](https://diataxis.fr/):
 |---|---|---|
 | Explanation | [PATTERNS.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/PATTERNS.md) | why the shape is the way it is |
 | Evidence | [teardowns/](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns) | published architectures read against the patterns |
+| Evidence | [experiments/](https://github.com/jimy-r/agent-workspace-architecture/blob/main/experiments) | pre-registered experiments on the workspace's own cost and quality, with failed hypotheses published beside passed ones |
 | Reference | [META_ARCHITECTURE.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/META_ARCHITECTURE.md) | the full structural map, with diagrams |
 | Tutorial | [ADOPTION.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/ADOPTION.md) | a 5-step build, minimum-viable at each step |
 | Tutorial | [learn/](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn) | a guided track through the patterns, by capability, with exercises |
@@ -155,7 +156,7 @@ The repo was renamed from `claude-workspace-architecture` on 2026-05-28; the old
 
 ---
 
-*Last verified against the repo structure on 2026-09-13.*
+*Last verified against the repo structure on 2026-09-29.*
 
 
 ==============================================================================
