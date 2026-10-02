@@ -63,6 +63,7 @@ Cut a tagged release after every milestone batch (roughly: any merge that earns 
 2. `gh release create vX.Y.Z --title "vX.Y.Z — <short handle>" --notes "<3-6 lines: what changed and why it matters, pointing at the CHANGELOG entry>"`.
 3. Versioning: minor bump for new content (a pattern, a module sync, a tour feature), patch for fixes, major only on repositioning.
 4. Release notes are public content. Same redaction bar and writing rules as files.
+5. `CITATION.cff` names the release it describes. Set its `version` and `date-released` in the PR that carries the release's CHANGELOG entry, before the tag is cut.
 
 ## Tone
 
