@@ -29,6 +29,12 @@ present line already placed keeps that verdict even when the absent line
 discusses it too — the GPT-RAG page names 3, 8 and 17 as partial and then calls
 out their unbuilt halves, and both statements are true of a partial pattern.
 
+A pattern a page names on neither line is not assessed, which is different
+from absent. The last column counts the readings that did assess each pattern,
+and the legend names any pattern assessed in fewer than MIN_ASSESSED readings,
+because a claim that a pattern is missing across subjects needs readings that
+looked for it.
+
 Usage:
     python scripts/teardown_matrix.py            # rewrite the block
     python scripts/teardown_matrix.py --check    # exit 1 if it would change
@@ -73,6 +79,10 @@ WORDS = {
 }
 
 PRESENT, PARTIAL, ABSENT, UNASSESSED = "✓", "~", "✗", "—"
+
+# The fewest assessed readings on which the index says anything about a
+# pattern across subjects.
+MIN_ASSESSED = 3
 
 HEADING = re.compile(r"(?m)^## What \w+ readings show$")
 PATTERN_HEADING = re.compile(r"(?m)^## (\d+)\. (.+)$")
@@ -200,19 +210,39 @@ def render(patterns, pages) -> str:
     """The generated block: the presence matrix, then the conversion table."""
     header = " | ".join(f"[{p['subject']}]({p['file']})" for p in pages)
     lines = [
-        f"| Pattern | {header} |",
-        "|---" * (len(pages) + 1) + "|",
+        f"| Pattern | {header} | Assessed |",
+        "|---" * (len(pages) + 2) + "|",
     ]
+    unassessed = 0
+    thin = []
     for num, name, anchor in patterns:
-        cells = " | ".join(p["verdicts"].get(num, UNASSESSED) for p in pages)
-        lines.append(f"| [{num}. {name}](../PATTERNS.md#{anchor}) | {cells} |")
+        verdicts = [p["verdicts"].get(num, UNASSESSED) for p in pages]
+        assessed = sum(v != UNASSESSED for v in verdicts)
+        unassessed += len(pages) - assessed
+        label = f"[{num}. {name}](../PATTERNS.md#{anchor})"
+        if assessed < MIN_ASSESSED:
+            thin.append(label)
+        cells = " | ".join(verdicts)
+        lines.append(f"| {label} | {cells} | {assessed}/{len(pages)} |")
 
+    floor = WORDS.get(MIN_ASSESSED, str(MIN_ASSESSED))
+    under = (
+        "Under that floor today: " + ", ".join(thin) + "."
+        if thin
+        else "No pattern is under that floor today."
+    )
     lines += [
         "",
         f"{PRESENT} present · {PARTIAL} partial · {ABSENT} absent, and named as "
         f"worth noting · {UNASSESSED} not assessed. Derived from each page's "
         "header by [`scripts/teardown_matrix.py`](../scripts/teardown_matrix.py). "
         "Edit the pages, not this table.",
+        "",
+        "`Assessed` counts the readings that gave the pattern a verdict, and "
+        f"{unassessed} of the {len(patterns) * len(pages)} cells have none. A "
+        "reading that did not assess a pattern is no evidence that the pattern "
+        "is missing, so nothing is claimed about a pattern across subjects on "
+        f"fewer than {floor} assessed readings. {under}",
         "",
         "What each reading changed here, first line of its own answer:",
         "",
