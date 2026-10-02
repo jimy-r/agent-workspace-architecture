@@ -3,7 +3,10 @@
 - **Question:** Can a deterministic digest of live state replace the raw reads of orient, the session-start skill, without a worse briefing?
 - **Data:** orient's step 1 and 2 reads and the digest, both run within the same two seconds on 2026-09-28
 - **Registered:** 2026-09-28, with the protocol hashed before the digest script existed
+- **Protocol hash:** sha256 `431d73ea51b9545d03f4920389deb49bf64b2e07632d00349d12538b8c1ac3a5`, taken over the Protocol, Hypotheses and Decision rules sections (UTF-8, LF line endings) and saved on 2026-09-28 before the digest script was written. The protocol text isn't published yet, so the hash can be checked only once it is.
 - **Run:** 2026-09-28 for H1, offline. H2 and H3 wait on a ten-session blind A/B.
+- **Code:** the workspace's own analysis scripts, which are private and not published.
+- **Model and engine:** no model calls for H1, whose counts are characters divided by four.
 - **Status:** Not adopted yet, because orient keeps its full reads until the blind A/B reports.
 
 ## Why it ran

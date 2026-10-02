@@ -3,7 +3,10 @@
 - **Question:** How much of the cache-write bill goes on first writes and how much on rewrites? Did the keep-alive pings pay for themselves, and would a different cache lifetime cost less?
 - **Data:** every retained session transcript, 5,307 files dated 2026-05-11 to 2026-09-27
 - **Registered:** 2026-09-27, before any analysis ran
+- **Protocol hash:** none. Hashing began with E2, so this protocol was dated before the data but not hashed.
 - **Run:** 2026-09-27, offline, with no model calls
+- **Code:** the workspace's own analysis scripts, which are private and not published.
+- **Model and engine:** no model calls. The transcripts span the Claude Code engine versions that ran in the window.
 - **Status:** Adopted, because the workspace removed the keep-alive pings on 2026-09-28 after they broke even.
 
 ## Why it ran
@@ -116,7 +119,7 @@ The lifetime repricing has its own error. Where it should match the actual cost,
 
 On 2026-09-28, on the H2 result, the workspace deleted the keep-alive step from its orient skill. In 52 of the 102 closed ping runs the user was back inside the hour, so those pings kept alive a cache that would not have expired. Both cache lifetimes stayed as they were, since H3 recommended no change.
 
-This repo hasn't caught up with that change. [Pattern 18](../PATTERNS.md#18-position-is-price--a-token-costs-more-the-earlier-you-add-it) still recommends keeping the cache warm across a break, and step 4 of the [orient sample](../samples/.claude/skills/orient/SKILL.md) still arms the pings measured here. Pattern 18 also says the discounted reread remains the largest line on the bill. Priced per request in this workspace's main thread, cache reads came second to cache writes, at 23.6% of dollars against 61.9%.
+This repo followed in the change that published this page. [Pattern 18](../PATTERNS.md#18-position-is-price--a-token-costs-more-the-earlier-you-add-it) now records the pings as tried and cut, and the [orient sample](../samples/.claude/skills/orient/SKILL.md) no longer arms the pings measured here. Pattern 18 also says the discounted reread remains the largest line on the bill. Priced per request in this workspace's main thread, cache reads came second to cache writes, at 23.6% of dollars against 61.9%.
 
 ---
 

@@ -2,6 +2,11 @@
 
 Human-written record of notable changes — the *why* and the *shape*, not every merged PR. Milestone batches get a tagged release with short notes (from `v1.0.0`, 2026-06-11); entries are grouped by date, newest first. Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), adapted to a dated scheme. A date that carries a tagged release names the version in its heading, and that version links to the diff against the release before it, so anyone arriving from a release page can find the matching section. Dates without a version were merged between releases.
 
+## 2026-10-03
+
+- **The keep-alive, corrected where it was taught.** E1 priced the cache keep-alive at break-even, and the workspace cut it on 2026-09-28. Pattern 18, META's Token Budget row, the sample `CLAUDE.md` and the orient sample still recommended it. Pattern 18 now records it as tried and cut, with E1's numbers. The same change marks the cut `best-of-n` workflow and the retired `review-queue` and `goal-design` samples, which the README and the samples tree still listed as live.
+- **Experiment pages print their protocol hashes.** E2, E3, E5 and E6 give the sha256 saved before each first data run, and every page names its code and its model. E0a and E1 came before hashing began and say so.
+
 ## 2026-10-02
 
 - **Sixth teardown: OpenHarness.** The page reads the repository's own agent-operations record more than the product. It credits validation receipts bound to a content fingerprint, handoffs with a "What remains unproven" section, review rounds on frozen builds, and a lesson loop a person approves. Against those, pull-request CI was switched off, a 56 KB instruction file loads into every desktop session, and no audit recurs. The reading changed one thing in the private workspace this repo mirrors. Its session handoff shape gained four sections: the claims the next session must not make, what is authorised and what is still gated, pointers to the rulings in force, and a superseded-by banner. The matching sample is not published yet. A persona panel's score as an exit gate was rejected, and three further lifts were deferred. The cross-case matrix now covers six readings, and gated self-edits has its first full instance.

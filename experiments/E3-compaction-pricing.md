@@ -3,7 +3,10 @@
 - **Question:** In the longest main-thread sessions, what would compaction have cost and saved, in API list-price dollars, had it fired at every task boundary or at a lower context threshold than the live one?
 - **Data:** the 63 longest main-thread sessions whose first request fell between 2026-08-29 and 2026-09-28, and the 60 real compactions in that window
 - **Registered:** 2026-09-28, with the protocol hashed before any transcript was opened
+- **Protocol hash:** sha256 `f908ae4c431f34a8a7c7a910bf5dd7b6e6aa3fecc715eb7ae5598ecf29486bf4`, taken over the Protocol, Hypotheses and Decision rules sections (UTF-8, LF line endings) and saved on 2026-09-28 before any transcript was opened. The protocol text isn't published yet, so the hash can be checked only once it is.
 - **Run:** 2026-09-28, offline, with no model calls
+- **Code:** the workspace's own analysis scripts, which are private and not published.
+- **Model and engine:** no model calls. The transcripts span the Claude Code engine versions that ran in the window.
 - **Status:** Null result, because boundary compaction and every lower threshold missed their pre-registered dollar savings.
 
 ## Why it ran
