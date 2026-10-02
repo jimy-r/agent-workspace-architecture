@@ -125,4 +125,4 @@ The repo was renamed from `claude-workspace-architecture` on 2026-05-28; the old
 
 ---
 
-*Last verified against the repo structure on 2026-09-13.*
+*Last verified against the repo structure on 2026-10-03.*
