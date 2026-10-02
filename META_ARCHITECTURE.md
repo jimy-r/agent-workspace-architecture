@@ -134,7 +134,7 @@ A *module* is a cohesive cluster of files (subagents, skills, scripts, state) th
 
 **Library:** `<workspace>/roles/` — 18 pure, reusable canonical role definitions, each with a fixed schema (frontmatter + Identity / Directives / Constraints / Method / Output format / Red Flags / Rationalization Table).
 
-**Canonical roles (17):** `accountant`, `backend-developer`, `bookkeeper`, `data-engineer`, `developmental-editor`, `developmental-reviser`, `frontend-developer`, `health-data-analyst`, `learning-strategist`, `llm-engineer`, `nutritionist`, `platform-engineer`, `product-thinker`, `researcher`, `security-auditor`, `tester`, `wealth-manager`.
+**Canonical roles (18):** `accountant`, `backend-developer`, `bookkeeper`, `data-engineer`, `developmental-editor`, `developmental-reviser`, `frontend-developer`, `health-data-analyst`, `learning-strategist`, `llm-engineer`, `nonfiction-developmental-editor`, `nutritionist`, `platform-engineer`, `product-thinker`, `researcher`, `security-auditor`, `tester`, `wealth-manager`.
 
 **Composition:** each project has thin subagent bindings under `.claude/agents/` that compose a canonical role with the project's `CONTEXT.md` (entity facts) via `@` includes. The `@path` lines in a binding are a source form only: the runtime does not expand them inside agent definition files (verified in-band 2026-09-14), so a compose step (`roles/_compose.py`) renders each include into a hash-marked block, and both the validator and the audit's `check_roles_compose` fail on an unrendered or stale render.
 

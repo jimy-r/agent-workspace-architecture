@@ -119,11 +119,18 @@ jobs:
                   # states ("...corrected to eighteen roles on 2026-08-30")
                   # that are history, not a live claim. Scan the body only.
                   text = text.split("\n## ", 1)[-1]
-              # Any 'N (pure expert|expert|canonical) roles/personas' claim (digit or word)
-              for m in re.finditer(
+              # Any 'N (pure expert|expert|canonical) roles/personas' claim (digit
+              # or word), and the same count written after the noun in
+              # parentheses, as in 'Canonical roles (18)'. The second form
+              # sat at 17 beside 18 role files because only the first was read.
+              before = re.finditer(
                   r"\b(\w+)\s+(?:pure\s+expert\s+|expert\s+|canonical\s+)?(?:roles?|personas?)\b",
                   text, re.IGNORECASE,
-              ):
+              )
+              after = re.finditer(
+                  r"\b(?:roles?|personas?)\s*\(\s*(\w+)\s*\)", text, re.IGNORECASE,
+              )
+              for m in [*before, *after]:
                   token = m.group(1).lower()
                   if token in ("the", "these", "those", "all", "our", "its", "a", "any", "every", "new"):
                       continue
@@ -134,6 +141,23 @@ jobs:
                       claimed = next(k for k, v in WORDS.items() if v == token)
                   if claimed is not None and claimed != n:
                       errors.append(f"{path}: claims '{m.group(0)}' but samples/roles/ has {n}")
+
+          # META also lists the roles by name. The list is checked against
+          # the files, so the count cannot be corrected while a name is missing.
+          stems = sorted(p.stem for p in roles_dir.glob("*.md") if not p.name.startswith("_"))
+          meta = Path("META_ARCHITECTURE.md").read_text(encoding="utf-8")
+          listed = re.search(r"(?m)^\*\*Canonical roles \(\w+\):\*\*(.*)$", meta)
+          if not listed:
+              errors.append("META_ARCHITECTURE.md: no '**Canonical roles (N):**' line - format changed?")
+          else:
+              names = sorted(re.findall(r"`([^`]+)`", listed.group(1)))
+              if names != stems:
+                  missing = sorted(set(stems) - set(names))
+                  extra = sorted(set(names) - set(stems))
+                  errors.append(
+                      "META_ARCHITECTURE.md: the Canonical roles list differs from samples/roles/"
+                      f" (missing {missing}, not a role file {extra})"
+                  )
           if errors:
               sys.exit("\n".join(errors))
           print(f"OK: every numeric role claim matches samples/roles/ ({n} / '{word}')")
