@@ -5,7 +5,7 @@ description: RETIRED 2026-08 sample, studied predecessor only. Triage the heartb
 
 > **Status: retired in the source workspace, 2026-08**, with the heartbeat whose review queue it drained. Kept here unchanged as the predecessor design. The loop it runs is still worth reading: walk the queue, present each artifact, action one decision per item.
 >
-> **Successor: [`../../../board/`](../../../board/)** — one canonical card store plus an explicit delegation queue, drained on demand in an interactive session.
+> **Successor:** [`../../../board/`](../../../board/), one canonical card store plus an explicit delegation queue, drained on demand in an interactive session.
 
 ## Purpose
 
