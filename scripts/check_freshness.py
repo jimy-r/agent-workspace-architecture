@@ -28,6 +28,11 @@ owner and a status of done, declined or open, and an open row fails once its
 `Re-check by` date passes. The remedy is to build the lift, decline it, or
 move the date and say why.
 
+A page published after 2026-10-03 also needs the `Verified` and `Maintainer
+heads-up` header fields, and, when its subject lives on GitHub, at least one
+citation linked to a line at a commit sha. The six earlier pages sit in
+GRANDFATHERED until their next re-read.
+
 Usage:
     python scripts/check_freshness.py            # report drift, exit 1 if any
     python scripts/check_freshness.py --fix      # rewrite every stale stamp
@@ -50,6 +55,34 @@ SITE = "https://jimy-r.github.io/agent-workspace-architecture/"
 # placeholder rather than a real date.
 TEARDOWNS = "teardowns"
 RECHECK = re.compile(r"(?m)^- \*\*Re-check by:\*\* (\d{4}-\d{2}-\d{2})\s*$")
+
+# Pages published before the citation and review-field rules of 2026-10-03.
+# Each is backfilled at its next re-read and then leaves this set; every other
+# page must carry the Verified and Maintainer heads-up fields and cite the
+# subject's GitHub source by line, pinned to a commit.
+GRANDFATHERED = {
+    "2026-08-27-12-factor-agents.md",
+    "2026-08-28-herdr.md",
+    "2026-08-28-lifeos.md",
+    "2026-09-05-deepseek-harness.md",
+    "2026-09-06-azure-gpt-rag.md",
+    "2026-10-02-openharness.md",
+}
+VERIFIED = re.compile(
+    r"(?m)^- \*\*Verified:\*\* \d{4}-\d{2}-\d{2}, \d+ citations? re-read\s*$"
+)
+HEADS_UP = re.compile(r"(?m)^- \*\*Maintainer heads-up:\*\* \S")
+SUBJECT_REPO = re.compile(
+    r"(?m)^- \*\*Subject:\*\* <?https://github\.com/([\w.-]+/[\w.-]+?)(?:\.git)?/?>?\s*$"
+)
+BLOB_LINK = re.compile(
+    r"https://github\.com/([\w.-]+/[\w.-]+)/blob/([^/\s)]+)/[^\s)#]+(#L\d+(?:-L\d+)?)?"
+)
+HEX_SHA = re.compile(r"[0-9a-f]{7,40}")
+PAGES_HEAD = (
+    "Teardown pages missing a review field or a line-pinned citation "
+    "(teardowns/README.md § Page conventions):\n"
+)
 
 # The Lifts table every teardown page carries under "What changed here".
 LIFTS_HEADER = "| Lift | Owner | Status | Re-check by |"
@@ -155,6 +188,44 @@ def expired_teardowns(today: str | None = None) -> list[str]:
             problems.append(
                 f"  {rel}: re-check was due {match.group(1)}, today is {today}"
             )
+    return problems
+
+
+def new_page_problems(rel: str, text: str) -> list[str]:
+    """Review fields and line-pinned citations, for one page outside GRANDFATHERED."""
+    problems = []
+    if not VERIFIED.search(text):
+        problems.append(
+            f"  {rel}: no '- **Verified:** YYYY-MM-DD, N citations re-read' header field"
+        )
+    if not HEADS_UP.search(text):
+        problems.append(f"  {rel}: no '- **Maintainer heads-up:**' header field")
+    subject = SUBJECT_REPO.search(text)
+    if subject:
+        repo = subject.group(1).lower()
+        links = [m for m in BLOB_LINK.finditer(text) if m.group(1).lower() == repo]
+        if not any(m.group(3) for m in links):
+            problems.append(
+                f"  {rel}: no citation of the form "
+                f"https://github.com/{subject.group(1)}/blob/<sha>/<path>#L<n>"
+            )
+        for m in links:
+            if not HEX_SHA.fullmatch(m.group(2)):
+                problems.append(
+                    f"  {rel}: citation pinned to '{m.group(2)}', not a commit sha: {m.group(0)}"
+                )
+    return problems
+
+
+def page_problems() -> list[str]:
+    """Apply new_page_problems to every teardown page published after the rules."""
+    pages = sorted(p for p in (REPO / TEARDOWNS).glob("*.md") if p.name != "README.md")
+    problems = []
+    for page in pages:
+        if page.name in GRANDFATHERED:
+            continue
+        rel = f"{TEARDOWNS}/{page.name}"
+        problems += new_page_problems(rel, page.read_text(encoding="utf-8"))
     return problems
 
 
@@ -274,13 +345,16 @@ def main() -> int:
 
     expired = expired_teardowns()
     lifts = lift_problems()
+    pages = page_problems()
 
     if args.teardowns:
         if expired:
             print("Teardown readings past their re-check date:\n" + "\n".join(expired))
         if lifts:
             print("Teardown lifts that need attention:\n" + "\n".join(lifts))
-        if expired or lifts:
+        if pages:
+            print(PAGES_HEAD + "\n".join(pages))
+        if expired or lifts or pages:
             return 1
         print(
             "Every teardown reading is inside its re-check date, "
@@ -307,6 +381,8 @@ def main() -> int:
                 "\nTeardown lifts that need attention (--fix cannot repair "
                 "these):\n" + "\n".join(lifts)
             )
+        if pages:
+            print("\n" + PAGES_HEAD + "\n".join(pages))
         return 0
 
     stale = []
@@ -328,6 +404,10 @@ def main() -> int:
             "\nRe-read the subject and restamp `Re-check by`, or set `Status` to "
             "ageing/superseded and say what replaced it."
         )
+        failed = True
+
+    if pages:
+        print(PAGES_HEAD + "\n".join(pages))
         failed = True
 
     if lifts:

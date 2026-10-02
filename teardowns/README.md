@@ -42,9 +42,10 @@ One file per teardown: `YYYY-MM-DD-<subject-slug>.md`, opening with a header blo
 
 Body structure, in order: **What it is** (two or three sentences, neutral) · **What works** (the strongest choices, credited) · **The trade-offs** (what the design pays for those choices) · **What's conspicuously absent** (patterns the design would benefit from, and why their absence shows) · **What this teaches** (what transfers to other workspaces, which is the reason the page exists) · **What changed here** (the concrete edit this reading produced in *this* workspace, cited to a commit, PR or CHANGELOG entry, or an explicit "nothing yet" with the reason).
 
-Three more rules the pages hold to:
+Four more rules the pages hold to:
 
 - **Every lift has an owner, a status and a date.** Under "What changed here" each page carries a table, `| Lift | Owner | Status | Re-check by |`, with one row for each change the reading produced or proposed. Status is `done`, `declined` or `open`, and `open` means no end state is recorded yet. An open lift carries a re-check date. `scripts/check_freshness.py` fails once that date passes, and the remedy is to build the lift, decline it, or move the date and say why. Without the table a lift is a sentence in a finished page, and nobody reads a finished page to find work.
+- **Every citation is one click from the line it reads.** A claim about the subject's source links to `https://github.com/<owner>/<repo>/blob/<sha>/<path>#L<n>`, pinned to the revision read, rather than naming a bare path. `scripts/check_freshness.py` holds every page published after 2026-10-03 to this rule and to the `Verified` and `Maintainer heads-up` fields. The six earlier pages are backfilled at their next re-read.
 - **Every pattern number is a link.** In the header block and in the body, a pattern number resolves to its anchor in [`../PATTERNS.md`](../PATTERNS.md). A reader arriving from an aggregator lands mid-page and needs one click to the reasoning.
 - **The last section is the action item.** A teardown that ends on an abstract lesson has no way of being wrong later. "What changed here" is the field that keeps the practice honest, and "nothing yet, and here is why" is a legitimate answer.
 
