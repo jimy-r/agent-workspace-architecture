@@ -270,6 +270,7 @@
       <details class="pat" id="pattern-02-classify-then-act-not-ask-then-wait">
         <summary><span class='num'>02</span><span><span class='st'>Classify-then-act, not ask-then-wait</span><span class='sp'>An autonomous background agent has two failure modes: it nags for input on everything, or it acts confidently on tasks it doesn't understand.</span></span></summary>
         <div class="body">
+          <div class="row"><div class="k">Status</div><div class="v">Superseded in August 2026 by <a href="#pattern-14-delegation-is-a-queue-you-fill-not">pattern 14</a>, the explicit delegation queue. The classification still holds where the mandate is unambiguous. Discovery is the half that failed.</div></div>
           <div class="row"><div class="k">Pattern</div><div class="v">Classify every task first — has-default, needs-intent, or out-of-scope. Build the has-default work in a sandbox, lodge it for review, act only on approval, and log every rejection.</div></div>
           <div class="row"><div class="k">Why it beats the obvious</div><div class="v">A pure question-queue stalls on the user; a pure autonomous loop ships things you didn't want. Classification routes each task to safe handling, and the rejection log stops the same bad idea returning.</div></div>
           <div class="row"><div class="k">Cost</div><div class="v">A sandbox, a review queue, and a rejection history to maintain. Some speculative work gets discarded.</div></div>

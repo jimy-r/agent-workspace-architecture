@@ -18,6 +18,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 ## 2. Classify-then-act, not ask-then-wait
 
+**Status: superseded, August 2026.** The two-hourly agent that ran this loop was retired, and [Pattern 14](#14-delegation-is-a-queue-you-fill-not-work-the-agent-finds) replaced it as this workspace's way of handing work to an agent. The classification below still holds wherever the mandate is already unambiguous. Discovery is the half that failed, and Pattern 14 says why.
+
 **Problem.** An autonomous background agent has two failure modes: it nags for input on everything, or it acts confidently on tasks it doesn't understand.
 
 **Pattern.** Classify every incoming task first: `has-default` (an obvious correct action exists), `needs-intent` (genuinely ambiguous), or `out-of-scope`. Build the `has-default` work speculatively in a sandbox, lodge it for review, and act only on approval. Log every rejection as a short decision record the agent greps before classifying anything similar again.
