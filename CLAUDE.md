@@ -21,7 +21,7 @@ Maintained solo and best-effort. [Issues](https://github.com/jimy-r/agent-worksp
 
 Every commit must be safe for a public audience. Before `git add`, scrub every changed file for:
 
-- **Personal identifiers.** Real names, emails, usernames tied to identity, home or workplace locations.
+- **Personal identifiers.** Real names, emails, usernames tied to identity, home or workplace locations. The owner's byline in the README, changelog, style guide and site pages is the one deliberate exception, public by choice.
 - **Business / product specifics.** Company names, product names, customer details tied to a real entity.
 - **Credentials, tokens, API keys.** Ever, even as placeholders.
 - **Health, financial, or legal data.** Ever.

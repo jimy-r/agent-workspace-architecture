@@ -91,7 +91,7 @@ James Ross. I work as an AI Knowledge Architect; the practice is **Agent-Ready K
 
 ## Using it
 
-Fork freely ([MIT](LICENSE)); that's what it's for. Adapt the samples, lift the patterns, localise the domain-flavoured bits (the `accountant` role is Australian-CPA shaped, the morning brief fetches Brisbane weather).
+Fork freely ([MIT](LICENSE)); that's what it's for. Adapt the samples, lift the patterns, localise the domain-flavoured bits (the `accountant` role is Australian-CPA shaped, the morning brief fetches local weather).
 
 This is a **curated solo reference**, maintained best-effort. Questions, comparisons with your own setup, and "does this hold at team scale" go to [Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions), the canonical Q&A home, where answers stay findable. If you spot a privacy leak, a broken link, or a pattern that's plainly wrong, [open an issue](https://github.com/jimy-r/agent-workspace-architecture/issues/new/choose) and I'll get to it when time allows. Substantial PRs are welcome, but a good one can still be declined if it pulls the doc off its shape: it stays one coherent worked example, not a grab-bag.
 
@@ -101,7 +101,7 @@ This is a **curated solo reference**, maintained best-effort. Questions, compari
 
 - Paths are generic (`<workspace>`, `<home>`); a real setup substitutes its own.
 - Nothing here executes on its own. The repo describes structure and ships sample code; it isn't a runnable product.
-- Domain-flavoured content (Australian tax terms, Brisbane weather) is a template to localise, not a default.
+- Domain-flavoured content (Australian tax terms, local weather) is a template to localise, not a default.
 
 ## Related
 
