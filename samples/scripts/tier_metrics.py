@@ -675,7 +675,7 @@ def selftest() -> int:
     )
     check(
         "lane classifier: main path",
-        classify_lane("C:/x/00057e85-f963-4b72-8c55-a6929d610fd2.jsonl") == "main",
+        classify_lane("C:/x/00000000-0000-4000-8000-000000000001.jsonl") == "main",
     )
 
     def lane_fixture(
