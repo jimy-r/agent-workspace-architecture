@@ -10,6 +10,11 @@ name: Docs consistency
 # SECURITY.md's workflow inventory (2572450c, which lost a workflow twice),
 # and the teardown presence matrix (62cbd5a3), which is derived from the
 # pages' own header lines rather than typed out beside them.
+#
+# One check holds a shape rather than a count. META's "Last updated" header
+# is one date and a link to the changelog (6c861f83). Left alone it grew
+# twice into a second changelog on a single line, and its entries disagreed
+# with CHANGELOG.md.
 
 on:
   pull_request:
@@ -114,11 +119,6 @@ jobs:
                    "docs/index.html", "docs/workspace-map.html", "samples/README.md")
           for path in FILES:
               text = Path(path).read_text(encoding="utf-8")
-              if path == "META_ARCHITECTURE.md":
-                  # Skip the rolling "Last updated" header: it narrates past
-                  # states ("...corrected to eighteen roles on 2026-08-30")
-                  # that are history, not a live claim. Scan the body only.
-                  text = text.split("\n## ", 1)[-1]
               # Any 'N (pure expert|expert|canonical) roles/personas' claim (digit
               # or word), and the same count written after the noun in
               # parentheses, as in 'Canonical roles (18)'. The second form
@@ -161,6 +161,38 @@ jobs:
           if errors:
               sys.exit("\n".join(errors))
           print(f"OK: every numeric role claim matches samples/roles/ ({n} / '{word}')")
+          EOF
+
+  meta-header:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: META's Last updated header is one date and a changelog link
+        run: |
+          python3 - <<'EOF'
+          import re, sys
+          from pathlib import Path
+
+          LIMIT = 300
+          lines = [l for l in Path("META_ARCHITECTURE.md").read_text(encoding="utf-8").splitlines()
+                   if l.startswith("> **Last updated:**")]
+          if len(lines) != 1:
+              sys.exit(f"META_ARCHITECTURE.md: expected one '> **Last updated:**' line, found {len(lines)}")
+          line = lines[0]
+          errors = []
+          if not re.match(r"> \*\*Last updated:\*\* \d{4}-\d{2}-\d{2}\. ", line):
+              errors.append("the line does not open with '> **Last updated:** YYYY-MM-DD. '")
+          dates = re.findall(r"\d{4}-\d{2}-\d{2}", line)
+          if len(dates) != 1:
+              errors.append(f"it carries {len(dates)} dates, and the header holds one")
+          if "(CHANGELOG.md)" not in line:
+              errors.append("it does not link to CHANGELOG.md")
+          if len(line) > LIMIT:
+              errors.append(f"it is {len(line)} characters long, over the {LIMIT} limit")
+          if errors:
+              sys.exit("META_ARCHITECTURE.md's Last updated header: " + "; ".join(errors)
+                       + ".\nWhat changed belongs in CHANGELOG.md. The header is one date and a link.")
+          print(f"OK: META's Last updated header is one date and a link ({dates[0]})")
           EOF
 
   pattern-partition:
