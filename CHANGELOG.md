@@ -2,6 +2,10 @@
 
 Human-written record of notable changes — the *why* and the *shape*, not every merged PR. Milestone batches get a tagged release with short notes (from `v1.0.0`, 2026-06-11); entries are grouped by date, newest first. Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), adapted to a dated scheme. A date that carries a tagged release names the version in its heading, and that version links to the diff against the release before it, so anyone arriving from a release page can find the matching section. Dates without a version were merged between releases.
 
+## 2026-10-02
+
+- **Sixth teardown: OpenHarness.** The page reads the repository's own agent-operations record more than the product. It credits validation receipts bound to a content fingerprint, handoffs with a "What remains unproven" section, review rounds on frozen builds, and a lesson loop a person approves. Against those, pull-request CI was switched off, a 56 KB instruction file loads into every desktop session, and no audit recurs. The reading changed one thing in the private workspace this repo mirrors. Its session handoff shape gained four sections: the claims the next session must not make, what is authorised and what is still gated, pointers to the rulings in force, and a superseded-by banner. The matching sample is not published yet. A persona panel's score as an exit gate was rejected, and three further lifts were deferred. The cross-case matrix now covers six readings, and gated self-edits has its first full instance.
+
 ## 2026-09-27
 
 - **The herdr teardown, corrected.** The page said herdr's maintainers took part in the budget-and-ledger discussion. None did. A user opened it, and the replies came from the page's author and one other participant. A whole-tree re-check at the same revision and at v0.9.1 then confirmed the four absences in the runtime and corrected smaller claims. Third-party plugins had already shipped parts of the accounting layer the page called unshipped, and a server restart restores the layout but not the processes. A dated correction sits at the foot of the page.
