@@ -56,6 +56,12 @@ Three lifts transfer for an afternoon each. Pin the bytes and pin the line endin
 
 **What changed here:** Nothing at publication. The four lifts were noted as card candidates and never filed, and the three-way release check the page recommends is still not built. The gap it named did close a week later by another route. The 2026-09-12 audit found two sibling repositories with the same shape, a changelog advertising fixes no release carried and a version declared with no tag, and the 2026-09-13 drain released both (signal-sweep v0.6.1, dead-mans-switch v0.2.0).
 
+| Lift | Owner | Status | Re-check by |
+|---|---|---|---|
+| Pin the bytes, and the line endings that keep them stable | maintainer | open | 2027-03-06 |
+| A review date and a list of falsifiers on every decision record and instruction file | maintainer | open | 2027-03-06 |
+| A three-way check of tag, changelog and published release on every release | maintainer | open | 2027-03-06 |
+
 ## Corrections
 
 - **2026-09-27.** A re-check before distribution searched the whole tree at this revision, and `main` and `develop` as they stood that day. Three claims were wrong or overstated, and are corrected above. The v3.4.2 release was published on 13 July, which fired the docs build, and later removed, so the docs did rebuild for it. Only two of the five decision records carry a hard review date, although all five list falsifying events. And evaluation is documented on the `docs` branch and in the pinned orchestrator, though no workflow in the four pinned repositories runs one. Smaller claims now carry a date or a narrower scope. Status that day: the release-contract test has matched the manifest on `main` and `develop` since 21 September (PRs #697 and #700), and its hard-coded values now change with each release, but no workflow runs the tests. The duplicate ADR-0003, the missing v3.0.0 and v2.9.17 changelog entries and the absent v3.4.2 release are unchanged, and the issue classifier is still disabled.

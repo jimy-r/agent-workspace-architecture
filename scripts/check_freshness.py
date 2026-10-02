@@ -21,6 +21,13 @@ page. Neither is auto-fixable — the remedy is re-reading the subject and
 restamping, or marking the page `ageing`/`superseded` — so `--fix` reports
 these and leaves them alone.
 
+The same calendar rule covers each page's Lifts table. A lift is a change the
+reading produced or proposed, and a proposed one with no owner and no date is
+a note nobody will read again. Every page carries the table, every row has an
+owner and a status of done, declined or open, and an open row fails once its
+`Re-check by` date passes. The remedy is to build the lift, decline it, or
+move the date and say why.
+
 Usage:
     python scripts/check_freshness.py            # report drift, exit 1 if any
     python scripts/check_freshness.py --fix      # rewrite every stale stamp
@@ -43,6 +50,11 @@ SITE = "https://jimy-r.github.io/agent-workspace-architecture/"
 # placeholder rather than a real date.
 TEARDOWNS = "teardowns"
 RECHECK = re.compile(r"(?m)^- \*\*Re-check by:\*\* (\d{4}-\d{2}-\d{2})\s*$")
+
+# The Lifts table every teardown page carries under "What changed here".
+LIFTS_HEADER = "| Lift | Owner | Status | Re-check by |"
+LIFT_STATUSES = ("done", "declined", "open")
+ISO_DATE = re.compile(r"\d{4}-\d{2}-\d{2}")
 
 # (file holding the stamp, regex with one date group, file the stamp describes)
 # A stamp that describes its own file uses the same path twice.
@@ -146,6 +158,64 @@ def expired_teardowns(today: str | None = None) -> list[str]:
     return problems
 
 
+def lift_rows(text: str) -> list[list[str]] | None:
+    """The cells of each row in a page's Lifts table, or None with no table."""
+    lines = text.splitlines()
+    try:
+        start = next(i for i, l in enumerate(lines) if l.strip() == LIFTS_HEADER)
+    except StopIteration:
+        return None
+    rows = []
+    for line in lines[start + 2 :]:
+        if not line.startswith("|"):
+            break
+        # A literal pipe inside a cell is written \| in a markdown table.
+        cells = line.strip().strip("|").replace("\\|", "\x00").split("|")
+        rows.append([c.replace("\x00", "|").strip() for c in cells])
+    return rows
+
+
+def lift_problems(today: str | None = None) -> list[str]:
+    """Return one line per teardown lift that is malformed or open past its date."""
+    today = today or date.today().isoformat()
+    pages = sorted(p for p in (REPO / TEARDOWNS).glob("*.md") if p.name != "README.md")
+
+    problems = []
+    for page in pages:
+        rel = f"{TEARDOWNS}/{page.name}"
+        rows = lift_rows(page.read_text(encoding="utf-8"))
+        if not rows:
+            problems.append(
+                f"  {rel}: no Lifts table with at least one row "
+                f"(see {TEARDOWNS}/README.md § Page conventions)"
+            )
+            continue
+        for row in rows:
+            if len(row) != 4:
+                problems.append(f"  {rel}: a Lifts row has {len(row)} cells, not 4")
+                continue
+            lift, owner, status, recheck = row
+            name = lift if len(lift) <= 60 else lift[:57] + "..."
+            if not owner:
+                problems.append(f"  {rel}: lift '{name}' has no owner")
+            if status not in LIFT_STATUSES:
+                problems.append(
+                    f"  {rel}: lift '{name}' has status '{status}', expected one of "
+                    + ", ".join(LIFT_STATUSES)
+                )
+            elif status == "open":
+                if not ISO_DATE.fullmatch(recheck):
+                    problems.append(
+                        f"  {rel}: open lift '{name}' has no YYYY-MM-DD re-check date"
+                    )
+                elif recheck < today:
+                    problems.append(
+                        f"  {rel}: open lift '{name}' was due a re-check on "
+                        f"{recheck}, today is {today}"
+                    )
+    return problems
+
+
 def fix() -> int:
     """Rewrite every stale stamp to its file's last-commit date."""
     changed = 0
@@ -198,17 +268,24 @@ def main() -> int:
     parser.add_argument(
         "--teardowns",
         action="store_true",
-        help="check only the teardown re-check dates (a calendar gate, safe on a schedule)",
+        help="check only the teardown re-check dates and Lifts tables (a calendar gate, safe on a schedule)",
     )
     args = parser.parse_args()
 
     expired = expired_teardowns()
+    lifts = lift_problems()
 
     if args.teardowns:
         if expired:
-            print("Teardown readings past their re-check date:" + chr(10) + chr(10).join(expired))
+            print("Teardown readings past their re-check date:\n" + "\n".join(expired))
+        if lifts:
+            print("Teardown lifts that need attention:\n" + "\n".join(lifts))
+        if expired or lifts:
             return 1
-        print("Every teardown reading is inside its re-check date.")
+        print(
+            "Every teardown reading is inside its re-check date, "
+            "and no open lift is past its own."
+        )
         return 0
 
     if args.fix:
@@ -224,6 +301,11 @@ def main() -> int:
             print(
                 "\nTeardown readings past their re-check date (--fix cannot "
                 "repair these):\n" + "\n".join(expired)
+            )
+        if lifts:
+            print(
+                "\nTeardown lifts that need attention (--fix cannot repair "
+                "these):\n" + "\n".join(lifts)
             )
         return 0
 
@@ -248,12 +330,21 @@ def main() -> int:
         )
         failed = True
 
+    if lifts:
+        print("Teardown lifts that need attention:\n" + "\n".join(lifts))
+        print(
+            "\nBuild an overdue lift, decline it, or move its date and say why. "
+            "Every page needs the table (teardowns/README.md § Page conventions)."
+        )
+        failed = True
+
     if failed:
         return 1
 
     print(
         "OK: every freshness stamp is at least as new as the file it describes, "
-        "and every teardown reading is inside its re-check date."
+        "every teardown reading is inside its re-check date, and no open lift "
+        "is past its own."
     )
     return 0
 

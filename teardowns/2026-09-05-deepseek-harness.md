@@ -50,6 +50,12 @@ Two lifts transfer straight across. Symlink the duplicate instruction file inste
 
 **What changed here:** This repo gained a root [`AGENTS.md`](../AGENTS.md) on 2026-09-06, after this reading. It is not a symlink to [`CLAUDE.md`](../CLAUDE.md) the way the subject does it, because that file is Claude-Code-specific while `AGENTS.md` is runtime-neutral.
 
+| Lift | Owner | Status | Re-check by |
+|---|---|---|---|
+| One instruction file for agents that do not read `CLAUDE.md`. The subject symlinks its two files, and this repo added a separate, runtime-neutral [`AGENTS.md`](../AGENTS.md) on 2026-09-06 | maintainer | done | n/a |
+| Prove every guard fails before trusting it green | maintainer | open | 2026-12-05 |
+| An Agent Note format, where a change has to name what it beat | maintainer | open | 2026-12-05 |
+
 ---
 
 *Found via the engagement lane: the exchange on memory write discipline in discussion #1345 preceded this page. Conventions: [teardowns/README.md](README.md). Corrections welcome and will be appended, dated.*

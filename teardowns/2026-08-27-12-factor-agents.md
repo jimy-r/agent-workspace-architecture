@@ -45,6 +45,10 @@ The two pattern sets compose rather than compete. 12-Factor Agents is the strong
 
 **What changed here:** No pattern changed, because every absence named above was already running in this workspace. Writing this first teardown did produce one rule: teardown pages now take the full style pass before commit ([`CLAUDE.md`](../CLAUDE.md), [#101](https://github.com/jimy-r/agent-workspace-architecture/pull/101)).
 
+| Lift | Owner | Status | Re-check by |
+|---|---|---|---|
+| Every teardown page takes the full style pass before commit ([#101](https://github.com/jimy-r/agent-workspace-architecture/pull/101)) | maintainer | done | n/a |
+
 ## Corrections
 
 - **2026-09-27.** An earlier version said the guide deliberately ships no reusable substrate. The repository ships a work-in-progress scaffolder, `create-12-factor-agent`, and the README invites contributions to it. The measurement bullet now also credits factor 2, which tells readers to build tests and evals for their prompts. A re-check the same day found no commits since the pinned revision.

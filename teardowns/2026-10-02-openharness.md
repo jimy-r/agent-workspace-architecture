@@ -52,6 +52,12 @@ The limit shows in the same files. A receipt written by the agent that did the w
 
 **What changed here:** The handoff schema in my own workspace gained four sections on 2026-10-02, the day of this reading. A handoff between sessions now lists the claims the next session must not make, what is authorised and what is still gated, pointers to the rulings in force, and a superseded-by banner. The skill that carries it is not among this repo's samples yet, so the record is this repo's [CHANGELOG](../CHANGELOG.md) entry for 2026-10-02. One idea was rejected. A persona panel's score will not gate anything here, because a score an agent can raise by iterating is advice, and the user stays the arbiter. Three more lifts are deferred to a wider review of the same repository.
 
+| Lift | Owner | Status | Re-check by |
+|---|---|---|---|
+| Four sections added to the session handoff schema: the claims the next session must not make, what is authorised and what is gated, the rulings in force, and a superseded-by banner | maintainer | done | n/a |
+| A persona panel's score as a gate | maintainer | declined | n/a |
+| Three more lifts, deferred to a wider review of the same repository | maintainer | open | 2027-01-02 |
+
 ---
 
 *Found by a direct read: the repository was reviewed at this revision for patterns worth lifting, and the working record under `docs/research/` turned out to be the subject. Conventions: [teardowns/README.md](README.md). Corrections welcome and will be appended, dated.*
