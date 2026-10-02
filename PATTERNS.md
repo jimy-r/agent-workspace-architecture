@@ -4,6 +4,33 @@ The architectural decisions behind this workspace, stated as patterns: the probl
 
 Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) is the *what* (the structural map), and [ADOPTION.md](ADOPTION.md) is the *how* (where to start). Each pattern ends with a pointer to the sample files that implement it, so every claim here is inspectable.
 
+## Index
+
+Each pattern keeps a short anchor, `PATTERNS.md#p<N>`, so a link survives a retitle.
+
+| # | Pattern |
+|---|---|
+| 1 | [Pure roles, composed with project facts](#p1) |
+| 2 | [Classify-then-act, not ask-then-wait](#p2) |
+| 3 | [Make silent failure loud (the dead-man's switch)](#p3) |
+| 4 | [Tier by mechanical impact, not by tone](#p4) |
+| 5 | [Memory points, it doesn't mirror](#p5) |
+| 6 | [Credentials live in one place, never in files](#p6) |
+| 7 | [A cheap hook beats a careful agent](#p7) |
+| 8 | [Audit the workspace like a fitness function](#p8) |
+| 9 | [Context is a budget, not a constant](#p9) |
+| 10 | [A skill is editable weights — never adopt a self-edit without a gate](#p10) |
+| 11 | [A scaffold is a hypothesis — gate it behind a measurable signal](#p11) |
+| 12 | [Loop selection: not everything should be a loop](#p12) |
+| 13 | [Challenge half-formed ideas with a different lens — and hold a sample back to prove it helps](#p13) |
+| 14 | [Delegation is a queue you fill, not work the agent finds](#p14) |
+| 15 | [Price the lane before you migrate it](#p15) |
+| 16 | [A claim carries its provenance, or it is a guess](#p16) |
+| 17 | [One canonical copy, and pointers from everywhere else](#p17) |
+| 18 | [Position is price — a token costs more the earlier you add it](#p18) |
+
+<a id="p1"></a>
+
 ## 1. Pure roles, composed with project facts
 
 **Problem.** Run security review across five projects and you end up with five near-identical 500-line prompts that drift apart the moment one is edited.
@@ -15,6 +42,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 **Cost.** Indirection (two files, not one) plus a validator to catch bindings that reference a role or context that moved. Worth it past about three projects; overkill for one.
 
 **Where it lives:** [`samples/roles/`](samples/roles/) (18 roles + the template) and [`samples/example-project/`](samples/example-project/) (a binding composing role + context).
+
+<a id="p2"></a>
 
 ## 2. Classify-then-act, not ask-then-wait
 
@@ -30,6 +59,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** [`samples/scripts/heartbeat/classify_task.py`](samples/scripts/heartbeat/classify_task.py) and [`samples/tasks/HEARTBEAT.md`](samples/tasks/HEARTBEAT.md).
 
+<a id="p3"></a>
+
 ## 3. Make silent failure loud (the dead-man's switch)
 
 **Problem.** A scheduled task that stops firing fails silently. You find out weeks later, when the thing it was supposed to produce is missing.
@@ -41,6 +72,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 **Cost.** Per-task staleness configuration, plus a tolerance flag for tasks that run on demand rather than on a clock.
 
 **Where it lives:** [`samples/scripts/security/check_task_freshness.py`](samples/scripts/security/check_task_freshness.py).
+
+<a id="p4"></a>
 
 ## 4. Tier by mechanical impact, not by tone
 
@@ -54,6 +87,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** [`samples/.claude/agents/audit.md`](samples/.claude/agents/audit.md) (the tier-classification table).
 
+<a id="p5"></a>
+
 ## 5. Memory points, it doesn't mirror
 
 **Problem.** Agent memory that copies your source documents goes stale the moment a source changes, then quietly contradicts it.
@@ -65,6 +100,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 **Cost.** Discipline at write time, plus a periodic consolidation pass to merge duplicates and prune the index.
 
 **Where it lives:** [`samples/.claude/scheduled-tasks/consolidate-memory/SKILL.md`](samples/.claude/scheduled-tasks/consolidate-memory/SKILL.md) and [`samples/scripts/memory_lint.py`](samples/scripts/memory_lint.py).
+
+<a id="p6"></a>
 
 ## 6. Credentials live in one place, never in files
 
@@ -78,6 +115,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** [`samples/scripts/backup-restic.ps1`](samples/scripts/backup-restic.ps1) (runtime resolution + scrub) and [`samples/scripts/send_self_email.py`](samples/scripts/send_self_email.py) (the one narrow, audited exception).
 
+<a id="p7"></a>
+
 ## 7. A cheap hook beats a careful agent
 
 **Problem.** An agent that has misread the task can overwrite your `.env`, delete a record, or force-push. "Be more careful" does not scale.
@@ -89,6 +128,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 **Cost.** Occasional false positives (a legitimately named file that matches a protected substring), best resolved by naming around them rather than widening the gap.
 
 **Where it lives:** [`samples/scripts/security/check_bash_command.py`](samples/scripts/security/check_bash_command.py) and the hook config in [`samples/.claude/settings.example.json`](samples/.claude/settings.example.json).
+
+<a id="p8"></a>
 
 ## 8. Audit the workspace like a fitness function
 
@@ -102,6 +143,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** [`samples/.claude/agents/audit.md`](samples/.claude/agents/audit.md) and [`samples/tests/audit_canaries/`](samples/tests/audit_canaries/).
 
+<a id="p9"></a>
+
 ## 9. Context is a budget, not a constant
 
 **Problem.** Everything auto-loaded into a session — instruction files, the memory index, skill descriptions, hook strings — costs tokens on every turn, in every session. No single addition is large, so the total grows a few percent a week, and unattended agents spend with nobody watching. Quality erodes before any cost alarm fires.
@@ -113,6 +156,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 **Cost.** A counter and its history to maintain, estimates that drift from true tokenizer counts, and ceilings that need sizing judgment — a cap set as a governor instead of a belt aborts legitimately heavy runs.
 
 **Where it lives:** [`samples/scripts/ghost_token_counter.py`](samples/scripts/ghost_token_counter.py) (the per-source baseline) and [`samples/scripts/token_report.py`](samples/scripts/token_report.py) (spend telemetry feeding the audit's trend rule).
+
+<a id="p10"></a>
 
 ## 10. A skill is editable weights — never adopt a self-edit without a gate
 
@@ -126,6 +171,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** [`samples/tasks/HEARTBEAT.md`](samples/tasks/HEARTBEAT.md) (classify → sandbox → stage → review → adopt) and [`samples/.claude/scheduled-tasks/consolidate-memory/SKILL.md`](samples/.claude/scheduled-tasks/consolidate-memory/SKILL.md) (four-operation write discipline). SkillOpt itself is credited in [ATTRIBUTION.md](ATTRIBUTION.md).
 
+<a id="p11"></a>
+
 ## 11. A scaffold is a hypothesis — gate it behind a measurable signal
 
 **Problem.** The tempting way to make an agent smarter is to keep adding to the layer around it: another skill, another always-loaded directive, another reasoning rule, another self-critique pass. Most of it feels like an upgrade and never gets checked. Two failure modes hide in that habit. The first is the scaffold that does nothing (a second same-model pass over the same prompt, an ungrounded "now critique your answer" step) and can even degrade the result while costing tokens. The second is accretion: every always-loaded line dilutes the signal of every other, so a workspace can get measurably dumber by growing.
@@ -137,6 +184,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 **Cost.** The suite is a system to build and maintain, and a meaningful one needs real cases with deterministically-checkable answers, which take effort to write. The variance floor multiplies every measurement by the re-run count. And the register only works if it is actually consulted at the review date rather than becoming another stale list. The discipline is the load-bearing part, not the file.
 
 **Where it lives:** the same fitness-function machinery as [`samples/.claude/agents/audit.md`](samples/.claude/agents/audit.md) (Pattern 8). The reasoning-regression suite runs on the audit's cadence and reports like its other coded checks, and it is the measurement-gated cousin of the self-edit gate in Pattern 10: a correctness signal certifying a *scaffold* the way a human gate certifies a *self-edit*.
+
+<a id="p12"></a>
 
 ## 12. Loop selection: not everything should be a loop
 
@@ -150,6 +199,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** [`samples/scripts/wrap_drift_scan.py`](samples/scripts/wrap_drift_scan.py) (the read-only close-out surfacing scan — the worked *surface* case).
 
+<a id="p13"></a>
+
 ## 13. Challenge half-formed ideas with a different lens — and hold a sample back to prove it helps
 
 **Problem.** Every tool that critiques an agent's work assumes a finished artifact: a draft to red-team, a decision to rank, a result to verify. None help during the messy part, where you're exploring a design or framing a problem and nothing is built yet and no test exists to check against. The tempting fix is to bolt a second agent onto the thinking itself and let it challenge every idea as it forms, always on, in the background. Two traps spring at once. The challenge is usually the same model re-reading its own frame, which rationalizes more than it challenges and can degrade the answer while burning tokens. And once it runs on everything, you have lost the one thing that would prove it helps: a comparison against not running it.
@@ -161,6 +212,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 **Cost.** A behavioral trigger that depends on the agent actually firing it, since no hook can detect "this is a real fork," so adherence has to be watched (the log's own fire count doubles as that watch). The held-out sample means deliberately skipping the aid on work it might have improved, to buy the ability to measure at all. And a tagging step for the human on each firing, the only honest source of the verdict, because a model grading its own challenges inherits a measured self-preference bias.
 
 **Where it lives:** [`samples/scripts/ideation_spar_log.py`](samples/scripts/ideation_spar_log.py), the roll / hold-out / log / report engine that keeps an always-on-feeling aid measurable. It is the production-side cousin of the offline golden set in Pattern 11: there a held-out *case set* certifies a scaffold; here a held-out *slice of live firings* certifies a behavioral aid that has no offline test.
+
+<a id="p14"></a>
 
 ## 14. Delegation is a queue you fill, not work the agent finds
 
@@ -174,6 +227,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** [`samples/board/agent-queue.SKILL.example.md`](samples/board/agent-queue.SKILL.example.md) (the intake interview and the drain protocol it feeds), with the card schema and the succession reasoning in [`samples/board/README.md`](samples/board/README.md). Pattern 2 is the predecessor it replaced; the classification logic there holds wherever the mandate is already unambiguous, and discovery is the half that failed.
 
+<a id="p15"></a>
+
 ## 15. Price the lane before you migrate it
 
 **Problem.** Token consumption climbs even after efficiency work, because every saving gets reinvested in more agent work — Jevons, applied to your own subscription. At the ceiling, the instinctive fix is structural: migrate the execution tier to cheaper open-weight models, buy a GPU, stand up a second inference stack. Plans of that shape are expensive to be wrong about, and the headline per-token price lists that motivate them hide everything that decides the outcome.
@@ -185,6 +240,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 **Cost.** The instrument itself, and the honesty it demands: a rework marker convention that only works if every escalation is recorded, a baseline that must be re-verified rather than remembered, and one-variable-at-a-time patience, which means the full ladder takes weeks. The meter that proves the upgrade worked is the same meter that will prove it didn't.
 
 **Where it lives:** [`samples/scripts/tier_metrics.py`](samples/scripts/tier_metrics.py) (the lane-split instrument with its four advisory checks and selftest), consumed by the audit's checks-as-code the same way as the Pattern 11 machinery. Pattern 9 is the parent instinct (context as a budget) applied here to the model ladder; Pattern 11 supplies the trial discipline: falsifiable hypothesis, review date, kill criterion.
+
+<a id="p16"></a>
 
 ## 16. A claim carries its provenance, or it is a guess
 
@@ -210,6 +267,8 @@ The pattern also fails usefully. When a claim turns out wrong, the grade shows w
 
 **Boundary with its neighbours.** Pattern 5 governs what memory *stores*; this governs what an assertion *carries at the moment it is made*. Pattern 8 measures whether the workspace is drifting; this makes a single claim auditable without measuring anything. The three are separable: a workspace can store pointers faithfully, audit itself weekly, and still hand you a confident sentence with nothing behind it.
 
+<a id="p17"></a>
+
 ## 17. One canonical copy, and pointers from everywhere else
 
 **Problem.** The same rule ends up written in three places: the user-global instructions, the workspace instructions, and a project file. All three were correct on the day they were written. Then one gets edited. Now an agent loading all three reads two versions of the rule and silently picks one, and a reader checking the project file gets an answer that the workspace file contradicts. Nobody notices, because each copy looks authoritative on its own. Duplication does not announce itself as duplication; it announces itself as a wrong answer, months later, with no obvious cause.
@@ -227,6 +286,8 @@ This workspace's own instructions carry a worked instance, left in place deliber
 **Cost.** Indirection. A reader following a pointer needs a second lookup, which is a real tax on comprehension, and pointer chains longer than one hop become their own problem. Canonical placement also has to be decided rather than discovered, and the wrong choice is expensive to reverse once other files reference it. Duplication is genuinely cheaper right up until the first edit.
 
 **Where it lives:** [`samples/scripts/claudemd_audit.py`](samples/scripts/claudemd_audit.py) inventories every always-loaded instruction file and flags size, staleness, broken imports, and boilerplate duplicated across files. Pattern 5 is the same instinct applied to memory; this is it applied to instructions, which are loaded on every session and so cost on every session.
+
+<a id="p18"></a>
 
 ## 18. Position is price — a token costs more the earlier you add it
 

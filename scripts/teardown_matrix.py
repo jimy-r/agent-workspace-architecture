@@ -101,12 +101,6 @@ SENTENCE = re.compile(r"(?<=[.!?])\s+")
 NOTHING = re.compile(r"^(nothing yet|none|no change)\b", re.IGNORECASE)
 
 
-def slug(heading: str) -> str:
-    """GitHub's anchor slug for a '## N. Title' heading, minus the '## '."""
-    kept = "".join(c for c in heading.lower() if c.isalnum() or c in " -")
-    return kept.strip().replace(" ", "-")
-
-
 def short_name(title: str) -> str:
     """The title up to its first subordinate clause, for a table label."""
     cut = len(title)
@@ -118,14 +112,21 @@ def short_name(title: str) -> str:
 
 
 def load_patterns() -> list[tuple[int, str, str]]:
-    """(number, short name, anchor) for every pattern, in file order."""
+    """(number, short name, anchor) for every pattern, in file order.
+
+    The anchor is the stable `pN` id PATTERNS.md sets above each heading, so a
+    retitle never breaks the matrix links.
+    """
     text = PATTERNS.read_text(encoding="utf-8")
     rows = [
-        (int(num), short_name(title), slug(f"{num}. {title}"))
+        (int(num), short_name(title), f"p{num}")
         for num, title in PATTERN_HEADING.findall(text)
     ]
     if not rows:
         sys.exit("PATTERNS.md has zero '## N. <title>' headings — format changed?")
+    missing = [a for _, _, a in rows if f'<a id="{a}"></a>' not in text]
+    if missing:
+        sys.exit(f"PATTERNS.md lacks the anchors {missing} above its headings")
     return rows
 
 

@@ -59,28 +59,28 @@ Each page's header records its verdict against the [eighteen patterns](../PATTER
 <!-- teardown-matrix:start -->
 | Pattern | [12-Factor Agents](2026-08-27-12-factor-agents.md) | [herdr](2026-08-28-herdr.md) | [LifeOS](2026-08-28-lifeos.md) | [DeepSeek Harness](2026-09-05-deepseek-harness.md) | [GPT-RAG](2026-09-06-azure-gpt-rag.md) | [OpenHarness](2026-10-02-openharness.md) | Assessed |
 |---|---|---|---|---|---|---|---|
-| [1. Pure roles](../PATTERNS.md#1-pure-roles-composed-with-project-facts) | ✓ | — | ✓ | ✓ | ~ | ✓ | 5/6 |
-| [2. Classify-then-act](../PATTERNS.md#2-classify-then-act-not-ask-then-wait) | ✓ | ~ | — | — | ~ | — | 3/6 |
-| [3. Make silent failure loud](../PATTERNS.md#3-make-silent-failure-loud-the-dead-mans-switch) | ✗ | ✗ | ✗ | ✓ | ~ | ~ | 6/6 |
-| [4. Tier by mechanical impact](../PATTERNS.md#4-tier-by-mechanical-impact-not-by-tone) | — | — | — | ✓ | ✓ | ✓ | 3/6 |
-| [5. Memory points](../PATTERNS.md#5-memory-points-it-doesnt-mirror) | ✗ | — | — | ✗ | ~ | ~ | 4/6 |
-| [6. Credentials live in one place](../PATTERNS.md#6-credentials-live-in-one-place-never-in-files) | ✗ | — | — | ✓ | ✓ | — | 3/6 |
-| [7. A cheap hook beats a careful agent](../PATTERNS.md#7-a-cheap-hook-beats-a-careful-agent) | ✗ | — | ✓ | ✓ | ✓ | ✓ | 5/6 |
-| [8. Audit the workspace like a fitness function](../PATTERNS.md#8-audit-the-workspace-like-a-fitness-function) | ✗ | ✗ | — | ~ | ~ | ✗ | 5/6 |
-| [9. Context is a budget](../PATTERNS.md#9-context-is-a-budget-not-a-constant) | ✓ | ✗ | ✗ | ✓ | ~ | ✗ | 6/6 |
-| [10. A skill is editable weights](../PATTERNS.md#10-a-skill-is-editable-weights--never-adopt-a-self-edit-without-a-gate) | — | — | — | ~ | ~ | ✓ | 3/6 |
-| [11. A scaffold is a hypothesis](../PATTERNS.md#11-a-scaffold-is-a-hypothesis--gate-it-behind-a-measurable-signal) | ✗ | — | ✗ | ✓ | ✓ | ✓ | 5/6 |
-| [12. Loop selection](../PATTERNS.md#12-loop-selection-not-everything-should-be-a-loop) | ✓ | ✓ | — | ~ | ~ | — | 4/6 |
-| [13. Challenge half-formed ideas with a different lens](../PATTERNS.md#13-challenge-half-formed-ideas-with-a-different-lens--and-hold-a-sample-back-to-prove-it-helps) | — | — | — | ✗ | ~ | ~ | 3/6 |
-| [14. Delegation is a queue you fill](../PATTERNS.md#14-delegation-is-a-queue-you-fill-not-work-the-agent-finds) | — | ~ | — | ✗ | ~ | — | 3/6 |
-| [15. Price the lane before you migrate it](../PATTERNS.md#15-price-the-lane-before-you-migrate-it) | — | — | — | ~ | ✗ | ~ | 3/6 |
-| [16. A claim carries its provenance](../PATTERNS.md#16-a-claim-carries-its-provenance-or-it-is-a-guess) | ✗ | ✗ | ✗ | ✓ | ✓ | ✓ | 6/6 |
-| [17. One canonical copy](../PATTERNS.md#17-one-canonical-copy-and-pointers-from-everywhere-else) | ✓ | — | ~ | ✓ | ~ | ~ | 5/6 |
-| [18. Position is price](../PATTERNS.md#18-position-is-price--a-token-costs-more-the-earlier-you-add-it) | — | — | — | ✓ | ~ | — | 2/6 |
+| [1. Pure roles](../PATTERNS.md#p1) | ✓ | — | ✓ | ✓ | ~ | ✓ | 5/6 |
+| [2. Classify-then-act](../PATTERNS.md#p2) | ✓ | ~ | — | — | ~ | — | 3/6 |
+| [3. Make silent failure loud](../PATTERNS.md#p3) | ✗ | ✗ | ✗ | ✓ | ~ | ~ | 6/6 |
+| [4. Tier by mechanical impact](../PATTERNS.md#p4) | — | — | — | ✓ | ✓ | ✓ | 3/6 |
+| [5. Memory points](../PATTERNS.md#p5) | ✗ | — | — | ✗ | ~ | ~ | 4/6 |
+| [6. Credentials live in one place](../PATTERNS.md#p6) | ✗ | — | — | ✓ | ✓ | — | 3/6 |
+| [7. A cheap hook beats a careful agent](../PATTERNS.md#p7) | ✗ | — | ✓ | ✓ | ✓ | ✓ | 5/6 |
+| [8. Audit the workspace like a fitness function](../PATTERNS.md#p8) | ✗ | ✗ | — | ~ | ~ | ✗ | 5/6 |
+| [9. Context is a budget](../PATTERNS.md#p9) | ✓ | ✗ | ✗ | ✓ | ~ | ✗ | 6/6 |
+| [10. A skill is editable weights](../PATTERNS.md#p10) | — | — | — | ~ | ~ | ✓ | 3/6 |
+| [11. A scaffold is a hypothesis](../PATTERNS.md#p11) | ✗ | — | ✗ | ✓ | ✓ | ✓ | 5/6 |
+| [12. Loop selection](../PATTERNS.md#p12) | ✓ | ✓ | — | ~ | ~ | — | 4/6 |
+| [13. Challenge half-formed ideas with a different lens](../PATTERNS.md#p13) | — | — | — | ✗ | ~ | ~ | 3/6 |
+| [14. Delegation is a queue you fill](../PATTERNS.md#p14) | — | ~ | — | ✗ | ~ | — | 3/6 |
+| [15. Price the lane before you migrate it](../PATTERNS.md#p15) | — | — | — | ~ | ✗ | ~ | 3/6 |
+| [16. A claim carries its provenance](../PATTERNS.md#p16) | ✗ | ✗ | ✗ | ✓ | ✓ | ✓ | 6/6 |
+| [17. One canonical copy](../PATTERNS.md#p17) | ✓ | — | ~ | ✓ | ~ | ~ | 5/6 |
+| [18. Position is price](../PATTERNS.md#p18) | — | — | — | ✓ | ~ | — | 2/6 |
 
 ✓ present · ~ partial · ✗ absent, and named as worth noting · — not assessed. Derived from each page's header by [`scripts/teardown_matrix.py`](../scripts/teardown_matrix.py). Edit the pages, not this table.
 
-`Assessed` counts the readings that gave the pattern a verdict, and 34 of the 108 cells have none. A reading that did not assess a pattern is no evidence that the pattern is missing, so nothing is claimed about a pattern across subjects on fewer than three assessed readings. Under that floor today: [18. Position is price](../PATTERNS.md#18-position-is-price--a-token-costs-more-the-earlier-you-add-it).
+`Assessed` counts the readings that gave the pattern a verdict, and 34 of the 108 cells have none. A reading that did not assess a pattern is no evidence that the pattern is missing, so nothing is claimed about a pattern across subjects on fewer than three assessed readings. Under that floor today: [18. Position is price](../PATTERNS.md#p18).
 
 What each reading changed here, first line of its own answer:
 

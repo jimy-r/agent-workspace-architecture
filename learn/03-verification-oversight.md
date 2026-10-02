@@ -8,10 +8,10 @@ That cuts both ways. Most "make the agent smarter" additions — a second same-m
 
 ## The patterns
 
-- [**Pattern 8. Audit the workspace like a fitness function**](../PATTERNS.md#8-audit-the-workspace-like-a-fitness-function) — a scheduled auditor with canaries that prove it still detects known-bad fixtures, a finding ledger, and deliberately no single numeric score.
-- [**Pattern 10. A skill is editable weights**](../PATTERNS.md#10-a-skill-is-editable-weights--never-adopt-a-self-edit-without-a-gate) — a proposed instruction edit is staged, reviewed, then adopted. The published cautionary case: an ungated self-edit loop collapsed its own benchmark score 0.554 → 0.026.
-- [**Pattern 11. A scaffold is a hypothesis**](../PATTERNS.md#11-a-scaffold-is-a-hypothesis--gate-it-behind-a-measurable-signal) — register every capability addition with a falsifiable hypothesis and a review date; beat baseline or get cut. Removal is a first-class outcome.
-- [**Pattern 13. Challenge half-formed ideas with a different lens**](../PATTERNS.md#13-challenge-half-formed-ideas-with-a-different-lens--and-hold-a-sample-back-to-prove-it-helps) — one grounded divergent challenge on real forks, with a held-out sample so the aid stays measurable.
+- [**Pattern 8. Audit the workspace like a fitness function**](../PATTERNS.md#p8) — a scheduled auditor with canaries that prove it still detects known-bad fixtures, a finding ledger, and deliberately no single numeric score.
+- [**Pattern 10. A skill is editable weights**](../PATTERNS.md#p10) — a proposed instruction edit is staged, reviewed, then adopted. The published cautionary case: an ungated self-edit loop collapsed its own benchmark score 0.554 → 0.026.
+- [**Pattern 11. A scaffold is a hypothesis**](../PATTERNS.md#p11) — register every capability addition with a falsifiable hypothesis and a review date; beat baseline or get cut. Removal is a first-class outcome.
+- [**Pattern 13. Challenge half-formed ideas with a different lens**](../PATTERNS.md#p13) — one grounded divergent challenge on real forks, with a held-out sample so the aid stays measurable.
 
 ## Do this
 

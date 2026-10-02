@@ -74,6 +74,7 @@ jobs:
             --verbose
             --no-progress
             --max-concurrency 4
+            --include-fragments
             './**/*.lychee-pr.md'
           fail: true
           # A changed .md file can hold no links at all, a changelog line or a
@@ -91,6 +92,7 @@ jobs:
             --verbose
             --no-progress
             --max-concurrency 4
+            --include-fragments
             './**/*.md'
           fail: false
 
