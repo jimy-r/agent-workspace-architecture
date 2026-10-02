@@ -1,7 +1,7 @@
 # Secrets and env (defense-in-depth — the repo has none of these, keep it that way)
 .env*
-credentials*
-secrets*
+*credentials*
+*secrets*
 *.key
 *.pem
 
