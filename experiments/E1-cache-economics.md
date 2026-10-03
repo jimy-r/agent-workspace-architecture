@@ -3,6 +3,7 @@
 - **Question:** How much of the cache-write bill goes on first writes and how much on rewrites? Did the keep-alive pings pay for themselves, and would a different cache lifetime cost less?
 - **Data:** every retained session transcript, 5,307 files dated 2026-05-11 to 2026-09-27
 - **Registered:** 2026-09-27, before any analysis ran
+- **Protocol:** a [redacted copy](protocols/E1-protocol.md) of the registered Protocol, Hypotheses and Decision rules sections.
 - **Protocol hash:** none. Hashing began with E2, so this protocol was dated before the data but not hashed.
 - **Run:** 2026-09-27, offline, with no model calls
 - **Code:** the workspace's own analysis scripts, which are private and not published.

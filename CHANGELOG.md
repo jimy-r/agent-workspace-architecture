@@ -5,7 +5,7 @@ Human-written record of notable changes — the *why* and the *shape*, not every
 ## 2026-10-03
 
 - **The keep-alive, corrected where it was taught.** E1 priced the cache keep-alive at break-even, and the workspace cut it on 2026-09-28. Pattern 18, META's Token Budget row, the sample `CLAUDE.md` and the orient sample still recommended it. Pattern 18 now records it as tried and cut, with E1's numbers. The same change marks the cut `best-of-n` workflow and the retired `review-queue` and `goal-design` samples, which the README and the samples tree still listed as live.
-- **Experiment pages print their protocol hashes.** E2, E3, E5 and E6 give the sha256 saved before each first data run, and every page names its code and its model. E0a and E1 came before hashing began and say so.
+- **Experiment pages print their protocol hashes and link their protocols.** E2, E3, E5 and E6 give the sha256 saved before each first data run, and every page names its code and its model. E0a and E1 came before hashing began and say so. Each of the six pages now links a redacted copy of its registered protocol under `experiments/protocols/`. The hashes were taken over the private originals, so the redacted copies won't reproduce them, and each copy says what redaction changed.
 
 ## 2026-10-02
 

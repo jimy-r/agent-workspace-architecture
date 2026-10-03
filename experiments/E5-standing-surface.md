@@ -3,7 +3,8 @@
 - **Question:** How much of the always-loaded text the workspace writes itself can move to files read on demand, with every rule keeping its operative sentence inline, and do the moved rules still fire?
 - **Data:** the workspace's own always-loaded files as they stood on 2026-09-28
 - **Registered:** 2026-09-28, with the protocol hashed before any component was measured
-- **Protocol hash:** sha256 `bacaafbfbbad0aae79168d005b36531130e34fecaa973aa78cb3972296c35923`, taken over the Protocol, Hypotheses and Decision rules sections (UTF-8, LF line endings) and saved on 2026-09-28 before any component was measured. The protocol text isn't published yet, so the hash can be checked only once it is.
+- **Protocol:** a [redacted copy](protocols/E5-protocol.md) of the registered Protocol, Hypotheses and Decision rules sections.
+- **Protocol hash:** sha256 `bacaafbfbbad0aae79168d005b36531130e34fecaa973aa78cb3972296c35923`, taken over the Protocol, Hypotheses and Decision rules sections (UTF-8, LF line endings) and saved on 2026-09-28 before any component was measured. The hash is of the private original, so the redacted copy won't match it.
 - **Run:** 2026-09-28 for H1, offline and read-only. H2 and H3 are registered for a later night.
 - **Code:** the workspace's own analysis scripts, which are private and not published.
 - **Model and engine:** no model calls for H1, whose counts are characters divided by four. H2 is registered to replay the golden set at `claude-opus-5-5`, effort `max`.

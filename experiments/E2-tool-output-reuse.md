@@ -3,7 +3,8 @@
 - **Question:** Which tool results are the largest entries into the main thread's context, and how much of each is used again later in its session?
 - **Data:** 1,857 main-thread sessions whose first request fell between 2026-08-29 and 2026-09-28, holding 18,482 measured tool results
 - **Registered:** 2026-09-28, with the protocol hashed before any data run
-- **Protocol hash:** sha256 `280a737be7fdf877992cf053bbde16f85f4207dd9887416a059f165e04766d0a`, taken over the Protocol, Hypotheses and Decision rules sections (UTF-8, LF line endings) and saved on 2026-09-28 before any data run. The protocol text isn't published yet, so the hash can be checked only once it is.
+- **Protocol:** a [redacted copy](protocols/E2-protocol.md) of the registered Protocol, Hypotheses and Decision rules sections.
+- **Protocol hash:** sha256 `280a737be7fdf877992cf053bbde16f85f4207dd9887416a059f165e04766d0a`, taken over the Protocol, Hypotheses and Decision rules sections (UTF-8, LF line endings) and saved on 2026-09-28 before any data run. The hash is of the private original, so the redacted copy won't match it.
 - **Run:** 2026-09-28, offline, with no model calls. The follow-up, E2b, ran on 2026-09-29.
 - **Code:** the workspace's own analysis scripts, which are private and not published.
 - **Model and engine:** no model calls. The transcripts span the Claude Code engine versions that ran in the window.

@@ -2,6 +2,7 @@
 
 - **Question:** What is the smallest change in the golden set's composite pass rate that it can detect between two configurations?
 - **Registered:** 2026-09-27, before any analysis ran
+- **Protocol:** a [redacted copy](protocols/E0a-protocol.md) of the registered Protocol, Hypotheses and Decision rules sections.
 - **Protocol hash:** none. Hashing began with E2, so this protocol was dated before the data but not hashed.
 - **Run:** 2026-09-27 to 2026-09-28, two full replays of 89 cases at k=3
 - **Data and code:** the 89 active golden-set cases described in [EVALUATION.md](../EVALUATION.md), run by the workspace's private golden-set runner, which is not published.
