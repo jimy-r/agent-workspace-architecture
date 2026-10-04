@@ -52,12 +52,12 @@ Run the control before you write the rule. It costs a handful of short runs, and
 
 I have taken from Superpowers since April 2026. From that month the workspace adapted its debugging, verification and parallel-dispatch skills, its subagent review loop and a one-scenario version of its skill pressure test ([ATTRIBUTION](../ATTRIBUTION.md)). It added the v6.0 and v6.2 review controls to that loop over June and July, then cut the loop on 2026-09-23, because the lifted skill had never been run. In September it took the plan's spec pointer and the `Review Focus` line, which is on trial until 2026-11-23.
 
-Two things changed with this reading. The pressure test ran one sample and answered every failure by strengthening "YOU MUST" wording. It now runs a control beside each scenario, without the role's guardrails, classifies the failure before any wording changes, and repeats three times before a change is adopted. The [sample](../samples/.claude/skills/role-pressure-test/SKILL.md) changed in the same pull request as this page. Then I ran the bootstrap fault against my own hook. With its source file missing, the hook that re-injects my lessons index after a compaction printed its header and nothing else, and exited 0. A guard that prints a failure line is written and tested on a copy. Both are in this repo's [CHANGELOG](../CHANGELOG.md) entry for 2026-10-04.
+Two things changed with this reading. The pressure test ran one sample and answered every failure by strengthening "YOU MUST" wording. It now runs a control beside each scenario, without the role's guardrails, classifies the failure before any wording changes, and repeats three times before a change is adopted. The [sample](../samples/.claude/skills/role-pressure-test/SKILL.md) changed in the same pull request as this page. Then I ran the bootstrap fault against my own hook. With its source file missing, the hook that re-injects my lessons index after a compaction printed its header and nothing else, and exited 0. A guard that prints a failure line went in the same day. Both are in this repo's [CHANGELOG](../CHANGELOG.md) entry for 2026-10-04.
 
 | Lift | Owner | Status | Re-check by |
 |---|---|---|---|
 | A control run, failure classification and three repeats in the role pressure test | maintainer | done | 2026-12-18 |
-| A fail-loud guard in the lessons re-injection hook, after the fault test | maintainer | open | 2026-11-04 |
+| A fail-loud guard in the lessons re-injection hook, after the fault test | maintainer | done | 2026-11-04 |
 | Compliance-pressure wording as a default device, which the subject's own data argues against for shape problems | maintainer | declined | n/a |
 | Decision-only plans (v6.4.2), until execution cost is published | maintainer | declined | n/a |
 | Installing the plugin. The workspace lifts patterns and installs nothing | maintainer | declined | n/a |
