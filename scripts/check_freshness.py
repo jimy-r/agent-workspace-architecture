@@ -30,7 +30,7 @@ move the date and say why.
 
 A page published after 2026-10-03 also needs the `Verified` and `Maintainer
 heads-up` header fields, and, when its subject lives on GitHub, at least one
-citation linked to a line at a commit sha. The six earlier pages sit in
+citation linked to a line at a commit sha. The seven earlier pages sit in
 GRANDFATHERED until their next re-read.
 
 Usage:
@@ -67,6 +67,8 @@ GRANDFATHERED = {
     "2026-09-05-deepseek-harness.md",
     "2026-09-06-azure-gpt-rag.md",
     "2026-10-02-openharness.md",
+    # Zenith was published before this rule reached main: fields present, paths cited bare.
+    "2026-10-03-zenith.md",
 }
 VERIFIED = re.compile(
     r"(?m)^- \*\*Verified:\*\* \d{4}-\d{2}-\d{2}, \d+ citations? re-read\s*$"
