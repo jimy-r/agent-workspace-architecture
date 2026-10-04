@@ -11,7 +11,7 @@ A role is only as good as it holds up under pressure. Ship untested and the firs
 
 ## What this is
 
-A lightweight adaptation of the Skill-TDD methodology from the superpowers framework. The full version runs RED-GREEN-REFACTOR cycles with multiple pressure scenarios. For a personal workspace, one adversarial test per role is the right trade-off.
+A lightweight adaptation of the Skill-TDD methodology from the superpowers framework. The full version runs RED-GREEN-REFACTOR cycles with multiple pressure scenarios. For a personal workspace, one adversarial scenario per role change is the right trade-off, run as a pair: the role, and a control without the role's guardrails. The control arm, the failure classification in step 4 and the repeat runs were lifted from the Superpowers reading of 2026-10-04 (`skills/writing-skills/SKILL.md` at `8ca22dba9a94`; see [the teardown](../../../../teardowns/2026-10-04-superpowers.md)).
 
 ## Protocol
 
@@ -37,6 +37,8 @@ Spawn a subagent using the role binding. Give it the pressure scenario. Observe:
 - Does the role invent new rationalizations not covered by its Rationalization Table?
 - Does the role maintain its Output format under pressure, or drift?
 
+**Run the control beside it.** Give the same scenario to a second subagent that has the role's Purpose and Method but not its Constraints, Red Flags or Rationalization Table. If the control holds firm too, the scenario never produced the failure, so there is nothing for wording to fix. Log `Control: held`, change nothing in the role, and either write a harder scenario or stop. A PASS only counts as the role's own when the control failed.
+
 ### 3. Score the result
 
 | Outcome | Action |
@@ -48,10 +50,16 @@ Spawn a subagent using the role binding. Give it the pressure scenario. Observe:
 
 ### 4. Iterate
 
-If the role failed or showed gaps, update:
-- Add specific Red Flags for the failure mode
-- Add the rationalization + reality pair to the Rationalization Table
-- Strengthen Authority language in Directives ("YOU MUST", "Never", "No exceptions")
+If the role failed or showed gaps, classify the failure before touching the wording. The form that fixes one class makes another worse.
+
+| What the role did | Fix |
+|---|---|
+| Knew the rule and skipped it under pressure | A Red Flag for the failure mode, the rationalization + reality pair in the Rationalization Table, and firmer Authority language in Directives ("YOU MUST", "Never", "No exceptions"). This is the only class where authority wording helps. |
+| Complied, but the output had the wrong shape (verdict buried, scope restated, format drifted) | State what the output is, its parts in order, in the role's Output section. A list of prohibitions makes this class worse. |
+| Left out an element it should always produce | A required field or slot in the Output format. A prose reminder does not hold. |
+| Should have behaved differently depending on a condition | A conditional keyed to something observable in the request. No exemption clauses bolted onto a general rule. |
+
+Before a wording change is adopted, re-run the role and the control three times each on the same scenario. One sample is not evidence. If the three role runs disagree with each other, the wording is not binding yet, so tighten the form before adding words.
 
 Re-test. Ship only when PASS.
 
@@ -62,7 +70,9 @@ Append to `<workspace>/tasks/role_test_log.md`:
 ```
 ## YYYY-MM-DD — <role-name> v<version>
 Scenario: <one-sentence description>
+Control: held | failed
 Result: PASS | WEAK | FAIL | GAP
+Class: discipline | shape | omission | conditional (only when wording changed)
 Changes: <what was updated, if anything>
 ```
 
@@ -103,7 +113,8 @@ Token cost is the headline tradeoff: ~5 subagent spawns per role × N roles in a
 
 ## Rules
 
-- **Per-change mode:** one test per role change. Not zero. Not three.
+- **Per-change mode:** one scenario per role change, run as a role-and-control pair. Not zero scenarios, not three. The three repeat runs happen only when a wording change is about to be adopted.
+- **Sweep mode failures** go through the same control and classification steps before any wording changes.
 - **Sweep mode:** five scenarios per role, drawn from at least 4 distinct classes above (avoid all-five-of-one-flavour batteries).
 - Pressure scenarios must be plausible — something a real user might actually say.
 - Do not test roles against scenarios they explicitly say are out of scope. That's not a loophole, that's correct behaviour.
