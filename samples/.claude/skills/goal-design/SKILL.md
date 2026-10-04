@@ -1,7 +1,9 @@
 ---
 name: goal-design
-description: Pre-flight interview that turns a fuzzy intent into a best-practice /goal loop artifact - folds in project context and gates on a checkable stop-condition before writing the goal prompt you feed into /goal. Invoke via "goal design", "/goal-design", "design a goal loop", "build a goal prompt".
+description: CUT 2026-09-23 sample, kept for study. Pre-flight interview that turns a fuzzy intent into a best-practice /goal loop artifact - folds in project context and gates on a checkable stop-condition before writing the goal prompt you feed into /goal. Invoke via "goal design", "/goal-design", "design a goal loop", "build a goal prompt".
 ---
+
+> **Status: cut in the source workspace, 2026-09-23.** The first scaffold-register review removed it because it had not been invoked once in the three months since it was added. Kept here unchanged for study, since the interview and the checkable stop-condition gate can be lifted on their own. The cut itself is [Pattern 11](../../../../PATTERNS.md#p11) at work. A skill nobody reaches for is cost with no measured return.
 
 > Redacted sample. Generic placeholders (`<workspace>`, generic example commands) stand in for one operator's specifics.
 

@@ -1,7 +1,11 @@
 ---
 name: review-queue
-description: Triage the heartbeat-PR-agent review queue — walk each pending / reminded entry in tasks/HEARTBEAT_REVIEWS.md, present its artifact (REVIEW.md / PR diff / draft), and action the user's per-item decision (integrate / reject / redirect / skip). Invoke when the morning brief's "Awaiting your review" section shows 3+ items or whenever you want to drain the queue ad-hoc.
+description: RETIRED 2026-08 sample, studied predecessor only. Triage the heartbeat-PR-agent review queue — walk each pending / reminded entry in tasks/HEARTBEAT_REVIEWS.md, present its artifact (REVIEW.md / PR diff / draft), and action the user's per-item decision (integrate / reject / redirect / skip). Invoke when the morning brief's "Awaiting your review" section shows 3+ items or whenever you want to drain the queue ad-hoc.
 ---
+
+> **Status: retired in the source workspace, 2026-08**, with the heartbeat whose review queue it drained. Kept here unchanged as the predecessor design. The loop it runs is still worth reading: walk the queue, present each artifact, action one decision per item.
+>
+> **Successor:** [`../../../board/`](../../../board/), one canonical card store plus an explicit delegation queue, drained on demand in an interactive session.
 
 ## Purpose
 

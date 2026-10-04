@@ -8,9 +8,9 @@ The companion instinct is routing by consequence. Decide what may happen automat
 
 ## The patterns
 
-- [**Pattern 7. A cheap hook beats a careful agent**](../PATTERNS.md#7-a-cheap-hook-beats-a-careful-agent) — a pre-execution hook string-matches tool calls against a blocklist and fails open; a ten-line check catches most accidental damage for almost nothing.
-- [**Pattern 4. Tier by mechanical impact, not by tone**](../PATTERNS.md#4-tier-by-mechanical-impact-not-by-tone) — auto-apply the trivially reversible; human-gate anything that deletes, publishes, or spends.
-- [**Pattern 6. Credentials live in one place, never in files**](../PATTERNS.md#6-credentials-live-in-one-place-never-in-files) — a password manager is the single store; files carry item *names*; runtime resolves values and scrubs them.
+- [**Pattern 7. A cheap hook beats a careful agent**](../PATTERNS.md#p7) — a pre-execution hook string-matches tool calls against a blocklist and fails open; a ten-line check catches most accidental damage for almost nothing.
+- [**Pattern 4. Tier by mechanical impact, not by tone**](../PATTERNS.md#p4) — auto-apply the trivially reversible; human-gate anything that deletes, publishes, or spends.
+- [**Pattern 6. Credentials live in one place, never in files**](../PATTERNS.md#p6) — a password manager is the single store; files carry item *names*; runtime resolves values and scrubs them.
 
 ## Do this
 
