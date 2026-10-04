@@ -32,7 +32,7 @@ Every pattern in [PATTERNS.md](../PATTERNS.md) appears in exactly one module and
 
 ## Track your progress
 
-A done-check with no destination is a done-check nobody runs. Copy this into your own task file, or post it as one thread in [Show and tell](https://github.com/jimy-r/agent-workspace-architecture/discussions/categories/show-and-tell) and edit it as you go. Threads there are the closest thing this track has to a cohort: you can see what other people's workspaces scored, and where the same exercise broke differently.
+A done-check with no destination is a done-check nobody runs. Copy this into your own task file, or post it as one thread in [Show and tell](https://github.com/jimy-r/agent-workspace-architecture/discussions/categories/show-and-tell) and edit it as you go. If a module leaves you with something built, post that in the thread too, with what the instrument scored and where the exercise broke.
 
 ```markdown
 - [ ] M0 Foundations: loop run end to end, task file updated by the wrap

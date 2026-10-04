@@ -21,7 +21,7 @@ Maintained solo and best-effort. [Issues](https://github.com/jimy-r/agent-worksp
 
 Every commit must be safe for a public audience. Before `git add`, scrub every changed file for:
 
-- **Personal identifiers.** Real names, emails, usernames tied to identity, home or workplace locations.
+- **Personal identifiers.** Real names, emails, usernames tied to identity, home or workplace locations. The owner's byline in the README, changelog, style guide and site pages is the one deliberate exception, public by choice.
 - **Business / product specifics.** Company names, product names, customer details tied to a real entity.
 - **Credentials, tokens, API keys.** Ever, even as placeholders.
 - **Health, financial, or legal data.** Ever.
@@ -62,7 +62,8 @@ Cut a tagged release after every milestone batch (roughly: any merge that earns 
 1. Merge the PR(s) first; tag the merged `main`.
 2. `gh release create vX.Y.Z --title "vX.Y.Z — <short handle>" --notes "<3-6 lines: what changed and why it matters, pointing at the CHANGELOG entry>"`.
 3. Versioning: minor bump for new content (a pattern, a module sync, a tour feature), patch for fixes, major only on repositioning.
-4. Release notes are public content. Same redaction bar and writing rules as files.
+4. Release notes are public content. Same redaction bar and writing rules as files. Write them for a reader who has never seen the workspace, with a handle in the title and no internal audit or finding IDs in the body.
+5. `CITATION.cff` names the release it describes. Set its `version` and `date-released` in the PR that carries the release's CHANGELOG entry, before the tag is cut.
 
 ## Tone
 

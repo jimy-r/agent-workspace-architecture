@@ -43,16 +43,17 @@ DEFAULT_CALENDAR = "primary"
 
 def validate_appointment(raw: dict[str, Any]) -> list[str]:
     errs: list[str] = []
-    missing = REQUIRED_FIELDS - set(raw.keys())
+    # Error text names fields only, never values: the callers print it to stderr.
+    missing = sorted(f for f in REQUIRED_FIELDS if f not in raw)
     if missing:
-        errs.append(f"missing required fields: {sorted(missing)}")
+        errs.append(f"missing required fields: {missing}")
     for fld in ("start", "end"):
         if fld in raw:
             val = str(raw[fld])
             try:
                 datetime.fromisoformat(val)
             except ValueError:
-                errs.append(f"{fld} not ISO8601: {val!r}")
+                errs.append(f"{fld} not ISO8601")
     if "start" in raw and "end" in raw:
         try:
             s = datetime.fromisoformat(str(raw["start"]))
