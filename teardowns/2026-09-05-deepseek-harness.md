@@ -36,7 +36,7 @@ The permission story is solid as well. Approval fails closed, so "a missing, non
 
 **Memory that outlives a session (pattern [5](../PATTERNS.md#p5)).** Everything durable here derives from the session log. "Fork, resume, transcripts, telemetry, and persistence all derive from these durable settlements" (`docs/architecture.md`). Fork copies a prefix and resume reopens the same log, and both stay inside one session's lineage. Nothing carries a fact from session A into an unrelated session B. Read strictly, the only carrier across sessions the harness ships is the instruction file the user writes by hand, capped at 64 KB. The team knows this. Their own proposal opens with "Compaction is irreversible from the model's current context" and claims that "No mainstream coding harness gives the model in-loop recall" (`.agents/notes/proposed/feature/2026-07-06-recallable-compaction.md`). Discussion #1345 asked for persistent memory on 2026-08-14 and drew four community plugins within days. I posted the write discipline we run (memory points at the source rather than copying it, every write is add, update, delete or no-op, verify before asserting, an index ceiling with a migration rule) into that thread, and the author of one of those plugins, `dsh-memory-gate`, said the rules were "exactly the spec we needed" and would go into their next iteration. That is a plugin author's roadmap, not a project commitment. The harness itself still ships no memory, and by the note above, it has decided not to.
 
-**A second lens on its own judgement (pattern [13](../PATTERNS.md#p13)).** The scepticism in this repo is aimed entirely at code. Guards need negative controls, self-reports are not evidence, invented checks are a review blocker. None of it is aimed at the review itself. `dsh-code-review` is a checklist read in the same frame as the code. No slice is held out. Nothing measures whether a review changed a call. A project this careful about dead checks has no way to detect a dead reviewer.
+**A second lens on its own judgement (pattern [13](../PATTERNS.md#p13)).** The scepticism in this repo is aimed entirely at code. Guards need negative controls, self-reports are not evidence, invented checks are a review blocker. None of it is aimed at the review itself. `dsh-code-review` is a checklist read in the same frame as the code. Nothing measures whether a review changed a call. A project this careful about dead checks has no way to detect a dead reviewer.
 
 **The improvement half of the audit (pattern [8](../PATTERNS.md#p8)).** The housekeeping half is heavily mechanised. What is missing is the scheduled pass that reads outside sources and critiques the repo against them, with a finding ledger and the rate at which findings are accepted or dismissed. The `architectural-conformance` proposal from June wants some of this and is still proposed.
 
@@ -55,6 +55,10 @@ Two lifts transfer straight across. Symlink the duplicate instruction file inste
 | One instruction file for agents that do not read `CLAUDE.md`. The subject symlinks its two files, and this repo added a separate, runtime-neutral [`AGENTS.md`](../AGENTS.md) on 2026-09-06 | maintainer | done | n/a |
 | Prove every guard fails before trusting it green | maintainer | open | 2026-12-05 |
 | An Agent Note format, where a change has to name what it beat | maintainer | open | 2026-12-05 |
+
+## Corrections
+
+- **2026-10-04.** An earlier version of the pattern 13 paragraph said no slice of the subject's reviews is held out. That judged it against a held-out sample this repo's own [pattern 13](../PATTERNS.md#p13) dropped on 2026-09-23, so the sentence is removed. The rest of the paragraph stands, and nothing in the subject was re-read for this change.
 
 ---
 
