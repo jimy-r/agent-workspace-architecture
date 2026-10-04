@@ -72,6 +72,7 @@ The rest of the docs follow [Diátaxis](https://diataxis.fr/):
 |---|---|---|
 | Explanation | [PATTERNS.md](PATTERNS.md) | why the shape is the way it is |
 | Evidence | [teardowns/](teardowns/) | published architectures read against the patterns |
+| Evidence | [experiments/](experiments/) | pre-registered experiments on the workspace's own cost and quality, with failed hypotheses published beside passed ones |
 | Reference | [META_ARCHITECTURE.md](META_ARCHITECTURE.md) | the full structural map, with diagrams |
 | Tutorial | [ADOPTION.md](ADOPTION.md) | a 5-step build, minimum-viable at each step |
 | Tutorial | [learn/](learn/) | a guided track through the patterns, by capability, with exercises |
@@ -125,4 +126,4 @@ The repo was renamed from `claude-workspace-architecture` on 2026-05-28; the old
 
 ---
 
-*Last verified against the repo structure on 2026-10-03.*
+*Last verified against the repo structure on 2026-10-04.*
