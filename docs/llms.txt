@@ -1,6 +1,6 @@
 # Agent Workspace Architecture
 
-> A redacted reference for building agent workspaces: the roles, routines, hooks, memory, and task coordination that turn a coding agent into a system you can hand work to. One person's working setup, published with the reasoning attached.
+> A redacted reference for building agent workspaces and agent-ready knowledge architecture: the roles, routines, hooks, memory, and task coordination that turn a coding agent into a system you can hand work to. One person's working setup, published with the reasoning attached.
 
 ## Full text
 

@@ -41,22 +41,16 @@ from typing import Any
 
 from openpyxl import load_workbook
 
-sys.path.insert(
-    0, str(Path(__file__).resolve().parent.parent / "Personal" / "Accounts" / "Scripts")
-)
+# Placeholder layout. Point FINANCE_ROOT at your own finance project folder
+# (<project-finance> in the docstring above) and name the workbook to suit.
+FINANCE_ROOT = Path(__file__).resolve().parent.parent / "private" / "finance"
+
+sys.path.insert(0, str(FINANCE_ROOT / "Scripts"))
 import categorize as _cat  # noqa: E402
 
 
-WORKBOOK_PATH = (
-    Path(__file__).resolve().parent.parent
-    / "Personal"
-    / "Accounts"
-    / "Results"
-    / "Financial_Summary_FY2526.xlsx"
-)
-RECORDS_ROOT = (
-    Path(__file__).resolve().parent.parent / "Personal" / "Accounts" / "Records"
-)
+WORKBOOK_PATH = FINANCE_ROOT / "Results" / "finance_summary.xlsx"
+RECORDS_ROOT = FINANCE_ROOT / "Records"
 SHEET_NAME = "All Transactions"
 REQUIRED_FIELDS = {"date", "vendor", "amount", "source_type", "source_id"}
 VALID_SOURCE_TYPES = {"email", "photo"}
