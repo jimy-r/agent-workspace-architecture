@@ -51,31 +51,31 @@ Two more rules the pages hold to:
 
 Pages here are the canonical copies. Sharing on aggregator venues (with each venue's own etiquette) is a manual act; teardown-sweep's `suggested_venues` field proposes where each subject's audience already is, and its ledger records where a finished teardown actually ran.
 
-## What six readings show
+## What seven readings show
 
 Each page's header records its verdict against the [eighteen patterns](../PATTERNS.md). Read down a column for one subject, across a row for how one pattern fares in the wild. The table is generated from those headers by [`scripts/teardown_matrix.py`](../scripts/teardown_matrix.py) and checked in CI, so it cannot drift from the pages.
 
 <!-- teardown-matrix:start -->
-| Pattern | [12-Factor Agents](2026-08-27-12-factor-agents.md) | [herdr](2026-08-28-herdr.md) | [LifeOS](2026-08-28-lifeos.md) | [DeepSeek Harness](2026-09-05-deepseek-harness.md) | [GPT-RAG](2026-09-06-azure-gpt-rag.md) | [OpenHarness](2026-10-02-openharness.md) |
-|---|---|---|---|---|---|---|
-| [1. Pure roles](../PATTERNS.md#1-pure-roles-composed-with-project-facts) | ✓ | — | ✓ | ✓ | ~ | ✓ |
-| [2. Classify-then-act](../PATTERNS.md#2-classify-then-act-not-ask-then-wait) | ✓ | ~ | — | — | ~ | — |
-| [3. Make silent failure loud](../PATTERNS.md#3-make-silent-failure-loud-the-dead-mans-switch) | ✗ | ✗ | ~ | ✓ | ~ | ~ |
-| [4. Tier by mechanical impact](../PATTERNS.md#4-tier-by-mechanical-impact-not-by-tone) | — | — | — | ✓ | ✓ | ✓ |
-| [5. Memory points](../PATTERNS.md#5-memory-points-it-doesnt-mirror) | ✗ | — | — | ✗ | ~ | ~ |
-| [6. Credentials live in one place](../PATTERNS.md#6-credentials-live-in-one-place-never-in-files) | ✗ | — | — | ✓ | ✓ | — |
-| [7. A cheap hook beats a careful agent](../PATTERNS.md#7-a-cheap-hook-beats-a-careful-agent) | ✗ | — | ✓ | ✓ | ✓ | ✓ |
-| [8. Audit the workspace like a fitness function](../PATTERNS.md#8-audit-the-workspace-like-a-fitness-function) | ✗ | ✗ | — | ~ | ~ | ✗ |
-| [9. Context is a budget](../PATTERNS.md#9-context-is-a-budget-not-a-constant) | ✓ | ✗ | ✓ | ✓ | ~ | ✗ |
-| [10. A skill is editable weights](../PATTERNS.md#10-a-skill-is-editable-weights--never-adopt-a-self-edit-without-a-gate) | — | — | — | ~ | ~ | ✓ |
-| [11. A scaffold is a hypothesis](../PATTERNS.md#11-a-scaffold-is-a-hypothesis--gate-it-behind-a-measurable-signal) | ✗ | — | ~ | ✓ | ✓ | ✓ |
-| [12. Loop selection](../PATTERNS.md#12-loop-selection-not-everything-should-be-a-loop) | ✓ | ✓ | — | ~ | ~ | — |
-| [13. Challenge half-formed ideas with a different lens](../PATTERNS.md#13-challenge-half-formed-ideas-with-a-different-lens--and-hold-a-sample-back-to-prove-it-helps) | — | — | — | ✗ | ~ | ~ |
-| [14. Delegation is a queue you fill](../PATTERNS.md#14-delegation-is-a-queue-you-fill-not-work-the-agent-finds) | — | ~ | — | ✗ | ~ | — |
-| [15. Price the lane before you migrate it](../PATTERNS.md#15-price-the-lane-before-you-migrate-it) | — | — | — | ~ | ✗ | ~ |
-| [16. A claim carries its provenance](../PATTERNS.md#16-a-claim-carries-its-provenance-or-it-is-a-guess) | ✗ | ✗ | ✓ | ✓ | ✓ | ✓ |
-| [17. One canonical copy](../PATTERNS.md#17-one-canonical-copy-and-pointers-from-everywhere-else) | ✓ | — | ~ | ✓ | ~ | ~ |
-| [18. Position is price](../PATTERNS.md#18-position-is-price--a-token-costs-more-the-earlier-you-add-it) | — | — | — | ✓ | ~ | — |
+| Pattern | [12-Factor Agents](2026-08-27-12-factor-agents.md) | [herdr](2026-08-28-herdr.md) | [LifeOS](2026-08-28-lifeos.md) | [DeepSeek Harness](2026-09-05-deepseek-harness.md) | [GPT-RAG](2026-09-06-azure-gpt-rag.md) | [OpenHarness](2026-10-02-openharness.md) | [Zenith](2026-10-03-zenith.md) |
+|---|---|---|---|---|---|---|---|
+| [1. Pure roles](../PATTERNS.md#1-pure-roles-composed-with-project-facts) | ✓ | — | ✓ | ✓ | ~ | ✓ | ✓ |
+| [2. Classify-then-act](../PATTERNS.md#2-classify-then-act-not-ask-then-wait) | ✓ | ~ | — | — | ~ | — | — |
+| [3. Make silent failure loud](../PATTERNS.md#3-make-silent-failure-loud-the-dead-mans-switch) | ✗ | ✗ | ~ | ✓ | ~ | ~ | ✗ |
+| [4. Tier by mechanical impact](../PATTERNS.md#4-tier-by-mechanical-impact-not-by-tone) | — | — | — | ✓ | ✓ | ✓ | — |
+| [5. Memory points](../PATTERNS.md#5-memory-points-it-doesnt-mirror) | ✗ | — | — | ✗ | ~ | ~ | — |
+| [6. Credentials live in one place](../PATTERNS.md#6-credentials-live-in-one-place-never-in-files) | ✗ | — | — | ✓ | ✓ | — | — |
+| [7. A cheap hook beats a careful agent](../PATTERNS.md#7-a-cheap-hook-beats-a-careful-agent) | ✗ | — | ✓ | ✓ | ✓ | ✓ | ~ |
+| [8. Audit the workspace like a fitness function](../PATTERNS.md#8-audit-the-workspace-like-a-fitness-function) | ✗ | ✗ | — | ~ | ~ | ✗ | — |
+| [9. Context is a budget](../PATTERNS.md#9-context-is-a-budget-not-a-constant) | ✓ | ✗ | ✓ | ✓ | ~ | ✗ | — |
+| [10. A skill is editable weights](../PATTERNS.md#10-a-skill-is-editable-weights--never-adopt-a-self-edit-without-a-gate) | — | — | — | ~ | ~ | ✓ | — |
+| [11. A scaffold is a hypothesis](../PATTERNS.md#11-a-scaffold-is-a-hypothesis--gate-it-behind-a-measurable-signal) | ✗ | — | ~ | ✓ | ✓ | ✓ | ~ |
+| [12. Loop selection](../PATTERNS.md#12-loop-selection-not-everything-should-be-a-loop) | ✓ | ✓ | — | ~ | ~ | — | — |
+| [13. Challenge half-formed ideas with a different lens](../PATTERNS.md#13-challenge-half-formed-ideas-with-a-different-lens--and-hold-a-sample-back-to-prove-it-helps) | — | — | — | ✗ | ~ | ~ | — |
+| [14. Delegation is a queue you fill](../PATTERNS.md#14-delegation-is-a-queue-you-fill-not-work-the-agent-finds) | — | ~ | — | ✗ | ~ | — | — |
+| [15. Price the lane before you migrate it](../PATTERNS.md#15-price-the-lane-before-you-migrate-it) | — | — | — | ~ | ✗ | ~ | ✓ |
+| [16. A claim carries its provenance](../PATTERNS.md#16-a-claim-carries-its-provenance-or-it-is-a-guess) | ✗ | ✗ | ✓ | ✓ | ✓ | ✓ | ~ |
+| [17. One canonical copy](../PATTERNS.md#17-one-canonical-copy-and-pointers-from-everywhere-else) | ✓ | — | ~ | ✓ | ~ | ~ | — |
+| [18. Position is price](../PATTERNS.md#18-position-is-price--a-token-costs-more-the-earlier-you-add-it) | — | — | — | ✓ | ~ | — | — |
 
 ✓ present · ~ partial · ✗ absent, and named as worth noting · — not assessed. Derived from each page's header by [`scripts/teardown_matrix.py`](../scripts/teardown_matrix.py). Edit the pages, not this table.
 
@@ -89,14 +89,16 @@ What each reading changed here, first line of its own answer:
 | [DeepSeek Harness](2026-09-05-deepseek-harness.md) | This repo gained a root [`AGENTS.md`](../AGENTS.md) on 2026-09-06, after this reading. |
 | [GPT-RAG](2026-09-06-azure-gpt-rag.md) | Nothing at publication. |
 | [OpenHarness](2026-10-02-openharness.md) | The handoff schema in my own workspace gained four sections on 2026-10-02, the day of this reading. |
+| [Zenith](2026-10-03-zenith.md) | I ran Zenith's closing review against fifteen finished tasks in my own workspace before adopting it. |
 <!-- teardown-matrix:end -->
 
-Six readings, and no pattern is present in all six. Pure roles come closest, present in four subjects and partial in a fifth, and a cheap hook in the execution path is present in four of the five subjects where it was assessed. Five patterns are fully present in no subject, and they are the judgment and measurement patterns rather than the mechanical ones: the workspace audit, pointer memory, the held-out divergent lens, the delegation queue and lane pricing. Gated self-edits left that list with the sixth reading, where a person approves every lesson before it is taught. The three most recent subjects carry provenance on every claim and tier their gates by mechanical impact, and still have none of the five in full. The split that surprised most runs the other way. The dead man's switch, the cheapest control in the set, is absent from two of the three earlier subjects, and the third has written one and left it unscheduled, so a pattern that costs an afternoon is among the most often missing.
+Seven readings, and no pattern is present in all seven. Pure roles come closest, present in five subjects and partial in a sixth, and a cheap hook in the execution path is present in four of the six subjects where it was assessed. Four patterns are fully present in no subject, and they are judgment and measurement patterns rather than mechanical ones: the workspace audit, pointer memory, the held-out divergent lens and the delegation queue. Gated self-edits left that list with the sixth reading, where a person approves every lesson before it is taught, and lane pricing left it with the seventh, whose report prices every design it tests. DeepSeek Harness, GPT-RAG and OpenHarness carry provenance on every claim and tier their gates by mechanical impact, and still have none of the four in full. The split that surprised most runs the other way. The dead man's switch, the cheapest control in the set, is absent from the two earliest subjects and the newest, and LifeOS has written one and left it unscheduled, so a pattern that costs an afternoon is among the most often missing.
 
 ## Published
 
 | Date | Subject | Revision read |
 |---|---|---|
+| 2026-10-03 | [Zenith](2026-10-03-zenith.md) | `a8d9b5786f81` |
 | 2026-10-02 | [OpenHarness](2026-10-02-openharness.md) | `4dfcea3af13b` |
 | 2026-09-05 | [DeepSeek Harness](2026-09-05-deepseek-harness.md) | `d347e703908d` |
 | 2026-09-06 | [GPT-RAG](2026-09-06-azure-gpt-rag.md) | `76a8a4d6fd88` |
