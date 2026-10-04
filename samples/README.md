@@ -32,16 +32,16 @@ samples/
 │   │   ├── auto-format.py            # PostToolUse Edit/Write — formats the file just written, skips if no formatter
 │   │   └── session-start.py          # SessionStart — date, git state and the top of the task file into context
 │   │
-│   ├── skills/                       # 10 invokable workspace skills
+│   ├── skills/                       # 8 live workspace skills + 2 retired designs
 │   │   ├── orient/SKILL.md           # session-start briefing
 │   │   ├── wrap/SKILL.md             # task close-out ritual (updates registries)
 │   │   ├── tasks/SKILL.md            # task-queue readout
-│   │   ├── review-queue/SKILL.md     # drain the heartbeat's built-work review queue
+│   │   ├── review-queue/SKILL.md     # retired 2026-08 with the heartbeat whose review queue it drained
 │   │   ├── audit-workthrough/SKILL.md# drain the audit's pending-findings ledger
 │   │   ├── terse-mode/SKILL.md       # session-long output compression
 │   │   ├── verify-completion/SKILL.md
 │   │   ├── systematic-debugging/SKILL.md
-│   │   ├── goal-design/SKILL.md      # pre-flight interview → a checkable /goal artifact
+│   │   ├── goal-design/SKILL.md      # cut 2026-09-23 (never invoked); pre-flight interview → a checkable /goal artifact
 │   │   └── role-pressure-test/SKILL.md
 │   │
 │   ├── agents/                       # 4 workspace custom subagents
@@ -132,7 +132,7 @@ Follow [`ADOPTION.md`](../ADOPTION.md); the 5-step walkthrough maps these sample
 - Concrete project names substituted with placeholders (`<project>`, `example-project`).
 - Personal identifiers, emails, locations, vendor relationships generalised.
 - Data files (actual email rules, actual services registry, actual task content) are **not** shipped; only the schemas and code that consume them.
-- Some domain-flavoured content remains (Australian tax terms in `accountant.md`, Brisbane-shaped weather fetch in `morning-brief/SKILL.md`). Treat these as templates to localise.
+- Some domain-flavoured content remains (Australian tax terms in `accountant.md`, a local weather fetch in `morning-brief/SKILL.md`). Treat these as templates to localise.
 
 ## Adoption path
 

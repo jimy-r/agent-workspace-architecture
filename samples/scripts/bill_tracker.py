@@ -13,7 +13,7 @@ Inputs (bill JSON, produced by agent after Gmail extraction):
 }
 
 Outputs:
-  1. Row appended to <project-finance>/Results/bill_actuals_log.xlsx
+  1. Row appended to <project-finance>/Results/bill_log.xlsx
   2. Alert bullets appended to tasks/To Do Notes.md (## Finance & Admin), idempotent
 
 Four alert triggers (Q9 from plan):
@@ -44,7 +44,9 @@ from openpyxl import Workbook, load_workbook
 
 ROOT = Path(__file__).resolve().parent.parent
 REGISTRY_PATH = ROOT / "Reference" / "services-registry.md"
-ACTUALS_LOG_PATH = ROOT / "Personal" / "Accounts" / "Results" / "bill_actuals_log.xlsx"
+# Placeholder layout. Point this at your own finance project folder
+# (<project-finance> in the docstring above).
+ACTUALS_LOG_PATH = ROOT / "private" / "finance" / "Results" / "bill_log.xlsx"
 TODO_NOTES_PATH = ROOT / "tasks" / "To Do Notes.md"
 
 ACTUALS_HEADERS = [
