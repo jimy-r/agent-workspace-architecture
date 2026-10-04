@@ -14,8 +14,8 @@ authors:
 repository-code: "https://github.com/jimy-r/agent-workspace-architecture"
 url: "https://jimy-r.github.io/agent-workspace-architecture/"
 license: MIT
-version: "1.17.0"
-date-released: "2026-09-13"
+version: "1.19.0"
+date-released: "2026-10-04"
 keywords:
   - agent-workspace
   - ai-agents
