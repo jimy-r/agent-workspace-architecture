@@ -2,8 +2,13 @@
 
 Human-written record of notable changes — the *why* and the *shape*, not every merged PR. Milestone batches get a tagged release with short notes (from `v1.0.0`, 2026-06-11); entries are grouped by date, newest first. Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), adapted to a dated scheme. A date that carries a tagged release names the version in its heading, and that version links to the diff against the release before it, so anyone arriving from a release page can find the matching section. Dates without a version were merged between releases.
 
+## 2026-10-04 - [v1.18.0]
+
+- **A release for the sixth and seventh teardowns.** v1.18.0 tags the OpenHarness and Zenith readings, entered below under 2026-10-02 and 2026-10-03. It also carries every dated entry since v1.17.0, among them the corrections to the herdr, GPT-RAG and 12-Factor Agents pages, the META currency pass, the vendor details scrubbed from the sample scripts, the morning-brief sample moved to the approval-gated design, and role bindings that are rendered instead of included. Those entries sat without a tag for three weeks, the same gap the v1.17.0 entry recorded. The tag sits on the commit that merged the Zenith page, one commit before this heading, because a heading's compare link cannot resolve until its tag exists and the link check reads it on the pull request.
+
 ## 2026-10-03
 
+- **Seventh teardown: Zenith.** The page reads Intelligent Internet's mission harness and the report behind it. It credits a closing reviewer that is given only the original request and owns the stop decision in code, a rule that traces a failure to its earliest invalid artifact before any retry, and a playbook step that proves the checks can run before the build starts. Against those, the report's results are one run per design and task with no measure of spread, the reviewer's isolation rests on its prompt, a failed gate can be cleared by a `continue` decision, and nothing bounds a session's time or cost. The reading changed two things in the private workspace this repo mirrors, after its closing review was tested on fifteen finished tasks there. That review is now a trial on build, patch and prose tasks, where it confirmed two misses in five, and not on experiment tasks, where it found none in ten. Experiments now hash their analysis script and inputs before the first data run, a gap eight of the ten experiment reviewers found. The matching samples are not published yet. The cross-case matrix now covers seven readings, and lane pricing has its first full instance.
 - **The keep-alive, corrected where it was taught.** E1 priced the cache keep-alive at break-even, and the workspace cut it on 2026-09-28. Pattern 18, META's Token Budget row, the sample `CLAUDE.md` and the orient sample still recommended it. Pattern 18 now records it as tried and cut, with E1's numbers. The same change marks the cut `best-of-n` workflow and the retired `review-queue` and `goal-design` samples, which the README and the samples tree still listed as live.
 - **Experiment pages print their protocol hashes and link their protocols.** E2, E3, E5 and E6 give the sha256 saved before each first data run, and every page names its code and its model. E0a and E1 came before hashing began and say so. Each of the six pages now links a redacted copy of its registered protocol under `experiments/protocols/`. The hashes were taken over the private originals, so the redacted copies won't reproduce them, and each copy says what redaction changed.
 
@@ -266,6 +271,7 @@ Human-written record of notable changes — the *why* and the *shape*, not every
 
 *Last verified against the repo structure on **2026-06-10**.*
 
+[v1.18.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.17.0...v1.18.0
 [v1.17.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.16.0...v1.17.0
 [v1.16.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.15.0...v1.16.0
 [v1.15.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.14.0...v1.15.0
