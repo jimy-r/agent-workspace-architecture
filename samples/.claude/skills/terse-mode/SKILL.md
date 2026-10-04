@@ -1,6 +1,6 @@
 ---
 name: terse-mode
-description: Use when the user says "terse", "/terse", "terse mode", "compress output", or asks Claude to reduce verbosity for the remainder of the session. Stays active until the user says "verbose", "/verbose", or "normal mode".
+description: Use when the user says "terse", "/terse-mode", "terse mode", "compress output", or asks Claude to reduce verbosity for the remainder of the session. Stays active until the user says "verbose" or "normal mode".
 ---
 
 ## Purpose
@@ -37,7 +37,7 @@ When terse-mode is active:
 
 ## How to release
 
-When the user says "verbose", "/verbose", "normal mode", or "full detail", resume default response length. Acknowledge the switch in one line.
+When the user says "verbose", "normal mode", or "full detail", resume default response length. Acknowledge the switch in one line.
 
 ## What terse is NOT
 

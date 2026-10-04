@@ -4,6 +4,33 @@ The architectural decisions behind this workspace, stated as patterns: the probl
 
 Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) is the *what* (the structural map), and [ADOPTION.md](ADOPTION.md) is the *how* (where to start). Each pattern ends with a pointer to the sample files that implement it, so every claim here is inspectable.
 
+## Index
+
+Each pattern keeps a short anchor, `PATTERNS.md#p<N>`, so a link survives a retitle.
+
+| # | Pattern |
+|---|---|
+| 1 | [Pure roles, composed with project facts](#p1) |
+| 2 | [Classify-then-act, not ask-then-wait](#p2) |
+| 3 | [Make silent failure loud (the dead-man's switch)](#p3) |
+| 4 | [Tier by mechanical impact, not by tone](#p4) |
+| 5 | [Memory points, it doesn't mirror](#p5) |
+| 6 | [Credentials live in one place, never in files](#p6) |
+| 7 | [A cheap hook beats a careful agent](#p7) |
+| 8 | [Audit the workspace like a fitness function](#p8) |
+| 9 | [Context is a budget, not a constant](#p9) |
+| 10 | [A skill is editable weights — never adopt a self-edit without a gate](#p10) |
+| 11 | [A scaffold is a hypothesis — gate it behind a measurable signal](#p11) |
+| 12 | [Loop selection: not everything should be a loop](#p12) |
+| 13 | [Challenge half-formed ideas with a different lens](#p13) |
+| 14 | [Delegation is a queue you fill, not work the agent finds](#p14) |
+| 15 | [Price the lane before you migrate it](#p15) |
+| 16 | [A claim carries its provenance, or it is a guess](#p16) |
+| 17 | [One canonical copy, and pointers from everywhere else](#p17) |
+| 18 | [Position is price — a token costs more the earlier you add it](#p18) |
+
+<a id="p1"></a>
+
 ## 1. Pure roles, composed with project facts
 
 **Problem.** Run security review across five projects and you end up with five near-identical 500-line prompts that drift apart the moment one is edited.
@@ -16,7 +43,11 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** [`samples/roles/`](samples/roles/) (18 roles + the template) and [`samples/example-project/`](samples/example-project/) (a binding composing role + context).
 
+<a id="p2"></a>
+
 ## 2. Classify-then-act, not ask-then-wait
+
+**Status: superseded, August 2026.** The two-hourly agent that ran this loop was retired, and [Pattern 14](#14-delegation-is-a-queue-you-fill-not-work-the-agent-finds) replaced it as this workspace's way of handing work to an agent. The classification below still holds wherever the mandate is already unambiguous. Discovery is the half that failed, and Pattern 14 says why.
 
 **Problem.** An autonomous background agent has two failure modes: it nags for input on everything, or it acts confidently on tasks it doesn't understand.
 
@@ -27,6 +58,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 **Cost.** A sandbox, a review queue, and a rejection history to maintain. The agent does speculative work that sometimes gets discarded.
 
 **Where it lives:** [`samples/scripts/heartbeat/classify_task.py`](samples/scripts/heartbeat/classify_task.py) and [`samples/tasks/HEARTBEAT.md`](samples/tasks/HEARTBEAT.md).
+
+<a id="p3"></a>
 
 ## 3. Make silent failure loud (the dead-man's switch)
 
@@ -40,6 +73,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** [`samples/scripts/security/check_task_freshness.py`](samples/scripts/security/check_task_freshness.py).
 
+<a id="p4"></a>
+
 ## 4. Tier by mechanical impact, not by tone
 
 **Problem.** A system that auto-applies its own findings needs a line between "apply automatically" and "ask a human first." Drawing that line from how confident a finding *sounds* is a trap.
@@ -51,6 +86,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 **Cost.** An explicit impact table, kept current as new action types appear.
 
 **Where it lives:** [`samples/.claude/agents/audit.md`](samples/.claude/agents/audit.md) (the tier-classification table).
+
+<a id="p5"></a>
 
 ## 5. Memory points, it doesn't mirror
 
@@ -64,6 +101,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** [`samples/.claude/scheduled-tasks/consolidate-memory/SKILL.md`](samples/.claude/scheduled-tasks/consolidate-memory/SKILL.md) and [`samples/scripts/memory_lint.py`](samples/scripts/memory_lint.py).
 
+<a id="p6"></a>
+
 ## 6. Credentials live in one place, never in files
 
 **Problem.** A secret written to a file leaks: into git history, into a backup, into an agent's context window, into a screenshot.
@@ -75,6 +114,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 **Cost.** A runtime lookup step, and the discipline to refuse the convenient shortcut.
 
 **Where it lives:** [`samples/scripts/backup-restic.ps1`](samples/scripts/backup-restic.ps1) (runtime resolution + scrub) and [`samples/scripts/send_self_email.py`](samples/scripts/send_self_email.py) (the one narrow, audited exception).
+
+<a id="p7"></a>
 
 ## 7. A cheap hook beats a careful agent
 
@@ -88,6 +129,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** [`samples/scripts/security/check_bash_command.py`](samples/scripts/security/check_bash_command.py) and the hook config in [`samples/.claude/settings.example.json`](samples/.claude/settings.example.json).
 
+<a id="p8"></a>
+
 ## 8. Audit the workspace like a fitness function
 
 **Problem.** A workspace degrades while the ecosystem around it improves. Context bloats, configs drift, a hook stops firing, memory contradicts reality, better patterns ship every week — and nobody's job is to notice either direction.
@@ -99,6 +142,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 **Cost.** The audit is itself a system to maintain, and it can cry wolf, so findings are tiered and tracked rather than dumped raw into the queue.
 
 **Where it lives:** [`samples/.claude/agents/audit.md`](samples/.claude/agents/audit.md) and [`samples/tests/audit_canaries/`](samples/tests/audit_canaries/).
+
+<a id="p9"></a>
 
 ## 9. Context is a budget, not a constant
 
@@ -112,6 +157,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** [`samples/scripts/ghost_token_counter.py`](samples/scripts/ghost_token_counter.py) (the per-source baseline) and [`samples/scripts/token_report.py`](samples/scripts/token_report.py) (spend telemetry feeding the audit's trend rule).
 
+<a id="p10"></a>
+
 ## 10. A skill is editable weights — never adopt a self-edit without a gate
 
 **Problem.** Instruction files are the part of the system that most invites quiet self-improvement. A `CLAUDE.md` or a skill doc is plain text the agent can rewrite, and an agent that watches its own transcripts can propose better wording every day. Let that loop close on itself and you have a system editing its own controlling instructions with nobody checking whether each edit actually helped.
@@ -123,6 +170,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 **Cost.** The gate is the slow part. A human in the staging loop means instruction improvements land in days, not seconds, and the speculative work behind a rejected edit is thrown away. That latency is the price of never waking up to a controlling file that an unsupervised loop quietly rewrote.
 
 **Where it lives:** [`samples/tasks/HEARTBEAT.md`](samples/tasks/HEARTBEAT.md) (classify → sandbox → stage → review → adopt) and [`samples/.claude/scheduled-tasks/consolidate-memory/SKILL.md`](samples/.claude/scheduled-tasks/consolidate-memory/SKILL.md) (four-operation write discipline). SkillOpt itself is credited in [ATTRIBUTION.md](ATTRIBUTION.md).
+
+<a id="p11"></a>
 
 ## 11. A scaffold is a hypothesis — gate it behind a measurable signal
 
@@ -136,6 +185,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** the same fitness-function machinery as [`samples/.claude/agents/audit.md`](samples/.claude/agents/audit.md) (Pattern 8). The reasoning-regression suite runs on the audit's cadence and reports like its other coded checks, and it is the measurement-gated cousin of the self-edit gate in Pattern 10: a correctness signal certifying a *scaffold* the way a human gate certifies a *self-edit*.
 
+<a id="p12"></a>
+
 ## 12. Loop selection: not everything should be a loop
 
 **Problem.** Give an agent real capability and the tempting response is to automate everything: put a loop on every recurring task, "remove yourself as the bottleneck." But most real work is judgment-heavy, irreversible, or unverifiable. Loop the judgment work and you remove the value (the judgment was the point). Loop the irreversible work and you ship damage unattended. Autonomy gets treated as a pure good, and the question of *which* tasks earn it never gets asked.
@@ -148,17 +199,23 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** [`samples/scripts/wrap_drift_scan.py`](samples/scripts/wrap_drift_scan.py) (the read-only close-out surfacing scan — the worked *surface* case).
 
-## 13. Challenge half-formed ideas with a different lens — and hold a sample back to prove it helps
+<a id="p13"></a>
 
-**Problem.** Every tool that critiques an agent's work assumes a finished artifact: a draft to red-team, a decision to rank, a result to verify. None help during the messy part, where you're exploring a design or framing a problem and nothing is built yet and no test exists to check against. The tempting fix is to bolt a second agent onto the thinking itself and let it challenge every idea as it forms, always on, in the background. Two traps spring at once. The challenge is usually the same model re-reading its own frame, which rationalizes more than it challenges and can degrade the answer while burning tokens. And once it runs on everything, you have lost the one thing that would prove it helps: a comparison against not running it.
+## 13. Challenge half-formed ideas with a different lens
 
-**Pattern.** Make it a single *divergent* lens rather than a debate, and hold a sample back so you can still measure it. When a real fork appears in open-ended thinking, fire one challenge from a deliberately different frame: the strongest objection to this direction, the assumption being baked in, the option not being considered. Ground it in a stated criterion, a retrieved fact, or a checkpoint with the human, who stays the arbiter. It widens the option set; it never argues toward a winner. Then the measurement move: roll on each eligible fork and deliberately skip the challenge on a fraction (say one in three), logging both the fired and held-out forks. The human tags each fired challenge as changed-the-call, real-but-didn't, or noise. At review the noise rate and the fired-versus-held-out comparison say whether it earns its place; a noise-dominant result cuts it.
+**Problem.** Every tool that critiques an agent's work assumes a finished artifact: a draft to red-team, a decision to rank, a result to verify. None help during the messy part, where you're exploring a design or framing a problem and nothing is built yet and no test exists to check against. The tempting fix is to bolt a second agent onto the thinking itself and let it challenge every idea as it forms, always on, in the background. Two traps spring at once. The challenge is usually the same model re-reading its own frame, which rationalizes more than it challenges and can degrade the answer while burning tokens. And once it runs on everything, there is no untouched case left to compare it with, so whether it helps has to be shown some other way.
 
-**Why this beats the obvious.** The obvious move is two agents bouncing an idea back and forth until something better falls out, and the evidence is hostile to exactly that shape: same-model same-prompt debate loses to plain majority voting at equal compute, ungrounded self-critique with no external signal typically fails to help and often degrades, and *assigned* devil's advocacy is reliably weaker than dissent that carries real information, a finding that predates LLMs by decades in the group-decision literature. What survives is the narrow form: a different lens not a louder echo, aimed at divergence not convergence, grounded not assertion-trading. The measurement is not optional either. An always-on aid is unmeasurable by construction: if it fires on everything, every decision got it, and you never see the one without it. Holding out a sample keeps the counterfactual alive, the same instinct as a control group applied to a behavioral aid in production.
+**Pattern.** Make it a single *divergent* lens rather than a debate. When a real fork appears in open-ended thinking, fire one challenge from a deliberately different frame: the strongest objection to this direction, the assumption being baked in, the option not being considered. Ground it in a stated criterion, a retrieved fact, or a checkpoint with the human, who stays the arbiter. It widens the option set and never argues toward a winner. Every firing is logged, and the human tags each one as changed-the-call, considered (new to them, weighed and set aside) or noise. The kill thresholds are set before the review, one on the share that changed the call and one on the share that was noise.
 
-**Cost.** A behavioral trigger that depends on the agent actually firing it, since no hook can detect "this is a real fork," so adherence has to be watched (the log's own fire count doubles as that watch). The held-out sample means deliberately skipping the aid on work it might have improved, to buy the ability to measure at all. And a tagging step for the human on each firing, the only honest source of the verdict, because a model grading its own challenges inherits a measured self-preference bias.
+**Tried and dropped: a held-out sample.** From 2026-06-25 the lens also rolled on every eligible fork and skipped the challenge on about one in three, so fired forks could be compared with untouched ones. The first scaffold review dropped the hold-out on 2026-09-23. By then 85 forks had fired and 42 had been held out, and the comparison had never been run, because a held-out fork was logged with no outcome. Nothing recorded whether its decision held, was revisited or was reversed. So the hold-out withheld a third of the challenges to feed a number nobody could compute. The same review found the middle tag had turned into a catch-all, which made a zero noise rate automatic, and the tag definitions were sharpened. A held-out sample is still the right move wherever the untouched outcome can be recorded. This log couldn't record it.
 
-**Where it lives:** [`samples/scripts/ideation_spar_log.py`](samples/scripts/ideation_spar_log.py), the roll / hold-out / log / report engine that keeps an always-on-feeling aid measurable. It is the production-side cousin of the offline golden set in Pattern 11: there a held-out *case set* certifies a scaffold; here a held-out *slice of live firings* certifies a behavioral aid that has no offline test.
+**Why this beats the obvious.** The obvious move is two agents bouncing an idea back and forth until something better falls out, and the evidence is hostile to exactly that shape: same-model same-prompt debate loses to plain majority voting at equal compute, ungrounded self-critique with no external signal typically fails to help and often degrades, and *assigned* devil's advocacy is reliably weaker than dissent that carries real information, a finding that predates LLMs by decades in the group-decision literature. What survives is the narrow form: a different lens not a louder echo, aimed at divergence not convergence, grounded not assertion-trading. It still has to earn its place. An aid that fires on every fork leaves nothing to compare against, so the evidence is the human's tag on each firing, read against thresholds fixed in advance.
+
+**Cost.** A behavioral trigger that depends on the agent actually firing it, since no hook can detect "this is a real fork," so adherence has to be watched (the log's own fire count doubles as that watch). A tagging step for the human on each firing, the only honest source of the verdict, because a model grading its own challenges inherits a measured self-preference bias. And tag definitions sharp enough that a weak challenge can fail them, or the measurement goes soft without anyone noticing.
+
+**Where it lives:** [`samples/scripts/ideation_spar_log.py`](samples/scripts/ideation_spar_log.py), the log and report engine. Its `roll` subcommand, which drew the held-out sample, is retired and exits with a pointer to the reason. Pattern 11 certifies a scaffold offline against a held-out *case set*. This pattern is its live counterpart, certified by the human's tag on each firing.
+
+<a id="p14"></a>
 
 ## 14. Delegation is a queue you fill, not work the agent finds
 
@@ -172,6 +229,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** [`samples/board/agent-queue.SKILL.example.md`](samples/board/agent-queue.SKILL.example.md) (the intake interview and the drain protocol it feeds), with the card schema and the succession reasoning in [`samples/board/README.md`](samples/board/README.md). Pattern 2 is the predecessor it replaced; the classification logic there holds wherever the mandate is already unambiguous, and discovery is the half that failed.
 
+<a id="p15"></a>
+
 ## 15. Price the lane before you migrate it
 
 **Problem.** Token consumption climbs even after efficiency work, because every saving gets reinvested in more agent work — Jevons, applied to your own subscription. At the ceiling, the instinctive fix is structural: migrate the execution tier to cheaper open-weight models, buy a GPU, stand up a second inference stack. Plans of that shape are expensive to be wrong about, and the headline per-token price lists that motivate them hide everything that decides the outcome.
@@ -183,6 +242,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 **Cost.** The instrument itself, and the honesty it demands: a rework marker convention that only works if every escalation is recorded, a baseline that must be re-verified rather than remembered, and one-variable-at-a-time patience, which means the full ladder takes weeks. The meter that proves the upgrade worked is the same meter that will prove it didn't.
 
 **Where it lives:** [`samples/scripts/tier_metrics.py`](samples/scripts/tier_metrics.py) (the lane-split instrument with its four advisory checks and selftest), consumed by the audit's checks-as-code the same way as the Pattern 11 machinery. Pattern 9 is the parent instinct (context as a budget) applied here to the model ladder; Pattern 11 supplies the trial discipline: falsifiable hypothesis, review date, kill criterion.
+
+<a id="p16"></a>
 
 ## 16. A claim carries its provenance, or it is a guess
 
@@ -208,6 +269,8 @@ The pattern also fails usefully. When a claim turns out wrong, the grade shows w
 
 **Boundary with its neighbours.** Pattern 5 governs what memory *stores*; this governs what an assertion *carries at the moment it is made*. Pattern 8 measures whether the workspace is drifting; this makes a single claim auditable without measuring anything. The three are separable: a workspace can store pointers faithfully, audit itself weekly, and still hand you a confident sentence with nothing behind it.
 
+<a id="p17"></a>
+
 ## 17. One canonical copy, and pointers from everywhere else
 
 **Problem.** The same rule ends up written in three places: the user-global instructions, the workspace instructions, and a project file. All three were correct on the day they were written. Then one gets edited. Now an agent loading all three reads two versions of the rule and silently picks one, and a reader checking the project file gets an answer that the workspace file contradicts. Nobody notices, because each copy looks authoritative on its own. Duplication does not announce itself as duplication; it announces itself as a wrong answer, months later, with no obvious cause.
@@ -226,17 +289,19 @@ This workspace's own instructions carry a worked instance, left in place deliber
 
 **Where it lives:** [`samples/scripts/claudemd_audit.py`](samples/scripts/claudemd_audit.py) inventories every always-loaded instruction file and flags size, staleness, broken imports, and boilerplate duplicated across files. Pattern 5 is the same instinct applied to memory; this is it applied to instructions, which are loaded on every session and so cost on every session.
 
+<a id="p18"></a>
+
 ## 18. Position is price — a token costs more the earlier you add it
 
 **Problem.** A team optimising context cost measures how *large* the context is and stops there. But the model API is stateless: the entire running transcript is re-sent on every inference step, and an agentic turn is not one message but a chain of them — every tool call, every file read, every edit is a step that carries the whole history back. A long session re-reads its context not once but hundreds of times, so the real cost of a token is its size times the number of steps left after it arrives. A large read at the start is paid on nearly every step that follows; the same read near the end is paid a handful of times. Prompt caching discounts the repeated prefix, often by an order of magnitude, but a tenth of a cost paid hundreds of times is still the largest line on the bill, and the discount does not stop the re-read from happening. Size is the factor everyone watches. Position and step-count are the factors that multiply it.
 
-**Pattern.** Treat context as rent paid per step, and manage both multipliers instead of only the size. *Read somewhere else:* bulk or exploratory reading goes to a subagent whose context is a separate transcript, returning a short summary so the detail never enters the caller — and give that subagent a return budget, writing detail to a file and returning a summary plus the path, because a long report pasted back is re-read for the rest of the session. *Read narrower, and later:* prefer a ranged read to a whole-file read, and defer a necessary large read to the step that needs it, since the same bytes cost a fraction when fewer steps remain to re-pay them. *Cut the steps:* batch independent tool calls into one step — five sequential reads are five full context re-reads, the same five issued together are one — and sequence only when a later call truly depends on an earlier result. *Mind the cache clock:* a cache re-write bills the whole context at a premium, and the events that force one are resuming after an idle gap longer than the cache lifetime, switching model mid-session, and compaction. Editing a standing instruction or memory file is not one of them, because the loaded copy is captured at session start and never re-sent (measured 2026-09-02 on a 199-step session: three such edits at 168k–397k context were followed by fully cached steps, while nine post-gap resumes and one model switch made up about 76% of the session's cache-write tokens, and every re-write cause together about 82%, the figure this page gave for the two alone until 2026-09-25). So wrap and clear before any break that will outlive the cache, and change models only in a fresh session. *Keep the cache warm across a break:* on a model whose cache reads are priced far below its writes, a no-op turn shortly before the entry would expire refreshes it for a small fraction of a re-write (about 1/80th where reads are 0.025x and one-hour writes 2x), so a session that will resume the same task within a couple of days is cheaper kept warm than re-written. Arm it at session start with a self-paced wakeup that stops itself at the crossover, so an abandoned session cannot ping forever, and let wrap-and-clear stay the answer for a pivot. *Compact on purpose:* once carry cost is measurable, compaction is a cost tool and not only hygiene, shortening the prefix that every remaining step re-reads — paired with a pre-compaction dump so the summary loss is safe.
+**Pattern.** Treat context as rent paid per step, and manage both multipliers instead of only the size. *Read somewhere else:* bulk or exploratory reading goes to a subagent whose context is a separate transcript, returning a short summary so the detail never enters the caller — and give that subagent a return budget, writing detail to a file and returning a summary plus the path, because a long report pasted back is re-read for the rest of the session. *Read narrower, and later:* prefer a ranged read to a whole-file read, and defer a necessary large read to the step that needs it, since the same bytes cost a fraction when fewer steps remain to re-pay them. *Cut the steps:* batch independent tool calls into one step — five sequential reads are five full context re-reads, the same five issued together are one — and sequence only when a later call truly depends on an earlier result. *Mind the cache clock:* a cache re-write bills the whole context at a premium, and the events that force one are resuming after an idle gap longer than the cache lifetime, switching model mid-session, and compaction. Editing a standing instruction or memory file is not one of them, because the loaded copy is captured at session start and never re-sent (measured 2026-09-02 on a 199-step session: three such edits at 168k–397k context were followed by fully cached steps, while nine post-gap resumes and one model switch made up about 76% of the session's cache-write tokens, and every re-write cause together about 82%, the figure this page gave for the two alone until 2026-09-25). So wrap and clear before any break that will outlive the cache, and change models only in a fresh session. *Keeping the cache warm was tried and cut:* a no-op turn shortly before the entry would expire refreshes it for about 1/80th of a re-write where reads are 0.025x and one-hour writes 2x, so the workspace armed one every 50 minutes from 2026-09-08. Priced over every session that ran it, the pings cost $105.83 and avoided $105.56 of re-writes, because in 52 of 102 runs the user came back inside the hour and the cache would have lived anyway ([E1](experiments/E1-cache-economics.md)). The loop was removed on 2026-09-28, and wrap-and-clear is again the answer for any break. *Compact on purpose:* once carry cost is measurable, compaction is a cost tool and not only hygiene, shortening the prefix that every remaining step re-reads — paired with a pre-compaction dump so the summary loss is safe.
 
 **Why this beats the obvious.** The obvious move is "use less context," which collapses to reading less, and reading less makes the agent dumber. These levers spend the same information for less by changing *where* and *when* it is paid, not *whether* it is available: the subagent still reads the files, the ranged read still finds the fact, the deferred read still happens. Nothing is surrendered except the position that made it expensive. The insight is only actionable once measured, though — "read earlier costs more" is a hunch until an instrument reads per-step usage out of the transcript and shows a single early bulk read dominating a whole session's re-read volume while the same read late would have cost a sliver. Build the meter before trusting the intuition; the meter is what tells you which read to move.
 
 **Cost.** Every lever trades something. A subagent summary loses detail the caller might later want, which is why the return budget pairs with write-to-file rather than replacing it. Batching independent calls removes the chance to reason between them. Aggressive compaction can drop load-bearing state, so it needs the state-dump guard. And the discipline presupposes an instrument that parses per-turn usage — one more read-only tool to maintain. The failure mode to refuse is letting the cost lens override the quality one: the cheapest session is the one that read nothing and answered badly, and no token saved is worth an adversarial review skipped.
 
-**Where it lives:** [`samples/CLAUDE.md.example`](samples/CLAUDE.md.example) carries the read-in-subagent, ranged-read, batch-calls, mind-the-cache-clock, and compact-on-purpose rules as a standing directive; [`samples/scripts/cache_write_scan.py`](samples/scripts/cache_write_scan.py) attributes a transcript's cache writes to idle gaps, model switches, compaction or standing-file edits so the claim can be re-tested on any session; [`samples/.claude/skills/orient/SKILL.md`](samples/.claude/skills/orient/SKILL.md) step 4 arms the keep-alive at session start. Pattern 9 frames context as a budget; this prices that budget by position and step-count. The close-out ritual is this pattern's worst case, a twenty-step procedure run at the session's peak; [`samples/.claude/skills/wrap/SKILL.md`](samples/.claude/skills/wrap/SKILL.md) splits it so the main thread composes a brief and reviews the result while an execution-tier subagent does the reads and edits at a small context (measured before the split: 9–22% of a session's cache reads).
+**Where it lives:** [`samples/CLAUDE.md.example`](samples/CLAUDE.md.example) carries the read-in-subagent, ranged-read, batch-calls, mind-the-cache-clock, and compact-on-purpose rules as a standing directive; [`samples/scripts/cache_write_scan.py`](samples/scripts/cache_write_scan.py) attributes a transcript's cache writes to idle gaps, model switches, compaction or standing-file edits so the claim can be re-tested on any session; [`experiments/E1-cache-economics.md`](experiments/E1-cache-economics.md) prices the keep-alive this pattern used to recommend and records why it was cut. Pattern 9 frames context as a budget; this prices that budget by position and step-count. The close-out ritual is this pattern's worst case, a twenty-step procedure run at the session's peak; [`samples/.claude/skills/wrap/SKILL.md`](samples/.claude/skills/wrap/SKILL.md) splits it so the main thread composes a brief and reviews the result while an execution-tier subagent does the reads and edits at a small context (measured before the split: 9–22% of a session's cache reads).
 
 **Boundary with its neighbours.** Pattern 9 says context is finite and must be spent deliberately; this says the *same* token costs differently by when in the session it is spent, a claim about price rather than quantity. Reading in a subagent to keep the caller clean is one lever here, not the whole pattern. And Pattern 8's audit instinct supplies the meter: position cost you cannot see is position cost you cannot manage.
 
