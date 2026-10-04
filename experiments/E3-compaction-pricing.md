@@ -86,7 +86,7 @@ One transcript turned out to be a copy of another session and was left out. With
 
 Nothing. The automatic compaction point is unchanged, and this result is the evidence its next review reads.
 
-In this repo, [Pattern 18](../PATTERNS.md#18-position-is-price--a-token-costs-more-the-earlier-you-add-it) lists compacting on purpose as a cost lever. In this sample, earlier compaction cut tokens by up to 42.1% at the median and dollars by at most 7.1%. [E1](E1-cache-economics.md) found the same gap between token share and dollar share on the main thread as a whole.
+In this repo, [Pattern 18](../PATTERNS.md#p18) lists compacting on purpose as a cost lever. In this sample, earlier compaction cut tokens by up to 42.1% at the median and dollars by at most 7.1%. [E1](E1-cache-economics.md) found the same gap between token share and dollar share on the main thread as a whole.
 
 ---
 

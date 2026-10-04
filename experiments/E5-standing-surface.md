@@ -14,7 +14,7 @@
 
 Every session opens on a floor of standing text. The project and user-level instruction files load every time, along with the memory index, the rules that aren't path-scoped and one description line per skill. The measured median floor at a session's first turn is 84,600 tokens, and two kinds of subagent load the workspace's text again at every spawn.
 
-[Pattern 9](../PATTERNS.md#9-context-is-a-budget-not-a-constant) treats this surface as a budget. E5 asked how much of the workspace's own part could move into files the agent opens when it needs them, and whether the rules that moved would still fire.
+[Pattern 9](../PATTERNS.md#p9) treats this surface as a budget. E5 asked how much of the workspace's own part could move into files the agent opens when it needs them, and whether the rules that moved would still fire.
 
 ## Hypotheses
 
@@ -36,7 +36,7 @@ W is the sum of the five components in the first results table, each read from d
 
 Counts are characters divided by four, because the tokeniser library wasn't installed. A factor of 1.33 scales them to tokens. It is calibrated against the harness's own count for the category that holds the instruction files, memory index and rules.
 
-The lean variant moves rationale, dated amendment history and worked cases into files read on demand. It trims memory-index pointers back to their recall triggers, and it drops text that another always-loaded source already carries ([Pattern 17](../PATTERNS.md#17-one-canonical-copy-and-pointers-from-everywhere-else)). Every rule keeps its operative sentence inline, and every Iron Law, hard gate and credential rule stays inline. Moved text lands verbatim, so the variant relocates text and deletes none.
+The lean variant moves rationale, dated amendment history and worked cases into files read on demand. It trims memory-index pointers back to their recall triggers, and it drops text that another always-loaded source already carries ([Pattern 17](../PATTERNS.md#p17)). Every rule keeps its operative sentence inline, and every Iron Law, hard gate and credential rule stays inline. Moved text lands verbatim, so the variant relocates text and deletes none.
 
 Two checks hold it to that. Before the variant was written, every line carrying an Iron Law, a hard gate or a credential rule got a key phrase or a stated exemption, and the variant passes only if each phrase appears verbatim in the lean always-loaded text. A no-loss check then confirms that every current line lands in the lean text or in an on-demand file.
 

@@ -12,7 +12,7 @@
 
 ## Why it ran
 
-[Orient](../samples/.claude/skills/orient/SKILL.md) is the first act of most sessions, and every token it reads is carried for the rest of the session ([Pattern 18](../PATTERNS.md#18-position-is-price--a-token-costs-more-the-earlier-you-add-it)). In the session that scoped this program, orient's reads grew the context by 41,617 tokens. The briefing it writes from them runs under 300 words.
+[Orient](../samples/.claude/skills/orient/SKILL.md) is the first act of most sessions, and every token it reads is carried for the rest of the session ([Pattern 18](../PATTERNS.md#p18)). In the session that scoped this program, orient's reads grew the context by 41,617 tokens. The briefing it writes from them runs under 300 words.
 
 A script can pick out the live state (unchecked items, open questions, alarms and counts) and print only that. E6 built one and measured it against the reads it would replace.
 

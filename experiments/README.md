@@ -27,7 +27,7 @@ Numbers missing from the table belong to experiments that are registered but hav
 
 ## Where the results meet the patterns
 
-Two results bear on [Pattern 18](../PATTERNS.md#18-position-is-price--a-token-costs-more-the-earlier-you-add-it) as published. E1 found that cache writes, at 61.9% of main-thread dollars, are the largest cost on the bill, and that the keep-alive pings the pattern then recommended broke even against the rewrites they avoided. E3 found that compacting earlier cut tokens far more than dollars. Each page names the sentence it bears on.
+Two results bear on [Pattern 18](../PATTERNS.md#p18) as published. E1 found that cache writes, at 61.9% of main-thread dollars, are the largest cost on the bill, and that the keep-alive pings the pattern then recommended broke even against the rewrites they avoided. E3 found that compacting earlier cut tokens far more than dollars. Each page names the sentence it bears on.
 
 ---
 

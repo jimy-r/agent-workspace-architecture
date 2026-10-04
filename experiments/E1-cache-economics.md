@@ -120,7 +120,7 @@ The lifetime repricing has its own error. Where it should match the actual cost,
 
 On 2026-09-28, on the H2 result, the workspace deleted the keep-alive step from its orient skill. In 52 of the 102 closed ping runs the user was back inside the hour, so those pings kept alive a cache that would not have expired. Both cache lifetimes stayed as they were, since H3 recommended no change.
 
-This repo followed in the change that published this page. [Pattern 18](../PATTERNS.md#18-position-is-price--a-token-costs-more-the-earlier-you-add-it) now records the pings as tried and cut, and the [orient sample](../samples/.claude/skills/orient/SKILL.md) no longer arms the pings measured here. Pattern 18 also says the discounted reread remains the largest line on the bill. Priced per request in this workspace's main thread, cache reads came second to cache writes, at 23.6% of dollars against 61.9%.
+This repo followed in the change that published this page. [Pattern 18](../PATTERNS.md#p18) now records the pings as tried and cut, and the [orient sample](../samples/.claude/skills/orient/SKILL.md) no longer arms the pings measured here. Pattern 18 also says the discounted reread remains the largest line on the bill. Priced per request in this workspace's main thread, cache reads came second to cache writes, at 23.6% of dollars against 61.9%.
 
 ---
 
