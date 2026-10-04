@@ -8,8 +8,8 @@ Neither fact argues for reading less. Reading less makes the agent dumber, which
 
 ## The patterns
 
-- [**Pattern 9. Context is a budget, not a constant**](../PATTERNS.md#9-context-is-a-budget-not-a-constant) — meter the always-loaded surface per source with history, alarm on trend, cap unattended runs with belts sized 10–50x normal.
-- [**Pattern 18. Position is price**](../PATTERNS.md#18-position-is-price--a-token-costs-more-the-earlier-you-add-it) — bulk reading goes to a subagent whose transcript is separate; ranged reads beat whole-file reads; defer big reads to the step that needs them; batch independent tool calls into one step.
+- [**Pattern 9. Context is a budget, not a constant**](../PATTERNS.md#p9) — meter the always-loaded surface per source with history, alarm on trend, cap unattended runs with belts sized 10–50x normal.
+- [**Pattern 18. Position is price**](../PATTERNS.md#p18) — bulk reading goes to a subagent whose transcript is separate; ranged reads beat whole-file reads; defer big reads to the step that needs them; batch independent tool calls into one step.
 
 ## Do this
 

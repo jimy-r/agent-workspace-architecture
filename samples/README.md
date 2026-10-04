@@ -132,7 +132,7 @@ Follow [`ADOPTION.md`](../ADOPTION.md); the 5-step walkthrough maps these sample
 - Concrete project names substituted with placeholders (`<project>`, `example-project`).
 - Personal identifiers, emails, locations, vendor relationships generalised.
 - Data files (actual email rules, actual services registry, actual task content) are **not** shipped; only the schemas and code that consume them.
-- Some domain-flavoured content remains (Australian tax terms in `accountant.md`, Brisbane-shaped weather fetch in `morning-brief/SKILL.md`). Treat these as templates to localise.
+- Some domain-flavoured content remains (Australian tax terms in `accountant.md`, a local weather fetch in `morning-brief/SKILL.md`). Treat these as templates to localise.
 
 ## Adoption path
 

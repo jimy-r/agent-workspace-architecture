@@ -8,8 +8,8 @@ The cost half is the same instinct pointed at spend. Before any structural cost 
 
 ## The patterns
 
-- [**Pattern 3. Make silent failure loud (the dead-man's switch)**](../PATTERNS.md#3-make-silent-failure-loud-the-dead-mans-switch) — every scheduled task emits a success sentinel; a watchdog raises a finding when the sentinel is missing or stale. Self-hosted, no uptime service.
-- [**Pattern 15. Price the lane before you migrate it**](../PATTERNS.md#15-price-the-lane-before-you-migrate-it) — walk the transcripts before believing any per-token price list; run each cost lever as a registered trial with a kill criterion.
+- [**Pattern 3. Make silent failure loud (the dead-man's switch)**](../PATTERNS.md#p3) — every scheduled task emits a success sentinel; a watchdog raises a finding when the sentinel is missing or stale. Self-hosted, no uptime service.
+- [**Pattern 15. Price the lane before you migrate it**](../PATTERNS.md#p15) — walk the transcripts before believing any per-token price list; run each cost lever as a registered trial with a kill criterion.
 
 Cross-reference: the always-loaded baseline and its trend alarm live in [M2](02-context-economics.md) (Pattern 9).
 

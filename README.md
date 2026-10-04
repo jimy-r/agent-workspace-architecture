@@ -43,7 +43,7 @@ Each check names the pattern it comes from, so a `[FAIL]` is a link into [PATTER
 
 The example runs in [Claude Code](https://claude.com/claude-code), so the file conventions you'll see (`CLAUDE.md`, `.claude/skills/`, MCP config) are Claude-Code-specific. The architecture is not. The roles library, memory hygiene, audit cadence, explicit-delegation task board, dead-man's switch, and tier-by-impact gating port to Cursor, Cline, Continue, Windsurf, or a custom Agent-SDK build. Pick your runtime; the decisions translate.
 
-This is one person's actual setup, redacted and published as a reference. Not a framework, not a product. A documented working arrangement of the pieces Claude Code already gives you, with the reasoning attached. It is also the reference version of the agent-ready memory layer I build for organisations, running at one-person scale.
+This is one person's actual setup, redacted and published as a reference. Not a framework, not a product. A documented working arrangement of the pieces Claude Code already gives you, with the reasoning attached. It is also the reference version of the [agent-ready knowledge architecture I build for organisations](https://jamesross.ai/?utm_source=github&utm_medium=readme&utm_campaign=flagship), running at one-person scale.
 
 The scale is real: 18 expert roles, 18 load-bearing patterns, an explicit-delegation task board that succeeded a retired 2-hourly heartbeat, a weekly self-audit with synthetic canaries, a dead-man's switch over scheduled jobs, and typed memory that points at sources instead of copying them — all of it running in one person's daily workspace.
 
@@ -92,7 +92,7 @@ James Ross. I work as an AI Knowledge Architect; the practice is **Agent-Ready K
 
 ## Using it
 
-Fork freely ([MIT](LICENSE)); that's what it's for. Adapt the samples, lift the patterns, localise the domain-flavoured bits (the `accountant` role is Australian-CPA shaped, the morning brief fetches Brisbane weather).
+Fork freely ([MIT](LICENSE)); that's what it's for. Adapt the samples, lift the patterns, localise the domain-flavoured bits (the `accountant` role is Australian-CPA shaped, the morning brief fetches local weather).
 
 This is a **curated solo reference**, maintained best-effort. Questions, comparisons with your own setup, and "does this hold at team scale" go to [Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions), the canonical Q&A home, where answers stay findable. If you spot a privacy leak, a broken link, or a pattern that's plainly wrong, [open an issue](https://github.com/jimy-r/agent-workspace-architecture/issues/new/choose) and I'll get to it when time allows. Substantial PRs are welcome, but a good one can still be declined if it pulls the doc off its shape: it stays one coherent worked example, not a grab-bag.
 
@@ -102,7 +102,7 @@ This is a **curated solo reference**, maintained best-effort. Questions, compari
 
 - Paths are generic (`<workspace>`, `<home>`); a real setup substitutes its own.
 - Nothing here executes on its own. The repo describes structure and ships sample code; it isn't a runnable product.
-- Domain-flavoured content (Australian tax terms, Brisbane weather) is a template to localise, not a default.
+- Domain-flavoured content (Australian tax terms, local weather) is a template to localise, not a default.
 
 ## Related
 

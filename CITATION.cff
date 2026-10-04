@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use or build on this reference, please cite it as below."
+type: software
+title: "Agent Workspace Architecture"
+abstract: >-
+  A redacted reference for building agent workspaces: the roles, routines,
+  hooks, memory, and task coordination that turn a coding agent into a system
+  you can hand work to. One person's working setup, published with the
+  reasoning attached.
+authors:
+  - family-names: Ross
+    given-names: James
+    website: "https://jamesross.ai"
+repository-code: "https://github.com/jimy-r/agent-workspace-architecture"
+url: "https://jimy-r.github.io/agent-workspace-architecture/"
+license: MIT
+version: "1.17.0"
+date-released: "2026-09-13"
+keywords:
+  - agent-workspace
+  - ai-agents
+  - agent-memory
+  - context-engineering
+  - claude-code

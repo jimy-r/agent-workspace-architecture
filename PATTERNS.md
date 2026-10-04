@@ -4,6 +4,33 @@ The architectural decisions behind this workspace, stated as patterns: the probl
 
 Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) is the *what* (the structural map), and [ADOPTION.md](ADOPTION.md) is the *how* (where to start). Each pattern ends with a pointer to the sample files that implement it, so every claim here is inspectable.
 
+## Index
+
+Each pattern keeps a short anchor, `PATTERNS.md#p<N>`, so a link survives a retitle.
+
+| # | Pattern |
+|---|---|
+| 1 | [Pure roles, composed with project facts](#p1) |
+| 2 | [Classify-then-act, not ask-then-wait](#p2) |
+| 3 | [Make silent failure loud (the dead-man's switch)](#p3) |
+| 4 | [Tier by mechanical impact, not by tone](#p4) |
+| 5 | [Memory points, it doesn't mirror](#p5) |
+| 6 | [Credentials live in one place, never in files](#p6) |
+| 7 | [A cheap hook beats a careful agent](#p7) |
+| 8 | [Audit the workspace like a fitness function](#p8) |
+| 9 | [Context is a budget, not a constant](#p9) |
+| 10 | [A skill is editable weights — never adopt a self-edit without a gate](#p10) |
+| 11 | [A scaffold is a hypothesis — gate it behind a measurable signal](#p11) |
+| 12 | [Loop selection: not everything should be a loop](#p12) |
+| 13 | [Challenge half-formed ideas with a different lens](#p13) |
+| 14 | [Delegation is a queue you fill, not work the agent finds](#p14) |
+| 15 | [Price the lane before you migrate it](#p15) |
+| 16 | [A claim carries its provenance, or it is a guess](#p16) |
+| 17 | [One canonical copy, and pointers from everywhere else](#p17) |
+| 18 | [Position is price — a token costs more the earlier you add it](#p18) |
+
+<a id="p1"></a>
+
 ## 1. Pure roles, composed with project facts
 
 **Problem.** Run security review across five projects and you end up with five near-identical 500-line prompts that drift apart the moment one is edited.
@@ -16,7 +43,11 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** [`samples/roles/`](samples/roles/) (18 roles + the template) and [`samples/example-project/`](samples/example-project/) (a binding composing role + context).
 
+<a id="p2"></a>
+
 ## 2. Classify-then-act, not ask-then-wait
+
+**Status: superseded, August 2026.** The two-hourly agent that ran this loop was retired, and [Pattern 14](#14-delegation-is-a-queue-you-fill-not-work-the-agent-finds) replaced it as this workspace's way of handing work to an agent. The classification below still holds wherever the mandate is already unambiguous. Discovery is the half that failed, and Pattern 14 says why.
 
 **Problem.** An autonomous background agent has two failure modes: it nags for input on everything, or it acts confidently on tasks it doesn't understand.
 
@@ -27,6 +58,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 **Cost.** A sandbox, a review queue, and a rejection history to maintain. The agent does speculative work that sometimes gets discarded.
 
 **Where it lives:** [`samples/scripts/heartbeat/classify_task.py`](samples/scripts/heartbeat/classify_task.py) and [`samples/tasks/HEARTBEAT.md`](samples/tasks/HEARTBEAT.md).
+
+<a id="p3"></a>
 
 ## 3. Make silent failure loud (the dead-man's switch)
 
@@ -40,6 +73,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** [`samples/scripts/security/check_task_freshness.py`](samples/scripts/security/check_task_freshness.py).
 
+<a id="p4"></a>
+
 ## 4. Tier by mechanical impact, not by tone
 
 **Problem.** A system that auto-applies its own findings needs a line between "apply automatically" and "ask a human first." Drawing that line from how confident a finding *sounds* is a trap.
@@ -51,6 +86,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 **Cost.** An explicit impact table, kept current as new action types appear.
 
 **Where it lives:** [`samples/.claude/agents/audit.md`](samples/.claude/agents/audit.md) (the tier-classification table).
+
+<a id="p5"></a>
 
 ## 5. Memory points, it doesn't mirror
 
@@ -64,6 +101,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** [`samples/.claude/scheduled-tasks/consolidate-memory/SKILL.md`](samples/.claude/scheduled-tasks/consolidate-memory/SKILL.md) and [`samples/scripts/memory_lint.py`](samples/scripts/memory_lint.py).
 
+<a id="p6"></a>
+
 ## 6. Credentials live in one place, never in files
 
 **Problem.** A secret written to a file leaks: into git history, into a backup, into an agent's context window, into a screenshot.
@@ -75,6 +114,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 **Cost.** A runtime lookup step, and the discipline to refuse the convenient shortcut.
 
 **Where it lives:** [`samples/scripts/backup-restic.ps1`](samples/scripts/backup-restic.ps1) (runtime resolution + scrub) and [`samples/scripts/send_self_email.py`](samples/scripts/send_self_email.py) (the one narrow, audited exception).
+
+<a id="p7"></a>
 
 ## 7. A cheap hook beats a careful agent
 
@@ -88,6 +129,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** [`samples/scripts/security/check_bash_command.py`](samples/scripts/security/check_bash_command.py) and the hook config in [`samples/.claude/settings.example.json`](samples/.claude/settings.example.json).
 
+<a id="p8"></a>
+
 ## 8. Audit the workspace like a fitness function
 
 **Problem.** A workspace degrades while the ecosystem around it improves. Context bloats, configs drift, a hook stops firing, memory contradicts reality, better patterns ship every week — and nobody's job is to notice either direction.
@@ -99,6 +142,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 **Cost.** The audit is itself a system to maintain, and it can cry wolf, so findings are tiered and tracked rather than dumped raw into the queue.
 
 **Where it lives:** [`samples/.claude/agents/audit.md`](samples/.claude/agents/audit.md) and [`samples/tests/audit_canaries/`](samples/tests/audit_canaries/).
+
+<a id="p9"></a>
 
 ## 9. Context is a budget, not a constant
 
@@ -112,6 +157,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** [`samples/scripts/ghost_token_counter.py`](samples/scripts/ghost_token_counter.py) (the per-source baseline) and [`samples/scripts/token_report.py`](samples/scripts/token_report.py) (spend telemetry feeding the audit's trend rule).
 
+<a id="p10"></a>
+
 ## 10. A skill is editable weights — never adopt a self-edit without a gate
 
 **Problem.** Instruction files are the part of the system that most invites quiet self-improvement. A `CLAUDE.md` or a skill doc is plain text the agent can rewrite, and an agent that watches its own transcripts can propose better wording every day. Let that loop close on itself and you have a system editing its own controlling instructions with nobody checking whether each edit actually helped.
@@ -123,6 +170,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 **Cost.** The gate is the slow part. A human in the staging loop means instruction improvements land in days, not seconds, and the speculative work behind a rejected edit is thrown away. That latency is the price of never waking up to a controlling file that an unsupervised loop quietly rewrote.
 
 **Where it lives:** [`samples/tasks/HEARTBEAT.md`](samples/tasks/HEARTBEAT.md) (classify → sandbox → stage → review → adopt) and [`samples/.claude/scheduled-tasks/consolidate-memory/SKILL.md`](samples/.claude/scheduled-tasks/consolidate-memory/SKILL.md) (four-operation write discipline). SkillOpt itself is credited in [ATTRIBUTION.md](ATTRIBUTION.md).
+
+<a id="p11"></a>
 
 ## 11. A scaffold is a hypothesis — gate it behind a measurable signal
 
@@ -136,6 +185,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** the same fitness-function machinery as [`samples/.claude/agents/audit.md`](samples/.claude/agents/audit.md) (Pattern 8). The reasoning-regression suite runs on the audit's cadence and reports like its other coded checks, and it is the measurement-gated cousin of the self-edit gate in Pattern 10: a correctness signal certifying a *scaffold* the way a human gate certifies a *self-edit*.
 
+<a id="p12"></a>
+
 ## 12. Loop selection: not everything should be a loop
 
 **Problem.** Give an agent real capability and the tempting response is to automate everything: put a loop on every recurring task, "remove yourself as the bottleneck." But most real work is judgment-heavy, irreversible, or unverifiable. Loop the judgment work and you remove the value (the judgment was the point). Loop the irreversible work and you ship damage unattended. Autonomy gets treated as a pure good, and the question of *which* tasks earn it never gets asked.
@@ -148,17 +199,23 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** [`samples/scripts/wrap_drift_scan.py`](samples/scripts/wrap_drift_scan.py) (the read-only close-out surfacing scan — the worked *surface* case).
 
-## 13. Challenge half-formed ideas with a different lens — and hold a sample back to prove it helps
+<a id="p13"></a>
 
-**Problem.** Every tool that critiques an agent's work assumes a finished artifact: a draft to red-team, a decision to rank, a result to verify. None help during the messy part, where you're exploring a design or framing a problem and nothing is built yet and no test exists to check against. The tempting fix is to bolt a second agent onto the thinking itself and let it challenge every idea as it forms, always on, in the background. Two traps spring at once. The challenge is usually the same model re-reading its own frame, which rationalizes more than it challenges and can degrade the answer while burning tokens. And once it runs on everything, you have lost the one thing that would prove it helps: a comparison against not running it.
+## 13. Challenge half-formed ideas with a different lens
 
-**Pattern.** Make it a single *divergent* lens rather than a debate, and hold a sample back so you can still measure it. When a real fork appears in open-ended thinking, fire one challenge from a deliberately different frame: the strongest objection to this direction, the assumption being baked in, the option not being considered. Ground it in a stated criterion, a retrieved fact, or a checkpoint with the human, who stays the arbiter. It widens the option set; it never argues toward a winner. Then the measurement move: roll on each eligible fork and deliberately skip the challenge on a fraction (say one in three), logging both the fired and held-out forks. The human tags each fired challenge as changed-the-call, real-but-didn't, or noise. At review the noise rate and the fired-versus-held-out comparison say whether it earns its place; a noise-dominant result cuts it.
+**Problem.** Every tool that critiques an agent's work assumes a finished artifact: a draft to red-team, a decision to rank, a result to verify. None help during the messy part, where you're exploring a design or framing a problem and nothing is built yet and no test exists to check against. The tempting fix is to bolt a second agent onto the thinking itself and let it challenge every idea as it forms, always on, in the background. Two traps spring at once. The challenge is usually the same model re-reading its own frame, which rationalizes more than it challenges and can degrade the answer while burning tokens. And once it runs on everything, there is no untouched case left to compare it with, so whether it helps has to be shown some other way.
 
-**Why this beats the obvious.** The obvious move is two agents bouncing an idea back and forth until something better falls out, and the evidence is hostile to exactly that shape: same-model same-prompt debate loses to plain majority voting at equal compute, ungrounded self-critique with no external signal typically fails to help and often degrades, and *assigned* devil's advocacy is reliably weaker than dissent that carries real information, a finding that predates LLMs by decades in the group-decision literature. What survives is the narrow form: a different lens not a louder echo, aimed at divergence not convergence, grounded not assertion-trading. The measurement is not optional either. An always-on aid is unmeasurable by construction: if it fires on everything, every decision got it, and you never see the one without it. Holding out a sample keeps the counterfactual alive, the same instinct as a control group applied to a behavioral aid in production.
+**Pattern.** Make it a single *divergent* lens rather than a debate. When a real fork appears in open-ended thinking, fire one challenge from a deliberately different frame: the strongest objection to this direction, the assumption being baked in, the option not being considered. Ground it in a stated criterion, a retrieved fact, or a checkpoint with the human, who stays the arbiter. It widens the option set and never argues toward a winner. Every firing is logged, and the human tags each one as changed-the-call, considered (new to them, weighed and set aside) or noise. The kill thresholds are set before the review, one on the share that changed the call and one on the share that was noise.
 
-**Cost.** A behavioral trigger that depends on the agent actually firing it, since no hook can detect "this is a real fork," so adherence has to be watched (the log's own fire count doubles as that watch). The held-out sample means deliberately skipping the aid on work it might have improved, to buy the ability to measure at all. And a tagging step for the human on each firing, the only honest source of the verdict, because a model grading its own challenges inherits a measured self-preference bias.
+**Tried and dropped: a held-out sample.** From 2026-06-25 the lens also rolled on every eligible fork and skipped the challenge on about one in three, so fired forks could be compared with untouched ones. The first scaffold review dropped the hold-out on 2026-09-23. By then 85 forks had fired and 42 had been held out, and the comparison had never been run, because a held-out fork was logged with no outcome. Nothing recorded whether its decision held, was revisited or was reversed. So the hold-out withheld a third of the challenges to feed a number nobody could compute. The same review found the middle tag had turned into a catch-all, which made a zero noise rate automatic, and the tag definitions were sharpened. A held-out sample is still the right move wherever the untouched outcome can be recorded. This log couldn't record it.
 
-**Where it lives:** [`samples/scripts/ideation_spar_log.py`](samples/scripts/ideation_spar_log.py), the roll / hold-out / log / report engine that keeps an always-on-feeling aid measurable. It is the production-side cousin of the offline golden set in Pattern 11: there a held-out *case set* certifies a scaffold; here a held-out *slice of live firings* certifies a behavioral aid that has no offline test.
+**Why this beats the obvious.** The obvious move is two agents bouncing an idea back and forth until something better falls out, and the evidence is hostile to exactly that shape: same-model same-prompt debate loses to plain majority voting at equal compute, ungrounded self-critique with no external signal typically fails to help and often degrades, and *assigned* devil's advocacy is reliably weaker than dissent that carries real information, a finding that predates LLMs by decades in the group-decision literature. What survives is the narrow form: a different lens not a louder echo, aimed at divergence not convergence, grounded not assertion-trading. It still has to earn its place. An aid that fires on every fork leaves nothing to compare against, so the evidence is the human's tag on each firing, read against thresholds fixed in advance.
+
+**Cost.** A behavioral trigger that depends on the agent actually firing it, since no hook can detect "this is a real fork," so adherence has to be watched (the log's own fire count doubles as that watch). A tagging step for the human on each firing, the only honest source of the verdict, because a model grading its own challenges inherits a measured self-preference bias. And tag definitions sharp enough that a weak challenge can fail them, or the measurement goes soft without anyone noticing.
+
+**Where it lives:** [`samples/scripts/ideation_spar_log.py`](samples/scripts/ideation_spar_log.py), the log and report engine. Its `roll` subcommand, which drew the held-out sample, is retired and exits with a pointer to the reason. Pattern 11 certifies a scaffold offline against a held-out *case set*. This pattern is its live counterpart, certified by the human's tag on each firing.
+
+<a id="p14"></a>
 
 ## 14. Delegation is a queue you fill, not work the agent finds
 
@@ -172,6 +229,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 
 **Where it lives:** [`samples/board/agent-queue.SKILL.example.md`](samples/board/agent-queue.SKILL.example.md) (the intake interview and the drain protocol it feeds), with the card schema and the succession reasoning in [`samples/board/README.md`](samples/board/README.md). Pattern 2 is the predecessor it replaced; the classification logic there holds wherever the mandate is already unambiguous, and discovery is the half that failed.
 
+<a id="p15"></a>
+
 ## 15. Price the lane before you migrate it
 
 **Problem.** Token consumption climbs even after efficiency work, because every saving gets reinvested in more agent work — Jevons, applied to your own subscription. At the ceiling, the instinctive fix is structural: migrate the execution tier to cheaper open-weight models, buy a GPU, stand up a second inference stack. Plans of that shape are expensive to be wrong about, and the headline per-token price lists that motivate them hide everything that decides the outcome.
@@ -183,6 +242,8 @@ Read this when you want the *why*. [META_ARCHITECTURE.md](META_ARCHITECTURE.md) 
 **Cost.** The instrument itself, and the honesty it demands: a rework marker convention that only works if every escalation is recorded, a baseline that must be re-verified rather than remembered, and one-variable-at-a-time patience, which means the full ladder takes weeks. The meter that proves the upgrade worked is the same meter that will prove it didn't.
 
 **Where it lives:** [`samples/scripts/tier_metrics.py`](samples/scripts/tier_metrics.py) (the lane-split instrument with its four advisory checks and selftest), consumed by the audit's checks-as-code the same way as the Pattern 11 machinery. Pattern 9 is the parent instinct (context as a budget) applied here to the model ladder; Pattern 11 supplies the trial discipline: falsifiable hypothesis, review date, kill criterion.
+
+<a id="p16"></a>
 
 ## 16. A claim carries its provenance, or it is a guess
 
@@ -208,6 +269,8 @@ The pattern also fails usefully. When a claim turns out wrong, the grade shows w
 
 **Boundary with its neighbours.** Pattern 5 governs what memory *stores*; this governs what an assertion *carries at the moment it is made*. Pattern 8 measures whether the workspace is drifting; this makes a single claim auditable without measuring anything. The three are separable: a workspace can store pointers faithfully, audit itself weekly, and still hand you a confident sentence with nothing behind it.
 
+<a id="p17"></a>
+
 ## 17. One canonical copy, and pointers from everywhere else
 
 **Problem.** The same rule ends up written in three places: the user-global instructions, the workspace instructions, and a project file. All three were correct on the day they were written. Then one gets edited. Now an agent loading all three reads two versions of the rule and silently picks one, and a reader checking the project file gets an answer that the workspace file contradicts. Nobody notices, because each copy looks authoritative on its own. Duplication does not announce itself as duplication; it announces itself as a wrong answer, months later, with no obvious cause.
@@ -225,6 +288,8 @@ This workspace's own instructions carry a worked instance, left in place deliber
 **Cost.** Indirection. A reader following a pointer needs a second lookup, which is a real tax on comprehension, and pointer chains longer than one hop become their own problem. Canonical placement also has to be decided rather than discovered, and the wrong choice is expensive to reverse once other files reference it. Duplication is genuinely cheaper right up until the first edit.
 
 **Where it lives:** [`samples/scripts/claudemd_audit.py`](samples/scripts/claudemd_audit.py) inventories every always-loaded instruction file and flags size, staleness, broken imports, and boilerplate duplicated across files. Pattern 5 is the same instinct applied to memory; this is it applied to instructions, which are loaded on every session and so cost on every session.
+
+<a id="p18"></a>
 
 ## 18. Position is price — a token costs more the earlier you add it
 
