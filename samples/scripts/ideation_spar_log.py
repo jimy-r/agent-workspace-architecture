@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
 """
 Ideation-spar log -- the measurement engine behind PATTERNS.md #13 (a divergent
-critic for half-formed ideas, held to a sample).
+critic for half-formed ideas).
 
-An always-on critique aid is also an unmeasurable one: if a challenge fires on
-every fork you lose the counterfactual (what the thinking would have been without
-it). This log preserves the counterfactual two ways:
-  1. `roll` deterministically holds out ~1 in 3 eligible forks (no lens fired),
-     so fired-vs-held-out is comparable at review.
-  2. every fired challenge is tagged by the HUMAN, not the model -- a model
-     grading its own challenges inherits a measured self-preference bias -- as
-     changed / considered / noise.
+Every fired challenge is tagged by the HUMAN, not the model -- a model grading
+its own challenges inherits a measured self-preference bias -- as
+changed / considered / noise.
+
+The first version also held out ~1 in 3 eligible forks through a `roll`
+subcommand, so fired and held-out forks could be compared. That hold-out was
+dropped on 2026-09-23: a held-out fork carried no outcome field, so the
+comparison was never computable. `roll` now exits 2 with that pointer, and old
+held_out records still count in the report.
 
 Primary metric = material + actionable rate among fired forks.
 Kill metric    = noise (restatement) rate; critique-theatre is the failure mode
@@ -20,8 +21,8 @@ Kill metric    = noise (restatement) rate; critique-theatre is the failure mode
 Stdlib only. Append-only JSONL, UTF-8.
 
 CLI:
-  roll                                          -> prints FIRE or HOLD_OUT (no write)
-  log --disposition fired|held_out
+  roll                                          -> retired; exits 2
+  log --disposition fired
       [--context S] [--challenge S] [--tag T]   -> appends a fork, prints its id
   retag ID TAG                                  -> human verdict: changed|considered|noise
   report [--since YYYY-MM-DD]                    -> rates + kill check
@@ -40,10 +41,9 @@ from pathlib import Path
 WORKSPACE = Path(__file__).resolve().parents[1]
 LOG = WORKSPACE / "scripts" / "_state" / "ideation_spar_log.jsonl"
 
-VALID_DISPOSITIONS = {"fired", "held_out"}
+VALID_DISPOSITIONS = {"fired"}  # held_out was retired with the hold-out
 VALID_TAGS = {"pending", "changed", "considered", "noise"}
 VERDICT_TAGS = {"changed", "considered", "noise"}
-HOLDOUT_EVERY = 3  # hold out 1 in N eligible forks
 KILL_NOISE_RATE = 0.60
 KILL_MIN_RESOLVED = 8
 
@@ -89,10 +89,13 @@ def forks() -> list[dict]:
 
 
 def cmd_roll(args: argparse.Namespace) -> int:
-    eligible = sum(1 for r in read_all() if r.get("event") == "fork")
-    # 0,1 -> FIRE ; 2 -> HOLD_OUT ; 3,4 -> FIRE ; 5 -> HOLD_OUT ...
-    print("HOLD_OUT" if eligible % HOLDOUT_EVERY == HOLDOUT_EVERY - 1 else "FIRE")
-    return 0
+    print(
+        "roll is retired: the hold-out was dropped on 2026-09-23 because a "
+        "held-out fork had no outcome to compare. Fire on every eligible fork "
+        "and log it with --disposition fired.",
+        file=sys.stderr,
+    )
+    return 2
 
 
 def cmd_log(args: argparse.Namespace) -> int:
@@ -186,7 +189,7 @@ def cmd_report(args: argparse.Namespace) -> int:
     else:
         print("  (no fired forks resolved yet - tag them with `retag`)")
     print("-" * 52)
-    print("  review: compare fired vs held_out decision quality at the review date.")
+    print("  review: the human tags are the evidence; held_out counts are history.")
     return 0
 
 
@@ -203,7 +206,7 @@ def main() -> int:
     sub = p.add_subparsers(dest="cmd", required=True)
 
     sub.add_parser(
-        "roll", help="print FIRE or HOLD_OUT for the next eligible fork"
+        "roll", help="retired 2026-09-23 with the hold-out; exits 2"
     ).set_defaults(func=cmd_roll)
 
     pl = sub.add_parser("log", help="append a fork record")

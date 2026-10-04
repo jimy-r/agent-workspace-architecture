@@ -8,9 +8,9 @@ The fix is structural, not disciplinary. Every fact gets exactly one canonical h
 
 ## The patterns
 
-- [**Pattern 1. Pure roles, composed with project facts**](../PATTERNS.md#1-pure-roles-composed-with-project-facts) — expert personas hold method with zero entity facts; project specifics live in a `CONTEXT.md`; a thin binding composes the two. A fix to the role reaches every project at once.
-- [**Pattern 5. Memory points, it doesn't mirror**](../PATTERNS.md#5-memory-points-it-doesnt-mirror) — agent memory holds an index and typed notes that point at sources of truth. A pointer cannot contradict its source; a copy eventually always does.
-- [**Pattern 17. One canonical copy, and pointers from everywhere else**](../PATTERNS.md#17-one-canonical-copy-and-pointers-from-everywhere-else) — the same instinct applied to instruction files, where duplication costs tokens on every session *and* drifts.
+- [**Pattern 1. Pure roles, composed with project facts**](../PATTERNS.md#p1) — expert personas hold method with zero entity facts; project specifics live in a `CONTEXT.md`; a thin binding composes the two. A fix to the role reaches every project at once.
+- [**Pattern 5. Memory points, it doesn't mirror**](../PATTERNS.md#p5) — agent memory holds an index and typed notes that point at sources of truth. A pointer cannot contradict its source; a copy eventually always does.
+- [**Pattern 17. One canonical copy, and pointers from everywhere else**](../PATTERNS.md#p17) — the same instinct applied to instruction files, where duplication costs tokens on every session *and* drifts.
 
 ## Do this
 

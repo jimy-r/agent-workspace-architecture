@@ -29,6 +29,12 @@ present line already placed keeps that verdict even when the absent line
 discusses it too — the GPT-RAG page names 3, 8 and 17 as partial and then calls
 out their unbuilt halves, and both statements are true of a partial pattern.
 
+A pattern a page names on neither line is not assessed, which is different
+from absent. The last column counts the readings that did assess each pattern,
+and the legend names any pattern assessed in fewer than MIN_ASSESSED readings,
+because a claim that a pattern is missing across subjects needs readings that
+looked for it.
+
 Usage:
     python scripts/teardown_matrix.py            # rewrite the block
     python scripts/teardown_matrix.py --check    # exit 1 if it would change
@@ -74,6 +80,10 @@ WORDS = {
 
 PRESENT, PARTIAL, ABSENT, UNASSESSED = "✓", "~", "✗", "—"
 
+# The fewest assessed readings on which the index says anything about a
+# pattern across subjects.
+MIN_ASSESSED = 3
+
 HEADING = re.compile(r"(?m)^## What \w+ readings show$")
 PATTERN_HEADING = re.compile(r"(?m)^## (\d+)\. (.+)$")
 LINK = re.compile(r"\[(\d+)\]\(\.\./PATTERNS\.md#[^)]*\)")
@@ -91,12 +101,6 @@ SENTENCE = re.compile(r"(?<=[.!?])\s+")
 NOTHING = re.compile(r"^(nothing yet|none|no change)\b", re.IGNORECASE)
 
 
-def slug(heading: str) -> str:
-    """GitHub's anchor slug for a '## N. Title' heading, minus the '## '."""
-    kept = "".join(c for c in heading.lower() if c.isalnum() or c in " -")
-    return kept.strip().replace(" ", "-")
-
-
 def short_name(title: str) -> str:
     """The title up to its first subordinate clause, for a table label."""
     cut = len(title)
@@ -108,14 +112,21 @@ def short_name(title: str) -> str:
 
 
 def load_patterns() -> list[tuple[int, str, str]]:
-    """(number, short name, anchor) for every pattern, in file order."""
+    """(number, short name, anchor) for every pattern, in file order.
+
+    The anchor is the stable `pN` id PATTERNS.md sets above each heading, so a
+    retitle never breaks the matrix links.
+    """
     text = PATTERNS.read_text(encoding="utf-8")
     rows = [
-        (int(num), short_name(title), slug(f"{num}. {title}"))
+        (int(num), short_name(title), f"p{num}")
         for num, title in PATTERN_HEADING.findall(text)
     ]
     if not rows:
         sys.exit("PATTERNS.md has zero '## N. <title>' headings — format changed?")
+    missing = [a for _, _, a in rows if f'<a id="{a}"></a>' not in text]
+    if missing:
+        sys.exit(f"PATTERNS.md lacks the anchors {missing} above its headings")
     return rows
 
 
@@ -200,19 +211,39 @@ def render(patterns, pages) -> str:
     """The generated block: the presence matrix, then the conversion table."""
     header = " | ".join(f"[{p['subject']}]({p['file']})" for p in pages)
     lines = [
-        f"| Pattern | {header} |",
-        "|---" * (len(pages) + 1) + "|",
+        f"| Pattern | {header} | Assessed |",
+        "|---" * (len(pages) + 2) + "|",
     ]
+    unassessed = 0
+    thin = []
     for num, name, anchor in patterns:
-        cells = " | ".join(p["verdicts"].get(num, UNASSESSED) for p in pages)
-        lines.append(f"| [{num}. {name}](../PATTERNS.md#{anchor}) | {cells} |")
+        verdicts = [p["verdicts"].get(num, UNASSESSED) for p in pages]
+        assessed = sum(v != UNASSESSED for v in verdicts)
+        unassessed += len(pages) - assessed
+        label = f"[{num}. {name}](../PATTERNS.md#{anchor})"
+        if assessed < MIN_ASSESSED:
+            thin.append(label)
+        cells = " | ".join(verdicts)
+        lines.append(f"| {label} | {cells} | {assessed}/{len(pages)} |")
 
+    floor = WORDS.get(MIN_ASSESSED, str(MIN_ASSESSED))
+    under = (
+        "Under that floor today: " + ", ".join(thin) + "."
+        if thin
+        else "No pattern is under that floor today."
+    )
     lines += [
         "",
         f"{PRESENT} present · {PARTIAL} partial · {ABSENT} absent, and named as "
         f"worth noting · {UNASSESSED} not assessed. Derived from each page's "
         "header by [`scripts/teardown_matrix.py`](../scripts/teardown_matrix.py). "
         "Edit the pages, not this table.",
+        "",
+        "`Assessed` counts the readings that gave the pattern a verdict, and "
+        f"{unassessed} of the {len(patterns) * len(pages)} cells have none. A "
+        "reading that did not assess a pattern is no evidence that the pattern "
+        "is missing, so nothing is claimed about a pattern across subjects on "
+        f"fewer than {floor} assessed readings. {under}",
         "",
         "What each reading changed here, first line of its own answer:",
         "",

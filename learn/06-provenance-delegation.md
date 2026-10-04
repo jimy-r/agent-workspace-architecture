@@ -8,10 +8,10 @@ The delegation half carries this repo's most instructive negative result: a back
 
 ## The patterns
 
-- [**Pattern 16. A claim carries its provenance, or it is a guess**](../PATTERNS.md#16-a-claim-carries-its-provenance-or-it-is-a-guess) — cite `path:line` for state claims; grade source and credibility visibly; record what would falsify a durable brief. Scope: load-bearing claims only.
-- [**Pattern 14. Delegation is a queue you fill, not work the agent finds**](../PATTERNS.md#14-delegation-is-a-queue-you-fill-not-work-the-agent-finds) — a delegated card carries done-when, write boundaries, and pre-ruled forks; questions go on the card, not into a side channel.
-- [**Pattern 2. Classify-then-act, not ask-then-wait**](../PATTERNS.md#2-classify-then-act-not-ask-then-wait) — where a mandate *is* unambiguous: build the has-default work speculatively, lodge for review, log every rejection.
-- [**Pattern 12. Loop selection: not everything should be a loop**](../PATTERNS.md#12-loop-selection-not-everything-should-be-a-loop) — the four-box test (recurring, mechanically verifiable, low-judgment, headless) plus an irreversibility override that caps outward acts at surface-level autonomy.
+- [**Pattern 16. A claim carries its provenance, or it is a guess**](../PATTERNS.md#p16) — cite `path:line` for state claims; grade source and credibility visibly; record what would falsify a durable brief. Scope: load-bearing claims only.
+- [**Pattern 14. Delegation is a queue you fill, not work the agent finds**](../PATTERNS.md#p14) — a delegated card carries done-when, write boundaries, and pre-ruled forks; questions go on the card, not into a side channel.
+- [**Pattern 2. Classify-then-act, not ask-then-wait**](../PATTERNS.md#p2) — where a mandate *is* unambiguous: build the has-default work speculatively, lodge for review, log every rejection.
+- [**Pattern 12. Loop selection: not everything should be a loop**](../PATTERNS.md#p12) — the four-box test (recurring, mechanically verifiable, low-judgment, headless) plus an irreversibility override that caps outward acts at surface-level autonomy.
 
 ## Do this
 
