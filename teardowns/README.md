@@ -62,20 +62,20 @@ Each page's header records its verdict against the [eighteen patterns](../PATTER
 |---|---|---|---|---|---|---|---|---|
 | [1. Pure roles](../PATTERNS.md#p1) | ✓ | — | ✓ | ✓ | ~ | ✓ | ✓ | 6/7 |
 | [2. Classify-then-act](../PATTERNS.md#p2) | ✓ | ~ | — | — | ~ | — | — | 3/7 |
-| [3. Make silent failure loud](../PATTERNS.md#p3) | ✗ | ✗ | ✗ | ✓ | ~ | ~ | ✗ | 7/7 |
+| [3. Make silent failure loud](../PATTERNS.md#p3) | ✗ | ✗ | ~ | ✓ | ~ | ~ | ✗ | 7/7 |
 | [4. Tier by mechanical impact](../PATTERNS.md#p4) | — | — | — | ✓ | ✓ | ✓ | — | 3/7 |
 | [5. Memory points](../PATTERNS.md#p5) | ✗ | — | — | ✗ | ~ | ~ | — | 4/7 |
 | [6. Credentials live in one place](../PATTERNS.md#p6) | ✗ | — | — | ✓ | ✓ | — | — | 3/7 |
 | [7. A cheap hook beats a careful agent](../PATTERNS.md#p7) | ✗ | — | ✓ | ✓ | ✓ | ✓ | ~ | 6/7 |
 | [8. Audit the workspace like a fitness function](../PATTERNS.md#p8) | ✗ | ✗ | — | ~ | ~ | ✗ | — | 5/7 |
-| [9. Context is a budget](../PATTERNS.md#p9) | ✓ | ✗ | ✗ | ✓ | ~ | ✗ | — | 6/7 |
+| [9. Context is a budget](../PATTERNS.md#p9) | ✓ | ✗ | ✓ | ✓ | ~ | ✗ | — | 6/7 |
 | [10. A skill is editable weights](../PATTERNS.md#p10) | — | — | — | ~ | ~ | ✓ | — | 3/7 |
-| [11. A scaffold is a hypothesis](../PATTERNS.md#p11) | ✗ | — | ✗ | ✓ | ✓ | ✓ | ~ | 6/7 |
+| [11. A scaffold is a hypothesis](../PATTERNS.md#p11) | ✗ | — | ~ | ✓ | ✓ | ✓ | ~ | 6/7 |
 | [12. Loop selection](../PATTERNS.md#p12) | ✓ | ✓ | — | ~ | ~ | — | — | 4/7 |
 | [13. Challenge half-formed ideas with a different lens](../PATTERNS.md#p13) | — | — | — | ✗ | ~ | ~ | — | 3/7 |
 | [14. Delegation is a queue you fill](../PATTERNS.md#p14) | — | ~ | — | ✗ | ~ | — | — | 3/7 |
 | [15. Price the lane before you migrate it](../PATTERNS.md#p15) | — | — | — | ~ | ✗ | ~ | ✓ | 4/7 |
-| [16. A claim carries its provenance](../PATTERNS.md#p16) | ✗ | ✗ | ✗ | ✓ | ✓ | ✓ | ~ | 7/7 |
+| [16. A claim carries its provenance](../PATTERNS.md#p16) | ✗ | ✗ | ✓ | ✓ | ✓ | ✓ | ~ | 7/7 |
 | [17. One canonical copy](../PATTERNS.md#p17) | ✓ | — | ~ | ✓ | ~ | ~ | — | 5/7 |
 | [18. Position is price](../PATTERNS.md#p18) | — | — | — | ✓ | ~ | — | — | 2/7 |
 
@@ -89,7 +89,7 @@ What each reading changed here, first line of its own answer:
 |---|---|
 | [12-Factor Agents](2026-08-27-12-factor-agents.md) | No pattern changed, because every absence named above was already running in this workspace. |
 | [herdr](2026-08-28-herdr.md) | The teardown procedure, after this page's corrections. |
-| [LifeOS](2026-08-28-lifeos.md) | none |
+| [LifeOS](2026-08-28-lifeos.md) | This workspace changed twice because of LifeOS, once after an earlier review of v7 (2026-08-12) and once after this page's own correction. |
 | [DeepSeek Harness](2026-09-05-deepseek-harness.md) | This repo gained a root [`AGENTS.md`](../AGENTS.md) on 2026-09-06, after this reading. |
 | [GPT-RAG](2026-09-06-azure-gpt-rag.md) | Nothing at publication. |
 | [OpenHarness](2026-10-02-openharness.md) | The handoff schema in my own workspace gained four sections on 2026-10-02, the day of this reading. |
@@ -100,7 +100,7 @@ Seven readings, and no pattern is present in all seven. Pure roles come closest,
 
 Four patterns are fully present in no subject that was assessed for them, and they are judgment and measurement patterns rather than mechanical ones. The workspace audit was assessed in five readings and pointer memory in four. The divergent lens and the delegation queue were each assessed in three, which is the floor, so those are the thinnest claims on this page. Gated self-edits left the list with the sixth reading, where a person approves every lesson before it is taught, and lane pricing left it with the seventh, whose report prices every design it tests. DeepSeek Harness, GPT-RAG and OpenHarness carry provenance on every claim and tier their gates by mechanical impact. None of them has any of the four in full, though OpenHarness was not assessed for the delegation queue.
 
-The split that surprised most runs the other way. The dead man's switch, the cheapest control in the set, was assessed in all seven readings. It is absent from four subjects, the three earliest and the newest, and named as worth noting on each, so the pattern most often missing is the one that costs an afternoon.
+The split that surprised most runs the other way. The dead man's switch, the cheapest control in the set, was assessed in all seven readings. It is absent from the two earliest subjects and the newest, and LifeOS has written one and left it unscheduled, so a pattern that costs an afternoon is among the most often missing.
 
 ## Published
 
