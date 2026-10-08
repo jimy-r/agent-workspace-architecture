@@ -27,6 +27,7 @@ on:
       - 'docs/index.html'
       - 'docs/sitemap.xml'
       - 'docs/workspace-map.html'
+      - 'docs/patterns/**'
       - 'docs/llms.txt'
       - 'docs/llms-full.txt'
       - 'scripts/check_freshness.py'
