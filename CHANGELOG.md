@@ -2,6 +2,12 @@
 
 Human-written record of notable changes — the *why* and the *shape*, not every merged PR. Milestone batches get a tagged release with short notes (from `v1.0.0`, 2026-06-11); entries are grouped by date, newest first. Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), adapted to a dated scheme. A date that carries a tagged release names the version in its heading, and that version links to the diff against the release before it, so anyone arriving from a release page can find the matching section. Dates without a version were merged between releases.
 
+## 2026-10-08 - [v1.20.0]
+
+- **Six memory-layer lifts.** Eight open-source memory projects were read at pinned commits, and six patterns were rebuilt here: a source-drift stamp on the review clock, a read ledger, a credential-shape screen at the memory write, conservation at consolidation, a gate baseline that advances only on a pass, and a fix for a Stop-hook transcript race. Nothing was installed. [META §9](META_ARCHITECTURE.md#9-memory-system--persistent-context-across-sessions) describes them and a new Memory patterns table in [`ATTRIBUTION.md`](ATTRIBUTION.md#memory-patterns) credits each source at the commit read.
+- **Two memory samples re-synced.** `samples/scripts/memory_lint.py` was a path checker from the first release. It now carries the review clock and the source-drift stamp. The `consolidate-memory` skill sample archives a file on merge or delete and no longer unlinks it.
+- **A citation removed.** The "memory drift vs staleness" line credited an arXiv paper under two different ids, and neither paper makes the distinction. It's now stated as the workspace's own, in META §14, `ATTRIBUTION.md` and the audit agent sample.
+
 ## 2026-10-04 - [v1.19.0]
 
 - **Teardown lifts are tracked.** Every teardown page now carries a Lifts table under "What changed here", with one row per change the reading produced or proposed and an owner, a status and a re-check date on each. `check_freshness.py` requires the table and fails once an open lift passes its date. Until now the pages named lifts in prose, and the GPT-RAG page recorded that its own were noted and never filed.
@@ -281,6 +287,7 @@ Human-written record of notable changes — the *why* and the *shape*, not every
 
 *Last verified against the repo structure on **2026-06-10**.*
 
+[v1.20.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.19.0...v1.20.0
 [v1.19.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.18.0...v1.19.0
 [v1.18.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.17.0...v1.18.0
 [v1.17.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.16.0...v1.17.0

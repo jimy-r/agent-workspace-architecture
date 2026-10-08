@@ -66,7 +66,7 @@ samples/
 │   ├── bill_tracker.py               # bill matcher + variance alerts
 │   ├── email_rules.py                # YAML-based email-triage rules engine
 │   ├── ghost_token_counter.py        # always-loaded-context baseline counter
-│   ├── memory_lint.py                # path-reference validator for the memory system
+│   ├── memory_lint.py                # memory lint: path references, review clock, source-drift stamp
 │   ├── receipts_pipeline.py          # receipt ingestion → finance workbook
 │   ├── restic-verify.ps1             # backup integrity + restore round-trip
 │   ├── run-scheduled-skill.ps1       # OS-scheduler wrapper: gate → model map → claude --print
