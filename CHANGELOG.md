@@ -2,6 +2,10 @@
 
 Human-written record of notable changes — the *why* and the *shape*, not every merged PR. Milestone batches get a tagged release with short notes (from `v1.0.0`, 2026-06-11); entries are grouped by date, newest first. Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), adapted to a dated scheme. A date that carries a tagged release names the version in its heading, and that version links to the diff against the release before it, so anyone arriving from a release page can find the matching section. Dates without a version were merged between releases.
 
+## 2026-10-08
+
+- **Each pattern has its own page on the site.** The site served two HTML pages, so a single pattern had no URL of its own there. `scripts/gen_pattern_pages.py` now renders `PATTERNS.md` into [`docs/patterns/`](docs/patterns/index.html), one titled page per pattern plus an index, listed in the sitemap and linked from the tour and `llms.txt`. A docs-consistency job fails when the pages fall behind the markdown.
+
 ## 2026-10-04 - [v1.19.0]
 
 - **Teardown lifts are tracked.** Every teardown page now carries a Lifts table under "What changed here", with one row per change the reading produced or proposed and an owner, a status and a re-check date on each. `check_freshness.py` requires the table and fails once an open lift passes its date. Until now the pages named lifts in prose, and the GPT-RAG page recorded that its own were noted and never filed.

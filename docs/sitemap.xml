@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://jimy-r.github.io/agent-workspace-architecture/</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -13,8 +13,122 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://jimy-r.github.io/agent-workspace-architecture/patterns/</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jimy-r.github.io/agent-workspace-architecture/patterns/01-pure-roles-composed-with-project-facts.html</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jimy-r.github.io/agent-workspace-architecture/patterns/02-classify-then-act-not-ask-then-wait.html</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jimy-r.github.io/agent-workspace-architecture/patterns/03-make-silent-failure-loud-the-dead-mans-switch.html</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jimy-r.github.io/agent-workspace-architecture/patterns/04-tier-by-mechanical-impact-not-by-tone.html</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jimy-r.github.io/agent-workspace-architecture/patterns/05-memory-points-it-doesnt-mirror.html</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jimy-r.github.io/agent-workspace-architecture/patterns/06-credential-lives-in-one-place-never-in-files.html</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jimy-r.github.io/agent-workspace-architecture/patterns/07-a-cheap-hook-beats-a-careful-agent.html</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jimy-r.github.io/agent-workspace-architecture/patterns/08-audit-the-workspace-like-a-fitness-function.html</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jimy-r.github.io/agent-workspace-architecture/patterns/09-context-is-a-budget-not-a-constant.html</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jimy-r.github.io/agent-workspace-architecture/patterns/10-a-skill-is-editable-weights-never-adopt-a-self-edit-without-a-gate.html</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jimy-r.github.io/agent-workspace-architecture/patterns/11-a-scaffold-is-a-hypothesis-gate-it-behind-a-measurable-signal.html</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jimy-r.github.io/agent-workspace-architecture/patterns/12-loop-selection-not-everything-should-be-a-loop.html</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jimy-r.github.io/agent-workspace-architecture/patterns/13-challenge-half-formed-ideas-with-a-different-lens.html</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jimy-r.github.io/agent-workspace-architecture/patterns/14-delegation-is-a-queue-you-fill-not-work-the-agent-finds.html</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jimy-r.github.io/agent-workspace-architecture/patterns/15-price-the-lane-before-you-migrate-it.html</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jimy-r.github.io/agent-workspace-architecture/patterns/16-a-claim-carries-its-provenance-or-it-is-a-guess.html</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jimy-r.github.io/agent-workspace-architecture/patterns/17-one-canonical-copy-and-pointers-from-everywhere-else.html</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jimy-r.github.io/agent-workspace-architecture/patterns/18-position-is-price-a-token-costs-more-the-earlier-you-add-it.html</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://jimy-r.github.io/agent-workspace-architecture/llms.txt</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

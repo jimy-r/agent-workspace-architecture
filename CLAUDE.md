@@ -47,7 +47,7 @@ Some files need Issue agreement before a PR; see the Scope boundaries section in
 1. Run the redaction grep.
 2. `git diff`, and eyeball every changed line.
 3. Conventional commit message.
-4. Run `python scripts/gen_llms_full.py --check`, and if the bundle is stale, regenerate it with `python scripts/gen_llms_full.py` and commit. Then run `python scripts/check_freshness.py --fix` and commit any stamp it rewrites. The order matters, because a regenerated bundle needs a new stamp. Both checks run on the PR, but only `redaction` is required, so `--auto` would merge past either one red.
+4. Run `python scripts/gen_llms_full.py --check`, and if the bundle is stale, regenerate it with `python scripts/gen_llms_full.py` and commit. Do the same with `python scripts/gen_pattern_pages.py`, which renders `PATTERNS.md` into the pages under `docs/patterns/`. Then run `python scripts/check_freshness.py --fix` and commit any stamp it rewrites. The order matters, because a regenerated bundle or page needs a new stamp. These checks run on the PR, but only `redaction` is required, so `--auto` would merge past any of them red.
 5. Push your branch; open a PR using the template.
 6. Queue the merge so it lands only after the checks pass. For the maintainer's own PRs:
    `gh pr merge <n> --auto --squash --delete-branch --author-email 4570080+jimy-r@users.noreply.github.com`.
