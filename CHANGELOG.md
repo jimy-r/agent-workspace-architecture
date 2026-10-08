@@ -2,6 +2,11 @@
 
 Human-written record of notable changes — the *why* and the *shape*, not every merged PR. Milestone batches get a tagged release with short notes (from `v1.0.0`, 2026-06-11); entries are grouped by date, newest first. Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), adapted to a dated scheme. A date that carries a tagged release names the version in its heading, and that version links to the diff against the release before it, so anyone arriving from a release page can find the matching section. Dates without a version were merged between releases.
 
+## 2026-10-08
+
+- **The learn modules say what a working result looks like.** Each of the seven now opens with what the reader can do afterwards and ends with an "If it didn't work" block of likely causes. In between, every exercise step and instrument has a sentence describing the result to expect, checked against the samples and the starter template.
+- **Two sample scripts use the workspace-id placeholder.** `ghost_token_counter.py` and `heartbeat/idle_observations.py` carried a literal workspace id in their memory path. They now read `<workspace-id>`, as the other samples do.
+
 ## 2026-10-08 - [v1.20.0]
 
 - **Six memory-layer lifts.** Eight open-source memory projects were read at pinned commits, and six patterns were rebuilt here: a source-drift stamp on the review clock, a read ledger, a credential-shape screen at the memory write, conservation at consolidation, a gate baseline that advances only on a pass, and a fix for a Stop-hook transcript race. Nothing was installed. [META §9](META_ARCHITECTURE.md#9-memory-system--persistent-context-across-sessions) describes them and a new Memory patterns table in [`ATTRIBUTION.md`](ATTRIBUTION.md#memory-patterns) credits each source at the commit read.
