@@ -878,6 +878,17 @@ All **[stock]**: `general-purpose`, `Explore` (codebase search), `Plan` (archite
 - **Memory-lint script** (`<workspace>/scripts/memory_lint.py`) — walks the memory directory and `episodes/`, checks every referenced file path exists. `--fix` refreshes `last_verified` on clean pass. `--notes` appends drift to the task list under a dated `## Memory — drift detected <date>` section, idempotent per-line. Runtime-created paths (e.g. browser-profile directories, MCP log folders, OAuth state dirs) are allowlisted so they don't flag. The retired heartbeat agent invoked the lint every cycle; it now runs in the audit's coded checks (the former `health` composite, folded in 2026-09-14) and in the weekly consolidation pass.
 - **Weekly `consolidate-memory` scheduled task** — the deeper pass. Resolves contradictions between memory and source-of-truth docs, converts relative→absolute dates, merges duplicates, moves decayed episodes into the subfolder, keeps `MEMORY.md` under its ceiling. Iron Laws in memory are never consolidated away. Canonical instructions: `<home>/.claude/scheduled-tasks/consolidate-memory/SKILL.md`.
 
+### Memory-layer lifts (October 2026)
+
+Six patterns adopted from a review of eight open-source memory-layer projects, each read at a pinned commit. Nothing was installed. The sources are credited in [ATTRIBUTION.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/ATTRIBUTION.md#memory-patterns).
+
+- **Source-drift stamp.** When a memory is marked reviewed, the lint records a digest of the section its `verify_by_checking` key points at. The review clock then lists "source changed since review" ahead of age, so a memory comes up for re-reading when its source moves. Sample: `samples/scripts/memory_lint.py`.
+- **Read ledger.** A weekly roll-up of reads, edits and writes per memory file, taken from the action log a hook already writes. It gives the consolidation pass a measure for "least used". Not in the samples.
+- **Credential-shape screen.** The hook that screens memory writes for injection shapes also blocks credential shapes, so the credentials rule ([Pattern 6](https://github.com/jimy-r/agent-workspace-architecture/blob/main/PATTERNS.md#p6)) is enforced at the write and no longer rests on self-attestation. It went in after an independent adversarial review. Not in the samples.
+- **Conservation at consolidation.** A merge or a delete moves the file to `archive/` unchanged, and the gate fails a batch where a file vanished with no archived copy. Sample: `samples/.claude/scheduled-tasks/consolidate-memory/SKILL.md`.
+- **Baseline advances on a pass.** The consolidation gate's snapshot moves forward only after a passed check, so a failed batch can't become next week's baseline. Not in the samples.
+- **Stop-hook transcript race.** A Stop hook can read the transcript before the final reply is flushed. A probe found 7 of 60 telemetry rows had scored an earlier message. The hook now takes the final message from its payload and falls back to a bounded re-read. Not in the samples.
+
 ---
 
 ## 10. Task coordination layer
