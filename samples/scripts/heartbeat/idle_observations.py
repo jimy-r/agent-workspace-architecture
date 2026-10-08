@@ -46,7 +46,7 @@ TASKS_DIR = WORKSPACE / "tasks"
 TO_DO_NOTES = TASKS_DIR / "To Do Notes.md"
 REJECTIONS = TASKS_DIR / "HEARTBEAT_REJECTIONS.md"
 REVIEWS = TASKS_DIR / "HEARTBEAT_REVIEWS.md"
-MEMORY_DIR = Path.home() / ".claude" / "projects" / "F--Claude" / "memory"
+MEMORY_DIR = Path.home() / ".claude" / "projects" / "<workspace-id>" / "memory"
 PERSONAL_PROJECTS = WORKSPACE / "Personal" / "General Projects"
 
 OPEN_QUEUE_CAP = 3

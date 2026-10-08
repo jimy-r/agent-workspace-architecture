@@ -208,7 +208,7 @@ def count_hook_commands(label: str, settings_path: Path) -> dict:
 
 
 def collect_breakdown() -> list[dict]:
-    memory_dir = HOME / "projects" / "F--Claude" / "memory"
+    memory_dir = HOME / "projects" / "<workspace-id>" / "memory"
     return [
         count_file("CLAUDE.md (user-global)", HOME / "CLAUDE.md"),
         count_file("CLAUDE.md (workspace)", ROOT / "CLAUDE.md"),

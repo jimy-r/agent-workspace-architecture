@@ -4,6 +4,8 @@ Human-written record of notable changes — the *why* and the *shape*, not every
 
 ## 2026-10-08
 
+- **The learn modules say what a working result looks like.** Each of the seven now opens with what the reader can do afterwards and ends with an "If it didn't work" block of likely causes. In between, every exercise step and instrument has a sentence describing the result to expect, checked against the samples and the starter template.
+- **Two sample scripts use the workspace-id placeholder.** `ghost_token_counter.py` and `heartbeat/idle_observations.py` carried a literal workspace id in their memory path. They now read `<workspace-id>`, as the other samples do.
 - **Each pattern has its own page on the site.** The site served two HTML pages, so a single pattern had no URL of its own there. `scripts/gen_pattern_pages.py` now renders `PATTERNS.md` into [`docs/patterns/`](docs/patterns/index.html), one titled page per pattern plus an index, listed in the sitemap and linked from the tour and `llms.txt`. A docs-consistency job fails when the pages fall behind the markdown.
 
 ## 2026-10-08 - [v1.20.0]
