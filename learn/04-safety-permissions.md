@@ -34,7 +34,7 @@ Expect noise, since `token` matches plenty of ordinary prose. Read each hit. A l
 
 - The edit went through. Check that the test file's name is in `.claude/protected-paths.txt`, because the hook blocks only paths that contain a listed substring. Then check that the hook is wired in `.claude/settings.json` and that the `python3` it calls runs in your shell. Both hooks fail open, so an error inside one lets the call through.
 - Both blocks carry the `[bash-guard]` prefix. The agent appended with a shell redirect, so the bash guard caught both attempts and the file-protection hook hasn't fired yet. Ask for the change through the edit tool and look for `Edit/Write blocked:`.
-- The push went through. The starter's guard refuses a push that names `main` or `master`, and any force push. It matches the command's text, so a bare `git push` or a push to a branch with another name passes.
+- The push went through. The starter's guard refuses a push to `main` or `master`, whether the command names the branch or you are sitting on it, and any force push. A push to a branch with another name passes, so run the test against `main`.
 - The grep turned up a real secret. Treat it as leaked. Rotate it, then keep the new value in the password manager and only the item name in the file.
 
 ---

@@ -5,6 +5,7 @@ Human-written record of notable changes — the *why* and the *shape*, not every
 ## 2026-10-08
 
 - **The learn modules say what a working result looks like.** Each of the seven now opens with what the reader can do afterwards and ends with an "If it didn't work" block of likely causes. In between, every exercise step and instrument has a sentence describing the result to expect, checked against the samples and the starter template.
+- **Two sample scripts use the workspace-id placeholder.** `ghost_token_counter.py` and `heartbeat/idle_observations.py` carried a literal workspace id in their memory path. They now read `<workspace-id>`, as the other samples do.
 
 ## 2026-10-08 - [v1.20.0]
 
