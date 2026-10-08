@@ -959,9 +959,10 @@ def main() -> int:
     if not args.check:
         OUT.mkdir(parents=True, exist_ok=True)
         for name, content in outputs.items():
-            # newline="\n" keeps the bytes the same on every platform.
-            with open(OUT / name, "w", encoding="utf-8", newline="\n") as handle:
-                handle.write(content)
+            # The platform's own newlines, as gen_llms_full.py writes them. A
+            # forced LF leaves every page showing as modified, with an empty
+            # diff, in a checkout that git converted to CRLF.
+            (OUT / name).write_text(content, encoding="utf-8")
         print(
             f"Wrote docs/patterns/ ({pages} pattern pages, index.html, {STYLESHEET})."
         )
