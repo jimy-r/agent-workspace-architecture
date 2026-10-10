@@ -1,0 +1,11 @@
+# Extra patterns for the redaction check (one regular expression per line).
+# The workflow passes this file as the scanner's `patterns-file`.
+
+# A Claude Code project directory name. Claude Code names each project's
+# folder under `.claude/projects/` after the absolute path of the workspace,
+# with the separators turned into dashes, so a literal name gives away the
+# machine layout just as an absolute path does. Samples use `<workspace-id>`.
+# Matches the name after `projects` whether the path is written in one string
+# or joined from quoted parts, in the Windows form (a drive letter and two
+# dashes) and the Unix form (a leading dash and two or more parts).
+projects["']?\s*[/\\,]+\s*["']?(?:[A-Za-z]--[A-Za-z0-9][A-Za-z0-9._-]*|-[A-Za-z0-9._]+(?:-[A-Za-z0-9._]+)+)

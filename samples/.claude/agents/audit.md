@@ -36,7 +36,7 @@ This audit's structure draws on established public patterns. When tuning a phase
 - **Alert fatigue mitigation** — ACM Computing Surveys 2025 ([DOI:10.1145/3723158](https://dl.acm.org/doi/10.1145/3723158)), Trend Micro SOC survey. Drives the finding-ledger (R3) + adaptive-weighting (R6) design to limit false-positive desensitisation.
 - **Goodhart's Law** — Charles Goodhart (1975); David Manheim on metric gaming. Drives the *no numeric score* decision above and the *opposing-metric* pair (find rate + accept rate).
 - **Two-auditor pattern** — financial auditing convention. Implemented as the `audit-second-opinion` agent (R7).
-- **Memory drift** — [arxiv:2603.10062](https://arxiv.org/pdf/2602.22406) (March 2026) distinguishes *staleness* (file is old) from *semantic drift* (claim syntactically present but factually obsolete). [A-MEM](https://arxiv.org/abs/2502.12110) (Zettelkasten-style re-indexing) informs Phase 2.7's rotating semantic-grounding check (R8).
+- **Memory drift** — this workspace distinguishes *staleness* (file is old) from *semantic drift* (claim syntactically present but factually obsolete). The distinction is its own. [A-MEM](https://arxiv.org/abs/2502.12110) (Zettelkasten-style re-indexing) informs Phase 2.7's rotating semantic-grounding check (R8).
 
 - **Module best-practice — full sweep** (added as a 4-group rotation; **switched to a full per-run sweep** by user direction — an on-demand audit surfaces the complete opportunity set in one pass). All workspace modules (META_ARCHITECTURE §2) are best-practice-checked every audit; per-module sources + checks + gaps live in a dated module best-practice brief under `Reference/Research/`. Canonical standards it introduced: OWASP Top 10 for Agentic Applications 2026 ([genai.owasp.org](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/)), OWASP Agentic Skills Top 10 v1.0 2026 ([owasp.org](https://owasp.org/www-project-agentic-skills-top-10/)), NSA MCP Security CSI, Anthropic context-engineering + long-running-harness guidance, GitHub secret-scanning. Breadth is now bounded by **concurrency (subagent fan-out)**, not by a rotation — see Phase 2.5b *Full module sweep* + the capture-all + backlog-dedup rules.
 
@@ -604,8 +604,8 @@ Each insight must fall into one of these categories:
   cross-check against current workspace state via Glob/Grep/Read.
   Surface any disagreement.
 
-  Source: arxiv:2603.10062 distinguishes staleness from semantic drift
-  in long-running agent memory. A-MEM proposes Zettelkasten-style
+  Source: the staleness versus semantic-drift distinction is this
+  workspace's own for long-running agent memory. A-MEM proposes Zettelkasten-style
   re-indexing; we use simpler rotating manual verification.
 
 ### Output format (per insight)

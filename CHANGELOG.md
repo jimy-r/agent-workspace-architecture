@@ -2,9 +2,21 @@
 
 Human-written record of notable changes — the *why* and the *shape*, not every merged PR. Milestone batches get a tagged release with short notes (from `v1.0.0`, 2026-06-11); entries are grouped by date, newest first. Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), adapted to a dated scheme. A date that carries a tagged release names the version in its heading, and that version links to the diff against the release before it, so anyone arriving from a release page can find the matching section. Dates without a version were merged between releases.
 
-## 2026-10-04
+## 2026-10-10
 
-- **Eighth teardown: Superpowers.** Merged after v1.19.0. The page reads release v6.4.2 and spends most of its time in the project's own specs. It credits a rule that nothing is written until a no-guidance control shows the failure, instruction forms matched to the failure with measured results, cost experiments recorded as dead against pre-registered gates, and a gate on changes to skill text. Against those, the eval harness and most of the results behind the release notes live outside the tree, nothing in the tree runs the 66 test files, a failed bootstrap exits clean in the shell hook, and 13 of 15 skills pass the project's own 500-word target. The reading changed two things in the private workspace this repo mirrors. The role pressure test now runs a control beside each scenario, classifies the failure before any wording changes and repeats three times before a change is adopted, and its [sample](samples/.claude/skills/role-pressure-test/SKILL.md) here carries the change. A fault test borrowed from the reading found the lessons re-injection hook printing its header alone and exiting 0 when its source was missing, and the hook now prints a failure line instead. Three ideas were declined: compliance-pressure wording as a default, decision-only plans, and installing the plugin.
+- **Eighth teardown: Superpowers.** Merged after v1.20.0. The page reads release v6.4.2 and spends most of its time in the project's own specs. It credits a rule that nothing is written until a no-guidance control shows the failure, instruction forms matched to the failure with measured results, cost experiments recorded as dead against pre-registered gates, and a gate on changes to skill text. Against those, the eval harness and most of the results behind the release notes live outside the tree, nothing in the tree runs the 66 test files, a failed bootstrap exits clean in the shell hook, and 13 of 15 skills pass the project's own 500-word target. The reading changed two things in the private workspace this repo mirrors. The role pressure test now runs a control beside each scenario, classifies the failure before any wording changes and repeats three times before a change is adopted, and its [sample](samples/.claude/skills/role-pressure-test/SKILL.md) here carries the change. A fault test borrowed from the reading found the lessons re-injection hook printing its header alone and exiting 0 when its source was missing, and the hook now prints a failure line instead. Three ideas were declined: compliance-pressure wording as a default, decision-only plans, and installing the plugin.
+
+## 2026-10-08
+
+- **The learn modules say what a working result looks like.** Each of the seven now opens with what the reader can do afterwards and ends with an "If it didn't work" block of likely causes. In between, every exercise step and instrument has a sentence describing the result to expect, checked against the samples and the starter template.
+- **Two sample scripts use the workspace-id placeholder.** `ghost_token_counter.py` and `heartbeat/idle_observations.py` carried a literal workspace id in their memory path. They now read `<workspace-id>`, as the other samples do.
+- **Each pattern has its own page on the site.** The site served two HTML pages, so a single pattern had no URL of its own there. `scripts/gen_pattern_pages.py` now renders `PATTERNS.md` into [`docs/patterns/`](docs/patterns/index.html), one titled page per pattern plus an index, listed in the sitemap and linked from the tour and `llms.txt`. A docs-consistency job fails when the pages fall behind the markdown.
+
+## 2026-10-08 - [v1.20.0]
+
+- **Six memory-layer lifts.** Eight open-source memory projects were read at pinned commits, and six patterns were rebuilt here: a source-drift stamp on the review clock, a read ledger, a credential-shape screen at the memory write, conservation at consolidation, a gate baseline that advances only on a pass, and a fix for a Stop-hook transcript race. Nothing was installed. [META §9](META_ARCHITECTURE.md#9-memory-system--persistent-context-across-sessions) describes them and a new Memory patterns table in [`ATTRIBUTION.md`](ATTRIBUTION.md#memory-patterns) credits each source at the commit read.
+- **Two memory samples re-synced.** `samples/scripts/memory_lint.py` was a path checker from the first release. It now carries the review clock and the source-drift stamp. The `consolidate-memory` skill sample archives a file on merge or delete and no longer unlinks it.
+- **A citation removed.** The "memory drift vs staleness" line credited an arXiv paper under two different ids, and neither paper makes the distinction. It's now stated as the workspace's own, in META §14, `ATTRIBUTION.md` and the audit agent sample.
 
 ## 2026-10-04 - [v1.19.0]
 
@@ -285,6 +297,7 @@ Human-written record of notable changes — the *why* and the *shape*, not every
 
 *Last verified against the repo structure on **2026-06-10**.*
 
+[v1.20.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.19.0...v1.20.0
 [v1.19.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.18.0...v1.19.0
 [v1.18.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.17.0...v1.18.0
 [v1.17.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.16.0...v1.17.0

@@ -2,6 +2,7 @@
 name: consolidate-memory
 description: Weekly -- deep memory hygiene pass. Runs memory_lint --fix, resolves contradictions, converts relative dates, merges duplicates, archives decayed memories to memory/archive/, keeps MEMORY.md under the 25 KB ceiling. Four-op discipline per fact (ADD / UPDATE / DELETE / NOOP). Iron Laws are never consolidated away.
 ---
+<!-- Pattern credit: volcengine/OpenViking@2d9114db agent-plugins/skills/ov-kanban/SKILL.md:85-103 (pattern only, nothing copied, AGPL-3.0); topoteretes/cognee@b32d8afc cognee/modules/chunking/incremental_chunking.py:309-320; vectorize-io/hindsight@9269b884 hindsight-dev/benchmarks/document_evolution/README.md:52-63 -->
 
 # Memory consolidation
 
@@ -16,9 +17,9 @@ python <workspace>/scripts/memory_lint.py --clock
 ```
 `--fix` repairs structure only. It does NOT touch `last_verified`, because a clean broken-link scan is not a review. `--clock` lists every topic file that carries no stamp or whose stamp is older than 90 days; take that list as the read-priority order for Step 2. Note any drift either surfaces.
 
-**At Exit, after the gate passes, stamp only the files this run actually cross-checked:** `python <workspace>/scripts/memory_lint.py --reviewed <file.md> <file.md> ...`, naming each topic file whose claims you checked against their source of truth in Step 3. That is every UPDATEd file, every MERGE survivor, and every NOOP you verified rather than skimmed. A file you only listed or skimmed keeps its old stamp, and if you cross-checked nothing, skip the command. Never run bare `--reviewed` from this lane, because it stamps every topic file. The 2026-09-20 run did that after updating 3 files, which left 37 of 40 files on one date and tied the audit's oldest-stamp rotation key (finding b4561b39). An honest per-file stamp is what keeps the staleness clock and the rotation key meaningful (finding 7f540e62).
+**At Exit, after the gate passes, stamp only the files this run actually cross-checked:** `python <workspace>/scripts/memory_lint.py --reviewed <file.md> <file.md> ...`, naming only the topic files whose `verify_by_checking` target this run read in Step 3 and compared the file's claims against. The target is whatever the file's frontmatter names in its `verify_by_checking:` key, at the top level or under `metadata:` (both forms occur). A file without one qualifies only when you read the sources its claims cite. When the target is a large file such as `META_ARCHITECTURE.md`, name the section you checked after its path. When the target is an action a scheduled run cannot take (asking the user, a live service or process check), the file keeps its old stamp. Before the command, log one line per file you will name: `VERIFIED <file.md> <- <target you read>`. The names on the command and the VERIFIED lines must match. A file whose target you did not read keeps its old stamp whatever its op, including an UPDATE that only fixed a date, a MERGE survivor and a NOOP you skimmed. If you read no target, skip the command. Never run bare `--reviewed` from this lane, because it stamps every topic file. The 2026-09-20 run did that after updating 3 files, which left 37 of 40 files on one date and tied the audit's oldest-stamp rotation key. An honest per-file stamp is what keeps the staleness clock and the rotation key meaningful.
 
-**Exit — route out-of-scope drift (finding 247ebd36).** Anything this pass surfaces that is outside memory scope gets appended to `<workspace>/tasks/To Do Notes.md` under `## Consolidate-memory drift`, one line: date, this log's filename, the `file:line`, and what is wrong. Surfacing into this log alone is not a route — the 2026-08-30 STRATEGY.md item sat unactioned for five days that way.
+**Exit — route out-of-scope drift.** Anything this pass surfaces that is outside memory scope gets appended to `<workspace>/tasks/To Do Notes.md` under `## Consolidate-memory drift`, one line: date, this log's filename, the `file:line`, and what is wrong. Surfacing into this log alone is not a route — the 2026-08-30 STRATEGY.md item sat unactioned for five days that way.
 
 ## Step 2 — read every memory
 
@@ -44,19 +45,29 @@ For each memory file, decide ONE of:
 
 - **NOOP** — content is accurate, references resolve, no overlap. Do nothing.
 - **UPDATE** — content is mostly right but a fact is stale (file moved, project status changed, date is relative). Edit in place. Convert relative dates ("last week") to absolute (`2026-05-11`).
-- **MERGE** — content overlaps >60% with another file. Combine into the broader/older one; delete the narrower one; update `MEMORY.md` index to point at the survivor.
-- **DELETE** — content is wholly contradicted by current source-of-truth, no longer applicable, or referenced files have vanished without successor.
+- **MERGE** — content overlaps >60% with another file. Combine into the broader/older one; move the narrower one to `archive/` unchanged (create it if missing, as ARCHIVE does) so nothing is unlinked; update `MEMORY.md` index to point at the survivor.
+- **DELETE** — content is wholly contradicted by current source-of-truth, no longer applicable, or referenced files have vanished without successor. Move the file to `archive/` unchanged (create it if missing), remove its `MEMORY.md` index entry, and log the `DELETE` line. Nothing is unlinked by this pass; `memory_gate.py check` rejects a file that vanishes with no copy there.
 - **ARCHIVE (decay / forgetting)** — content is NOT contradicted but is no longer load-bearing: superseded by a source-of-truth doc, describes a completed one-off initiative, or hasn't been relevant in 6+ months (oldest `last_verified` / mtime AND no current file references it). Move the file to `archive/` under the memory directory (create it if missing) — this preserves the content while removing it from the always-loaded set — and remove its `MEMORY.md` index entry. **Never ARCHIVE an Iron Law or an active project / source-of-truth pointer.** When you cannot confidently tell whether a memory is still load-bearing, NOOP and log it as a `forgetting-candidate` for the user to decide — never archive on a guess.
 
-For each ADD/UPDATE/DELETE/MERGE, log a line to `<workspace>/tasks/scheduled-logs/consolidate-memory_<YYYY-MM-DD>.log`:
+For each ADD/UPDATE/DELETE/MERGE, and for each file the Exit step will stamp, log a line to `<workspace>/tasks/scheduled-logs/consolidate-memory_<YYYY-MM-DD>.log`:
 ```
 ADD path/to/file.md — <one-line reason>
 UPDATE path/to/file.md — <what changed and why>
 DELETE path/to/file.md — <why obsolete>
 MERGE survivor.md ← absorbed.md — <reason>
 ARCHIVE path/to/file.md → archive/ — <why no longer load-bearing>
+VERIFIED path/to/file.md <- <the verify_by_checking target you read>
 forgetting-candidate path/to/file.md — <why uncertain; left for user>
 ```
+
+## Step 3b — read usage
+
+Step 4's "least-loaded by usage" needs data. Roll the read ledger up, then read the report:
+```
+python <workspace>/scripts/memory_usage.py rollup
+python <workspace>/scripts/memory_usage.py report
+```
+`report` counts reads per topic file from the sentinel action log and lists the topic files with no read in the window, with bulk passes filtered out. Use it as the usage signal when Step 4 prunes. If either command fails, log one line saying so and fall back to oldest-first.
 
 ## Step 4 — MEMORY.md ceiling
 

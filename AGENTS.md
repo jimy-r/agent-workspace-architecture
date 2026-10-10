@@ -57,6 +57,7 @@ happened.
 ```bash
 python scripts/validate_samples.py         # sample frontmatter, links, schemas
 python scripts/gen_llms_full.py --check    # llms-full.txt matches its sources
+python scripts/gen_pattern_pages.py --check # docs/patterns/ matches PATTERNS.md
 python scripts/check_freshness.py          # dated stamps, teardown re-check dates
 python scripts/teardown_matrix.py --check  # teardown matrix matches the pages
 python tools/workspace_check.py --self-test
@@ -64,7 +65,8 @@ python tools/workspace_check.py --self-test
 ```
 
 Regenerate rather than hand-edit: `python scripts/gen_llms_full.py` rewrites
-`docs/llms-full.txt`, `python scripts/teardown_matrix.py` rewrites the marked
+`docs/llms-full.txt`, `python scripts/gen_pattern_pages.py` rewrites the pages
+under `docs/patterns/`, `python scripts/teardown_matrix.py` rewrites the marked
 block in `teardowns/README.md`, and `python scripts/check_freshness.py --fix`
 rewrites the dated stamps. CI runs these same commands, so a green local run is
 the gate for all of them. Two of the checks have no local repair. Redaction has

@@ -11,6 +11,11 @@ name: Docs consistency
 # and the teardown presence matrix (62cbd5a3), which is derived from the
 # pages' own header lines rather than typed out beside them.
 #
+# The per-pattern pages under docs/patterns/ are held the same way (ed9e46fd).
+# scripts/gen_pattern_pages.py renders them from PATTERNS.md, and the
+# pattern-pages job fails when a page is behind the markdown, when the tour's
+# colour tokens have moved on, or when the sitemap misses a page.
+#
 # One check holds a shape rather than a count. META's "Last updated" header
 # is one date and a link to the changelog (6c861f83). Left alone it grew
 # twice into a second changelog on a single line, and its entries disagreed
@@ -30,6 +35,10 @@ on:
       - 'teardowns/**'
       - 'scripts/teardown_matrix.py'
       - 'docs/llms.txt'
+      - 'docs/patterns/**'
+      - 'docs/sitemap.xml'
+      - 'scripts/gen_pattern_pages.py'
+      - 'scripts/gen_llms_full.py'
       - 'SECURITY.md'
       - '.github/workflows/**'
   push:
@@ -46,6 +55,10 @@ on:
       - 'teardowns/**'
       - 'scripts/teardown_matrix.py'
       - 'docs/llms.txt'
+      - 'docs/patterns/**'
+      - 'docs/sitemap.xml'
+      - 'scripts/gen_pattern_pages.py'
+      - 'scripts/gen_llms_full.py'
       - 'SECURITY.md'
       - '.github/workflows/**'
 
@@ -291,6 +304,21 @@ jobs:
           python-version: '3.12'
       - name: Teardown matrix matches the pages it is derived from
         run: python scripts/teardown_matrix.py --check
+
+  pattern-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Pattern-page renderer passes its self-test
+        run: python scripts/gen_pattern_pages.py --selftest
+      # docs/patterns/ is generated. An edit to PATTERNS.md, to the tour's
+      # colour tokens or to the link resolver in gen_llms_full.py leaves the
+      # published pages behind until the generator is run again.
+      - name: Pattern pages match PATTERNS.md, the tour and the sitemap
+        run: python scripts/gen_pattern_pages.py --check
 
   security-workflow-inventory:
     runs-on: ubuntu-latest
