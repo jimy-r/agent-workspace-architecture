@@ -47,15 +47,40 @@ three categories of command:
 Where a command sits in a statement does not change the answer. A shell
 keyword in front of it is skipped (`if ...; then rm x; fi`, `do rm x`,
 `! rm x`). Each statement inside braces is checked on its own (`{ rm x; }`,
-`if ($ok) { Remove-Item x }`). A line continued with a trailing backslash
-(Bash) or backtick (PowerShell) is read a second time with the lines
-joined. A quoted target is read to its closing quote, so
+`if ($ok) { Remove-Item x }`). A comment hides nothing: the text after a
+`#` is read as part of the command, and each statement is read again
+without its trailing comment, so neither a comment line above a command
+nor a note after one changes the answer. A line continued with a trailing
+backslash (Bash) or backtick (PowerShell) is read a second time with the
+lines joined. A quoted target is read to its closing quote, so
 `> "my secrets/out.txt"` is seen whole.
 
-That holds for the first two categories, with one limit. A command behind
-a prefix the parser does not unwrap (`eval`, `timeout 5`, `sudo -u root`)
-is read by the text patterns alone. They still see the first operand of an
-`rm` there and the destination of an `mv`, and they do not see a push.
+That holds for the first two categories, and it has limits. The guard
+reads the command each statement starts with and the paths written out
+beside it, so a write or a push that takes a longer route gets past.
+These classes are known to pass:
+
+    - a redirect, `tee`, `touch` or `chmod` whose path is quoted only in
+      part (`> "$HOME"/.env`);
+    - a path built by a `$(...)` that holds a space, or by a
+      parenthesised PowerShell expression (`rm $(git rev-parse
+      --show-toplevel)/.env`, `Remove-Item (Join-Path $PWD '.env')`);
+    - a file name that arrives through a pipe (`echo .env | xargs rm`);
+    - a command behind a prefix the parser has no rule for (`timeout 5`,
+      `eval`, `sudo -u root`, `coproc`);
+    - a command handed unquoted to another shell (`cmd /c`, `wsl`,
+      `powershell -Command`) or run inside backticks;
+    - an operand past a comma that continues a PowerShell list onto the
+      next line;
+    - a writer with no rule here at all: the redirects `&>` and `>|`,
+      `dd of=`, `install`, `ln -sf`, `find -delete`, `git checkout --`,
+      `git clean`, cmdlets outside the list above (`Clear-Item`,
+      `Export-Csv`), and a `sed -i` whose script holds a space.
+
+In the fourth and fifth classes the `rm` and `mv` text patterns still
+see the first operand of an `rm` and the destination of an `mv`. They
+do not see a push (`timeout 60 git push --force origin feature`), a
+PowerShell cmdlet, `del`, or the source of an `mv`.
 
 The third category is a text pattern and reads less. It sees an assignment
 at the start of the command, on a new line, or straight after `;`, `&` or
@@ -74,7 +99,15 @@ itself reads as a blocked command (`-m "git push origin main"`) is
 refused. Reword the message rather than bypassing the hook. Text inside
 braces is read the same way, so a hashtable or JSON body whose key is
 named like a delete or a move and whose value is a protected path
-(`@{ del = '.env' }`) is refused as well.
+(`@{ del = '.env' }`) is refused as well. So is comment text: a note
+after a delete, a move or a push that names a protected path, `main` or
+a force flag (`rm old.log  # not .env`), and a comment that holds a
+blocked command of its own after a `;`, a `|` or a brace
+(`# cleanup; rm .env`).
+The `rm` and `mv` text patterns go one step further. They refuse any
+line that puts `rm` or `mv` in front of a protected path, even when it
+is only a comment (`# rm .env`) or another tool's subcommand
+(`docker rm credentials-db`).
 
 Claude Code hook protocol:
     - stdin: JSON payload {"tool_name": "Bash" | "PowerShell",
@@ -304,13 +337,23 @@ def check_dangerous_env(command: str) -> tuple[bool, str]:
 
 
 def _tokens(command: str) -> list[str]:
-    lex = shlex.shlex(command.replace("\n", " ; "), posix=True, punctuation_chars=True)
+    """Split a command into words and separators. A newline ends a statement.
+
+    Comments stay in. Left to itself the lexer drops everything from the
+    first unquoted `#` to the end of the text, which is every later line as
+    well once the newlines are separators, so a comment line above a command
+    would hide the command. `_statement` reads each statement a second time
+    without its trailing comment.
+    """
+    text = command.replace("\n", " ; ")
+    lex = shlex.shlex(text, posix=True, punctuation_chars=True)
     lex.whitespace_split = True
     lex.escape = ""  # backslash is a path separator on Windows, keep it
+    lex.commenters = ""
     try:
         return list(lex)
     except ValueError:  # unbalanced quote: fall back to a plain split
-        return [t.strip("'\"") for t in re.findall(r"[;&|()]+|[^\s;&|()]+", command)]
+        return [t.strip("'\"") for t in re.findall(r"[;&|()]+|[^\s;&|()]+", text)]
 
 
 def _brace_parts(tok: str) -> list[str | None]:
@@ -372,6 +415,27 @@ def _blocks(tokens: list[str]):
         yield current
 
 
+def _statement(tokens: list[str]):
+    """Yield one statement as written, then without its trailing comment.
+
+    Comment text is kept so that it cannot hide what follows it. Read that
+    way alone, though, a note could pass for arguments and soften the
+    command in front of it (`git rm x  # --cached`). A word that starts with
+    `#` opens a comment in both shells, so the statement is read a second
+    time cut short at that word. The whole statement is yielded first, so
+    this only adds readings: an operand that merely starts with a `#`
+    (`rm "#old" x`) keeps the operands after it.
+    """
+    yield tokens
+    yield from _blocks(tokens)
+    for i, tok in enumerate(tokens):
+        if tok.startswith("#"):
+            if i:
+                yield tokens[:i]
+                yield from _blocks(tokens[:i])
+            break
+
+
 def _segments(command: str, depth: int = 0):
     """Yield each simple command as a token list. A quoted argument that
     holds whitespace (`bash -c "..."`, `pwsh -Command "..."`) is checked as
@@ -380,8 +444,7 @@ def _segments(command: str, depth: int = 0):
     for tok in _tokens(command):
         if set(tok) <= _SEPARATOR:
             if current:
-                yield current
-                yield from _blocks(current)
+                yield from _statement(current)
             current = []
             continue
         if set(tok) <= _REDIRECT:
@@ -390,8 +453,7 @@ def _segments(command: str, depth: int = 0):
             yield from _segments(tok, depth + 1)
         current.append(tok)
     if current:
-        yield current
-        yield from _blocks(current)
+        yield from _statement(current)
 
 
 def _name(token: str) -> str:

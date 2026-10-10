@@ -103,6 +103,18 @@ jobs:
                   shell("rm -f \\\n  .env"),
                   shell("Remove-Item `\n  -Path .env", "PowerShell"),
                   shell('echo KEY=1 > "my secrets/out.txt"'),
+                  # A comment, a hash sign inside a word or an escaped quote on
+                  # the line above hides nothing, and a note after a command
+                  # does not soften it. The cases are pushes, a cmdlet and a
+                  # second operand, because the rm and mv text patterns would
+                  # catch a plain delete here whatever the parser read.
+                  shell("# ship it\ngit push origin main"),
+                  shell("git status  # check first\ngit push --force origin feature"),
+                  shell("echo build#12\ngit push -f origin feature"),
+                  shell('echo "5\\" disk"\ngit push origin master'),
+                  shell("# tidy up\nrm -f old.log .env"),
+                  shell("# remove the old file\nRemove-Item .env", "PowerShell"),
+                  shell("git rm old.log .env  # --cached"),
                   # The sample's own rules: an exec-hijacking variable set in
                   # front of a command, and a delete behind a prefix that only
                   # the text patterns read.
@@ -124,6 +136,16 @@ jobs:
                   shell("rm -f \\\n  old.log"),
                   shell('echo done > "my notes/out.txt"'),
                   shell("Remove-Item C:\\temp\\\nGet-Content secrets-policy.md", "PowerShell"),
+                  # Ordinary commands that hold a hash sign, and a harmless push
+                  # under a comment line and after a trailing comment.
+                  shell("# list the docs\nls -la docs"),
+                  shell("rm -f old.log  # tidy up"),
+                  shell("curl -s https://example.com/page#top"),
+                  shell('echo "issue #12 is fixed"'),
+                  shell('git commit -m "fix #12: tidy the notes"'),
+                  shell("# list the docs\nGet-ChildItem docs", "PowerShell"),
+                  shell("# ship it\ngit push origin feature"),
+                  shell("git status  # check first\ngit push origin feature"),
                   # An ordinary variable, and a copy of a protected name inside
                   # the sample tree the guard's allowlist names.
                   shell("FOO=1 make build"),
