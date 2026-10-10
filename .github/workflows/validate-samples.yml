@@ -45,6 +45,133 @@ jobs:
       - name: Run roles library validator
         run: python samples/roles/_validate.py
 
+      # The sample hooks are code people copy, so they are run here as well as
+      # read. The step runs from a directory other than the project root, as a
+      # hook does once the agent has changed directory. Each payload goes to
+      # the hooks whose matcher names its tool, the way Claude Code routes it,
+      # so a tool that no matcher covers (PowerShell, say) fails here. A hook
+      # that cannot start exits non-zero but not 2, and Claude Code lets that
+      # tool call through, so every bad payload must come back as exactly 2.
+      - name: Run each sample hook as settings.example.json wires it
+        env:
+          CLAUDE_PROJECT_DIR: ${{ github.workspace }}/samples
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP"
+          python3 - "$CLAUDE_PROJECT_DIR/.claude/settings.example.json" <<'EOF'
+          import json
+          import os
+          import re
+          import subprocess
+          import sys
+          import tempfile
+
+          root = os.environ["CLAUDE_PROJECT_DIR"]
+          with open(sys.argv[1], encoding="utf-8") as fh:
+              settings = json.load(fh)
+
+          # A bare `git push` sends the current branch, which the guard reads
+          # from git. One scratch repo sits on main and one on a feature branch.
+          repo = {}
+          for branch in ("main", "feature"):
+              repo[branch] = tempfile.mkdtemp()
+              subprocess.run(["git", "init", "-q", "-b", branch, repo[branch]], check=True)
+
+          def shell(command, tool="Bash"):
+              return {"tool_name": tool, "tool_input": {"command": command}}
+
+          cases = {
+              2: [
+                  {"tool_name": "Write", "tool_input": {"file_path": ".env"}},
+                  shell("echo KEY=1 > .env"),
+                  shell("git push --force origin feature"),
+                  shell("rm -f old.log .env"),
+                  shell("mv .env backup.txt"),
+                  shell(f'git -C "{repo["main"]}" push'),
+                  shell("git push origin HEAD:main"),
+                  shell("git push origin +main"),
+                  shell("git push origin refs/heads/main"),
+                  shell("git push origin feature:main"),
+                  shell("git -C some/dir push origin main"),
+                  shell("Remove-Item -Path .env -Force", "PowerShell"),
+                  # The command behind a shell keyword, inside braces, on a
+                  # continued line, or aimed at a quoted path with a space in it.
+                  shell("if [ -f .env ]; then rm .env; fi"),
+                  shell('for f in a b; do rm -f "$f" .env; done'),
+                  shell("if (Test-Path .env) { Remove-Item .env }", "PowerShell"),
+                  shell("if true; then git push --force origin feature; fi"),
+                  shell("rm -f \\\n  .env"),
+                  shell("Remove-Item `\n  -Path .env", "PowerShell"),
+                  shell('echo KEY=1 > "my secrets/out.txt"'),
+                  # The sample's own rules: an exec-hijacking variable set in
+                  # front of a command, and a delete behind a prefix that only
+                  # the text patterns read.
+                  shell("GIT_SSH_COMMAND='ssh -i other' git fetch"),
+                  shell("timeout 5 rm .env"),
+              ],
+              0: [
+                  {"tool_name": "Write", "tool_input": {"file_path": "docs/notes.md"}},
+                  shell("ls -la docs"),
+                  shell("rm -f old.log build.log"),
+                  shell(f'git -C "{repo["feature"]}" push'),
+                  shell("git push origin main:feature"),
+                  shell("Get-ChildItem docs", "PowerShell"),
+                  # The same shapes around files that are not protected. The
+                  # last PowerShell one is two statements: a path that ends in
+                  # a backslash does not continue onto the line below it.
+                  shell("if [ -f notes.md ]; then rm old.log; fi"),
+                  shell("if (Test-Path old.log) { Remove-Item old.log }", "PowerShell"),
+                  shell("rm -f \\\n  old.log"),
+                  shell('echo done > "my notes/out.txt"'),
+                  shell("Remove-Item C:\\temp\\\nGet-Content secrets-policy.md", "PowerShell"),
+                  # An ordinary variable, and a copy of a protected name inside
+                  # the sample tree the guard's allowlist names.
+                  shell("FOO=1 make build"),
+                  shell("rm agent-workspace-architecture/samples/.env"),
+              ],
+          }
+
+          def run(hook, payload):
+              argv = [hook["command"]] + [
+                  a.replace("${CLAUDE_PROJECT_DIR}", root) for a in hook.get("args", [])
+              ]
+              try:
+                  return subprocess.run(
+                      argv, input=json.dumps(payload), text=True,
+                      capture_output=True, timeout=hook.get("timeout", 600),
+                  ).returncode
+              except OSError as exc:
+                  return f"could not start ({exc})"
+
+          failures = []
+          groups = settings["hooks"]["PreToolUse"]
+          for group in groups:
+              for hook in group["hooks"]:
+                  timeout = hook.get("timeout", 600)
+                  if timeout > 60:
+                      failures.append(f"{group['matcher']}: timeout {timeout} is seconds, not ms")
+
+          for want, payloads in cases.items():
+              for payload in payloads:
+                  tool = payload["tool_name"]
+                  hooks = [
+                      hook for group in groups if re.fullmatch(group["matcher"], tool)
+                      for hook in group["hooks"]
+                  ]
+                  if not hooks:
+                      print(f"FAIL: no PreToolUse matcher covers the {tool} tool")
+                      failures.append(f"{tool}: no matcher")
+                      continue
+                  got = [run(hook, payload) for hook in hooks]
+                  ok = 2 in got if want == 2 else all(code == 0 for code in got)
+                  print(f"{'ok' if ok else 'FAIL'}: {tool} {payload['tool_input']}: exit {got}, want {want}")
+                  if not ok:
+                      failures.append(f"{tool}: {payload['tool_input']}")
+
+          if failures:
+              sys.exit("hook check failed: " + "; ".join(failures))
+          EOF
+
   self-score:
     # The README quotes this repo's own workspace_check score, and docs/self-score.md
     # carries the full run with its commit and date (audit finding 9e33f455: the most

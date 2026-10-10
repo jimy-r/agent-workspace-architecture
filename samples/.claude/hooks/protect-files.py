@@ -7,9 +7,10 @@ happily rewrite your `.env` or truncate a financial workbook; a hook
 that costs ten milliseconds stops the overwhelming majority of that
 class of accident before the tool call runs.
 
-Scope: `Edit` and `Write` only. Shell-level writes (`>`, `sed -i`, `mv`)
-go through the `Bash` tool and bypass this hook entirely — that gap is
-what `scripts/security/check_bash_command.py` closes. Wire both.
+Scope: `Edit` and `Write` only. Shell-level writes (`>`, `sed -i`, `mv`,
+`Remove-Item`) go through the `Bash` or `PowerShell` tool and bypass this
+hook entirely — that gap is what `scripts/security/check_bash_command.py`
+closes. Wire both, and wire that one on `Bash|PowerShell`.
 
 This is defence-in-depth, not a security boundary. The bar is "catch
 casual mistakes", not "stop a determined adversary": a process that
