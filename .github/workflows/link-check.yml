@@ -68,13 +68,23 @@ jobs:
         if: github.event_name == 'pull_request' && steps.changed.outputs.any_changed == 'true'
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
-          # The only input is this constant glob. It matches the marker copies
-          # the step above made, one per changed file, and nothing else.
+          # Two constant inputs, and nothing taken from the PR. The glob matches
+          # the marker copies the step above made, one per changed file, and
+          # nothing else.
+          #
+          # The exclude skips this repository's own compare links, in this
+          # step only. A release PR writes the CHANGELOG heading link
+          # compare/vPREV...vNEW before the tag exists, so the link is a 404
+          # until the release is cut. The check went red on the v1.17.0 and
+          # v1.20.0 release PRs with nothing wrong in the diff, and a real
+          # dead link in the same PR would have hidden behind that failure.
+          # The scheduled run below still checks every compare link.
           args: >-
             --verbose
             --no-progress
             --max-concurrency 4
             --include-fragments
+            --exclude '^https://github\.com/jimy-r/agent-workspace-architecture/compare/'
             './**/*.lychee-pr.md'
           fail: true
           # A changed .md file can hold no links at all, a changelog line or a
