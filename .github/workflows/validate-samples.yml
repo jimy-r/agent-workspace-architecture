@@ -103,11 +103,15 @@ jobs:
                   shell("rm -f \\\n  .env"),
                   shell("Remove-Item `\n  -Path .env", "PowerShell"),
                   shell('echo KEY=1 > "my secrets/out.txt"'),
-                  # A comment, a hash sign inside a word or an escaped quote on
-                  # the line above hides nothing, and a note after a command
-                  # does not soften it. The cases are pushes, a cmdlet and a
-                  # second operand, because the rm and mv text patterns would
-                  # catch a plain delete here whatever the parser read.
+                  # Commands outside quotes that a comment or a stray mark must not
+                  # hide. They stand under a comment line, under a line that ends in
+                  # a note, under a line with a hash sign inside a word and under a
+                  # line with an escaped quote. The last one has a note after it that
+                  # names a softer flag. The guard's docstring lists the shapes in
+                  # which a comment or a stray quote mark does hide a command. The
+                  # cases are pushes, a cmdlet and a second operand, because the rm
+                  # and mv text patterns would catch a plain delete here whatever
+                  # the parser read.
                   shell("# ship it\ngit push origin main"),
                   shell("git status  # check first\ngit push --force origin feature"),
                   shell("echo build#12\ngit push -f origin feature"),
@@ -115,6 +119,59 @@ jobs:
                   shell("# tidy up\nrm -f old.log .env"),
                   shell("# remove the old file\nRemove-Item .env", "PowerShell"),
                   shell("git rm old.log .env  # --cached"),
+                  # The same under a here-document with an apostrophe in it. The shell
+                  # reads that mark as plain text and the lexer reads it as a quote, so
+                  # a plain split takes over. It still sees a command outside quotes.
+                  shell("cat <<'NOTE' > notes.md\nit's a note\nNOTE\ngit push origin main"),
+                  # A quote mark inside a comment. One in a note leaves the quotes
+                  # unbalanced, so a command inside quotes or behind a quoted value
+                  # goes unread unless the note is cut off first.
+                  shell('bash -c "git push --force origin feature"\n# it\'s fine'),
+                  shell('bash -c "git push origin main"  # don\'t wait'),
+                  shell('pwsh -Command "Remove-Item .env"  # don\'t keep', "PowerShell"),
+                  shell('powershell -Command "Remove-Item .env"\n# that\'s all', "PowerShell"),
+                  shell('git -C "my repo" push origin main  # don\'t wait'),
+                  shell('git -c "user.name=A B" push origin main  # don\'t'),
+                  shell('pwsh -Command \'Remove-Item .env\'  # 5" disk', "PowerShell"),
+                  # One in a comment above the command and one below pair with the
+                  # command's own quotes and pull its operands apart.
+                  shell("# don't keep the old copy\nrm 'old copy.txt' .env\n# that's all"),
+                  shell("# it's fine\nrm 'my file' .env  # don't worry"),
+                  shell('# say "hello\ncp "my file" .env\n# end "quote'),
+                  shell("# don't\nmv 'a b.txt' .env\n# it's ok"),
+                  shell("# don't lose it\nCopy-Item 'my notes.txt' .env\n# that's the config", "PowerShell"),
+                  shell("ls  # don't\nrm 'a b' .env\nls # it's"),
+                  shell("# don't keep these\nRemove-Item 'old copy.txt' .env\n# that's all", "PowerShell"),
+                  # Where a comment starts and ends is the shell's call. A hash sign
+                  # inside quotes earlier on the line is not one. A backslash at the
+                  # end of a comment continues nothing. A comment can start straight
+                  # after a `;` or a `<`, and PowerShell ends one at a lone carriage
+                  # return.
+                  shell('git commit -m "fix #12" && bash -c "rm .env"  # don\'t worry'),
+                  shell('echo a # note \\\nrm -f \\\n  .env'),
+                  shell('bash -c "rm .env";# don\'t'),
+                  shell('pwsh -Command "Remove-Item .env" <# don\'t #>', "PowerShell"),
+                  shell('# note\rRemove-Item .env', "PowerShell"),
+                  # A line further down that leaves a quote open sends every line to
+                  # a split that does not follow quotes, and Bash has run the lines
+                  # above it by then. The text in front of the first comment is read
+                  # alone, so it stays out of reach. A quoted script has its comments
+                  # cut out as well.
+                  shell('bash -c "rm .env"  # note\necho it\'s done'),
+                  shell('bash -c "rm .env"\n# note\necho it\'s done'),
+                  shell('FOO="a b" rm .env  # note\necho "unfinished'),
+                  shell('bash -c "git push origin main"  # note\necho it\'s'),
+                  shell('bash -c "FOO=\'a b\' rm .env  # don\'t"'),
+                  # The same shapes as pushes and a cmdlet. The rm text pattern
+                  # catches the deletes above whatever the parser reads, so these
+                  # are the ones that fail here if the cut is lost.
+                  shell('echo "a # b"; bash -c "git push origin main"  # don\'t'),
+                  shell('pwsh -Command "Remove-Item .env";# don\'t', "PowerShell"),
+                  shell('bash -c "git push --force origin feature"  # note\necho it\'s done'),
+                  shell('bash -c "git push origin main"\n# note\necho it\'s done'),
+                  shell('FOO="a b" git push origin main  # note\necho "unfinished'),
+                  shell('bash -c "FOO=\'a b\' git push origin main  # don\'t"'),
+                  shell('# note\rgit push origin main', "PowerShell"),
                   # The sample's own rules: an exec-hijacking variable set in
                   # front of a command, and a delete behind a prefix that only
                   # the text patterns read.
@@ -146,6 +203,20 @@ jobs:
                   shell("# list the docs\nGet-ChildItem docs", "PowerShell"),
                   shell("# ship it\ngit push origin feature"),
                   shell("git status  # check first\ngit push origin feature"),
+                  # Harmless commands with a quote mark in a comment, an index-only
+                  # `git rm` with a hash sign inside a quoted name, and a Bash comment
+                  # that a lone carriage return does not end.
+                  shell("ls -la docs  # don't forget the notes"),
+                  shell("# don't run this yet\nls 'my docs'\n# that's all"),
+                  shell('git rm --cached "x #1" .env'),
+                  shell('Write-Host "it\'s done"  # don\'t worry', "PowerShell"),
+                  shell('# note\rgit push origin main'),
+                  shell("git push origin feature  # CI's turn"),
+                  # A harmless command inside the quotes of two of the shapes above,
+                  # and a harmless push under a here-document with an apostrophe in it.
+                  shell('bash -c "ls docs"  # note\necho it\'s done'),
+                  shell('bash -c "git push origin feature"  # don\'t worry'),
+                  shell("cat <<'NOTE' > notes.md\nit's a note\nNOTE\ngit push origin feature"),
                   # An ordinary variable, and a copy of a protected name inside
                   # the sample tree the guard's allowlist names.
                   shell("FOO=1 make build"),

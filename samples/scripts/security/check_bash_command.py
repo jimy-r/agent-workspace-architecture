@@ -47,12 +47,18 @@ three categories of command:
 Where a command sits in a statement does not change the answer. A shell
 keyword in front of it is skipped (`if ...; then rm x; fi`, `do rm x`,
 `! rm x`). Each statement inside braces is checked on its own (`{ rm x; }`,
-`if ($ok) { Remove-Item x }`). A comment hides nothing: the text after a
-`#` is read as part of the command, and each statement is read again
-without its trailing comment, so neither a comment line above a command
-nor a note after one changes the answer. A line continued with a trailing
-backslash (Bash) or backtick (PowerShell) is read a second time with the
-lines joined. A quoted target is read to its closing quote, so
+`if ($ok) { Remove-Item x }`). Comment text is kept as part of the
+command, because a comment line must not hide the command below it. Each
+statement is read again without its trailing comment, because a note must
+not soften the command in front of it. The whole command is read twice
+more. Once with each line cut at a `#` that opens a word outside quotes,
+because a quote mark inside a comment would otherwise count as a quote.
+And once as only the text in front of the first such `#`, because a line
+further down that leaves a quote open must not change how that text
+reads. A quoted script is read with its comments cut out as well. A line
+continued with a trailing backslash (Bash) or backtick (PowerShell) is
+read again with the lines joined. A quoted target is read to its closing
+quote, so
 `> "my secrets/out.txt"` is seen whole.
 
 That holds for the first two categories, and it has limits. The guard
@@ -75,12 +81,57 @@ These classes are known to pass:
     - a writer with no rule here at all: the redirects `&>` and `>|`,
       `dd of=`, `install`, `ln -sf`, `find -delete`, `git checkout --`,
       `git clean`, cmdlets outside the list above (`Clear-Item`,
-      `Export-Csv`), and a `sed -i` whose script holds a space.
+      `Export-Csv`), a `sed -i` whose script holds a space, and a
+      `truncate`, `chmod`, `chown` or `tee` with one more word in front
+      of the path than its pattern expects (`truncate -s 0 .env`).
 
-In the fourth and fifth classes the `rm` and `mv` text patterns still
-see the first operand of an `rm` and the destination of an `mv`. They
-do not see a push (`timeout 60 git push --force origin feature`), a
-PowerShell cmdlet, `del`, or the source of an `mv`.
+Quotes and comments set limits of their own. These pass as well:
+
+    - the first command of a quoted argument, or a command behind a
+      quoted value with a space in it, when the lexer finds a quote
+      left open anywhere in the text. It gives up on the whole text
+      and a plain split on whitespace takes over, which does not
+      follow quotes. A later line that leaves a quote open does it,
+      while Bash still runs every line above that one:
+      `bash -c "git push --force origin feature"` passes with
+      `echo it's done` on the next line. A quote mark that the shell
+      reads as plain text does it too, and then the shell runs every
+      line. The lexer pairs quote marks as they come and knows no
+      escape character, no here-document and no nesting. So it counts
+      an apostrophe in a here-document or a here-string, a quote
+      behind a backslash (Bash) or a backtick (PowerShell), and a
+      quote inside a `$(...)` that stands inside quotes. Two such
+      marks can also pair with a command's own quotes and pull it
+      apart.
+    - the same command with comments in the text, in all but two
+      cases. The readings that drop comments bring it back when the
+      mark that leaves the quote open stands inside a comment, and
+      when the command stands in front of the first comment in the
+      text and that mark behind it. A comment line above the command
+      with the mark on a line below is neither, and passes. A `#`
+      inside a word opens no comment and brings nothing back
+      (`bash -c "git push origin main" x#y`, then a line that leaves
+      a quote open).
+    - a quoted command that follows a `${#name}` on its line, with a
+      quote mark in a note after it. The cut takes a `#` straight after
+      a brace for a comment, which is right for PowerShell and wrong
+      for Bash, so the two readings that drop comments stop there.
+    - a command in a quoted script that has a quote mark in the
+      script's own comment lines. The line breaks of the script are
+      separators by the time it is read, so a comment in it is cut to
+      the end of the script. A script whose three lines are `# don't`,
+      `rm 'a b' .env` and `# it's` passes.
+    - in PowerShell, a command behind a block comment on the same line
+      (`<# note #> Remove-Item .env`), and a command behind a lone
+      carriage return, which the guard reads as a space where
+      PowerShell ends the line.
+
+The `rm` and `mv` text patterns read the text as sent, whatever quotes
+and prefixes stand around it. In each class that hides a command from
+the parser they still see the first operand of an `rm` and the
+destination of an `mv`. They do not see a push (`timeout 60 git push
+--force origin feature`), a PowerShell cmdlet, `del`, or the source of
+an `mv`.
 
 The third category is a text pattern and reads less. It sees an assignment
 at the start of the command, on a new line, or straight after `;`, `&` or
@@ -106,8 +157,18 @@ blocked command of its own after a `;`, a `|` or a brace
 (`# cleanup; rm .env`).
 The `rm` and `mv` text patterns go one step further. They refuse any
 line that puts `rm` or `mv` in front of a protected path, even when it
-is only a comment (`# rm .env`) or another tool's subcommand
-(`docker rm credentials-db`).
+is only a comment (`# rm .env`), another tool's subcommand
+(`docker rm credentials-db`) or an index-only `git rm .env --cached`
+with the flag last.
+
+Two more edges come from the way quotes are read. A message that only
+quotes a blocked command is refused, with or without a `#` tail after
+the quoted words (`-m "say 'git push origin main' is refused"`). And
+the plain split costs a harmless command now and then. A quoted value
+with a space in it falls into two words there, so the apostrophe in
+the note of `Set-Content notes.txt -Value "my secrets/out.txt"  # don't`
+gets that command refused, where the same command without the note is
+allowed.
 
 Claude Code hook protocol:
     - stdin: JSON payload {"tool_name": "Bash" | "PowerShell",
@@ -343,7 +404,15 @@ def _tokens(command: str) -> list[str]:
     first unquoted `#` to the end of the text, which is every later line as
     well once the newlines are separators, so a comment line above a command
     would hide the command. `_statement` reads each statement a second time
-    without its trailing comment.
+    without its trailing comment. A quote mark inside a comment counts as a
+    quote here, so `_readings` also sends the command through with its
+    comments cut out.
+
+    A quote left open makes the lexer give up, and the plain split that
+    takes over knows nothing about quotes. A command inside them is then
+    no longer read as a command of its own, on that line or on any other.
+    So `_readings` also sends the text in front of the first comment
+    through alone, where a later line cannot reach it.
     """
     text = command.replace("\n", " ; ")
     lex = shlex.shlex(text, posix=True, punctuation_chars=True)
@@ -439,7 +508,14 @@ def _statement(tokens: list[str]):
 def _segments(command: str, depth: int = 0):
     """Yield each simple command as a token list. A quoted argument that
     holds whitespace (`bash -c "..."`, `pwsh -Command "..."`) is checked as
-    a command of its own as well, and so is each statement inside braces."""
+    a command of its own as well, and so is each statement inside braces.
+
+    A quoted script is read as written and then with its comments cut out,
+    for the reason `_readings` gives. Its newlines are separators by the
+    time it gets here, so a comment in it is cut to the end of the script
+    or to a carriage return. The script as written is read first, so the
+    cut only adds a reading.
+    """
     current: list[str] = []
     for tok in _tokens(command):
         if set(tok) <= _SEPARATOR:
@@ -450,7 +526,8 @@ def _segments(command: str, depth: int = 0):
         if set(tok) <= _REDIRECT:
             continue
         if depth < 3 and any(c.isspace() for c in tok):
-            yield from _segments(tok, depth + 1)
+            for text in dict.fromkeys((tok, _without_comments(tok, ""))):
+                yield from _segments(text, depth + 1)
         current.append(tok)
     if current:
         yield from _statement(current)
@@ -622,8 +699,46 @@ def check_parsed(command: str, protected: list[str], cwd: str) -> tuple[bool, st
     return False, ""
 
 
+# One quoted string, or one comment (the group), or a run of anything else. A
+# comment opens at a `#` that starts a word: at the start of a line, or after
+# whitespace, a separator, a redirect or a brace. It ends with its line.
+_COMMENT = r"'[^']*'?|\"[^\"]*\"?|((?<![^\s;&|()<>{}])#[^%s]*)|[^'\"#]+|#"
+_COMMENT_TO_NEWLINE = re.compile(_COMMENT % r"\n")
+_COMMENT_TO_LINE_END = re.compile(_COMMENT % r"\r\n")
+
+
+def _without_comments(command: str, tool: str) -> str:
+    """Cut each line at a `#` that opens a word outside quotes.
+
+    A word opens at the start of the text and after whitespace, a separator,
+    a redirect or a brace. PowerShell starts a comment in each of those
+    places. Bash does not start one after a brace, so `${#x}` is cut here
+    although Bash reads it as a length, and the rest of that line is then
+    missing from this reading. The reading is only ever added to the
+    others, so that takes no refusal away. It can add one: the index-only
+    `git rm .env.d/${#n} --cached` loses its `--cached` here and is
+    refused. A hash inside a word (`a#b`, a URL fragment) or inside quotes
+    stays. Quotes are followed the way `_tokens` follows them, with no
+    escape character, and a quoted string may run over several lines. Bash
+    ends a comment at a newline. PowerShell ends a line at a lone carriage
+    return as well, so every other tool gets the wider rule.
+    """
+    pattern = _COMMENT_TO_NEWLINE if tool == "Bash" else _COMMENT_TO_LINE_END
+    return pattern.sub(lambda m: "" if m.group(1) is not None else m.group(), command)
+
+
+def _head(command: str, tool: str) -> str:
+    """The text in front of the first comment, or all of it without one."""
+    pattern = _COMMENT_TO_NEWLINE if tool == "Bash" else _COMMENT_TO_LINE_END
+    for match in pattern.finditer(command):
+        if match.group(1) is not None:
+            return command[: match.start()]
+    return command
+
+
 def _readings(command: str, tool: str) -> list[str]:
-    """The command as sent, plus a second reading with continued lines joined.
+    """The command as sent, without its comments, and up to its first
+    comment, each with lines joined.
 
     A newline ends a statement, so `rm -f \\` followed by `.env` on the next
     line reads as two statements and the delete loses its operand. Bash
@@ -631,13 +746,34 @@ def _readings(command: str, tool: str) -> list[str]:
     space. The join is added beside the original and never replaces it, and
     each shell gets only its own continuation character: a PowerShell path
     that ends in a backslash must not swallow the line below it.
+
+    `_tokens` keeps comment text, and a quote mark in that text counts as a
+    quote. One apostrophe in a note leaves the quotes unbalanced, and the
+    plain split that follows no longer sees a command inside quotes. Two of
+    them, in comments above and below a command, pair with the command's
+    own quotes and pull it apart. So the command is read again with its
+    comments cut out, which is how the shell reads it. That reading gets its
+    own join, because a backslash at the end of a comment continues nothing.
+
+    A quote left open on a later line still takes every line to the plain
+    split, though Bash runs the lines above the broken one before it stops.
+    So the text in front of the first comment is read alone as well, and
+    nothing that follows it can change how it reads there. Without a
+    comment that reading is the command itself and adds nothing.
+
+    Every reading is checked, and any one of them can refuse.
     """
-    joined = command
-    if tool != "PowerShell":
-        joined = re.sub(r"\\\r?\n", "", joined)
-    if tool != "Bash":
-        joined = re.sub(r"`\r?\n", " ", joined)
-    return [command] if joined == command else [command, joined]
+    readings = [command]
+    for text in (command, _without_comments(command, tool), _head(command, tool)):
+        joined = text
+        if tool != "PowerShell":
+            joined = re.sub(r"\\\r?\n", "", joined)
+        if tool != "Bash":
+            joined = re.sub(r"`\r?\n", " ", joined)
+        for reading in (text, joined):
+            if reading not in readings:
+                readings.append(reading)
+    return readings
 
 
 def main() -> int:
