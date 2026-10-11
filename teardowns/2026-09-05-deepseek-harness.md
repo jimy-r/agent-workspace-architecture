@@ -1,5 +1,6 @@
 # Teardown: DeepSeek Harness
 
+- **In one line:** DeepSeek's runtime, where every part is a plugin, keeps one home per fact and proves each guard fails before trusting it, and it has no memory of its own, by recorded decision.
 - **Subject:** https://github.com/deepseek-ai/deepseek-harness
 - **Revision read:** `d347e703908d` (master, 2026-09-04); surfaces read: `README.md`, `AGENTS.md`, `SAFETY.md`, `CONTRIBUTING.md`, `docs/architecture.md`, `docs/AGENTS.md`, `docs/testing.md`, `docs/tool-execution-pipeline.md`, the `docs/subsystems/` pages for session, compaction, sandbox, approval, credentials and token-meter, the `.agents/notes/` README plus six Agent Notes, the `hooks`, `guard` and `agent-instructions` package READMEs, and the public exchange in [discussion #1345](https://github.com/deepseek-ai/deepseek-harness/discussions/1345). No package source was read, so every verdict below is about what the project documents, not what its code does.
 - **Patterns present:** [1](../PATTERNS.md#p1), [3](../PATTERNS.md#p3), [4](../PATTERNS.md#p4), [6](../PATTERNS.md#p6), [7](../PATTERNS.md#p7), [9](../PATTERNS.md#p9), [11](../PATTERNS.md#p11), [16](../PATTERNS.md#p16), [17](../PATTERNS.md#p17), [18](../PATTERNS.md#p18) ([8](../PATTERNS.md#p8), [10](../PATTERNS.md#p10), [12](../PATTERNS.md#p12) and [15](../PATTERNS.md#p15) partial)
@@ -7,6 +8,7 @@
 - **Date:** 2026-09-05
 - **Status:** current <!-- as at 2026-09-13 -->
 - **Re-check by:** 2026-12-05
+- **By:** James Ross ([jamesross.ai](https://jamesross.ai/?utm_source=github&utm_medium=teardown&utm_campaign=flagship)) · [agent-workspace-architecture](https://github.com/jimy-r/agent-workspace-architecture) · [the patterns](../PATTERNS.md)
 
 ## What it is
 

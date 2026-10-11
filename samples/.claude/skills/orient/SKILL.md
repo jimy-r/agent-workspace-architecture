@@ -38,7 +38,7 @@ For each project folder that has a `CONTEXT.md` or `PLAN.md`, check mtime. Flag 
 
 - `<project-platform>/CONTEXT.md`
 - `<project-finance>/CONTEXT.md`
-- `<project-health>/health_profile.md`
+- `<project-health>/profile.md`
 - `<project-creative>/CONTEXT.md`
 - `<project-education>/CONTEXT.md`
 - `<project-contracting>/CONTEXT.md`

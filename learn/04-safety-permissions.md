@@ -26,9 +26,13 @@ Record it: tick the module on the [track checklist](README.md#track-your-progres
 
 ## Measure it
 
-The live-fire *is* the measurement — repeat it whenever the hook config changes. For the credential rule, grep your workspace for anything shaped like a secret (`sk-`, `token`, `Bearer`): the count should be zero values, any number of item names.
+The live-fire *is* the measurement — repeat it whenever the hook config changes.
 
-Expect noise, since `token` matches plenty of ordinary prose. Read each hit. A line that names an item in the password manager or an environment variable passes, and a line where the secret itself follows the match is the finding.
+The repo's linter gives a second reading. Run `python3 workspace_check.py <workspace>` ([`tools/workspace_check.py`](../tools/workspace_check.py)) before the install and again after it. In a workspace that had no `PreToolUse` hook, the `hooks-guard` line reads `[WARN]` before and `[PASS]` after. The check passes on any well-formed `PreToolUse` entry, so it tells you the hook is wired and the live-fire tells you it blocks.
+
+For the credential rule, grep your workspace for anything shaped like a secret (`sk-`, `token`, `Bearer`): the count should be zero values, any number of item names.
+
+Expect noise, since `token` matches plenty of ordinary prose. Read each hit. A line that names an item in the password manager or an environment variable passes, and a line where the secret itself follows the match is the finding. The linter's `secrets-in-files` line is the coded form of this grep. It matches the shapes of real keys only, so it returns fewer hits to read.
 
 ## If it didn't work
 

@@ -92,7 +92,3 @@ The selection test itself (recurring, mechanically verifiable, low-judgment-per-
 ## Reuse policy
 
 This repo's content is MIT-licensed, so borrow back freely. If you adapt patterns here into your own public artifact, a link back is appreciated but not required. The more people run variations of these patterns, the better the collective understanding gets.
-
----
-
-*Last verified against the repo structure on **2026-06-10**.*

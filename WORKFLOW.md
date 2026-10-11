@@ -125,4 +125,4 @@ If that shape resonates, you're the audience for this repo. If it feels over-str
 
 ---
 
-*Last verified against the repo structure on **2026-08-27**.*
+*The patterns read against published systems: [teardowns/](teardowns/README.md) · The guided track over the patterns: [learn/](learn/README.md) · Patterns adapted to your stack: [jamesross.ai](https://jamesross.ai/?utm_source=github&utm_medium=workflow&utm_campaign=flagship) · New teardowns, patterns and tools ship irregularly: [Agent Workspaces](https://jimyr.substack.com)*

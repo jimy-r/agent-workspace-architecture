@@ -1,5 +1,6 @@
 # Teardown: OpenHarness
 
+- **In one line:** OpenHarness binds each agent's receipt to a content fingerprint and makes handoffs list what is unproven, while its CI is switched off for pull requests and its instruction files carry no budget.
 - **Subject:** https://github.com/autonomous-ai/openharness
 - **Revision read:** `4dfcea3af13b` (main, 2026-10-02); surfaces read: `README.md`, root `AGENTS.md`, `HANDOFF.md`, `CONTRIBUTING.md`, `.github/workflows/ci.yml` and the triggers of all fifteen workflows, `scripts/validate-change.py`, `docs/validation-and-release.md`, `docs/terminology.md`, `docs/keyboard.md`, `docs/performance/2026-10-02-release-process-audit.md`, `docs/plans/2026-09-30-tim-memory.md`, six dated files under `docs/research/` (the hn handoff, review rounds 19 and 20, the phone overnight record, the mobile UI change audit and the blocked memory-quality packet), `daemons/LEARNING.md`, `work/REVIEW.md`, `store/README.md`, `provider/reference-provider/README.md`, the head of `desktop/CLAUDE.md`, and in `cli/src/` the files `lib/actionPolicy.ts`, `memory/admission.ts` and `memory/budget.ts`. Not read: the desktop, mobile, terminal-client and firmware source, the relay and the encryption core. Verdicts stop at the files named.
 - **Patterns present:** [1](../PATTERNS.md#p1), [4](../PATTERNS.md#p4), [7](../PATTERNS.md#p7), [10](../PATTERNS.md#p10), [11](../PATTERNS.md#p11), [16](../PATTERNS.md#p16) ([3](../PATTERNS.md#p3), [5](../PATTERNS.md#p5), [13](../PATTERNS.md#p13), [15](../PATTERNS.md#p15) and [17](../PATTERNS.md#p17) partial)
@@ -9,6 +10,7 @@
 - **Re-check by:** 2027-01-02
 - **Verified:** 2026-10-02, 58 citations re-read
 - **Maintainer heads-up:** not sent (rule 4)
+- **By:** James Ross ([jamesross.ai](https://jamesross.ai/?utm_source=github&utm_medium=teardown&utm_campaign=flagship)) · [agent-workspace-architecture](https://github.com/jimy-r/agent-workspace-architecture) · [the patterns](../PATTERNS.md)
 
 ## What it is
 

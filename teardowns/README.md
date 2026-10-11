@@ -25,6 +25,7 @@ One file per teardown: `YYYY-MM-DD-<subject-slug>.md`, opening with a header blo
 ```markdown
 # Teardown: <subject name>
 
+- **In one line:** <one sentence: what the reading found>
 - **Subject:** <repo or publication URL>
 - **Revision read:** <commit sha or date of the material>
 - **Patterns present:** <numbers, e.g. 1, 7, 9>
@@ -34,7 +35,10 @@ One file per teardown: `YYYY-MM-DD-<subject-slug>.md`, opening with a header blo
 - **Re-check by:** YYYY-MM-DD
 - **Verified:** <date>, <N> citations re-read
 - **Maintainer heads-up:** sent <date> / not sent (rule 4)
+- **By:** James Ross ([jamesross.ai](https://jamesross.ai/?utm_source=github&utm_medium=teardown&utm_campaign=flagship)) · [agent-workspace-architecture](https://github.com/jimy-r/agent-workspace-architecture) · [the patterns](../PATTERNS.md)
 ```
+
+`In one line` comes first because most visitors land on a page from somewhere else and read one screen. It is a single sentence, ending in a full stop, that says what the reading found: the strongest thing the subject does and the gap that matters most. [`scripts/teardown_matrix.py`](../scripts/teardown_matrix.py) copies it into the Published table below and into the teardown lines of [`docs/llms.txt`](../docs/llms.txt), so write it once, on the page. `By` names who did the reading and links the repository and the patterns the subject was read against.
 
 `Revision read` dates the source. `Status` and `Re-check by` date the reading, which is what a visitor a year later actually needs. A confidently-worded present-tense analysis of a subject that has since moved on looks identical to a current one. Set `Re-check by` to the read date plus six months, or plus three for a pre-1.0 or preview subject whose half-life the page itself describes. The date is load-bearing rather than decorative. `scripts/check_freshness.py` fails once a page passes it, and the remedy is to re-read the subject and restamp, or to mark the page `ageing` or `superseded` and say what replaced it.
 
@@ -105,16 +109,20 @@ The split that surprised most runs the other way. The dead man's switch, the che
 
 ## Published
 
-| Date | Subject | Revision read |
-|---|---|---|
-| 2026-10-04 | [Superpowers](2026-10-04-superpowers.md) | `8ca22dba9a94` |
-| 2026-10-03 | [Zenith](2026-10-03-zenith.md) | `a8d9b5786f81` |
-| 2026-10-02 | [OpenHarness](2026-10-02-openharness.md) | `4dfcea3af13b` |
-| 2026-09-05 | [DeepSeek Harness](2026-09-05-deepseek-harness.md) | `d347e703908d` |
-| 2026-09-06 | [GPT-RAG](2026-09-06-azure-gpt-rag.md) | `76a8a4d6fd88` |
-| 2026-08-28 | [herdr](2026-08-28-herdr.md) | `7b675f42af35` |
-| 2026-08-28 | [LifeOS](2026-08-28-lifeos.md) | `ce046f26495c` |
-| 2026-08-27 | [12-Factor Agents](2026-08-27-12-factor-agents.md) | `d20c728` |
+Newest first. The table is written by [`scripts/teardown_matrix.py`](../scripts/teardown_matrix.py) from each page's header, so edit the pages, not this table.
+
+<!-- teardown-published:start -->
+| Date | Subject | In one line | Revision read |
+|---|---|---|---|
+| 2026-10-04 | [Superpowers](2026-10-04-superpowers.md) | Superpowers writes no rule until a no-guidance control shows the failure and keeps its failed cost experiments on the record, while its eval harness and most of its results live outside the tree and nothing in the tree runs its tests. | `8ca22dba9a94` |
+| 2026-10-03 | [Zenith](2026-10-03-zenith.md) | Zenith gives the stop decision to a closing reviewer that sees only the original request, and its report's results are one run each with nothing bounding a session's time or cost. | `a8d9b5786f81` |
+| 2026-10-02 | [OpenHarness](2026-10-02-openharness.md) | OpenHarness binds each agent's receipt to a content fingerprint and makes handoffs list what is unproven, while its CI is switched off for pull requests and its instruction files carry no budget. | `4dfcea3af13b` |
+| 2026-09-06 | [GPT-RAG](2026-09-06-azure-gpt-rag.md) | Microsoft's Foundry accelerator writes decision records that list their own falsifiers, and about 300 KB of its tests are run by no workflow. | `76a8a4d6fd88` |
+| 2026-09-05 | [DeepSeek Harness](2026-09-05-deepseek-harness.md) | DeepSeek's runtime, where every part is a plugin, keeps one home per fact and proves each guard fails before trusting it, and it has no memory of its own, by recorded decision. | `d347e703908d` |
+| 2026-08-28 | [LifeOS](2026-08-28-lifeos.md) | LifeOS ships as a single skill that installs the whole system, tags stored facts with their source and meters context cost, but its eval cases miss the behaviours users reported regressing and its dead man's switch ships unscheduled. | `ce046f26495c` |
+| 2026-08-28 | [herdr](2026-08-28-herdr.md) | herdr's pane state and its coordination between agents are ahead of the field, while the runtime leaves spend, freshness and provenance unaccounted and plugins have started on spend. | `7b675f42af35` |
+| 2026-08-27 | [12-Factor Agents](2026-08-27-12-factor-agents.md) | HumanLayer's twelve principles are the strongest statement of how one agent's runtime should be shaped, and they leave the operational layer around it (verification, provenance, guards and measurement) out of scope. | `d20c728` |
+<!-- teardown-published:end -->
 
 ## Disagree with a reading?
 
