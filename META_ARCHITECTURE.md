@@ -583,3 +583,7 @@ This file is the source of truth for the *meta* shape of the workspace. Update i
 - A new top-level project folder is created
 
 **Do not** put project-specific application architecture here — that belongs in the project's own architecture doc.
+
+---
+
+*The patterns read against published systems: [teardowns/](teardowns/README.md) · The guided track over the patterns: [learn/](learn/README.md) · Patterns adapted to your stack: [jamesross.ai](https://jamesross.ai/?utm_source=github&utm_medium=meta&utm_campaign=flagship) · New teardowns, patterns and tools ship irregularly: [Agent Workspaces](https://jimyr.substack.com)*

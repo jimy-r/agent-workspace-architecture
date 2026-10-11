@@ -88,3 +88,7 @@ Once the five basics above work, the harder-to-adopt parts start paying off:
 - **Container sandboxing** for agents that touch the open web (security isolation, not reproducibility).
 
 Adopt these when you feel the friction they solve, not before. The pattern only stays useful if each piece earns its keep.
+
+---
+
+*The patterns read against published systems: [teardowns/](teardowns/README.md) · The guided track over the patterns: [learn/](learn/README.md) · Patterns adapted to your stack: [jamesross.ai](https://jamesross.ai/?utm_source=github&utm_medium=adoption&utm_campaign=flagship) · New teardowns, patterns and tools ship irregularly: [Agent Workspaces](https://jimyr.substack.com)*

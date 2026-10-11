@@ -22,6 +22,13 @@ that sentence beside each page, and the teardown lines in `docs/llms.txt` are
 written from it too, so the summary a reader meets on the index, in the
 machine-readable listing and on the page is the same sentence.
 
+The matrix is also read back into `PATTERNS.md`. Under each pattern's
+`Where it lives` paragraph the script keeps one line, "Seen in N of M
+teardowns · Practise: learn/0N". N counts the readings that found the pattern
+fully present, so a partial verdict is not counted, and the line links the
+matrix where the partial and absent verdicts show. The module is the one that
+`learn/README.md` assigns the pattern to.
+
 How a page's header is read, because the pages encode partial two ways:
 
     [7](../PATTERNS.md#...) (partial)          a bare marker, applying to the
@@ -60,6 +67,7 @@ TEARDOWNS = REPO / "teardowns"
 INDEX = TEARDOWNS / "README.md"
 PATTERNS = REPO / "PATTERNS.md"
 LLMS = REPO / "docs" / "llms.txt"
+LEARN = REPO / "learn" / "README.md"
 
 START = "<!-- teardown-matrix:start -->"
 END = "<!-- teardown-matrix:end -->"
@@ -118,6 +126,12 @@ ONE_LINE = re.compile(r"(?m)^- \*\*In one line:\*\* (.+)$")
 BY_LINE = re.compile(r"(?m)^- \*\*By:\*\* \S")
 DATE_LINE = re.compile(r"(?m)^- \*\*Date:\*\* (\d{4}-\d{2}-\d{2})\s*$")
 REVISION = re.compile(r"(?m)^- \*\*Revision read:\*\* `([^`]+)`")
+WHERE = "**Where it lives:**"
+SEEN = re.compile(
+    r"\[Seen in \d+ of \d+ teardowns\]\([^)]*\) · "
+    r"Practise: \[learn/\d\d\]\([^)]*\)"
+)
+MODULE_LINK = re.compile(r"\[M\d+\.[^\]]*\]\((\d\d-[^)]+\.md)\)")
 LLMS_ROW = re.compile(
     r"- \[[^\]]+\]\(" + re.escape(BLOB) + r"\d{4}-\d{2}-\d{2}-[^)]+\.md\): .*"
 )
@@ -333,6 +347,82 @@ def render(patterns, pages) -> str:
     return "\n".join(lines)
 
 
+def load_modules() -> dict[int, str]:
+    """{pattern number: learn module file}, from the learn track's table."""
+    lines = LEARN.read_text(encoding="utf-8").splitlines()
+
+    def cells(row: str) -> list[str]:
+        return [c.strip() for c in row.strip().strip("|").split("|")]
+
+    col = None
+    for line in lines:
+        if line.startswith("| Module "):
+            head = [c.lower() for c in cells(line)]
+            if "patterns" in head:
+                col = head.index("patterns")
+            break
+    if col is None:
+        sys.exit("learn/README.md: no module table header with a 'Patterns' column")
+
+    modules: dict[int, str] = {}
+    for row in (l for l in lines if l.startswith("| [M")):
+        parts = cells(row)
+        link = MODULE_LINK.match(parts[0])
+        if not link:
+            sys.exit(f"learn/README.md: no module file link in: {row}")
+        for token in parts[col].split(","):
+            token = token.strip()
+            if token.isdigit():
+                modules[int(token)] = link.group(1)
+    return modules
+
+
+def seen_line(num: int, pages: list[dict], modules: dict[int, str]) -> str:
+    """The generated line under one pattern's 'Where it lives' paragraph."""
+    if num not in modules:
+        sys.exit(f"learn/README.md: no module covers pattern {num}")
+    seen = sum(p["verdicts"].get(num) == PRESENT for p in pages)
+    word = WORDS.get(len(pages), str(len(pages)))
+    module = modules[num]
+    return (
+        f"[Seen in {seen} of {len(pages)} teardowns]"
+        f"(teardowns/README.md#what-{word}-readings-show) · "
+        f"Practise: [learn/{module[:2]}](learn/{module})"
+    )
+
+
+def build_patterns(patterns, pages: list[dict]) -> str:
+    """PATTERNS.md with the line under every 'Where it lives' made current."""
+    modules = load_modules()
+    lines = PATTERNS.read_text(encoding="utf-8").split("\n")
+    out: list[str] = []
+    current: int | None = None
+    done: list[int] = []
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        if line.startswith("## "):
+            heading = PATTERN_HEADING.match(line)
+            current = int(heading.group(1)) if heading else None
+        out.append(line)
+        i += 1
+        if current is None or not line.startswith(WHERE):
+            continue
+        # Drop the line a previous run wrote, then write this run's.
+        if i + 1 < len(lines) and lines[i] == "" and SEEN.fullmatch(lines[i + 1]):
+            i += 2
+        out += ["", seen_line(current, pages, modules)]
+        done.append(current)
+    numbers = [num for num, _, _ in patterns]
+    if done != numbers:
+        missing = sorted(set(numbers) - set(done))
+        sys.exit(
+            f"PATTERNS.md: expected one '{WHERE}' paragraph in each pattern, "
+            f"and found none or more than one in {missing or 'some section'}"
+        )
+    return "\n".join(out)
+
+
 def build() -> dict[Path, str]:
     """Every file this run owns a part of, with the text it would hold."""
     patterns = load_patterns()
@@ -371,7 +461,11 @@ def build() -> dict[Path, str]:
             f"teardowns/README.md: missing the {PUB_START} / {PUB_END} markers "
             "around the Published table"
         )
-    return {INDEX: text, LLMS: build_llms(pages)}
+    return {
+        INDEX: text,
+        LLMS: build_llms(pages),
+        PATTERNS: build_patterns(patterns, pages),
+    }
 
 
 def main() -> int:

@@ -99,11 +99,9 @@ PATTERN_HEADING = re.compile(r"(\d+)\. (.+)")
 ANCHOR = re.compile(r'<a id="p(\d+)"></a>')
 PROBLEM = "**Problem.**"
 
-# Everything after the closing rule is the markdown file's own freshness
-# footer. It dates the file, not these pages, so it is not rendered.
-FOOTER = re.compile(
-    r"\*Last verified against the repo structure on \*{0,2}\d{4}-\d{2}-\d{2}\*{0,2}\.\*"
-)
+# Everything after the closing rule is the markdown file's own footer of
+# onward links. Each page carries its own navigation, so it is not rendered.
+FOOTER = re.compile(r"\*The patterns read against published systems: [^*]+\*")
 
 # Block constructs the source does not use today. Each one stops the run.
 UNSUPPORTED = re.compile(r"(?: {4}|\t|#|>|\||[-*+] |\d+[.)] |```|~~~|<)")
@@ -228,7 +226,7 @@ def parse(text: str) -> tuple[str, list[str], list[tuple[str, list[str], str | N
             if stripped and not FOOTER.fullmatch(stripped):
                 raise fail(
                     f"{where}: content after the closing rule that is not the "
-                    "freshness footer. Nothing below the rule is rendered."
+                    "onward-links footer. Nothing below the rule is rendered."
                 )
             continue
         if not stripped:
@@ -820,7 +818,7 @@ Closing paragraph.
 
 ---
 
-*Last verified against the repo structure on 2026-01-01.*
+*The patterns read against published systems: [teardowns/](teardowns/README.md)*
 """
 
 

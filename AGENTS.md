@@ -59,7 +59,7 @@ python scripts/validate_samples.py         # sample frontmatter, links, schemas
 python scripts/gen_llms_full.py --check    # llms-full.txt matches its sources
 python scripts/gen_pattern_pages.py --check # docs/patterns/ matches PATTERNS.md
 python scripts/check_freshness.py          # dated stamps, teardown re-check dates
-python scripts/teardown_matrix.py --check  # matrix, Published table, llms.txt lines
+python scripts/teardown_matrix.py --check  # matrix, Published table, llms.txt, PATTERNS lines
 python tools/workspace_check.py --self-test
 # redaction runs in CI (redaction-check.yml); there is no local script
 ```
@@ -67,7 +67,8 @@ python tools/workspace_check.py --self-test
 Regenerate rather than hand-edit: `python scripts/gen_llms_full.py` rewrites
 `docs/llms-full.txt`, `python scripts/gen_pattern_pages.py` rewrites the pages
 under `docs/patterns/`, `python scripts/teardown_matrix.py` rewrites the marked
-blocks in `teardowns/README.md` and the teardown lines in `docs/llms.txt`, and `python scripts/check_freshness.py --fix`
+blocks in `teardowns/README.md`, the teardown lines in `docs/llms.txt` and the
+"Seen in" line under each pattern in `PATTERNS.md`, and `python scripts/check_freshness.py --fix`
 rewrites the dated stamps. CI runs these same commands, so a green local run is
 the gate for all of them. Two of the checks have no local repair. Redaction has
 no script here and runs only in CI, and a teardown past its `Re-check by` date

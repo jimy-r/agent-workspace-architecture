@@ -122,3 +122,7 @@ Worth naming: there's a real question about how much structure versus autonomy i
 One direction being explored is a **hybrid**: a human at the top, a workspace of *executive* agents (structured, reviewable), and more independent autonomous agents below. The executive agents review and prune candidate solutions from the autonomous ones, evolutionary rather than prescriptive. Still a direction of travel, not a delivered design.
 
 If that shape resonates, you're the audience for this repo. If it feels over-structured, you'll probably settle closer to a single Claude loop plus a memory file.
+
+---
+
+*The patterns read against published systems: [teardowns/](teardowns/README.md) · The guided track over the patterns: [learn/](learn/README.md) · Patterns adapted to your stack: [jamesross.ai](https://jamesross.ai/?utm_source=github&utm_medium=workflow&utm_campaign=flagship) · New teardowns, patterns and tools ship irregularly: [Agent Workspaces](https://jimyr.substack.com)*
