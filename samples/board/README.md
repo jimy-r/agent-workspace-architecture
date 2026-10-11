@@ -1,6 +1,6 @@
 # Task board — module design
 
-One canonical markdown card store for everything outstanding, rendered to a local web view, with an **explicit delegation queue** for the work an agent may action.
+One canonical markdown card store for everything outstanding, rendered to a local web view, with an **explicit delegation queue** for the work an agent may action. The view sorts cards by what each one asks of the operator.
 
 This module is the successor to the scheduled project-manager agent in [`../tasks/HEARTBEAT.md`](../tasks/HEARTBEAT.md), retired in the source workspace in August 2026. The succession rationale is at the bottom of this file; read it if you are choosing between a discovery-driven background agent and an operator-driven queue.
 
@@ -9,7 +9,7 @@ This module is the successor to the scheduled project-manager agent in [`../task
 | File | What it is |
 |---|---|
 | [`README.md`](README.md) | This design doc. |
-| [`board.example.md`](board.example.md) | A synthetic card store: ten cards across four areas, plus a backlog note section. Field format matches the real schema exactly. |
+| [`board.example.md`](board.example.md) | A synthetic card store: eleven cards across four areas, plus a backlog note section. Field format matches the real schema exactly. |
 | [`agent-queue.SKILL.example.md`](agent-queue.SKILL.example.md) | The delegation skill: intake interview, drain procedure, Iron Laws. Redacted from the working version. |
 
 ## The problem
@@ -55,12 +55,13 @@ Optional free-text body, running until the next ###.
 | `links` | Paths or URLs carrying the context. Cards point at history; they never copy it. |
 | `source` | Where the card came from, as `path:line`. Used to strike the originating note on close. |
 | `why` | One line of justification, so a stale card can be judged without opening its links. |
-| `queue` | Only on rolled-up machine-backlog cards (`audit` · `questions` · `lessons` · `reviews`); the count is injected at render. |
+| `queue` | Only on rolled-up machine-backlog cards (`audit` · `questions` · `drift` · `insights` · `asks` in the source workspace); the count is injected at render. |
 | `created` / `updated` | Dates. `created` is load-bearing: a card newer than three days floats to the top of its column, which is what makes a freshly triaged note visible. |
 | `priority` | Optional `high` · `med` · `low`. Set it only where importance genuinely differs from the deadline. |
 | `repeat` | Optional. Makes the card a standing rhythm; see the recurring lane below. |
 | `last_done` | Optional. Stamped when a rhythm is ticked. |
 | `delegate` | Optional `queued`. The operator's standing authorization for the drain; see the agent queue below. |
+| `attn` | Optional `decide` · `review`. Places the card in the Decide or Review section. Without it the section is derived; see attention sections below. |
 
 Because `status` and `area` are fields, moving a card is a one-line edit. Nothing has to be cut and pasted between sections, which is the failure mode that makes hand-maintained kanban files rot.
 
@@ -72,7 +73,7 @@ A `next` / `doing` / `waiting` layout was built first and rejected inside a day.
 
 Waiting is the `blocked:` field. It renders as a badge and keeps the card in its own category, where you go looking for it. A saved filter finds every blocked card when you want that view.
 
-Two exceptions exist, the recurring lane and the agent queue. Both are kinds of card rather than stages. Both hold cards that behave differently from ordinary tasks, not cards at a different point in a pipeline.
+Two things sit beside the columns without being stages. The recurring lane holds a kind of card, a rhythm that behaves differently from a task. The attention sections split the grid by who has to attend to a card, which says nothing about how far along the work is. Each section keeps every category column, so an area's cards stay in one column.
 
 ### 2. `owner:` is the highest-value field
 
@@ -92,6 +93,44 @@ A card carrying `repeat:` (`daily` · `weekly` · `fortnightly` · `monthly` · 
 
 Iron rule: **never close a recurring card.** Setting `status: done` on a rhythm retires a commitment that is supposed to come back. Ticking it rolls `due` forward one cycle and stamps `last_done`. To stop a rhythm you delete its `repeat:` field, which turns it back into an ordinary card you can close.
 
+## Attention sections: sort by what a card asks of you
+
+Added in October 2026. The operator's attention had become the constraint. Several agent sessions ran at once, the card grid was rarely opened, and a dated decision expired on the board without anyone seeing it. Category columns answer "what is outstanding in this area". They do not answer "what needs me now".
+
+The grid is five stacked sections, and each one keeps the full set of category columns.
+
+| Section | Holds | In the view |
+|---|---|---|
+| **Decide** | Cards whose next action is the operator's judgement, roll-up queues with a count above zero, and delegated cards carrying a question | Open. Sorted by due date, under a strip of everything overdue or due within a week |
+| **Review** | Finished agent output waiting to be accepted | Open. The header shows the age of the oldest item |
+| **Do** | Work only the operator can physically do | Open |
+| **Monitor** | Work in motion without the operator: delegated cards, cards owned by someone else, cards blocked on a third party | Closed. A card untouched for a week is marked stalled, and the stalled count shows on the closed header |
+| **Backlog** | Parked cards, and agent-ownable work nobody has delegated | Closed |
+
+Placement takes one optional field and one derived rule. First match wins:
+
+1. `attn: review` goes to Review.
+2. `attn: decide`, a roll-up with a count above zero, or a delegated card with `blocked:` set goes to Decide.
+3. A delegated card goes to Monitor.
+4. A `someday` card, or a roll-up at zero, goes to Backlog.
+5. A card owned by `external`, or with `blocked:` set, goes to Monitor.
+6. A card owned by `me` goes to Do.
+7. Everything else goes to Backlog.
+
+The rule lives in one function. The renderer stamps its answer on each card as an attribute, and the page script counts by that attribute. A second copy of the rule in the script would drift from the first.
+
+The header figure counts Decide, Review and stalled Monitor cards. Errands are counted on Do, so the headline number means an agent or a deadline is waiting on the operator.
+
+Two rules keep the sections honest.
+
+**Review holds only output that needs the operator's eyes.** That means prose a person will read, a patch staged for the operator to run, a post prepared but not sent, and partial or failed work. The closing agent sets `attn: review` and rewrites `next:` to say what to read and where. The operator's tick accepts it. Everything else closes to `done` as before. If every completion went to Review, it would become the pile the sections exist to remove.
+
+**A session cards what it leaves for the operator.** A question written only into a plan file is counted by a roll-up and never seen.
+
+A three-section design (decide, review, monitor) was sketched first and dropped at sizing. Of 67 active cards in the source workspace, 41 were errands that fit none of the three. Day one of the five-section layout put 15 cards in Decide, 6 in Review, 30 in Do and 2 in Monitor. Monitor is the thin one, and it shows something real: most agent work in motion lives in sessions and never reaches the board.
+
+Sections are not stages. A card does not travel through them, and most cards never leave the one they start in.
+
 ## The agent queue — delegation is explicit
 
 `delegate: queued` on a card is the operator's standing authorization for a drain session to action it. That field is the entire authorization surface. Everything else on the board is out of scope for the agent, however obvious it looks.
@@ -103,7 +142,7 @@ Four properties make this work:
 - **A template floor gates actionability.** A queued card needs a literal `next:`, a `links:` pointer to an existing folder or doc, a `done-when:` body line, and an `effort:`. A card missing any of them gets a `blocked:` note naming the gap, never a guess.
 - **The board is the only question surface.** A drain that hits a genuine fork writes the question into the card's `blocked:` field and moves on. The operator answers by clearing `blocked:`, and the next drain picks it up. Questions live on the thing they are about, so answering one is a single edit in the same view the operator already reads.
 
-Queued cards render in a dedicated section above the recurring lane, wearing a badge. Unlike rhythms they still count in every status, owner and area figure, and on `status: done` they leave the queue for the Done section like any other card.
+Queued cards render in the Monitor section, wearing a badge. They had a dedicated section until the attention sections absorbed it. A queued card with `blocked:` set is a question for the operator, so it renders in Decide. Unlike rhythms, queued cards count in every status, owner and area figure, and on `status: done` they move to the Done section like any other card.
 
 Full procedure: [`agent-queue.SKILL.example.md`](agent-queue.SKILL.example.md).
 
@@ -111,7 +150,7 @@ Full procedure: [`agent-queue.SKILL.example.md`](agent-queue.SKILL.example.md).
 
 Two motions, both writing to disk immediately:
 
-1. **Quick-add a card.** The `+` on a column header, for a thing that is already a task with an obvious home.
+1. **Quick-add a card.** The `+` on a column header in the Do section, for a thing that is already a task with an obvious home.
 2. **Dump a note.** A working-notes scratchpad above the board autosaves to a plain markdown file, for a thought that isn't a clean card yet.
 
 Then, in a session, an agent reads the scratchpad, turns each note into a card with a real next action and an honest owner, and strikes the lifted notes. Notes are never counted as cards and never inflate the "needs you" figure, so dumping into the pad costs nothing. A note is not a task until someone decides it is.
@@ -144,7 +183,9 @@ A board that rots quietly is worse than no board, because it keeps the reassuran
 
 ## Machine queues roll up to one card each
 
-The audit finding ledger, the open questions, the lesson candidates, and the review queue stay canonical in their own systems and appear here as one card each, carrying a live count. They are never exploded into individual cards. Fifty audit findings as fifty cards recreates exactly the overwhelm the board exists to remove, in prettier form.
+The audit finding ledger, the open questions, the memory-drift items, the pending insights from external reviews and the asks agents leave in plan files stay canonical in their own systems. Each appears here as one card carrying a live count. They are never exploded into individual cards. Fifty audit findings as fifty cards recreates exactly the overwhelm the board exists to remove, in prettier form.
+
+A roll-up with a count above zero sits in Decide, and one at zero drops to Backlog. The last two roll-ups arrived with the attention sections, because most of what waited on the operator had never been a card. It sat as unchecked lines in plan files and pending rows in a ledger.
 
 ## The analytics pages: flow and metrics
 
@@ -178,9 +219,10 @@ The whole module is not the entry point. In order of value:
 2. Add `owner:` and enforce rule 3 on `next:`. This is where most of the benefit lives.
 3. Add the render step once reading the raw file gets tiring.
 4. Add `delegate: queued` and the intake interview only when you actually have work you want an agent to do unattended.
+5. Add `attn:` and the attention sections when the board holds more than one look can take in. It is one field and one derived rule.
 
 Steps 1 and 2 need no code.
 
 ---
 
-*Last verified against the repo structure on **2026-08-08**.*
+*Last verified against the repo structure on **2026-10-10**.*

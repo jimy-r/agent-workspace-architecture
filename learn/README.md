@@ -14,17 +14,17 @@ If you'd rather build than read, take the hands-on companion track — [stand up
 
 Every module is written to be entered cold. "Assumes" names what you need in place before the exercise works, not a module you must have finished. Times are read plus exercise, in one sitting.
 
-| Module | Capability | Patterns | Time | Assumes | You will |
-|---|---|---|---|---|---|
-| [M0. Foundations](00-foundations.md) | the session loop | — | ~40 min | a folder and an agent runtime | run orient → plan → work → wrap once |
-| [M1. Canonical knowledge](01-canonical-knowledge.md) | one source of truth | 1, 5, 17 | ~35 min | two or more instruction files to grep | collapse a duplicated rule into a canonical copy + pointers |
-| [M2. Context economics](02-context-economics.md) | context as spend | 9, 18 | ~50 min | a session whose start-up reads you can list | measure your always-loaded surface; move one bulk read out |
-| [M3. Verification & oversight](03-verification-oversight.md) | trust through checks | 8, 10, 11, 13 | ~65 min | one recurring prompt worth freezing as a case | write a golden case; register a scaffold with a review date |
-| [M4. Safety & permissions](04-safety-permissions.md) | cheap mechanical guards | 4, 6, 7 | ~50 min | a scratch repo and a throwaway file to fire at | install two hooks and live-fire them on a safe target |
-| [M5. Telemetry & cost](05-telemetry-cost.md) | loud failure, priced lanes | 3, 15 | ~50 min | one scheduled or recurring unattended task | put a dead-man's switch on one scheduled task |
-| [M6. Provenance & delegation](06-provenance-delegation.md) | claims that carry sources; work that carries mandates | 2, 12, 14, 16 | ~50 min | a task file or board, and three tasks you might automate | run the four-box test; delegate one card properly |
+| Module | Capability | Patterns | Linter check | Time | Assumes | You will |
+|---|---|---|---|---|---|---|
+| [M0. Foundations](00-foundations.md) | the session loop | — | — | ~40 min | a folder and an agent runtime | run orient → plan → work → wrap once |
+| [M1. Canonical knowledge](01-canonical-knowledge.md) | one source of truth | 1, 5, 17 | `duplicate-blocks`, `memory-index` | ~35 min | two or more instruction files to grep | collapse a duplicated rule into a canonical copy + pointers |
+| [M2. Context economics](02-context-economics.md) | context as spend | 9, 18 | `context-budget` | ~50 min | a session whose start-up reads you can list | measure your always-loaded surface; move one bulk read out |
+| [M3. Verification & oversight](03-verification-oversight.md) | trust through checks | 8, 10, 11, 13 | `skills-frontmatter` | ~65 min | one recurring prompt worth freezing as a case | write a golden case; register a scaffold with a review date |
+| [M4. Safety & permissions](04-safety-permissions.md) | cheap mechanical guards | 4, 6, 7 | `hooks-guard`, `permissions-floor`, `secrets-in-files` | ~50 min | a scratch repo and a throwaway file to fire at | install two hooks and live-fire them on a safe target |
+| [M5. Telemetry & cost](05-telemetry-cost.md) | loud failure, priced lanes | 3, 15 | — | ~50 min | one scheduled or recurring unattended task | put a dead-man's switch on one scheduled task |
+| [M6. Provenance & delegation](06-provenance-delegation.md) | claims that carry sources; work that carries mandates | 2, 12, 14, 16 | — | ~50 min | a task file or board, and three tasks you might automate | run the four-box test; delegate one card properly |
 
-Every pattern in [PATTERNS.md](../PATTERNS.md) appears in exactly one module and is cross-referenced where it touches others. The modules stay short on purpose: the patterns file carries the reasoning, the samples carry the implementation, and these pages carry the path through them.
+Every pattern in [PATTERNS.md](../PATTERNS.md) appears in exactly one module and is cross-referenced where it touches others. The Linter check column names the lines of the repo's own linter, [`tools/workspace_check.py`](../tools/workspace_check.py), that test a pattern the module teaches. A dash means the linter has no check for that module's patterns. The modules stay short on purpose: the patterns file carries the reasoning, the samples carry the implementation, and these pages carry the path through them.
 
 ## How each module works
 

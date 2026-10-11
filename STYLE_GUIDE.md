@@ -47,17 +47,16 @@ Markers help readers budget adoption effort at a glance.
 - **Validate before you push:** `npm install --no-save mermaid jsdom && node scripts/check_mermaid.mjs` parses every diagram in the repo. CI runs the same check, so a syntax error fails the PR instead of shipping as a red "Unable to render rich display" box.
 - Parsing is not rendering. After a diagram change, still open the file on GitHub and look at it. Mermaid lays out slightly differently in different editors.
 
-## Freshness footer
+## Freshness stamps
 
-Core docs (`README.md`, `CONTRIBUTING.md`, `META_ARCHITECTURE.md`, `PATTERNS.md`, `ADOPTION.md`, `WORKFLOW.md`, `CLAUDE.md`, `CODE_OF_CONDUCT.md`, `SUPPORT.md`, this file) end with:
+Two markdown files carry a date, and a script holds both to git:
 
-```markdown
----
+- `README.md` ends with `*Last verified against the repo structure on YYYY-MM-DD.*`
+- `META_ARCHITECTURE.md` opens with a `> **Last updated:** YYYY-MM-DD.` header line.
 
-*Last verified against the repo structure on **YYYY-MM-DD**.*
-```
+`python scripts/check_freshness.py` fails when either date is older than the file's last commit, and `--fix` rewrites it. The same script covers the dates on the site pages and in the sitemap.
 
-Bump the date when you touch the file for a structural reason (not typos).
+No other doc carries a date footer. Thirteen of them did until 2026-10-11. Nothing checked those dates, and several sat months behind the files they described. For any other file, the commit history is the record of when it last changed.
 
 ## Formatting
 
@@ -76,7 +75,3 @@ See [CONTRIBUTING.md § Commit conventions](CONTRIBUTING.md#commit-conventions).
 When correcting a PR, link directly to a section here rather than re-explaining the rule. Example:
 
 > Please use `[stock]`/`[plugin]`/`[local]`/`[custom]` markers (see [STYLE_GUIDE.md § Table type markers](STYLE_GUIDE.md#table-type-markers)).
-
----
-
-*Last verified against the repo structure on **2026-05-30**.*

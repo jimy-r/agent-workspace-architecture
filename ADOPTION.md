@@ -91,4 +91,4 @@ Adopt these when you feel the friction they solve, not before. The pattern only 
 
 ---
 
-*Last verified against the repo structure on **2026-08-27**. Flag drift via an Issue or correct in a PR.*
+*The patterns read against published systems: [teardowns/](teardowns/README.md) · The guided track over the patterns: [learn/](learn/README.md) · Patterns adapted to your stack: [jamesross.ai](https://jamesross.ai/?utm_source=github&utm_medium=adoption&utm_campaign=flagship) · New teardowns, patterns and tools ship irregularly: [Agent Workspaces](https://jimyr.substack.com)*

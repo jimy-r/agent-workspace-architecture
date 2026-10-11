@@ -21,7 +21,7 @@ Maintained solo and best-effort. [Issues](https://github.com/jimy-r/agent-worksp
 
 Every commit must be safe for a public audience. Before `git add`, scrub every changed file for:
 
-- **Personal identifiers.** Real names, emails, usernames tied to identity, home or workplace locations. The owner's byline in the README, changelog, style guide and site pages is the one deliberate exception, public by choice.
+- **Personal identifiers.** Real names, emails, usernames tied to identity, home or workplace locations. The owner's byline in the README, changelog, style guide, site pages and teardown pages is the one deliberate exception, public by choice. On a teardown page it sits in the header's `By` field.
 - **Business / product specifics.** Company names, product names, customer details tied to a real entity.
 - **Credentials, tokens, API keys.** Ever, even as placeholders.
 - **Health, financial, or legal data.** Ever.
@@ -69,7 +69,3 @@ Cut a tagged release after every milestone batch (roughly: any merge that earns 
 ## Tone
 
 Terse, structural, opinionated. No performative politeness. Disagreement welcome; keep it focused on the work.
-
----
-
-*Last verified against the repo structure on **2026-06-11**.*

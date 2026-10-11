@@ -25,6 +25,7 @@ One file per teardown: `YYYY-MM-DD-<subject-slug>.md`, opening with a header blo
 ```markdown
 # Teardown: <subject name>
 
+- **In one line:** <one sentence: what the reading found>
 - **Subject:** <repo or publication URL>
 - **Revision read:** <commit sha or date of the material>
 - **Patterns present:** <numbers, e.g. 1, 7, 9>
@@ -34,7 +35,10 @@ One file per teardown: `YYYY-MM-DD-<subject-slug>.md`, opening with a header blo
 - **Re-check by:** YYYY-MM-DD
 - **Verified:** <date>, <N> citations re-read
 - **Maintainer heads-up:** sent <date> / not sent (rule 4)
+- **By:** James Ross ([jamesross.ai](https://jamesross.ai/?utm_source=github&utm_medium=teardown&utm_campaign=flagship)) · [agent-workspace-architecture](https://github.com/jimy-r/agent-workspace-architecture) · [the patterns](../PATTERNS.md)
 ```
+
+`In one line` comes first because most visitors land on a page from somewhere else and read one screen. It is a single sentence, ending in a full stop, that says what the reading found: the strongest thing the subject does and the gap that matters most. [`scripts/teardown_matrix.py`](../scripts/teardown_matrix.py) copies it into the Published table below and into the teardown lines of [`docs/llms.txt`](../docs/llms.txt), so write it once, on the page. `By` names who did the reading and links the repository and the patterns the subject was read against.
 
 `Revision read` dates the source. `Status` and `Re-check by` date the reading, which is what a visitor a year later actually needs. A confidently-worded present-tense analysis of a subject that has since moved on looks identical to a current one. Set `Re-check by` to the read date plus six months, or plus three for a pre-1.0 or preview subject whose half-life the page itself describes. The date is load-bearing rather than decorative. `scripts/check_freshness.py` fails once a page passes it, and the remedy is to re-read the subject and restamp, or to mark the page `ageing` or `superseded` and say what replaced it.
 
@@ -53,35 +57,35 @@ Four more rules the pages hold to:
 
 Pages here are the canonical copies. Sharing on aggregator venues (with each venue's own etiquette) is a manual act; teardown-sweep's `suggested_venues` field proposes where each subject's audience already is, and its ledger records where a finished teardown actually ran.
 
-## What seven readings show
+## What eight readings show
 
 Each page's header records its verdict against the [eighteen patterns](../PATTERNS.md). Read down a column for one subject, across a row for how one pattern fares in the wild. The table is generated from those headers by [`scripts/teardown_matrix.py`](../scripts/teardown_matrix.py) and checked in CI, so it cannot drift from the pages.
 
 <!-- teardown-matrix:start -->
-| Pattern | [12-Factor Agents](2026-08-27-12-factor-agents.md) | [herdr](2026-08-28-herdr.md) | [LifeOS](2026-08-28-lifeos.md) | [DeepSeek Harness](2026-09-05-deepseek-harness.md) | [GPT-RAG](2026-09-06-azure-gpt-rag.md) | [OpenHarness](2026-10-02-openharness.md) | [Zenith](2026-10-03-zenith.md) | Assessed |
-|---|---|---|---|---|---|---|---|---|
-| [1. Pure roles](../PATTERNS.md#p1) | ✓ | — | ✓ | ✓ | ~ | ✓ | ✓ | 6/7 |
-| [2. Classify-then-act](../PATTERNS.md#p2) | ✓ | ~ | — | — | ~ | — | — | 3/7 |
-| [3. Make silent failure loud](../PATTERNS.md#p3) | ✗ | ✗ | ~ | ✓ | ~ | ~ | ✗ | 7/7 |
-| [4. Tier by mechanical impact](../PATTERNS.md#p4) | — | — | — | ✓ | ✓ | ✓ | — | 3/7 |
-| [5. Memory points](../PATTERNS.md#p5) | ✗ | — | — | ✗ | ~ | ~ | — | 4/7 |
-| [6. Credentials live in one place](../PATTERNS.md#p6) | ✗ | — | — | ✓ | ✓ | — | — | 3/7 |
-| [7. A cheap hook beats a careful agent](../PATTERNS.md#p7) | ✗ | — | ✓ | ✓ | ✓ | ✓ | ~ | 6/7 |
-| [8. Audit the workspace like a fitness function](../PATTERNS.md#p8) | ✗ | ✗ | — | ~ | ~ | ✗ | — | 5/7 |
-| [9. Context is a budget](../PATTERNS.md#p9) | ✓ | ✗ | ✓ | ✓ | ~ | ✗ | — | 6/7 |
-| [10. A skill is editable weights](../PATTERNS.md#p10) | — | — | — | ~ | ~ | ✓ | — | 3/7 |
-| [11. A scaffold is a hypothesis](../PATTERNS.md#p11) | ✗ | — | ~ | ✓ | ✓ | ✓ | ~ | 6/7 |
-| [12. Loop selection](../PATTERNS.md#p12) | ✓ | ✓ | — | ~ | ~ | — | — | 4/7 |
-| [13. Challenge half-formed ideas with a different lens](../PATTERNS.md#p13) | — | — | — | ✗ | ~ | ~ | — | 3/7 |
-| [14. Delegation is a queue you fill](../PATTERNS.md#p14) | — | ~ | — | ✗ | ~ | — | — | 3/7 |
-| [15. Price the lane before you migrate it](../PATTERNS.md#p15) | — | — | — | ~ | ✗ | ~ | ✓ | 4/7 |
-| [16. A claim carries its provenance](../PATTERNS.md#p16) | ✗ | ✗ | ✓ | ✓ | ✓ | ✓ | ~ | 7/7 |
-| [17. One canonical copy](../PATTERNS.md#p17) | ✓ | — | ~ | ✓ | ~ | ~ | — | 5/7 |
-| [18. Position is price](../PATTERNS.md#p18) | — | — | — | ✓ | ~ | — | — | 2/7 |
+| Pattern | [12-Factor Agents](2026-08-27-12-factor-agents.md) | [herdr](2026-08-28-herdr.md) | [LifeOS](2026-08-28-lifeos.md) | [DeepSeek Harness](2026-09-05-deepseek-harness.md) | [GPT-RAG](2026-09-06-azure-gpt-rag.md) | [OpenHarness](2026-10-02-openharness.md) | [Zenith](2026-10-03-zenith.md) | [Superpowers](2026-10-04-superpowers.md) | Assessed |
+|---|---|---|---|---|---|---|---|---|---|
+| [1. Pure roles](../PATTERNS.md#p1) | ✓ | — | ✓ | ✓ | ~ | ✓ | ✓ | — | 6/8 |
+| [2. Classify-then-act](../PATTERNS.md#p2) | ✓ | ~ | — | — | ~ | — | — | — | 3/8 |
+| [3. Make silent failure loud](../PATTERNS.md#p3) | ✗ | ✗ | ~ | ✓ | ~ | ~ | ✗ | ~ | 8/8 |
+| [4. Tier by mechanical impact](../PATTERNS.md#p4) | — | — | — | ✓ | ✓ | ✓ | — | — | 3/8 |
+| [5. Memory points](../PATTERNS.md#p5) | ✗ | — | — | ✗ | ~ | ~ | — | — | 4/8 |
+| [6. Credentials live in one place](../PATTERNS.md#p6) | ✗ | — | — | ✓ | ✓ | — | — | — | 3/8 |
+| [7. A cheap hook beats a careful agent](../PATTERNS.md#p7) | ✗ | — | ✓ | ✓ | ✓ | ✓ | ~ | ~ | 7/8 |
+| [8. Audit the workspace like a fitness function](../PATTERNS.md#p8) | ✗ | ✗ | — | ~ | ~ | ✗ | — | ✗ | 6/8 |
+| [9. Context is a budget](../PATTERNS.md#p9) | ✓ | ✗ | ✓ | ✓ | ~ | ✗ | — | ~ | 7/8 |
+| [10. A skill is editable weights](../PATTERNS.md#p10) | — | — | — | ~ | ~ | ✓ | — | ✓ | 4/8 |
+| [11. A scaffold is a hypothesis](../PATTERNS.md#p11) | ✗ | — | ~ | ✓ | ✓ | ✓ | ~ | ✓ | 7/8 |
+| [12. Loop selection](../PATTERNS.md#p12) | ✓ | ✓ | — | ~ | ~ | — | — | — | 4/8 |
+| [13. Challenge half-formed ideas with a different lens](../PATTERNS.md#p13) | — | — | — | ✗ | ~ | ~ | — | — | 3/8 |
+| [14. Delegation is a queue you fill](../PATTERNS.md#p14) | — | ~ | — | ✗ | ~ | — | — | — | 3/8 |
+| [15. Price the lane before you migrate it](../PATTERNS.md#p15) | — | — | — | ~ | ✗ | ~ | ✓ | ✓ | 5/8 |
+| [16. A claim carries its provenance](../PATTERNS.md#p16) | ✗ | ✗ | ✓ | ✓ | ✓ | ✓ | ~ | ~ | 8/8 |
+| [17. One canonical copy](../PATTERNS.md#p17) | ✓ | — | ~ | ✓ | ~ | ~ | — | ~ | 6/8 |
+| [18. Position is price](../PATTERNS.md#p18) | — | — | — | ✓ | ~ | — | — | ✓ | 3/8 |
 
 ✓ present · ~ partial · ✗ absent, and named as worth noting · — not assessed. Derived from each page's header by [`scripts/teardown_matrix.py`](../scripts/teardown_matrix.py). Edit the pages, not this table.
 
-`Assessed` counts the readings that gave the pattern a verdict, and 46 of the 126 cells have none. A reading that did not assess a pattern is no evidence that the pattern is missing, so nothing is claimed about a pattern across subjects on fewer than three assessed readings. Under that floor today: [18. Position is price](../PATTERNS.md#p18).
+`Assessed` counts the readings that gave the pattern a verdict, and 54 of the 144 cells have none. A reading that did not assess a pattern is no evidence that the pattern is missing, so nothing is claimed about a pattern across subjects on fewer than three assessed readings. No pattern is under that floor today.
 
 What each reading changed here, first line of its own answer:
 
@@ -94,25 +98,31 @@ What each reading changed here, first line of its own answer:
 | [GPT-RAG](2026-09-06-azure-gpt-rag.md) | Nothing at publication. |
 | [OpenHarness](2026-10-02-openharness.md) | The handoff schema in my own workspace gained four sections on 2026-10-02, the day of this reading. |
 | [Zenith](2026-10-03-zenith.md) | I ran Zenith's closing review against fifteen finished tasks in my own workspace before adopting it. |
+| [Superpowers](2026-10-04-superpowers.md) | My role pressure test gained a control arm on 2026-10-04, and a fault test borrowed from this reading found my own session hook failing quietly. |
 <!-- teardown-matrix:end -->
 
-Seven readings, and no pattern is present in all seven. Pure roles come closest, present in five subjects and partial in a sixth, with the seventh not assessed. A cheap hook in the execution path is present in four of the six subjects where it was assessed.
+Eight readings, and no pattern is present in all eight. Pure roles come closest, present in five subjects and partial in a sixth, with the other two not assessed. A cheap hook in the execution path is present in four of the seven subjects where it was assessed.
 
-Four patterns are fully present in no subject that was assessed for them, and they are judgment and measurement patterns rather than mechanical ones. The workspace audit was assessed in five readings and pointer memory in four. The divergent lens and the delegation queue were each assessed in three, which is the floor, so those are the thinnest claims on this page. Gated self-edits left the list with the sixth reading, where a person approves every lesson before it is taught, and lane pricing left it with the seventh, whose report prices every design it tests. DeepSeek Harness, GPT-RAG and OpenHarness carry provenance on every claim and tier their gates by mechanical impact. None of them has any of the four in full, though OpenHarness was not assessed for the delegation queue.
+Four patterns are fully present in no subject that was assessed for them, and they are judgment and measurement patterns rather than mechanical ones. The workspace audit was assessed in six readings and pointer memory in four. The divergent lens and the delegation queue were each assessed in three, which is the floor, so those are the thinnest claims on this page. Gated self-edits left the list with the sixth reading, where a person approves every lesson before it is taught, and lane pricing left it with the seventh, whose report prices every design it tests. DeepSeek Harness, GPT-RAG and OpenHarness carry provenance on every claim and tier their gates by mechanical impact. None of them has any of the four in full, though OpenHarness was not assessed for the delegation queue.
 
-The split that surprised most runs the other way. The dead man's switch, the cheapest control in the set, was assessed in all seven readings. It is absent from the two earliest subjects and the newest, and LifeOS has written one and left it unscheduled, so a pattern that costs an afternoon is among the most often missing.
+The split that surprised most runs the other way. The dead man's switch, the cheapest control in the set, was assessed in all eight readings. It is absent from the two earliest subjects and Zenith, and LifeOS has written one and left it unscheduled, so a pattern that costs an afternoon is among the most often missing. The eighth reading is the fourth where the audit is absent, and it brings position pricing to three assessments, present in two.
 
 ## Published
 
-| Date | Subject | Revision read |
-|---|---|---|
-| 2026-10-03 | [Zenith](2026-10-03-zenith.md) | `a8d9b5786f81` |
-| 2026-10-02 | [OpenHarness](2026-10-02-openharness.md) | `4dfcea3af13b` |
-| 2026-09-05 | [DeepSeek Harness](2026-09-05-deepseek-harness.md) | `d347e703908d` |
-| 2026-09-06 | [GPT-RAG](2026-09-06-azure-gpt-rag.md) | `76a8a4d6fd88` |
-| 2026-08-28 | [herdr](2026-08-28-herdr.md) | `7b675f42af35` |
-| 2026-08-28 | [LifeOS](2026-08-28-lifeos.md) | `ce046f26495c` |
-| 2026-08-27 | [12-Factor Agents](2026-08-27-12-factor-agents.md) | `d20c728` |
+Newest first. The table is written by [`scripts/teardown_matrix.py`](../scripts/teardown_matrix.py) from each page's header, so edit the pages, not this table.
+
+<!-- teardown-published:start -->
+| Date | Subject | In one line | Revision read |
+|---|---|---|---|
+| 2026-10-04 | [Superpowers](2026-10-04-superpowers.md) | Superpowers writes no rule until a no-guidance control shows the failure and keeps its failed cost experiments on the record, while its eval harness and most of its results live outside the tree and nothing in the tree runs its tests. | `8ca22dba9a94` |
+| 2026-10-03 | [Zenith](2026-10-03-zenith.md) | Zenith gives the stop decision to a closing reviewer that sees only the original request, and its report's results are one run each with nothing bounding a session's time or cost. | `a8d9b5786f81` |
+| 2026-10-02 | [OpenHarness](2026-10-02-openharness.md) | OpenHarness binds each agent's receipt to a content fingerprint and makes handoffs list what is unproven, while its CI is switched off for pull requests and its instruction files carry no budget. | `4dfcea3af13b` |
+| 2026-09-06 | [GPT-RAG](2026-09-06-azure-gpt-rag.md) | Microsoft's Foundry accelerator writes decision records that list their own falsifiers, and about 300 KB of its tests are run by no workflow. | `76a8a4d6fd88` |
+| 2026-09-05 | [DeepSeek Harness](2026-09-05-deepseek-harness.md) | DeepSeek's runtime, where every part is a plugin, keeps one home per fact and proves each guard fails before trusting it, and it has no memory of its own, by recorded decision. | `d347e703908d` |
+| 2026-08-28 | [LifeOS](2026-08-28-lifeos.md) | LifeOS ships as a single skill that installs the whole system, tags stored facts with their source and meters context cost, but its eval cases miss the behaviours users reported regressing and its dead man's switch ships unscheduled. | `ce046f26495c` |
+| 2026-08-28 | [herdr](2026-08-28-herdr.md) | herdr's pane state and its coordination between agents are ahead of the field, while the runtime leaves spend, freshness and provenance unaccounted and plugins have started on spend. | `7b675f42af35` |
+| 2026-08-27 | [12-Factor Agents](2026-08-27-12-factor-agents.md) | HumanLayer's twelve principles are the strongest statement of how one agent's runtime should be shaped, and they leave the operational layer around it (verification, provenance, guards and measurement) out of scope. | `d20c728` |
+<!-- teardown-published:end -->
 
 ## Disagree with a reading?
 

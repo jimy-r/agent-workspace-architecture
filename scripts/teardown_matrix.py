@@ -9,10 +9,30 @@ independently, which are absent even in strong designs") and never showed.
 
 This script derives that aggregate rather than letting anyone hand-maintain it,
 the same regenerate-don't-hand-edit discipline as `gen_llms_full.py`. It owns
-two things in `teardowns/README.md` and nothing else: the number word in the
-`## What N readings show` heading, and the text between the
-`<!-- teardown-matrix:start -->` / `<!-- teardown-matrix:end -->` markers.
-Prose written below the end marker is left alone.
+three things in `teardowns/README.md` and nothing else: the number word in the
+`## What N readings show` heading, the text between the
+`<!-- teardown-matrix:start -->` / `<!-- teardown-matrix:end -->` markers, and
+the Published table between the `<!-- teardown-published:start -->` /
+`<!-- teardown-published:end -->` markers. Prose outside the markers is left
+alone.
+
+Each page's header also opens with an `In one line` field, one sentence saying
+what the reading found, and carries a `By` field. The Published table prints
+that sentence beside each page, and the teardown lines in `docs/llms.txt` are
+written from it too, so the summary a reader meets on the index, in the
+machine-readable listing and on the page is the same sentence.
+
+The matrix is also read back into `PATTERNS.md`. Under each pattern's
+`Where it lives` paragraph the script keeps one line, "Seen in N of M
+teardowns · Practise: learn/0N". N counts the readings that found the pattern
+fully present, so a partial verdict is not counted, and the line links the
+matrix where the partial and absent verdicts show. The module is the one that
+`learn/README.md` assigns the pattern to.
+
+Two marked blocks in the root `README.md` are kept the same way, because both
+go stale the day a pattern or a teardown is added: "The short version", a list
+of every pattern title linked to its anchor, and the sentence that links the
+newest teardown.
 
 How a page's header is read, because the pages encode partial two ways:
 
@@ -36,8 +56,8 @@ because a claim that a pattern is missing across subjects needs readings that
 looked for it.
 
 Usage:
-    python scripts/teardown_matrix.py            # rewrite the block
-    python scripts/teardown_matrix.py --check    # exit 1 if it would change
+    python scripts/teardown_matrix.py            # rewrite what it owns
+    python scripts/teardown_matrix.py --check    # exit 1 if anything would change
 """
 
 from __future__ import annotations
@@ -51,9 +71,21 @@ REPO = Path(__file__).resolve().parent.parent
 TEARDOWNS = REPO / "teardowns"
 INDEX = TEARDOWNS / "README.md"
 PATTERNS = REPO / "PATTERNS.md"
+LLMS = REPO / "docs" / "llms.txt"
+LEARN = REPO / "learn" / "README.md"
+README = REPO / "README.md"
 
 START = "<!-- teardown-matrix:start -->"
 END = "<!-- teardown-matrix:end -->"
+PUB_START = "<!-- teardown-published:start -->"
+PUB_END = "<!-- teardown-published:end -->"
+SHORT_START = "<!-- patterns-short:start -->"
+SHORT_END = "<!-- patterns-short:end -->"
+NEWEST_START = "<!-- newest-teardown:start -->"
+NEWEST_END = "<!-- newest-teardown:end -->"
+
+# Where a teardown page lives on GitHub, which is the form llms.txt links.
+BLOB = "https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/"
 
 WORDS = {
     1: "one",
@@ -99,6 +131,20 @@ CHANGED_INLINE = re.compile(r"(?m)^\*\*What changed here:\*\*\s*(.+)$")
 COMMENT = re.compile(r"(?s)<!--.*?-->")
 SENTENCE = re.compile(r"(?<=[.!?])\s+")
 NOTHING = re.compile(r"^(nothing yet|none|no change)\b", re.IGNORECASE)
+FIELD = re.compile(r"(?m)^- \*\*([^*]+):\*\*")
+ONE_LINE = re.compile(r"(?m)^- \*\*In one line:\*\* (.+)$")
+BY_LINE = re.compile(r"(?m)^- \*\*By:\*\* \S")
+DATE_LINE = re.compile(r"(?m)^- \*\*Date:\*\* (\d{4}-\d{2}-\d{2})\s*$")
+REVISION = re.compile(r"(?m)^- \*\*Revision read:\*\* `([^`]+)`")
+WHERE = "**Where it lives:**"
+SEEN = re.compile(
+    r"\[Seen in \d+ of \d+ teardowns\]\([^)]*\) · "
+    r"Practise: \[learn/\d\d\]\([^)]*\)"
+)
+MODULE_LINK = re.compile(r"\[M\d+\.[^\]]*\]\((\d\d-[^)]+\.md)\)")
+LLMS_ROW = re.compile(
+    r"- \[[^\]]+\]\(" + re.escape(BLOB) + r"\d{4}-\d{2}-\d{2}-[^)]+\.md\): .*"
+)
 
 
 def short_name(title: str) -> str:
@@ -183,6 +229,29 @@ def conversion(text: str, rel: str) -> str:
     return first.replace("|", "\\|")
 
 
+def header(text: str, rel: str) -> dict[str, str]:
+    """The summary, date and revision a page's header block carries."""
+    where = "(see teardowns/README.md § Page conventions)"
+    first = FIELD.search(text)
+    one = ONE_LINE.search(text)
+    if not one or not first or first.group(1) != "In one line":
+        sys.exit(f"{rel}: the header does not open with '- **In one line:**' {where}")
+    summary = one.group(1).strip()
+    if "|" in summary:
+        sys.exit(f"{rel}: 'In one line' holds a pipe, which breaks the index table")
+    if not summary.endswith(".") or len(SENTENCE.split(summary)) != 1:
+        sys.exit(f"{rel}: 'In one line' is one sentence ending in a full stop {where}")
+    if not BY_LINE.search(text):
+        sys.exit(f"{rel}: no '- **By:**' header field {where}")
+    date = DATE_LINE.search(text)
+    if not date:
+        sys.exit(f"{rel}: no '- **Date:** YYYY-MM-DD' header field")
+    revision = REVISION.search(text)
+    if not revision:
+        sys.exit(f"{rel}: 'Revision read' does not open with a revision in backticks")
+    return {"summary": summary, "date": date.group(1), "revision": revision.group(1)}
+
+
 def load_pages() -> list[dict]:
     """Every teardown page, oldest first (the filenames are date-prefixed)."""
     paths = sorted(p for p in TEARDOWNS.glob("*.md") if p.name != "README.md")
@@ -202,9 +271,42 @@ def load_pages() -> list[dict]:
                 "subject": title.group(1).strip(),
                 "verdicts": classify(text, rel),
                 "changed": conversion(text, rel),
+                **header(text, rel),
             }
         )
     return pages
+
+
+def newest_first(pages: list[dict]) -> list[dict]:
+    """Pages by reading date, newest first, and by file name within a day."""
+    return sorted(pages, key=lambda p: (p["date"], p["file"]), reverse=True)
+
+
+def render_published(pages: list[dict]) -> str:
+    """The Published table: one row per page, newest first."""
+    lines = ["| Date | Subject | In one line | Revision read |", "|---|---|---|---|"]
+    for page in newest_first(pages):
+        lines.append(
+            f"| {page['date']} | [{page['subject']}]({page['file']}) "
+            f"| {page['summary']} | `{page['revision']}` |"
+        )
+    return "\n".join(lines)
+
+
+def build_llms(pages: list[dict]) -> str:
+    """docs/llms.txt with its teardown lines rewritten from the pages."""
+    lines = LLMS.read_text(encoding="utf-8").split("\n")
+    rows = [i for i, line in enumerate(lines) if LLMS_ROW.fullmatch(line)]
+    if not rows:
+        sys.exit("docs/llms.txt: no teardown page lines found — format changed?")
+    if rows != list(range(rows[0], rows[-1] + 1)):
+        sys.exit("docs/llms.txt: the teardown page lines are not one unbroken run")
+    fresh = [
+        f"- [{p['subject']}]({BLOB}{p['file']}): {p['summary']} "
+        f"Read at `{p['revision']}`."
+        for p in newest_first(pages)
+    ]
+    return "\n".join(lines[: rows[0]] + fresh + lines[rows[-1] + 1 :])
 
 
 def render(patterns, pages) -> str:
@@ -255,8 +357,115 @@ def render(patterns, pages) -> str:
     return "\n".join(lines)
 
 
-def build() -> str:
-    """The full README text this run would produce."""
+def load_modules() -> dict[int, str]:
+    """{pattern number: learn module file}, from the learn track's table."""
+    lines = LEARN.read_text(encoding="utf-8").splitlines()
+
+    def cells(row: str) -> list[str]:
+        return [c.strip() for c in row.strip().strip("|").split("|")]
+
+    col = None
+    for line in lines:
+        if line.startswith("| Module "):
+            head = [c.lower() for c in cells(line)]
+            if "patterns" in head:
+                col = head.index("patterns")
+            break
+    if col is None:
+        sys.exit("learn/README.md: no module table header with a 'Patterns' column")
+
+    modules: dict[int, str] = {}
+    for row in (l for l in lines if l.startswith("| [M")):
+        parts = cells(row)
+        link = MODULE_LINK.match(parts[0])
+        if not link:
+            sys.exit(f"learn/README.md: no module file link in: {row}")
+        for token in parts[col].split(","):
+            token = token.strip()
+            if token.isdigit():
+                modules[int(token)] = link.group(1)
+    return modules
+
+
+def seen_line(num: int, pages: list[dict], modules: dict[int, str]) -> str:
+    """The generated line under one pattern's 'Where it lives' paragraph."""
+    if num not in modules:
+        sys.exit(f"learn/README.md: no module covers pattern {num}")
+    seen = sum(p["verdicts"].get(num) == PRESENT for p in pages)
+    word = WORDS.get(len(pages), str(len(pages)))
+    module = modules[num]
+    return (
+        f"[Seen in {seen} of {len(pages)} teardowns]"
+        f"(teardowns/README.md#what-{word}-readings-show) · "
+        f"Practise: [learn/{module[:2]}](learn/{module})"
+    )
+
+
+def build_patterns(patterns, pages: list[dict]) -> str:
+    """PATTERNS.md with the line under every 'Where it lives' made current."""
+    modules = load_modules()
+    lines = PATTERNS.read_text(encoding="utf-8").split("\n")
+    out: list[str] = []
+    current: int | None = None
+    done: list[int] = []
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        if line.startswith("## "):
+            heading = PATTERN_HEADING.match(line)
+            current = int(heading.group(1)) if heading else None
+        out.append(line)
+        i += 1
+        if current is None or not line.startswith(WHERE):
+            continue
+        # Drop the line a previous run wrote, then write this run's.
+        if i + 1 < len(lines) and lines[i] == "" and SEEN.fullmatch(lines[i + 1]):
+            i += 2
+        out += ["", seen_line(current, pages, modules)]
+        done.append(current)
+    numbers = [num for num, _, _ in patterns]
+    if done != numbers:
+        missing = sorted(set(numbers) - set(done))
+        sys.exit(
+            f"PATTERNS.md: expected one '{WHERE}' paragraph in each pattern, "
+            f"and found none or more than one in {missing or 'some section'}"
+        )
+    return "\n".join(out)
+
+
+def build_readme(pages: list[dict]) -> str:
+    """The root README with its pattern list and newest-teardown link current."""
+    titles = PATTERN_HEADING.findall(PATTERNS.read_text(encoding="utf-8"))
+    word = WORDS.get(len(titles), str(len(titles)))
+    short = [
+        f"The {word} patterns, by title. Each links to its reasoning in "
+        "[PATTERNS.md](PATTERNS.md).",
+        "",
+    ] + [f"{num}. [{title.strip()}](PATTERNS.md#p{num})" for num, title in titles]
+    newest = newest_first(pages)[0]
+    blocks = (
+        (SHORT_START, SHORT_END, "\n" + "\n".join(short) + "\n"),
+        (
+            NEWEST_START,
+            NEWEST_END,
+            f"The newest teardown is [{newest['subject']}](teardowns/{newest['file']}).",
+        ),
+    )
+    text = README.read_text(encoding="utf-8")
+    for start, end, body in blocks:
+        text, swapped = re.subn(
+            rf"(?s){re.escape(start)}.*?{re.escape(end)}",
+            lambda _, body=body, start=start, end=end: f"{start}{body}{end}",
+            text,
+            count=1,
+        )
+        if swapped != 1:
+            sys.exit(f"README.md: missing the {start} / {end} markers")
+    return text
+
+
+def build() -> dict[Path, str]:
+    """Every file this run owns a part of, with the text it would hold."""
     patterns = load_patterns()
     pages = load_pages()
     text = INDEX.read_text(encoding="utf-8")
@@ -282,7 +491,23 @@ def build() -> str:
     )
     if swapped != 1:
         sys.exit("teardowns/README.md: could not rewrite the marked block")
-    return text
+    text, swapped = re.subn(
+        rf"(?s){re.escape(PUB_START)}.*?{re.escape(PUB_END)}",
+        lambda _: f"{PUB_START}\n{render_published(pages)}\n{PUB_END}",
+        text,
+        count=1,
+    )
+    if swapped != 1:
+        sys.exit(
+            f"teardowns/README.md: missing the {PUB_START} / {PUB_END} markers "
+            "around the Published table"
+        )
+    return {
+        INDEX: text,
+        LLMS: build_llms(pages),
+        PATTERNS: build_patterns(patterns, pages),
+        README: build_readme(pages),
+    }
 
 
 def main() -> int:
@@ -290,30 +515,36 @@ def main() -> int:
     parser.add_argument(
         "--check",
         action="store_true",
-        help="verify the committed block matches the pages; do not write",
+        help="verify the committed files match the pages; do not write",
     )
     args = parser.parse_args()
 
-    content = build()
-    current = INDEX.read_text(encoding="utf-8")
+    stale = [
+        path
+        for path, content in build().items()
+        if path.read_text(encoding="utf-8") != content
+    ]
+    names = ", ".join(p.relative_to(REPO).as_posix() for p in stale)
 
     if args.check:
-        if current != content:
+        if stale:
             print(
-                "STALE: teardowns/README.md's matrix is out of date with the "
-                "teardown pages. Run: python scripts/teardown_matrix.py",
+                f"STALE: {names} is out of date with the teardown pages. "
+                "Run: python scripts/teardown_matrix.py",
                 file=sys.stderr,
             )
             return 1
-        print("teardowns/README.md's matrix matches the teardown pages.")
+        print("Everything generated from the teardown pages matches them.")
         return 0
 
-    if current == content:
-        print("teardowns/README.md's matrix is already current.")
+    if not stale:
+        print("Everything generated from the teardown pages is already current.")
         return 0
 
-    INDEX.write_text(content, encoding="utf-8")
-    print("Rewrote the matrix in teardowns/README.md.")
+    for path, content in build().items():
+        if path in stale:
+            path.write_text(content, encoding="utf-8")
+    print(f"Rewrote {names}.")
     return 0
 
 

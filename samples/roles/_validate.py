@@ -11,8 +11,8 @@ Checks two things:
 
 2. **Binding composition** — every `<project>/.claude/agents/*.md` file must
    reference an existing canonical role via `@<workspace>/roles/<name>.md` AND
-   include a context file via `@<path>/CONTEXT.md` (or `health_profile.md`
-   for the Health workspace).
+   include a context file via `@<path>/CONTEXT.md` (or `profile.md`,
+   for a project that keeps its context under that name).
 
 Run from the workspace root:
     python roles/_validate.py
@@ -151,10 +151,10 @@ def validate_binding(path: Path, canonical: set[str]) -> list[str]:
             if role_name not in canonical:
                 errors.append(f"binding @includes unknown role: {role_name}")
 
-    # must include a context file (CONTEXT.md or health_profile.md)
-    context_re = re.compile(r"@[^\n]*?(CONTEXT\.md|health_profile\.md)")
+    # must include a context file (CONTEXT.md or profile.md)
+    context_re = re.compile(r"@[^\n]*?(CONTEXT\.md|profile\.md)")
     if not context_re.search(text):
-        errors.append("binding does not @include a CONTEXT.md or health_profile.md")
+        errors.append("binding does not @include a CONTEXT.md or profile.md")
 
     return errors
 

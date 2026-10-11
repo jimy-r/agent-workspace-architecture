@@ -1,5 +1,6 @@
 # Teardown: 12-Factor Agents
 
+- **In one line:** HumanLayer's twelve principles are the strongest statement of how one agent's runtime should be shaped, and they leave the operational layer around it (verification, provenance, guards and measurement) out of scope.
 - **Subject:** https://github.com/humanlayer/12-factor-agents
 - **Revision read:** `d20c728` (last substantive push 2025-09-21; 25.5k stars at reading)
 - **Patterns present:** [1](../PATTERNS.md#p1), [2](../PATTERNS.md#p2), [9](../PATTERNS.md#p9), [12](../PATTERNS.md#p12), [17](../PATTERNS.md#p17) (several partially — see body)
@@ -7,6 +8,7 @@
 - **Date:** 2026-08-27
 - **Status:** current <!-- as at 2026-09-27 -->
 - **Re-check by:** 2027-02-27
+- **By:** James Ross ([jamesross.ai](https://jamesross.ai/?utm_source=github&utm_medium=teardown&utm_campaign=flagship)) · [agent-workspace-architecture](https://github.com/jimy-r/agent-workspace-architecture) · [the patterns](../PATTERNS.md)
 
 ## What it is
 

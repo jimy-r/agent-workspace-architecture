@@ -1,5 +1,6 @@
 # Teardown: GPT-RAG
 
+- **In one line:** Microsoft's Foundry accelerator writes decision records that list their own falsifiers, and about 300 KB of its tests are run by no workflow.
 - **Subject:** https://github.com/Azure/GPT-RAG
   (now [Azure/agent-landing-zone](https://github.com/Azure/agent-landing-zone), renamed by 2026-10-10. This page reads it as GPT-RAG at the revision below.)
 - **Revision read:** `76a8a4d6fd88` (main, 2026-09-03, the v3.8.3 release merge); surfaces read: `README.md`, `AGENTS.md`, `CONTRIBUTING.md`, `SECURITY.md`, `manifest.json`, `.gitattributes`, `hosted-agent/azure.yaml`, the three `.github/agents/` files, the four `.github/instructions/` files, the four `.github/skills/` with their references, `.github/copilot-instructions.md`, the six files under `.github/workflows/`, `.github/scripts/validate-agentic-assets.py`, the five pages under `docs/adr/`, `contracts/README.md` and the four schemas, `config/continuity/settings.py` and the activation path in `config/continuity/setup.py`, `config/deployment/rollback.json`, `tests/test_release_contracts.py`, and the v3.8.x and v3.4.2 entries of `CHANGELOG.md`. Added on 2026-09-27: the retrieval-optimisation how-to on the `docs` branch and the `evaluations/` README of the orchestrator that `manifest.json` pins. The sibling component repositories were otherwise read for file sizes and blob hashes only. The rest of the Python under `config/` and the azd lifecycle scripts were not read, so every verdict below is about what the repository documents, pins and tests, not what its code does. A few facts are properties of the live repository rather than the revision (workflow state, sibling heads, the release list); each is dated 2026-09-06 where it appears. The whole tree at this revision, and `main` and `develop` as they stood on 2026-09-27, were searched again that day (see Corrections).
@@ -8,6 +9,7 @@
 - **Date:** 2026-09-06
 - **Status:** current <!-- as at 2026-09-27 -->
 - **Re-check by:** 2027-03-06
+- **By:** James Ross ([jamesross.ai](https://jamesross.ai/?utm_source=github&utm_medium=teardown&utm_campaign=flagship)) · [agent-workspace-architecture](https://github.com/jimy-r/agent-workspace-architecture) · [the patterns](../PATTERNS.md)
 
 ## What it is
 
