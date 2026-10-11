@@ -7,6 +7,7 @@ Human-written record of notable changes — the *why* and the *shape*, not every
 - **Five sample files use a neutral name for a project's profile file.** The roles validator, the audit agent, the orient skill, the heartbeat monitor and the Bash guard named a context file after one project in the source workspace. They now say `profile.md`, and the validator's pattern and its error message name the same file.
 - **Date footers nobody checked are gone.** Thirteen docs ended with a "Last verified" line, and only the README's was held to git. The rest drifted, one by four months. The thirteen footers are removed, and the style guide now names the two dated markdown files: the README's footer and META's "Last updated" header. `check_freshness.py` gained a row for META's header, so the check fails when it trails the file and `--fix` rewrites it.
 - **The one-page map links onward.** The README's hero diagram opens the map, and the map linked only to the tour and `PATTERNS.md`. Its footer now carries the tour's practice sentence with the repository and newsletter links, and its top bar links the repo.
+- **The learn track names the linter.** No learn page mentioned `tools/workspace_check.py`, though seven of its twelve checks test patterns that modules 1 to 4 teach. The module table has a Linter check column, and module 4's "Measure it" says which line changes when the two hooks go in: `hooks-guard` reads WARN before and PASS after.
 
 ## 2026-10-10 - [v1.21.0]
 
