@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 """Check (or fix) the repo's hand-maintained freshness stamps against git.
 
-Four stamps on the reader surface claim a date: the README footer, the tour's
-JSON-LD `dateModified`, the tour's no-JS "Last updated" fallback, and every
-`<lastmod>` in the sitemap. All four are hand-edited, all four have drifted
-inside a single week, and a reader who trusts a stale stamp is being told the
-page was verified on a day it was not.
+Five stamps on the reader surface claim a date: the README footer, META's
+"Last updated" header, the tour's JSON-LD `dateModified`, the tour's no-JS
+"Last updated" fallback, and every `<lastmod>` in the sitemap. All five are
+hand-edited, all five have drifted, and a reader who trusts a stale stamp is
+being told the page was verified on a day it was not.
 
 The ground truth is git: a stamp must be at least as new as the last commit
 that touched the file the stamp describes. Note "describes", not "contains" —
 `docs/sitemap.xml` carries lastmod dates for the *pages* it lists, so each
 entry is checked against its own page, not against the sitemap.
 
-A fifth class of stamp works the other way round. Every teardown page carries
+A sixth class of stamp works the other way round. Every teardown page carries
 a `Re-check by:` date in its header, the day its reading stops being claimable
 as current, and that one is checked against the calendar rather than against
 git: a reading of a moving subject decays whether or not anyone edits the file.
@@ -98,6 +98,13 @@ STAMPS = [
         "README.md",
         r"(?m)^\*Last verified against the repo structure on (\d{4}-\d{2}-\d{2})\.\*$",
         "README.md",
+    ),
+    # The shape of this line (one date, a changelog link) is held by the
+    # meta-header job in docs-consistency.yml. This row holds the date.
+    (
+        "META_ARCHITECTURE.md",
+        r"(?m)^> \*\*Last updated:\*\* (\d{4}-\d{2}-\d{2})\. ",
+        "META_ARCHITECTURE.md",
     ),
     (
         "docs/index.html",

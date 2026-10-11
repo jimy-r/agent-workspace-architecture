@@ -88,7 +88,3 @@ Once the five basics above work, the harder-to-adopt parts start paying off:
 - **Container sandboxing** for agents that touch the open web (security isolation, not reproducibility).
 
 Adopt these when you feel the friction they solve, not before. The pattern only stays useful if each piece earns its keep.
-
----
-
-*Last verified against the repo structure on **2026-08-27**. Flag drift via an Issue or correct in a PR.*

@@ -5,6 +5,7 @@ Human-written record of notable changes — the *why* and the *shape*, not every
 ## 2026-10-11
 
 - **Five sample files use a neutral name for a project's profile file.** The roles validator, the audit agent, the orient skill, the heartbeat monitor and the Bash guard named a context file after one project in the source workspace. They now say `profile.md`, and the validator's pattern and its error message name the same file.
+- **Date footers nobody checked are gone.** Thirteen docs ended with a "Last verified" line, and only the README's was held to git. The rest drifted, one by four months. The thirteen footers are removed, and the style guide now names the two dated markdown files: the README's footer and META's "Last updated" header. `check_freshness.py` gained a row for META's header, so the check fails when it trails the file and `--fix` rewrites it.
 
 ## 2026-10-10 - [v1.21.0]
 
@@ -296,10 +297,6 @@ Human-written record of notable changes — the *why* and the *shape*, not every
 - **Gmail automation stack** — a daily orchestrator for triage, receipts, bills, appointments, and a self-emailed brief, on ~500 consumer-tagged rules. One narrow Iron-Law exception: a self-only SMTP sender hardcoded to the user's own address; everything else stays drafts-only.
 - **Repo hardening in three passes** — link-check, stale, validate-samples, dependabot, release notes, code of conduct, AI-PR checklist, labels; then scope boundaries, commit conventions, freshness footers; then the labeller, PR template with inline examples, lock-closed workflow, `SUPPORT.md`, `STYLE_GUIDE.md`, prettier config.
 - **Repo created** — initial redacted snapshot: README, META_ARCHITECTURE with Mermaid diagrams and `[stock]`/`[plugin]`/`[local]`/`[custom]` markers, MIT license, ADOPTION walkthrough, first samples scaffold.
-
----
-
-*Last verified against the repo structure on **2026-06-10**.*
 
 [v1.21.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.20.0...v1.21.0
 [v1.20.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.19.0...v1.20.0

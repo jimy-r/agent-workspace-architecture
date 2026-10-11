@@ -108,7 +108,3 @@ Questions and comparisons go to
 Corrections and concrete proposals go to
 [Issues](https://github.com/jimy-r/agent-workspace-architecture/issues).
 Suspected privacy leaks follow [`SECURITY.md`](SECURITY.md).
-
----
-
-*Last verified against the repo structure on 2026-09-06.*

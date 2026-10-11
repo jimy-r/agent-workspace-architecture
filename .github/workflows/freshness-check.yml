@@ -1,8 +1,9 @@
 name: Freshness stamps
 
-# Four dated claims on the reader surface are hand-maintained: the README
-# footer, the tour's JSON-LD dateModified, the tour's no-JS "Last updated"
-# fallback, and every <lastmod> in the sitemap. All four drifted inside a
+# Five dated claims on the reader surface are hand-maintained: the README
+# footer, META's "Last updated" header, the tour's JSON-LD dateModified, the
+# tour's no-JS "Last updated" fallback, and every <lastmod> in the sitemap.
+# The README, tour and sitemap stamps drifted inside a
 # single week (audit findings fb7e71dd, 7686989c, and 3be18837 before them),
 # because nothing tied a stamp to the file it describes.
 #
@@ -24,6 +25,7 @@ on:
   pull_request:
     paths:
       - 'README.md'
+      - 'META_ARCHITECTURE.md'
       - 'docs/index.html'
       - 'docs/sitemap.xml'
       - 'docs/workspace-map.html'

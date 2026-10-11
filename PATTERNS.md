@@ -318,7 +318,3 @@ Pattern 17 completes a family that runs through 5, 9 and 16. Pattern 5 keeps mem
 Pattern 18 prices what Pattern 9 budgets. Where 9 says context is finite and spent deliberately, 18 says the same token costs differently by *when* it is spent, because a stateless transcript is re-read on every step, so its levers move a read's position rather than deleting it. It closes a loop with 1 and 8: reading in a subagent — the isolation the roles library uses to keep a caller's context clean — is one of its levers, and the audit instinct of Pattern 8 supplies the meter without which position cost stays invisible.
 
 Adopt them when you feel the friction each one removes. Not before.
-
----
-
-*Last verified against the repo structure on 2026-08-27.*

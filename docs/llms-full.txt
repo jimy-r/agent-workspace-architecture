@@ -485,10 +485,6 @@ Pattern 18 prices what Pattern 9 budgets. Where 9 says context is finite and spe
 
 Adopt them when you feel the friction each one removes. Not before.
 
----
-
-*Last verified against the repo structure on 2026-08-27.*
-
 
 ==============================================================================
 SOURCE: META_ARCHITECTURE.md
@@ -501,7 +497,7 @@ URL: https://github.com/jimy-r/agent-workspace-architecture/blob/main/META_ARCHI
 >
 > **Audience:** anyone curious about how a practical agent workspace is structured end-to-end, regardless of which agent runtime they use.
 >
-> **Last updated:** 2026-10-03. What changed, and when, is in [CHANGELOG.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/CHANGELOG.md). The entries this header used to carry are in [docs/history.md](https://jimy-r.github.io/agent-workspace-architecture/history.md).
+> **Last updated:** 2026-10-11. What changed, and when, is in [CHANGELOG.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/CHANGELOG.md). The entries this header used to carry are in [docs/history.md](https://jimy-r.github.io/agent-workspace-architecture/history.md).
 
 ## Contents
 
@@ -1081,10 +1077,6 @@ This file is the source of truth for the *meta* shape of the workspace. Update i
 
 **Do not** put project-specific application architecture here — that belongs in the project's own architecture doc.
 
----
-
-*Last verified against the repo structure on **2026-08-27**. Flag drift via an Issue or correct in a PR.*
-
 
 ==============================================================================
 SOURCE: EVALUATION.md
@@ -1276,10 +1268,6 @@ Once the five basics above work, the harder-to-adopt parts start paying off:
 
 Adopt these when you feel the friction they solve, not before. The pattern only stays useful if each piece earns its keep.
 
----
-
-*Last verified against the repo structure on **2026-08-27**. Flag drift via an Issue or correct in a PR.*
-
 
 ==============================================================================
 SOURCE: WORKFLOW.md
@@ -1410,7 +1398,3 @@ Worth naming: there's a real question about how much structure versus autonomy i
 One direction being explored is a **hybrid**: a human at the top, a workspace of *executive* agents (structured, reviewable), and more independent autonomous agents below. The executive agents review and prune candidate solutions from the autonomous ones, evolutionary rather than prescriptive. Still a direction of travel, not a delivered design.
 
 If that shape resonates, you're the audience for this repo. If it feels over-structured, you'll probably settle closer to a single Claude loop plus a memory file.
-
----
-
-*Last verified against the repo structure on **2026-08-27**.*

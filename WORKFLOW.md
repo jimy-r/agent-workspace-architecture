@@ -122,7 +122,3 @@ Worth naming: there's a real question about how much structure versus autonomy i
 One direction being explored is a **hybrid**: a human at the top, a workspace of *executive* agents (structured, reviewable), and more independent autonomous agents below. The executive agents review and prune candidate solutions from the autonomous ones, evolutionary rather than prescriptive. Still a direction of travel, not a delivered design.
 
 If that shape resonates, you're the audience for this repo. If it feels over-structured, you'll probably settle closer to a single Claude loop plus a memory file.
-
----
-
-*Last verified against the repo structure on **2026-08-27**.*

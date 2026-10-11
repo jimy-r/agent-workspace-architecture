@@ -68,7 +68,3 @@ Cut a tagged release after every milestone batch (roughly: any merge that earns 
 ## Tone
 
 Terse, structural, opinionated. No performative politeness. Disagreement welcome; keep it focused on the work.
-
----
-
-*Last verified against the repo structure on **2026-06-11**.*

@@ -146,7 +146,3 @@ Be honest, be terse, credit sources, critique ideas not people. No performative 
 This project follows the [Contributor Covenant](https://www.contributor-covenant.org/version/2/1/code_of_conduct/); see [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). Concerns can be raised via the [Moderation report issue template](https://github.com/jimy-r/agent-workspace-architecture/issues/new?template=moderation_report.yml).
 
 Writing conventions live in [STYLE_GUIDE.md](STYLE_GUIDE.md). Support routing (which surface fits which question) lives in [SUPPORT.md](SUPPORT.md).
-
----
-
-*Last verified against the repo structure on **2026-06-10**. Flag drift via an Issue or correct in a PR.*
