@@ -80,7 +80,7 @@ PROTECTED_SUBSTRINGS: list[str] = [
     # Health data
     # Placeholders: list your own sensitive folders here. A folder prefix
     # covers everything beneath it.
-    "health_profile.md",
+    "profile.md",
     "private/health/",
     # Financial data
     "private/finance/",

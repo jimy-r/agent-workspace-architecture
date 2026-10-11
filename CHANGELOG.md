@@ -2,6 +2,10 @@
 
 Human-written record of notable changes — the *why* and the *shape*, not every merged PR. Milestone batches get a tagged release with short notes (from `v1.0.0`, 2026-06-11); entries are grouped by date, newest first. Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), adapted to a dated scheme. A date that carries a tagged release names the version in its heading, and that version links to the diff against the release before it, so anyone arriving from a release page can find the matching section. Dates without a version were merged between releases.
 
+## 2026-10-11
+
+- **Five sample files use a neutral name for a project's profile file.** The roles validator, the audit agent, the orient skill, the heartbeat monitor and the Bash guard named a context file after one project in the source workspace. They now say `profile.md`, and the validator's pattern and its error message name the same file.
+
 ## 2026-10-10 - [v1.21.0]
 
 - **The board sorts by attention.** The board module's card grid is now five sections laid over the category columns: Decide, Review, Do, Monitor and Backlog. One optional field (`attn: decide | review`) and one derived rule place every card. Decide carries a strip of everything overdue or due within a week, Monitor marks a card untouched for a week as stalled, and the header figure counts what an agent or a deadline is waiting on. The dedicated agent-queue section folded into Monitor. A three-section design was dropped at sizing, when 41 of 67 active cards turned out to be errands that fit none of the three. [`samples/board/README.md`](samples/board/README.md) has the placement rule, the review rule and the day-one numbers, and the example card store and the delegation skill sample follow it.
