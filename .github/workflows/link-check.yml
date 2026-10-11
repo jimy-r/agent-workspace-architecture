@@ -68,12 +68,20 @@ jobs:
         if: github.event_name == 'pull_request' && steps.changed.outputs.any_changed == 'true'
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
+          # Pacing per host. A teardown page carries dozens of github.com
+          # blob links, and with fragments on lychee fetches each page in
+          # full. At four at a time GitHub answered 503 to them on #178,
+          # three runs in a row, while every cited path existed. Two at a
+          # time, one a second, with a longer wait before a retry.
           # The only input is this constant glob. It matches the marker copies
           # the step above made, one per changed file, and nothing else.
           args: >-
             --verbose
             --no-progress
             --max-concurrency 4
+            --host-concurrency 2
+            --host-request-interval 1s
+            --retry-wait-time 5
             --include-fragments
             './**/*.lychee-pr.md'
           fail: true
@@ -92,6 +100,9 @@ jobs:
             --verbose
             --no-progress
             --max-concurrency 4
+            --host-concurrency 2
+            --host-request-interval 1s
+            --retry-wait-time 5
             --include-fragments
             './**/*.md'
           fail: false
