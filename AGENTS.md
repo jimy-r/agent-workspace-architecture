@@ -68,7 +68,8 @@ Regenerate rather than hand-edit: `python scripts/gen_llms_full.py` rewrites
 `docs/llms-full.txt`, `python scripts/gen_pattern_pages.py` rewrites the pages
 under `docs/patterns/`, `python scripts/teardown_matrix.py` rewrites the marked
 blocks in `teardowns/README.md`, the teardown lines in `docs/llms.txt` and the
-"Seen in" line under each pattern in `PATTERNS.md`, and `python scripts/check_freshness.py --fix`
+"Seen in" line under each pattern in `PATTERNS.md`, and two marked blocks in
+`README.md`, and `python scripts/check_freshness.py --fix`
 rewrites the dated stamps. CI runs these same commands, so a green local run is
 the gate for all of them. Two of the checks have no local repair. Redaction has
 no script here and runs only in CI, and a teardown past its `Re-check by` date

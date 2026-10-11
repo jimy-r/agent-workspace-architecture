@@ -29,6 +29,11 @@ fully present, so a partial verdict is not counted, and the line links the
 matrix where the partial and absent verdicts show. The module is the one that
 `learn/README.md` assigns the pattern to.
 
+Two marked blocks in the root `README.md` are kept the same way, because both
+go stale the day a pattern or a teardown is added: "The short version", a list
+of every pattern title linked to its anchor, and the sentence that links the
+newest teardown.
+
 How a page's header is read, because the pages encode partial two ways:
 
     [7](../PATTERNS.md#...) (partial)          a bare marker, applying to the
@@ -68,11 +73,16 @@ INDEX = TEARDOWNS / "README.md"
 PATTERNS = REPO / "PATTERNS.md"
 LLMS = REPO / "docs" / "llms.txt"
 LEARN = REPO / "learn" / "README.md"
+README = REPO / "README.md"
 
 START = "<!-- teardown-matrix:start -->"
 END = "<!-- teardown-matrix:end -->"
 PUB_START = "<!-- teardown-published:start -->"
 PUB_END = "<!-- teardown-published:end -->"
+SHORT_START = "<!-- patterns-short:start -->"
+SHORT_END = "<!-- patterns-short:end -->"
+NEWEST_START = "<!-- newest-teardown:start -->"
+NEWEST_END = "<!-- newest-teardown:end -->"
 
 # Where a teardown page lives on GitHub, which is the form llms.txt links.
 BLOB = "https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/"
@@ -423,6 +433,37 @@ def build_patterns(patterns, pages: list[dict]) -> str:
     return "\n".join(out)
 
 
+def build_readme(pages: list[dict]) -> str:
+    """The root README with its pattern list and newest-teardown link current."""
+    titles = PATTERN_HEADING.findall(PATTERNS.read_text(encoding="utf-8"))
+    word = WORDS.get(len(titles), str(len(titles)))
+    short = [
+        f"The {word} patterns, by title. Each links to its reasoning in "
+        "[PATTERNS.md](PATTERNS.md).",
+        "",
+    ] + [f"{num}. [{title.strip()}](PATTERNS.md#p{num})" for num, title in titles]
+    newest = newest_first(pages)[0]
+    blocks = (
+        (SHORT_START, SHORT_END, "\n" + "\n".join(short) + "\n"),
+        (
+            NEWEST_START,
+            NEWEST_END,
+            f"The newest teardown is [{newest['subject']}](teardowns/{newest['file']}).",
+        ),
+    )
+    text = README.read_text(encoding="utf-8")
+    for start, end, body in blocks:
+        text, swapped = re.subn(
+            rf"(?s){re.escape(start)}.*?{re.escape(end)}",
+            lambda _, body=body, start=start, end=end: f"{start}{body}{end}",
+            text,
+            count=1,
+        )
+        if swapped != 1:
+            sys.exit(f"README.md: missing the {start} / {end} markers")
+    return text
+
+
 def build() -> dict[Path, str]:
     """Every file this run owns a part of, with the text it would hold."""
     patterns = load_patterns()
@@ -465,6 +506,7 @@ def build() -> dict[Path, str]:
         INDEX: text,
         LLMS: build_llms(pages),
         PATTERNS: build_patterns(patterns, pages),
+        README: build_readme(pages),
     }
 
 

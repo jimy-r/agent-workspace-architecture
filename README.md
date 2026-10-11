@@ -1,4 +1,4 @@
-# agent-workspace-architecture
+# Agent Workspace Architecture
 
 [![Redaction check](https://img.shields.io/github/actions/workflow/status/jimy-r/agent-workspace-architecture/redaction-check.yml?label=redaction)](https://github.com/jimy-r/agent-workspace-architecture/actions/workflows/redaction-check.yml)
 [![Link check](https://img.shields.io/github/actions/workflow/status/jimy-r/agent-workspace-architecture/link-check.yml?label=links&event=pull_request)](https://github.com/jimy-r/agent-workspace-architecture/actions/workflows/link-check.yml)
@@ -14,7 +14,7 @@ The diagram above is the whole system — click it for the [full-page map with l
 
 Feeding this to a model instead? [`llms.txt`](https://jimy-r.github.io/agent-workspace-architecture/llms.txt) is the link map, and [`llms-full.txt`](https://jimy-r.github.io/agent-workspace-architecture/llms-full.txt) inlines the whole reference in a single fetch.
 
-New work ships irregularly: patterns, teardowns, tools, and the occasional essay. Follow along at [Agent Workspaces](https://jimyr.substack.com), or watch the repo.
+New work ships irregularly: patterns, [teardowns](teardowns/README.md), tools, and the occasional essay. <!-- newest-teardown:start -->The newest teardown is [Zenith](teardowns/2026-10-03-zenith.md).<!-- newest-teardown:end --> Follow along at [Agent Workspaces](https://jimyr.substack.com), or watch the repo.
 
 ## Try it in 60 seconds
 
@@ -46,6 +46,31 @@ The example runs in [Claude Code](https://claude.com/claude-code), so the file c
 This is one person's actual setup, redacted and published as a reference. Not a framework, not a product. A documented working arrangement of the pieces Claude Code already gives you, with the reasoning attached. It is also the reference version of the [agent-ready knowledge architecture I build for organisations](https://jamesross.ai/?utm_source=github&utm_medium=readme&utm_campaign=flagship), running at one-person scale.
 
 The scale is real: 18 expert roles, 18 load-bearing patterns, an explicit-delegation task board that succeeded a retired 2-hourly heartbeat, a weekly self-audit with synthetic canaries, a dead-man's switch over scheduled jobs, and typed memory that points at sources instead of copying them — all of it running in one person's daily workspace.
+
+## The short version
+
+<!-- patterns-short:start -->
+The eighteen patterns, by title. Each links to its reasoning in [PATTERNS.md](PATTERNS.md).
+
+1. [Pure roles, composed with project facts](PATTERNS.md#p1)
+2. [Classify-then-act, not ask-then-wait](PATTERNS.md#p2)
+3. [Make silent failure loud (the dead-man's switch)](PATTERNS.md#p3)
+4. [Tier by mechanical impact, not by tone](PATTERNS.md#p4)
+5. [Memory points, it doesn't mirror](PATTERNS.md#p5)
+6. [Credentials live in one place, never in files](PATTERNS.md#p6)
+7. [A cheap hook beats a careful agent](PATTERNS.md#p7)
+8. [Audit the workspace like a fitness function](PATTERNS.md#p8)
+9. [Context is a budget, not a constant](PATTERNS.md#p9)
+10. [A skill is editable weights — never adopt a self-edit without a gate](PATTERNS.md#p10)
+11. [A scaffold is a hypothesis — gate it behind a measurable signal](PATTERNS.md#p11)
+12. [Loop selection: not everything should be a loop](PATTERNS.md#p12)
+13. [Challenge half-formed ideas with a different lens](PATTERNS.md#p13)
+14. [Delegation is a queue you fill, not work the agent finds](PATTERNS.md#p14)
+15. [Price the lane before you migrate it](PATTERNS.md#p15)
+16. [A claim carries its provenance, or it is a guess](PATTERNS.md#p16)
+17. [One canonical copy, and pointers from everywhere else](PATTERNS.md#p17)
+18. [Position is price — a token costs more the earlier you add it](PATTERNS.md#p18)
+<!-- patterns-short:end -->
 
 ## What's inside
 
@@ -126,4 +151,4 @@ The repo was renamed from `claude-workspace-architecture` on 2026-05-28; the old
 
 ---
 
-*Last verified against the repo structure on 2026-10-04.*
+*Last verified against the repo structure on 2026-10-11.*
