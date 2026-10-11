@@ -68,11 +68,17 @@ jobs:
         if: github.event_name == 'pull_request' && steps.changed.outputs.any_changed == 'true'
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
-          # Pacing per host. A teardown page carries dozens of github.com
-          # blob links, and with fragments on lychee fetches each page in
-          # full. At four at a time GitHub answered 503 to them on #178,
-          # three runs in a row, while every cited path existed. Two at a
-          # time, one a second, with a longer wait before a retry.
+          # A teardown page carries dozens of github.com blob links pinned to
+          # a full commit sha. Fetched as rendered pages, four at a time,
+          # GitHub answered 503 to them on #178, three runs in a row, while
+          # every cited path existed. Two things answer that. Requests are
+          # paced per host: two at a time, one a second, a longer wait before
+          # a retry. And a blob link at a full sha is checked as the raw file
+          # at that commit, which tests the claim the citation makes (this
+          # path exists at this commit) without the rendered page. The line
+          # anchor is dropped, so line numbers are not checked. A blob link
+          # on a branch name is still fetched as a page.
+          #
           # The only input is this constant glob. It matches the marker copies
           # the step above made, one per changed file, and nothing else.
           args: >-
@@ -82,6 +88,7 @@ jobs:
             --host-concurrency 2
             --host-request-interval 1s
             --retry-wait-time 5
+            --remap '^https://github\.com/([^/]+)/([^/]+)/blob/([0-9a-f]{40})/([^#?]+).*$ https://raw.githubusercontent.com/$1/$2/$3/$4'
             --include-fragments
             './**/*.lychee-pr.md'
           fail: true
@@ -103,6 +110,7 @@ jobs:
             --host-concurrency 2
             --host-request-interval 1s
             --retry-wait-time 5
+            --remap '^https://github\.com/([^/]+)/([^/]+)/blob/([0-9a-f]{40})/([^#?]+).*$ https://raw.githubusercontent.com/$1/$2/$3/$4'
             --include-fragments
             './**/*.md'
           fail: false
