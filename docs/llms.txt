@@ -33,6 +33,7 @@
 ## Teardowns
 
 - [teardowns/README.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md): The teardown index, ground rules, and page conventions. Published architectures read against the eighteen patterns.
+- [Superpowers](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/2026-10-04-superpowers.md): Superpowers writes no rule until a no-guidance control shows the failure and keeps its failed cost experiments on the record, while its eval harness and most of its results live outside the tree and nothing in the tree runs its tests. Read at `8ca22dba9a94`.
 - [Zenith](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/2026-10-03-zenith.md): Zenith gives the stop decision to a closing reviewer that sees only the original request, and its report's results are one run each with nothing bounding a session's time or cost. Read at `a8d9b5786f81`.
 - [OpenHarness](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/2026-10-02-openharness.md): OpenHarness binds each agent's receipt to a content fingerprint and makes handoffs list what is unproven, while its CI is switched off for pull requests and its instruction files carry no budget. Read at `4dfcea3af13b`.
 - [GPT-RAG](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/2026-09-06-azure-gpt-rag.md): Microsoft's Foundry accelerator writes decision records that list their own falsifiers, and about 300 KB of its tests are run by no workflow. Read at `76a8a4d6fd88`.
