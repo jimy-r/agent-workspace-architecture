@@ -177,6 +177,34 @@ jobs:
                   # the text patterns read.
                   shell("GIT_SSH_COMMAND='ssh -i other' git fetch"),
                   shell("timeout 5 rm .env"),
+                  # A push behind a prefix the parser has no rule for. Only the
+                  # push text patterns read these, so they fail here if those
+                  # patterns are dropped from the guard's git table again.
+                  shell("timeout 5 git push --force origin feature"),
+                  shell("eval git push --force origin feature"),
+                  shell("sudo -u root git push --force origin feature"),
+                  shell("nice -n 5 git push --force origin feature"),
+                  shell("watch git push --force origin feature"),
+                  shell("doas git push --force origin feature"),
+                  shell("busybox git push --force origin feature"),
+                  shell("timeout 5 git push origin main"),
+                  shell("eval git push origin main"),
+                  shell("timeout 60 git push -f origin feature"),
+                  shell("timeout 60 git push --force-with-lease origin feature"),
+                  # A quoted force push beside a stray quote mark: a later line
+                  # that leaves a quote open, an apostrophe in a here-document
+                  # above, and a quote behind a backslash above. The lexer gives
+                  # up on each and the plain split does not look inside quotes.
+                  shell('bash -c "git push --force origin feature"\necho it\'s done'),
+                  shell('cat <<EOF\ndon\'t\nEOF\nbash -c "git push --force origin feature"'),
+                  shell('echo 5\\" disk\nbash -c "git push --force origin feature"'),
+                  # The patterns stop at the end of a statement, so a push to main
+                  # or a force push behind a prefix must still be found when a
+                  # harmless statement stands in front of it or behind it.
+                  shell("git push origin feature && timeout 5 git push origin main"),
+                  shell("echo ok\ntimeout 5 git push --force origin feature"),
+                  shell("git status; eval git push origin main; git status"),
+                  shell("timeout 5 git push origin main:main"),
               ],
               0: [
                   {"tool_name": "Write", "tool_input": {"file_path": "docs/notes.md"}},
@@ -184,6 +212,12 @@ jobs:
                   shell("rm -f old.log build.log"),
                   shell(f'git -C "{repo["feature"]}" push'),
                   shell("git push origin main:feature"),
+                  # A feature push with a later statement that names main. The
+                  # push text patterns end with the statement, so these pass.
+                  shell("git push origin feature && git checkout main"),
+                  shell("git push -u origin feature\ngh pr create --base main --fill"),
+                  shell("git push origin feature; git log main"),
+                  shell("git push origin main-fixes"),
                   shell("Get-ChildItem docs", "PowerShell"),
                   # The same shapes around files that are not protected. The
                   # last PowerShell one is two statements: a path that ends in

@@ -38,6 +38,14 @@ three categories of command:
        `:main`, `--all`, `--mirror`, or a bare `git push` / `git push
        origin` while the current branch is main or master), and
        `git reset --hard` against main/master. `git -C <dir>` is followed.
+       Two layers find a push, as they do a write:
+         - parsed commands (shlex): the push a statement starts with,
+           read word by word, which is where every form above is seen;
+         - text patterns: `git push` followed in the same statement
+           (before any `;`, `&`, `|` or line break) by a force flag
+           (`-f`, `--force`, `--force-with-lease`) or by `main` or
+           `master` as a word of its own, `main:main` and
+           `main:master` included.
 
     3. Exec-hijacking env-var assignments -- an inline `VAR=value cmd`
        prefix for a denylist of env vars (`GIT_SSH_COMMAND`,
@@ -93,8 +101,10 @@ Quotes and comments set limits of their own. These pass as well:
       and a plain split on whitespace takes over, which does not
       follow quotes. A later line that leaves a quote open does it,
       while Bash still runs every line above that one:
-      `bash -c "git push --force origin feature"` passes with
-      `echo it's done` on the next line. A quote mark that the shell
+      `bash -c "git push origin main"` passes with `echo it's done`
+      on the next line, because the closing quote stands straight
+      after `main` and the push text pattern wants a space, a
+      separator or the end of the text there. A quote mark that the shell
       reads as plain text does it too, and then the shell runs every
       line. The lexer pairs quote marks as they come and knows no
       escape character, no here-document and no nesting. So it counts
@@ -126,12 +136,27 @@ Quotes and comments set limits of their own. These pass as well:
       carriage return, which the guard reads as a space where
       PowerShell ends the line.
 
-The `rm` and `mv` text patterns read the text as sent, whatever quotes
-and prefixes stand around it. In each class that hides a command from
-the parser they still see the first operand of an `rm` and the
-destination of an `mv`. They do not see a push (`timeout 60 git push
---force origin feature`), a PowerShell cmdlet, `del`, or the source of
-an `mv`.
+The `rm`, `mv` and push text patterns read the text as sent, whatever
+quotes and prefixes stand around it. In each class that hides a command
+from the parser they still see the first operand of an `rm`, the
+destination of an `mv`, a push with a force flag written out (`timeout
+60 git push --force origin feature`, `bash -c "git push -f origin
+feature"` above a line that leaves a quote open) and a push with `main`
+or `master` as a word of its own (`eval git push origin main`). They do
+not see a PowerShell cmdlet, `del`, or the source of an `mv`. Of the
+pushes the parser refuses, they miss the ones that name the branch
+another way: `main` with a quote mark straight after it, `HEAD:main`,
+`feature:main`, `refs/heads/main`, a `+refspec`, `--all`, `--mirror`,
+and a push with no refspec from main. Behind a prefix or a broken quote
+those still pass. So does a push whose own words hold a `;`, `&` or `|`
+in front of the branch or the flag (`timeout 5 git push origin feature
+2>&1 --force`), because the patterns stop there.
+
+The push patterns are not the earlier sample's patterns word for word.
+Those read from `git push` to the end of the text. These stop at the
+end of the statement, take `main:` only when main or master is the
+destination too, and skip a `git` straight after a carriage return. The
+comment above DANGEROUS_GIT gives the reason for each.
 
 The third category is a text pattern and reads less. It sees an assignment
 at the start of the command, on a new line, or straight after `;`, `&` or
@@ -160,6 +185,14 @@ line that puts `rm` or `mv` in front of a protected path, even when it
 is only a comment (`# rm .env`), another tool's subcommand
 (`docker rm credentials-db`) or an index-only `git rm .env --cached`
 with the flag last.
+
+The push text patterns stop at the end of the statement, so a feature
+push followed by a command that names main is allowed (`git push origin
+feature && git checkout main`, or the same push with `gh pr create
+--base main` on the next line). What they still refuse is a line that
+only prints or comments the words (`echo git push origin main`,
+`# git push origin main`) and a commit message that holds a force push
+or a push to main as plain words with no separator between them.
 
 Two more edges come from the way quotes are read. A message that only
 quotes a blocked command is refused, with or without a `#` tail after
@@ -262,7 +295,50 @@ WRITE_PATTERNS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(rf"\btruncate\s+\S+\s+{_PATH}"), "truncate"),
 ]
 
+# ---------------------------------------------------------------------------
+# Dangerous git text patterns. `check_push` below reads a push word by word
+# and is the more exact of the two layers, but it reads only the command a
+# statement starts with. A prefix the parser does not unwrap hides the push
+# from it (`timeout 60 git push --force origin feature`, `eval git push
+# origin main`), and so does a quote left open somewhere else in the text.
+# The three push patterns read the text as sent, as the `rm` and `mv`
+# patterns do, so they stay beside the parser.
+#
+# They are the patterns of the earlier sample, narrowed in three ways so
+# that they stop refusing harmless commands the parser reads correctly:
+#   - the words between `git push` and the branch or the flag may not
+#     hold a `;`, `&` or `|` and may not cross a line break, so the match
+#     ends with the statement. The earlier patterns read on to the end of
+#     the text and refused a feature push with `main` anywhere after it
+#     (`git push origin feature && git checkout main`);
+#   - `main:` and `master:` count only when the destination is main or
+#     master as well, so `git push origin main:feature`, which sends main
+#     to a feature branch, is allowed. In exchange `main` or `master` may
+#     now end at a `;`, `&`, `|` or `)` as well as at a space;
+#   - a `git` that stands straight after a carriage return is not read.
+#     Bash takes a lone carriage return as part of a word, so that `git`
+#     is no command there, and where it follows a comment it is comment
+#     text. PowerShell does end a line at one, and the parser reads that.
+# ---------------------------------------------------------------------------
+
+_GAP = r"[^\S\r\n]+"  # spaces and tabs, never a line break
+_WORDS = rf"(?:[^\s;&|]+{_GAP})*"  # words of the same statement
+_PUSH = rf"(?<!\r)\bgit{_GAP}push{_GAP}{_WORDS}"
+_BRANCH_END = r"(?::(?:main|master))?(?=[\s;&|)]|$)"
+
 DANGEROUS_GIT: list[tuple[re.Pattern[str], str]] = [
+    (
+        re.compile(rf"{_PUSH}(?:origin{_GAP})?main{_BRANCH_END}"),
+        "git push to 'main' is forbidden -- use a feature branch + PR",
+    ),
+    (
+        re.compile(rf"{_PUSH}(?:origin{_GAP})?master{_BRANCH_END}"),
+        "git push to 'master' is forbidden -- use a feature branch + PR",
+    ),
+    (
+        re.compile(rf"{_PUSH}(?:-f\b|--force\b|--force-with-lease\b)"),
+        "git force-push is forbidden",
+    ),
     (
         re.compile(r"\bgit\s+reset\s+--hard\s+(?:origin/)?(?:main|master)\b"),
         "git reset --hard on main/master is forbidden",
