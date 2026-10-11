@@ -4,7 +4,7 @@
 >
 > **Audience:** anyone curious about how a practical agent workspace is structured end-to-end, regardless of which agent runtime they use.
 >
-> **Last updated:** 2026-10-11. What changed, and when, is in [CHANGELOG.md](CHANGELOG.md). The entries this header used to carry are in [docs/history.md](docs/history.md).
+> **Last updated:** 2026-10-12. What changed, and when, is in [CHANGELOG.md](CHANGELOG.md). The entries this header used to carry are in [docs/history.md](docs/history.md).
 
 ## Contents
 
