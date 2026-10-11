@@ -3,6 +3,7 @@ SYNTHETIC EXAMPLE. Every card below is fabricated for illustration.
 No real task content, no real paths, no real dates of consequence.
 Field format matches the working schema exactly; see README.md for the field table.
 Areas here are projects · ops · writing · home. Pick your own; keep them categories, not stages.
+`attn:` is optional and two cards below carry it. Without it the section is derived; see README.md, attention sections.
 -->
 
 # Board
@@ -27,6 +28,7 @@ id: decide-metrics-hosting
 status: active
 area: projects
 owner: me
+attn: decide
 next: Decide between self-hosting on the existing box and the hosted tier at $12/mo. Write the choice in the card body.
 effort: S
 due: 2026-08-15
@@ -62,6 +64,25 @@ done-when: pytest green including new fixture cases for reordered and missing co
 write-scope: <workspace>/example-project/ only.
 constraints: Extend the existing fixture-based test file rather than adding a new harness. Do not touch the deployed config.
 ruling: If the v3 schema turns out to allow optional columns, treat a missing optional column as a warning, not a hard failure.
+
+### Read the rewritten backup runbook and accept it
+id: review-backup-runbook
+status: active
+area: ops
+owner: me
+attn: review
+next: Read <workspace>/notes/backup-runbook.md, rewritten by an agent on 2026-08-06, then tick this card to accept it or write what to change in the body.
+effort: S
+due:
+blocked:
+links: <workspace>/notes/backup-runbook.md
+source:
+why: A runbook is prose a person follows under stress, so it waits for the operator's read instead of closing unseen.
+queue:
+created: 2026-08-06
+updated: 2026-08-06
+
+result: 2026-08-06 — runbook rewritten against the current backup script; the restore steps were not exercised by the agent.
 
 ### Rotate the object-storage credential used by the backup job
 id: rotate-backup-credential
