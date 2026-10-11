@@ -14,7 +14,7 @@ The diagram above is the whole system — click it for the [full-page map with l
 
 Feeding this to a model instead? [`llms.txt`](https://jimy-r.github.io/agent-workspace-architecture/llms.txt) is the link map, and [`llms-full.txt`](https://jimy-r.github.io/agent-workspace-architecture/llms-full.txt) inlines the whole reference in a single fetch.
 
-New work ships irregularly: patterns, [teardowns](teardowns/README.md), tools, and the occasional essay. <!-- newest-teardown:start -->The newest teardown is [Zenith](teardowns/2026-10-03-zenith.md).<!-- newest-teardown:end --> Follow along at [Agent Workspaces](https://jimyr.substack.com), or watch the repo.
+New work ships irregularly: patterns, [teardowns](teardowns/README.md), tools, and the occasional essay. <!-- newest-teardown:start -->The newest teardown is [Superpowers](teardowns/2026-10-04-superpowers.md).<!-- newest-teardown:end --> Follow along at [Agent Workspaces](https://jimyr.substack.com), or watch the repo.
 
 ## Try it in 60 seconds
 

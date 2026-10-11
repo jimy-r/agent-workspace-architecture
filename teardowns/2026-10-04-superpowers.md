@@ -1,5 +1,6 @@
 # Teardown: Superpowers
 
+- **In one line:** Superpowers writes no rule until a no-guidance control shows the failure and keeps its failed cost experiments on the record, while its eval harness and most of its results live outside the tree and nothing in the tree runs its tests.
 - **Subject:** https://github.com/obra/superpowers
 - **Revision read:** `8ca22dba9a94` (main, 2026-09-25, release v6.4.2); surfaces read: the fifteen skills under `skills/`, `hooks/`, the harness ports, `tests/`, `README.md`, `AGENTS.md`, `RELEASE-NOTES.md`, `docs/testing.md`, and the specs and plans under `docs/superpowers/` (the most recent in full, the older ones skimmed). The eval harness lives in a separate repository and was not read. Verdicts stop at the files named. Nothing was installed or run.
 - **Patterns present:** [10](../PATTERNS.md#p10), [11](../PATTERNS.md#p11), [15](../PATTERNS.md#p15), [18](../PATTERNS.md#p18) ([3](../PATTERNS.md#p3), [7](../PATTERNS.md#p7), [9](../PATTERNS.md#p9), [16](../PATTERNS.md#p16) and [17](../PATTERNS.md#p17) partial)
@@ -9,6 +10,7 @@
 - **Re-check by:** 2027-04-04
 - **Verified:** 2026-10-04, 56 citations re-read
 - **Maintainer heads-up:** not sent (rule 4)
+- **By:** James Ross ([jamesross.ai](https://jamesross.ai/?utm_source=github&utm_medium=teardown&utm_campaign=flagship)) · [agent-workspace-architecture](https://github.com/jimy-r/agent-workspace-architecture) · [the patterns](../PATTERNS.md)
 
 ## What it is
 

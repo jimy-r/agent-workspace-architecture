@@ -44,7 +44,7 @@ The diagram above is the whole system — click it for the [full-page map with l
 
 Feeding this to a model instead? [`llms.txt`](https://jimy-r.github.io/agent-workspace-architecture/llms.txt) is the link map, and [`llms-full.txt`](https://jimy-r.github.io/agent-workspace-architecture/llms-full.txt) inlines the whole reference in a single fetch.
 
-New work ships irregularly: patterns, [teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md), tools, and the occasional essay. <!-- newest-teardown:start -->The newest teardown is [Zenith](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/2026-10-03-zenith.md).<!-- newest-teardown:end --> Follow along at [Agent Workspaces](https://jimyr.substack.com), or watch the repo.
+New work ships irregularly: patterns, [teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md), tools, and the occasional essay. <!-- newest-teardown:start -->The newest teardown is [Superpowers](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/2026-10-04-superpowers.md).<!-- newest-teardown:end --> Follow along at [Agent Workspaces](https://jimyr.substack.com), or watch the repo.
 
 ## Try it in 60 seconds
 
@@ -234,7 +234,7 @@ Each pattern keeps a short anchor, `PATTERNS.md#p<N>`, so a link survives a reti
 
 **Where it lives:** [`samples/roles/`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/roles) (18 roles + the template) and [`samples/example-project/`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/example-project) (a binding composing role + context).
 
-[Seen in 5 of 7 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-seven-readings-show) · Practise: [learn/01](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/01-canonical-knowledge.md)
+[Seen in 5 of 8 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-eight-readings-show) · Practise: [learn/01](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/01-canonical-knowledge.md)
 
 <a id="p2"></a>
 
@@ -252,7 +252,7 @@ Each pattern keeps a short anchor, `PATTERNS.md#p<N>`, so a link survives a reti
 
 **Where it lives:** [`samples/scripts/heartbeat/classify_task.py`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/scripts/heartbeat/classify_task.py) and [`samples/tasks/HEARTBEAT.md`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/tasks/HEARTBEAT.md).
 
-[Seen in 1 of 7 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-seven-readings-show) · Practise: [learn/06](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/06-provenance-delegation.md)
+[Seen in 1 of 8 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-eight-readings-show) · Practise: [learn/06](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/06-provenance-delegation.md)
 
 <a id="p3"></a>
 
@@ -268,7 +268,7 @@ Each pattern keeps a short anchor, `PATTERNS.md#p<N>`, so a link survives a reti
 
 **Where it lives:** [`samples/scripts/security/check_task_freshness.py`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/scripts/security/check_task_freshness.py).
 
-[Seen in 1 of 7 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-seven-readings-show) · Practise: [learn/05](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/05-telemetry-cost.md)
+[Seen in 1 of 8 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-eight-readings-show) · Practise: [learn/05](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/05-telemetry-cost.md)
 
 <a id="p4"></a>
 
@@ -284,7 +284,7 @@ Each pattern keeps a short anchor, `PATTERNS.md#p<N>`, so a link survives a reti
 
 **Where it lives:** [`samples/.claude/agents/audit.md`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/.claude/agents/audit.md) (the tier-classification table).
 
-[Seen in 3 of 7 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-seven-readings-show) · Practise: [learn/04](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/04-safety-permissions.md)
+[Seen in 3 of 8 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-eight-readings-show) · Practise: [learn/04](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/04-safety-permissions.md)
 
 <a id="p5"></a>
 
@@ -300,7 +300,7 @@ Each pattern keeps a short anchor, `PATTERNS.md#p<N>`, so a link survives a reti
 
 **Where it lives:** [`samples/.claude/scheduled-tasks/consolidate-memory/SKILL.md`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/.claude/scheduled-tasks/consolidate-memory/SKILL.md) and [`samples/scripts/memory_lint.py`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/scripts/memory_lint.py).
 
-[Seen in 0 of 7 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-seven-readings-show) · Practise: [learn/01](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/01-canonical-knowledge.md)
+[Seen in 0 of 8 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-eight-readings-show) · Practise: [learn/01](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/01-canonical-knowledge.md)
 
 <a id="p6"></a>
 
@@ -316,7 +316,7 @@ Each pattern keeps a short anchor, `PATTERNS.md#p<N>`, so a link survives a reti
 
 **Where it lives:** [`samples/scripts/backup-restic.ps1`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/scripts/backup-restic.ps1) (runtime resolution + scrub) and [`samples/scripts/send_self_email.py`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/scripts/send_self_email.py) (the one narrow, audited exception).
 
-[Seen in 2 of 7 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-seven-readings-show) · Practise: [learn/04](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/04-safety-permissions.md)
+[Seen in 2 of 8 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-eight-readings-show) · Practise: [learn/04](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/04-safety-permissions.md)
 
 <a id="p7"></a>
 
@@ -332,7 +332,7 @@ Each pattern keeps a short anchor, `PATTERNS.md#p<N>`, so a link survives a reti
 
 **Where it lives:** [`samples/scripts/security/check_bash_command.py`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/scripts/security/check_bash_command.py) and the hook config in [`samples/.claude/settings.example.json`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/.claude/settings.example.json).
 
-[Seen in 4 of 7 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-seven-readings-show) · Practise: [learn/04](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/04-safety-permissions.md)
+[Seen in 4 of 8 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-eight-readings-show) · Practise: [learn/04](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/04-safety-permissions.md)
 
 <a id="p8"></a>
 
@@ -348,7 +348,7 @@ Each pattern keeps a short anchor, `PATTERNS.md#p<N>`, so a link survives a reti
 
 **Where it lives:** [`samples/.claude/agents/audit.md`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/.claude/agents/audit.md) and [`samples/tests/audit_canaries/`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/tests/audit_canaries).
 
-[Seen in 0 of 7 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-seven-readings-show) · Practise: [learn/03](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/03-verification-oversight.md)
+[Seen in 0 of 8 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-eight-readings-show) · Practise: [learn/03](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/03-verification-oversight.md)
 
 <a id="p9"></a>
 
@@ -364,7 +364,7 @@ Each pattern keeps a short anchor, `PATTERNS.md#p<N>`, so a link survives a reti
 
 **Where it lives:** [`samples/scripts/ghost_token_counter.py`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/scripts/ghost_token_counter.py) (the per-source baseline) and [`samples/scripts/token_report.py`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/scripts/token_report.py) (spend telemetry feeding the audit's trend rule).
 
-[Seen in 3 of 7 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-seven-readings-show) · Practise: [learn/02](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/02-context-economics.md)
+[Seen in 3 of 8 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-eight-readings-show) · Practise: [learn/02](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/02-context-economics.md)
 
 <a id="p10"></a>
 
@@ -380,7 +380,7 @@ Each pattern keeps a short anchor, `PATTERNS.md#p<N>`, so a link survives a reti
 
 **Where it lives:** [`samples/tasks/HEARTBEAT.md`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/tasks/HEARTBEAT.md) (classify → sandbox → stage → review → adopt) and [`samples/.claude/scheduled-tasks/consolidate-memory/SKILL.md`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/.claude/scheduled-tasks/consolidate-memory/SKILL.md) (four-operation write discipline). SkillOpt itself is credited in [ATTRIBUTION.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/ATTRIBUTION.md).
 
-[Seen in 1 of 7 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-seven-readings-show) · Practise: [learn/03](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/03-verification-oversight.md)
+[Seen in 2 of 8 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-eight-readings-show) · Practise: [learn/03](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/03-verification-oversight.md)
 
 <a id="p11"></a>
 
@@ -396,7 +396,7 @@ Each pattern keeps a short anchor, `PATTERNS.md#p<N>`, so a link survives a reti
 
 **Where it lives:** the same fitness-function machinery as [`samples/.claude/agents/audit.md`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/.claude/agents/audit.md) (Pattern 8). The reasoning-regression suite runs on the audit's cadence and reports like its other coded checks, and it is the measurement-gated cousin of the self-edit gate in Pattern 10: a correctness signal certifying a *scaffold* the way a human gate certifies a *self-edit*.
 
-[Seen in 3 of 7 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-seven-readings-show) · Practise: [learn/03](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/03-verification-oversight.md)
+[Seen in 4 of 8 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-eight-readings-show) · Practise: [learn/03](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/03-verification-oversight.md)
 
 <a id="p12"></a>
 
@@ -412,7 +412,7 @@ Each pattern keeps a short anchor, `PATTERNS.md#p<N>`, so a link survives a reti
 
 **Where it lives:** [`samples/scripts/wrap_drift_scan.py`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/scripts/wrap_drift_scan.py) (the read-only close-out surfacing scan — the worked *surface* case).
 
-[Seen in 2 of 7 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-seven-readings-show) · Practise: [learn/06](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/06-provenance-delegation.md)
+[Seen in 2 of 8 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-eight-readings-show) · Practise: [learn/06](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/06-provenance-delegation.md)
 
 <a id="p13"></a>
 
@@ -430,7 +430,7 @@ Each pattern keeps a short anchor, `PATTERNS.md#p<N>`, so a link survives a reti
 
 **Where it lives:** [`samples/scripts/ideation_spar_log.py`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/scripts/ideation_spar_log.py), the log and report engine. Its `roll` subcommand, which drew the held-out sample, is retired and exits with a pointer to the reason. Pattern 11 certifies a scaffold offline against a held-out *case set*. This pattern is its live counterpart, certified by the human's tag on each firing.
 
-[Seen in 0 of 7 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-seven-readings-show) · Practise: [learn/03](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/03-verification-oversight.md)
+[Seen in 0 of 8 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-eight-readings-show) · Practise: [learn/03](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/03-verification-oversight.md)
 
 <a id="p14"></a>
 
@@ -446,7 +446,7 @@ Each pattern keeps a short anchor, `PATTERNS.md#p<N>`, so a link survives a reti
 
 **Where it lives:** [`samples/board/agent-queue.SKILL.example.md`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/board/agent-queue.SKILL.example.md) (the intake interview and the drain protocol it feeds), with the card schema and the succession reasoning in [`samples/board/README.md`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/board/README.md). Pattern 2 is the predecessor it replaced; the classification logic there holds wherever the mandate is already unambiguous, and discovery is the half that failed.
 
-[Seen in 0 of 7 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-seven-readings-show) · Practise: [learn/06](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/06-provenance-delegation.md)
+[Seen in 0 of 8 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-eight-readings-show) · Practise: [learn/06](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/06-provenance-delegation.md)
 
 <a id="p15"></a>
 
@@ -462,7 +462,7 @@ Each pattern keeps a short anchor, `PATTERNS.md#p<N>`, so a link survives a reti
 
 **Where it lives:** [`samples/scripts/tier_metrics.py`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/scripts/tier_metrics.py) (the lane-split instrument with its four advisory checks and selftest), consumed by the audit's checks-as-code the same way as the Pattern 11 machinery. Pattern 9 is the parent instinct (context as a budget) applied here to the model ladder; Pattern 11 supplies the trial discipline: falsifiable hypothesis, review date, kill criterion.
 
-[Seen in 1 of 7 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-seven-readings-show) · Practise: [learn/05](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/05-telemetry-cost.md)
+[Seen in 2 of 8 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-eight-readings-show) · Practise: [learn/05](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/05-telemetry-cost.md)
 
 <a id="p16"></a>
 
@@ -488,7 +488,7 @@ The pattern also fails usefully. When a claim turns out wrong, the grade shows w
 
 **Where it lives:** [`samples/roles/researcher.md`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/roles/researcher.md) carries the full two-axis grading scheme and the claim-evidence-inference separation it sits inside. [`samples/CLAUDE.md.example`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/CLAUDE.md.example) carries the `path:line` rule that extends it from research tasks to ordinary answers.
 
-[Seen in 4 of 7 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-seven-readings-show) · Practise: [learn/06](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/06-provenance-delegation.md)
+[Seen in 4 of 8 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-eight-readings-show) · Practise: [learn/06](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/06-provenance-delegation.md)
 
 **Boundary with its neighbours.** Pattern 5 governs what memory *stores*; this governs what an assertion *carries at the moment it is made*. Pattern 8 measures whether the workspace is drifting; this makes a single claim auditable without measuring anything. The three are separable: a workspace can store pointers faithfully, audit itself weekly, and still hand you a confident sentence with nothing behind it.
 
@@ -512,7 +512,7 @@ This workspace's own instructions carry a worked instance, left in place deliber
 
 **Where it lives:** [`samples/scripts/claudemd_audit.py`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/scripts/claudemd_audit.py) inventories every always-loaded instruction file and flags size, staleness, broken imports, and boilerplate duplicated across files. Pattern 5 is the same instinct applied to memory; this is it applied to instructions, which are loaded on every session and so cost on every session.
 
-[Seen in 2 of 7 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-seven-readings-show) · Practise: [learn/01](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/01-canonical-knowledge.md)
+[Seen in 2 of 8 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-eight-readings-show) · Practise: [learn/01](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/01-canonical-knowledge.md)
 
 <a id="p18"></a>
 
@@ -528,7 +528,7 @@ This workspace's own instructions carry a worked instance, left in place deliber
 
 **Where it lives:** [`samples/CLAUDE.md.example`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/CLAUDE.md.example) carries the read-in-subagent, ranged-read, batch-calls, mind-the-cache-clock, and compact-on-purpose rules as a standing directive; [`samples/scripts/cache_write_scan.py`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/scripts/cache_write_scan.py) attributes a transcript's cache writes to idle gaps, model switches, compaction or standing-file edits so the claim can be re-tested on any session; [`experiments/E1-cache-economics.md`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/experiments/E1-cache-economics.md) prices the keep-alive this pattern used to recommend and records why it was cut. Pattern 9 frames context as a budget; this prices that budget by position and step-count. The close-out ritual is this pattern's worst case, a twenty-step procedure run at the session's peak; [`samples/.claude/skills/wrap/SKILL.md`](https://github.com/jimy-r/agent-workspace-architecture/blob/main/samples/.claude/skills/wrap/SKILL.md) splits it so the main thread composes a brief and reviews the result while an execution-tier subagent does the reads and edits at a small context (measured before the split: 9–22% of a session's cache reads).
 
-[Seen in 1 of 7 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-seven-readings-show) · Practise: [learn/02](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/02-context-economics.md)
+[Seen in 2 of 8 teardowns](https://github.com/jimy-r/agent-workspace-architecture/blob/main/teardowns/README.md#what-eight-readings-show) · Practise: [learn/02](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/02-context-economics.md)
 
 **Boundary with its neighbours.** Pattern 9 says context is finite and must be spent deliberately; this says the *same* token costs differently by when in the session it is spent, a claim about price rather than quantity. Reading in a subagent to keep the caller clean is one lever here, not the whole pattern. And Pattern 8's audit instinct supplies the meter: position cost you cannot see is position cost you cannot manage.
 
