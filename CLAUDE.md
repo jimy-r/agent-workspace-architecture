@@ -64,6 +64,7 @@ Cut a tagged release after every milestone batch (roughly: any merge that earns 
 3. Versioning: minor bump for new content (a pattern, a module sync, a tour feature), patch for fixes, major only on repositioning.
 4. Release notes are public content. Same redaction bar and writing rules as files. Write them for a reader who has never seen the workspace, with a handle in the title and no internal audit or finding IDs in the body.
 5. `CITATION.cff` names the release it describes. Set its `version` and `date-released` in the PR that carries the release's CHANGELOG entry, before the tag is cut.
+6. A release's CHANGELOG heading links `compare/vPREV...vNEW`, and that link is a 404 until the tag is cut. The link check on a PR skips this repo's compare links for that reason. The scheduled Monday run checks them once the tag exists.
 
 ## Tone
 
