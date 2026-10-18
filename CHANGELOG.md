@@ -2,7 +2,7 @@
 
 Human-written record of notable changes — the *why* and the *shape*, not every merged PR. Milestone batches get a tagged release with short notes (from `v1.0.0`, 2026-06-11); entries are grouped by date, newest first. Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), adapted to a dated scheme. A date that carries a tagged release names the version in its heading, and that version links to the diff against the release before it, so anyone arriving from a release page can find the matching section. Dates without a version were merged between releases.
 
-## 2026-10-11
+## 2026-10-11 - [v1.22.0]
 
 - **Eighth teardown: Superpowers.** Merged after v1.21.0. The page reads release v6.4.2 and spends most of its time in the project's own specs. It credits a rule that nothing is written until a no-guidance control shows the failure, instruction forms matched to the failure with measured results, cost experiments recorded as dead against pre-registered gates, and a gate on changes to skill text. Against those, the eval harness and most of the results behind the release notes live outside the tree, nothing in the tree runs the 66 test files, a failed bootstrap exits clean in the shell hook, and 13 of 15 skills pass the project's own 500-word target. The reading changed two things in the private workspace this repo mirrors. The role pressure test now runs a control beside each scenario, classifies the failure before any wording changes and repeats three times before a change is adopted, and its [sample](samples/.claude/skills/role-pressure-test/SKILL.md) here carries the change. A fault test borrowed from the reading found the lessons re-injection hook printing its header alone and exiting 0 when its source was missing, and the hook now prints a failure line instead. Three ideas were declined: compliance-pressure wording as a default, decision-only plans, and installing the plugin.
 - **Five sample files use a neutral name for a project's profile file.** The roles validator, the audit agent, the orient skill, the heartbeat monitor and the Bash guard named a context file after one project in the source workspace. They now say `profile.md`, and the validator's pattern and its error message name the same file.
@@ -305,6 +305,7 @@ Human-written record of notable changes — the *why* and the *shape*, not every
 - **Repo hardening in three passes** — link-check, stale, validate-samples, dependabot, release notes, code of conduct, AI-PR checklist, labels; then scope boundaries, commit conventions, freshness footers; then the labeller, PR template with inline examples, lock-closed workflow, `SUPPORT.md`, `STYLE_GUIDE.md`, prettier config.
 - **Repo created** — initial redacted snapshot: README, META_ARCHITECTURE with Mermaid diagrams and `[stock]`/`[plugin]`/`[local]`/`[custom]` markers, MIT license, ADOPTION walkthrough, first samples scaffold.
 
+[v1.22.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.21.0...v1.22.0
 [v1.21.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.20.0...v1.21.0
 [v1.20.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.19.0...v1.20.0
 [v1.19.0]: https://github.com/jimy-r/agent-workspace-architecture/compare/v1.18.0...v1.19.0
