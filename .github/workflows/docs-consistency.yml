@@ -274,25 +274,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: Every teardown and learn page is in docs/llms.txt
+      - name: Every teardown, learn and experiment page is in docs/llms.txt
         run: |
           python3 - <<'EOF'
           import sys
           from pathlib import Path
 
           llms = Path("docs/llms.txt").read_text(encoding="utf-8")
-          pages = sorted(
-              p.as_posix()
-              for d in ("teardowns", "learn")
-              for p in Path(d).glob("*.md")
-          )
-          if not pages:
-              sys.exit("teardowns/ and learn/ hold no .md pages - directories moved?")
+          dirs = ("teardowns", "learn", "experiments")
+          empty = [d for d in dirs if not list(Path(d).glob("*.md"))]
+          if empty:
+              sys.exit("no .md pages in " + ", ".join(empty) + " - directories moved?")
+          pages = sorted(p.as_posix() for d in dirs for p in Path(d).glob("*.md"))
           missing = [p for p in pages if p not in llms]
           if missing:
               sys.exit("docs/llms.txt references neither the path nor a URL for:\n  "
                        + "\n  ".join(missing))
-          print(f"OK: all {len(pages)} teardown and learn pages are referenced in docs/llms.txt")
+          print(f"OK: all {len(pages)} teardown, learn and experiment pages are referenced in docs/llms.txt")
           EOF
 
   teardown-matrix:

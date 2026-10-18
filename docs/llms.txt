@@ -4,7 +4,7 @@
 
 ## Full text
 
-- [llms-full.txt](https://jimy-r.github.io/agent-workspace-architecture/llms-full.txt): The six core documents (README, PATTERNS, META_ARCHITECTURE, EVALUATION, ADOPTION, WORKFLOW) inlined in reading order; the tour, changelog, and samples are linked only. Read this instead of following the links if you want the core reference in one request. Start here.
+- [llms-full.txt](https://jimy-r.github.io/agent-workspace-architecture/llms-full.txt): The six core documents (README, PATTERNS, META_ARCHITECTURE, EVALUATION, ADOPTION, WORKFLOW) and the experiments index inlined in reading order; the tour, changelog, and samples are linked only. Read this instead of following the links if you want the core reference in one request. Start here.
 
 ## Source documents
 
@@ -29,6 +29,16 @@
 - [M4. Safety & permissions](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/04-safety-permissions.md): Cheap mechanical guards: hooks, tiering by impact, and keeping credentials out of files. Patterns 4, 6, 7.
 - [M5. Telemetry & cost](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/05-telemetry-cost.md): Loud failure and priced lanes: the dead-man's switch, and instrumenting a lane before migrating it. Patterns 3, 15.
 - [M6. Provenance & delegation](https://github.com/jimy-r/agent-workspace-architecture/blob/main/learn/06-provenance-delegation.md): Claims that carry sources, work that carries a mandate. Patterns 2, 12, 14, 16.
+
+## Experiments
+
+- [experiments/README.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/experiments/README.md): The experiments index. The workspace's own cost and quality questions, each with hypotheses and thresholds fixed before the data was read, and every verdict published, failures included.
+- [E0a. The golden set's noise floor](https://github.com/jimy-r/agent-workspace-architecture/blob/main/experiments/E0a-golden-set-noise-floor.md): The smallest change the golden set can detect. 0.071 against a 0.05 target, so H1 failed, and the golden-set regression check was rebased on that floor.
+- [E1. Cache economics](https://github.com/jimy-r/agent-workspace-architecture/blob/main/experiments/E1-cache-economics.md): Where the cache-write bill goes (61.9% of main-thread dollars), and whether keep-alive pings paid for themselves. They broke even.
+- [E2. Tool-output reuse](https://github.com/jimy-r/agent-workspace-architecture/blob/main/experiments/E2-tool-output-reuse.md): How much of what tool results add to context is never used again. A null result, 21.0% against a 25% bar once injected content was split out.
+- [E3. Pricing compaction](https://github.com/jimy-r/agent-workspace-architecture/blob/main/experiments/E3-compaction-pricing.md): Whether compacting at task boundaries or at a lower threshold would cut the bill. A null result, since earlier compaction cut tokens far more than dollars.
+- [E5. Shrinking the standing surface](https://github.com/jimy-r/agent-workspace-architecture/blob/main/experiments/E5-standing-surface.md): How much always-loaded text can move to files read on demand. A 35.7% cut passed, and the follow-up hypotheses have not run.
+- [E6. An orient digest](https://github.com/jimy-r/agent-workspace-architecture/blob/main/experiments/E6-orient-digest.md): Whether a digest of live state can replace the session-start skill's raw reads. The digest came to 2.6% of the raw tokens, and the follow-up hypotheses have not run.
 
 ## Teardowns
 
