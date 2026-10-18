@@ -19,12 +19,12 @@ contact_links:
       belong in the Anthropic repo, not here. This repo only documents
       patterns built on top of Claude Code.
   - name: Claude Code documentation
-    url: https://docs.claude.com/en/docs/claude-code/overview
+    url: https://code.claude.com/docs/en/overview
     about: >-
       For how-to questions about Claude Code features, start with the
       official documentation.
   - name: Anthropic API / SDK question
-    url: https://docs.claude.com/en/api/overview
+    url: https://platform.claude.com/docs/en/api/overview
     about: >-
       Questions about the underlying Claude API or SDK (not Claude Code
       specifically) belong in the Anthropic support channels.

@@ -130,7 +130,7 @@ A *module* is a cohesive cluster of files (subagents, skills, scripts, state) th
 
 ## 3. Personas — the Roles Library
 
-> See also: [Claude Code subagents documentation](https://docs.claude.com/en/docs/claude-code/sub-agents).
+> See also: [Claude Code subagents documentation](https://code.claude.com/docs/en/sub-agents).
 
 **Library:** `<workspace>/roles/` — 18 pure, reusable canonical role definitions, each with a fixed schema (frontmatter + Identity / Directives / Constraints / Method / Output format / Red Flags / Rationalization Table).
 
@@ -249,7 +249,7 @@ The previous dedicated nightly backup job was removed in favour of manual-only i
 
 ## 5. Hooks — automatic behaviours on events
 
-> See also: [Claude Code hooks documentation](https://docs.claude.com/en/docs/claude-code/hooks). A sample hook config lives at [`samples/.claude/settings.example.json`](samples/.claude/settings.example.json).
+> See also: [Claude Code hooks documentation](https://code.claude.com/docs/en/hooks). A sample hook config lives at [`samples/.claude/settings.example.json`](samples/.claude/settings.example.json).
 
 The **mechanism** is **[stock]**; each hook's **command** is **[custom]**. Configured globally in `<home>/.claude/settings.json`, except two project-scoped hooks (a memory-write screen and a blast-radius warning) that live in `<workspace>/.claude/settings.json`. Since 2026-09-24 every Python hook runs in isolated mode (`python -I`, with a fixed bytecode-cache prefix) and appends its own folder last on `sys.path`. The PreToolUse guards also write one armed line per invocation to a hook-protected file under `scripts/_state/guard_armed/`, which an audit check reads, because a fail-open guard that never ran looks like one that allowed everything.
 
@@ -269,7 +269,7 @@ The **mechanism** is **[stock]**; each hook's **command** is **[custom]**. Confi
 
 ## 6. Skills — invokable capabilities
 
-> See also: [Claude Code skills documentation](https://docs.claude.com/en/docs/claude-code/skills). A sample custom skill lives at [`samples/.claude/skills/orient/SKILL.md`](samples/.claude/skills/orient/SKILL.md).
+> See also: [Claude Code skills documentation](https://code.claude.com/docs/en/skills). A sample custom skill lives at [`samples/.claude/skills/orient/SKILL.md`](samples/.claude/skills/orient/SKILL.md).
 
 ### Custom workspace skills (`<workspace>/.claude/skills/`)
 
@@ -308,7 +308,7 @@ All entries below are **[stock]** or **[plugin]** (shipped by Anthropic or avail
 
 ## 7. Subagents — specialised workers
 
-> See also: [Claude Code subagents documentation](https://docs.claude.com/en/docs/claude-code/sub-agents).
+> See also: [Claude Code subagents documentation](https://code.claude.com/docs/en/sub-agents).
 
 ### Workspace custom subagents (`<workspace>/.claude/agents/`)
 
@@ -333,7 +333,7 @@ All **[stock]**: `general-purpose`, `Explore` (codebase search), `Plan` (archite
 
 ## 8. MCP servers — external capability bridges
 
-> See also: [Claude Code MCP documentation](https://docs.claude.com/en/docs/claude-code/mcp).
+> See also: [Claude Code MCP documentation](https://code.claude.com/docs/en/mcp).
 
 | Server | Type | Purpose |
 |---|---|---|
@@ -354,7 +354,7 @@ All **[stock]**: `general-purpose`, `Explore` (codebase search), `Plan` (archite
 
 ## 9. Memory system — persistent context across sessions
 
-> See also: [Claude Code memory documentation](https://docs.claude.com/en/docs/claude-code/memory).
+> See also: [Claude Code memory documentation](https://code.claude.com/docs/en/memory).
 
 **Location:** `<home>/.claude/projects/<workspace-id>/memory/`
 

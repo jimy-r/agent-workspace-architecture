@@ -41,7 +41,7 @@ score line moves.
 
 Each check names the pattern it comes from, so a `[FAIL]` is a link into [PATTERNS.md](PATTERNS.md) rather than a scolding. Post your score in [Show and tell](https://github.com/jimy-r/agent-workspace-architecture/discussions/categories/show-and-tell) if you want a second read on it.
 
-The example runs in [Claude Code](https://claude.com/claude-code), so the file conventions you'll see (`CLAUDE.md`, `.claude/skills/`, MCP config) are Claude-Code-specific. The architecture is not. The roles library, memory hygiene, audit cadence, explicit-delegation task board, dead-man's switch, and tier-by-impact gating port to Cursor, Cline, Continue, Windsurf, or a custom Agent-SDK build. Pick your runtime; the decisions translate.
+The example runs in [Claude Code](https://claude.com/product/claude-code), so the file conventions you'll see (`CLAUDE.md`, `.claude/skills/`, MCP config) are Claude-Code-specific. The architecture is not. The roles library, memory hygiene, audit cadence, explicit-delegation task board, dead-man's switch, and tier-by-impact gating port to Cursor, Cline, Continue, Windsurf, or a custom Agent-SDK build. Pick your runtime; the decisions translate.
 
 This is one person's actual setup, redacted and published as a reference. Not a framework, not a product. A documented working arrangement of the pieces Claude Code already gives you, with the reasoning attached. It is also the reference version of the [agent-ready knowledge architecture I build for organisations](https://jamesross.ai/?utm_source=github&utm_medium=readme&utm_campaign=flagship), running at one-person scale.
 
@@ -151,4 +151,4 @@ The repo was renamed from `claude-workspace-architecture` on 2026-05-28; the old
 
 ---
 
-*Last verified against the repo structure on 2026-10-12.*
+*Last verified against the repo structure on 2026-10-18.*

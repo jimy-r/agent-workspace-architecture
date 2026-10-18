@@ -18,7 +18,7 @@ The patterns in this repo were not invented here. They were borrowed, adapted, a
 | Pattern | Borrowed from |
 |---|---|
 | `verify-completion` skill, `systematic-debugging` skill, rationalization-resistant role design, CSO skill descriptions, SDD review-gate templates, anti-sycophancy section | [obra/superpowers](https://github.com/obra/superpowers) |
-| Sample validation workflow pattern, auto-categorised release notes via label matching, Dependabot-for-Actions setup, PR-size disciplines | [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code) |
+| Sample validation workflow pattern, auto-categorised release notes via label matching, Dependabot-for-Actions setup, PR-size disciplines | [affaan-m/ECC](https://github.com/affaan-m/ECC) |
 | Production-quality subagent layout, `plugin.json`/`marketplace.json` validation ideas | [wshobson/agents](https://github.com/wshobson/agents) |
 | Role-as-first-class-object, CONTEXT.md binding pattern, repo shape | Reviewed [antfu/skills](https://github.com/antfu/skills), [wshobson/commands](https://github.com/wshobson/commands), [jqueryscript/awesome-claude-code](https://github.com/jqueryscript/awesome-claude-code) |
 | Choice-scored judge specs (prompt + choice→score map), CoT-before-verdict, graded partial credit; judge templates descended from OpenAI evals | [braintrustdata/autoevals](https://github.com/braintrustdata/autoevals) (MIT; templates originally adapted from [openai/evals](https://github.com/openai/evals)) |
