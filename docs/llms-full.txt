@@ -562,7 +562,7 @@ URL: https://github.com/jimy-r/agent-workspace-architecture/blob/main/META_ARCHI
 >
 > **Audience:** anyone curious about how a practical agent workspace is structured end-to-end, regardless of which agent runtime they use.
 >
-> **Last updated:** 2026-10-12. What changed, and when, is in [CHANGELOG.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/CHANGELOG.md). The entries this header used to carry are in [docs/history.md](https://jimy-r.github.io/agent-workspace-architecture/history.md).
+> **Last updated:** 2026-10-24. What changed, and when, is in [CHANGELOG.md](https://github.com/jimy-r/agent-workspace-architecture/blob/main/CHANGELOG.md). The entries this header used to carry are in [docs/history.md](https://jimy-r.github.io/agent-workspace-architecture/history.md).
 
 ## Contents
 
