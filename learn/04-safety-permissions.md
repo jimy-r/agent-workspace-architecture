@@ -10,7 +10,7 @@ The companion instinct is routing by consequence. Decide what may happen automat
 
 ## The patterns
 
-- [**Pattern 7. A cheap hook beats a careful agent**](../PATTERNS.md#p7) — a pre-execution hook string-matches tool calls against a blocklist and fails open; a ten-line check catches most accidental damage for almost nothing.
+- [**Pattern 7. A cheap hook beats a careful agent**](../PATTERNS.md#p7) — a pre-execution hook string-matches tool calls against a blocklist and refuses the call when the guard cannot start; a ten-line check catches most accidental damage for almost nothing.
 - [**Pattern 4. Tier by mechanical impact, not by tone**](../PATTERNS.md#p4) — auto-apply the trivially reversible; human-gate anything that deletes, publishes, or spends.
 - [**Pattern 6. Credentials live in one place, never in files**](../PATTERNS.md#p6) — a password manager is the single store; files carry item *names*; runtime resolves values and scrubs them.
 
@@ -36,7 +36,7 @@ Expect noise, since `token` matches plenty of ordinary prose. Read each hit. A l
 
 ## If it didn't work
 
-- The edit went through. Check that the test file's name is in `.claude/protected-paths.txt`, because the hook blocks only paths that contain a listed substring. Then check that the hook is wired in `.claude/settings.json` and that the `python3` it calls runs in your shell. Both hooks fail open, so an error inside one lets the call through.
+- The edit went through. Check that the test file's name is in `.claude/protected-paths.txt`, because the hook blocks only paths that contain a listed substring. Then check that the hook is wired in `.claude/settings.json` and that the `python3` it calls runs in your shell. Both hooks fail open, so an error inside one lets the call through. Pattern 7 closes the cases the guard's own code never sees by setting `"onFailure": "block"` on the hook entry, as [`settings.example.json`](../samples/.claude/settings.example.json) does.
 - Both blocks carry the `[bash-guard]` prefix. The agent appended with a shell redirect, so the bash guard caught both attempts and the file-protection hook hasn't fired yet. Ask for the change through the edit tool and look for `Edit/Write blocked:`.
 - The push went through. The starter's guard refuses a push to `main` or `master`, whether the command names the branch or you are sitting on it, and any force push. A push to a branch with another name passes, so run the test against `main`.
 - The grep turned up a real secret. Treat it as leaked. Rotate it, then keep the new value in the password manager and only the item name in the file.

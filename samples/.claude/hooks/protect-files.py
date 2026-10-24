@@ -126,8 +126,9 @@ if __name__ == "__main__":
     try:
         sys.exit(main())
     except Exception as exc:  # noqa: BLE001 — intentional fail-open
-        # A buggy hook must never brick every Edit and Write in the session.
-        # Failing open is the deliberate trade: this is a mistake-catcher,
-        # and a mistake-catcher that blocks all work gets deleted on day one.
+        # A bug caught here must never brick every Edit and Write in the
+        # session: a mistake-catcher that blocks all work gets deleted on day
+        # one. The failures this code never sees (no start, a crash before
+        # main(), a timeout) are refused by the hook entry's onFailure: block.
         print(f"[protect-files] hook error (failing open): {exc}", file=sys.stderr)
         sys.exit(0)
