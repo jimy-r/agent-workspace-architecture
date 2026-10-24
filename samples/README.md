@@ -110,7 +110,7 @@ samples/
 - [`CLAUDE.md.example`](CLAUDE.md.example): root-level context that Claude auto-loads.
 - [`CONTEXT.md.example`](CONTEXT.md.example): blank project-entity template. Filled counterpart: [`example-project/CONTEXT.md`](example-project/CONTEXT.md).
 - [`roles/_template.md`](roles/_template.md): role skeleton + fields.
-- [`.claude/settings.example.json`](.claude/settings.example.json): hook configuration, and [`.claude/hooks/`](.claude/hooks/): the three scripts it points at.
+- [`.claude/settings.example.json`](.claude/settings.example.json): hook configuration, and [`.claude/hooks/`](.claude/hooks/): the three scripts it points at. Each hook names its interpreter by full path. `/usr/bin/python3` suits most Linux and macOS machines, and on Windows the value is the full path to your `python.exe`. The two PreToolUse guards set `"onFailure": "block"` (Claude Code 2.1.295 or later), so a guard that cannot start refuses the call, as [Pattern 7](../PATTERNS.md#p7) describes.
 - [`.claude/skills/orient/SKILL.md`](.claude/skills/orient/SKILL.md): example skill.
 - [`board/board.example.md`](board/board.example.md): the card store the coordination layer runs on. [`board/README.md`](board/README.md) is its design doc.
 
