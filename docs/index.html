@@ -32,7 +32,7 @@
   "url": "https://jimy-r.github.io/agent-workspace-architecture/",
   "mainEntityOfPage": "https://jimy-r.github.io/agent-workspace-architecture/",
   "image": "https://jimy-r.github.io/agent-workspace-architecture/assets/social-card.png",
-  "dateModified": "2026-10-18",
+  "dateModified": "2026-10-24",
   "inLanguage": "en",
   "license": "https://opensource.org/licenses/MIT",
   "author": {
@@ -311,7 +311,7 @@
       <details class="pat" id="pattern-07-a-cheap-hook-beats-a-careful-agent">
         <summary><span class='num'>07</span><span><span class='st'>A cheap hook beats a careful agent</span><span class='sp'>An agent that misread the task can overwrite a secrets file, delete a record, or force-push. “Be more careful” does not scale.</span></span></summary>
         <div class="body">
-          <div class="row"><div class="k">Pattern</div><div class="v">A PreToolUse hook intercepts file writes and shell commands against a blocklist — sensitive paths, destructive verbs, pushes to protected branches — and blocks them before they run. It fails open, so a bug in the guard never wedges the session.</div></div>
+          <div class="row"><div class="k">Pattern</div><div class="v">A PreToolUse hook intercepts file writes and shell commands against a blocklist — sensitive paths, destructive verbs, pushes to protected branches — and blocks them before they run. It fails closed, so a guard that cannot start or times out refuses the call.</div></div>
           <div class="row"><div class="k">Why it beats the obvious</div><div class="v">Trusting the model to never err is a hope, not a control. A ten-line deterministic check catches the large majority of accidental damage for almost nothing.</div></div>
           <div class="row"><div class="k">Cost</div><div class="v">Occasional false positives, best resolved by naming around them rather than widening the gap.</div></div>
         </div>
@@ -481,7 +481,7 @@ Score 6.4/10 — maturing (7 scored, 5 not applicable)</code>
     <a href="llms-full.txt">llms-full.txt</a>
     <a href="https://jamesross.ai/?utm_source=tour&amp;utm_medium=footer&amp;utm_campaign=flagship">jamesross.ai</a>
     <a href="https://jimyr.substack.com/?utm_source=tour&amp;utm_medium=footer&amp;utm_campaign=flagship">Follow on Substack</a>
-    <span id="last-updated">Last updated: 2026-10-18</span><script>try{var d=new Date(document.lastModified);if(!isNaN(d)){document.getElementById("last-updated").textContent="Last updated: "+d.toISOString().slice(0,10);}}catch(e){}</script>
+    <span id="last-updated">Last updated: 2026-10-24</span><script>try{var d=new Date(document.lastModified);if(!isNaN(d)){document.getElementById("last-updated").textContent="Last updated: "+d.toISOString().slice(0,10);}}catch(e){}</script>
   </div>
 </footer>
 
