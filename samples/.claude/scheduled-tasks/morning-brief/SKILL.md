@@ -75,6 +75,7 @@ Build today's brief at `<workspace>/tasks/morning_brief_<YYYY-MM-DD>.md`. The ca
 ## Needs your attention
 
 - <token-spend line from token_report.py>
+- <workspace scorecard lines, only those that start with ⚠>
 - <conditional warning bullets — backup staleness etc.>
 
 ## Your task list
@@ -156,6 +157,7 @@ Build today's brief at `<workspace>/tasks/morning_brief_<YYYY-MM-DD>.md`. The ca
 - Also run `python <workspace>/scripts/token_report.py log --backfill 30` once per brief (idempotent; one usage-analyser call refreshes every day of the trailing month and never shrinks a stored day, so a day no wrap or brief logged heals here, 2026-09-06) so `scripts/_state/token_history.jsonl` accrues the daily record the audit trends on.
 - Bullet 2 (conditional — backup staleness): find the newest `<workspace>/tasks/scheduled-logs/backup-restic_*.log`. If none exists or it is older than 7 days, add: `⚠ Encrypted backup last ran <N> days ago (>7d) — run the backup script.`
 - Bullet 3 (conditional — service renewals; built 2026-09-13): read `<workspace>/Reference/services-registry.md` and scan the **`Next renewal`** column of every service table (each table carries `Service`, `Next renewal` and `Status` columns among others). For each row whose `Status` is `live` and whose `Next renewal` holds a `YYYY-MM-DD` date falling within the next 14 days, add one line: `⚠ Renewal due <YYYY-MM-DD>: <Service>.` Ignore `-`, blank and non-date cells. Emit no bullet when nothing qualifies. **Copy nothing else out of that file** — never the account, URL, 2FA or password-manager cells. Password-manager item names stay in the registry and never reach the brief.
+- Bullet 4 (conditional — workspace scorecard; added 2026-10-25): run `python <workspace>/scripts/scorecard.py daily --max-age-hours 20 --brief-line` with a 600000 ms Bash timeout (when it runs the coded checks it takes about 105 seconds), then `python <workspace>/scripts/scorecard.py weekly --if-missing --quiet-if-exists --brief-line`. Neither raises. Add each printed line that starts with `⚠` as a bullet, verbatim. A line without `⚠`, or no output, adds nothing. The weekly command writes the week's scorecard on the first run of an ISO week (normally Monday's brief) and is silent after that.
 - Keep each bullet to one line. Future ops nudges land here, not as new sections.
 
 #### Graceful degradation (per-source fencing)
