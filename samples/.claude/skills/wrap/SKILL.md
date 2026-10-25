@@ -126,6 +126,7 @@ Token cost: <B8 headline> · daily row <refreshed | WARN>
   The public repo's own `CLAUDE.md` requires branching; never commit to `main` directly. `--auto` holds the merge until the required checks pass, and `--author-email` keeps the squash commit on your GitHub noreply address (drop it when merging a contributor's PR).
 - **`Settings touched: yes`** → the post-settings verification below.
 - **Backup staleness** beyond your threshold → whatever backup offer your workspace carries; fresh → say nothing.
+- `python <workspace>/scripts/scorecard.py daily --max-age-hours 20 --brief-line`, then `python <workspace>/scripts/scorecard.py weekly --if-missing --quiet-if-exists --brief-line`. The workspace scorecard runs from orient and wrap, never from a scheduled task. The 20 h gate skips the daily run when orient already ran it today. A full run takes a while, so start it in the background and fold its line into C3 when it returns. A `⚠` line goes in the C3 report in full, and a clean line says nothing.
 
 **C3. Report.** End with a tight summary:
 

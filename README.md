@@ -81,8 +81,10 @@ The eighteen patterns, by title. Each links to its reasoning in [PATTERNS.md](PA
 - **Memory system.** Typed files (`user` / `feedback` / `project` / `reference`) indexed by `MEMORY.md`, pointing at sources rather than copying them.
 - **Hardening.** A `PreToolUse` file-and-command guard, a password-manager credential law, encrypted `restic` backups, and container sandboxing for web-facing agents.
 - **Evaluation.** A golden set of frozen cases, each one an already-burned failure turned into a regression test, replayed K times and reported as a pass-rate with variance. Deterministic checks only, never an LLM judge, so a drop in the rate is a real regression rather than judge noise. See [EVALUATION.md](EVALUATION.md).
+- **Workspace scorecard.** A daily alarm line and a weekly page, read from the stores the workspace already keeps, that show whether the applied audit upgrades helped or broke something.
 - **Workspace check.** A single-file, read-only linter ([`tools/workspace_check.py`](tools/workspace_check.py)) that scores your own workspace against the mechanically-checkable patterns (context budget, hook shape, permission floor, credential hygiene, skill and agent frontmatter, duplicated instruction blocks) and prints one evidence line per check.
 - **The ecosystem map.** A separately maintained curated index of the wider tooling space: [awesome-agent-workspaces](https://github.com/jimy-r/awesome-agent-workspaces) — memory systems, evaluation, guardrails, observability, with a stated inclusion bar and a public rejection log.
+- **Desktop mods.** Two Claude Code desktop plugins: a voice pane (ElevenLabs by default, Gemini or edge-tts as alternatives) and a `/sessions` pane that sorts every session into Needs you, Working and Idle.
 - **Token budget.** A deterministic preflight gate that skips no-op scheduled cycles, a model-tier policy for unattended work, and daily spend telemetry feeding the weekly audit.
 
 Tables throughout mark each component `[stock]` / `[plugin]` / `[local]` / `[custom]`, so you can see what ships with Claude Code versus what someone had to write.

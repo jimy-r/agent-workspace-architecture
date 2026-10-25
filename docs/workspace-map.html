@@ -94,7 +94,7 @@
 <p>This is the map of my AI workspace, the system I run my working day through. Every box on it exists and runs today. You talk to it from anywhere. One session does the work with everything loaded. A governance floor sits under every action. What a session learns persists on the left, what it produces ships on the right, and a watcher layer checks the system itself.</p>
 
 <div class="diagram">
-<svg viewBox="0 0 760 756" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Architecture map. You reach the workspace through three entry points: interactive sessions, remote from phone or tablet, and six scheduled jobs. All feed the session, which loads rules, typed memory, and lessons at start, invokes skills, eighteen roles as subagents, and parallel workflows, and reaches out through MCP bridges and git. Under it sits a governance floor: hooks on every command, no credentials in files, outbound needs a human yes. Below the floor, work splits: state that persists (strategy, task board, lessons, typed memory, project context, evidence ledgers) and work that ships past a human gate (deliverables, six public repos, replies and posts). A watchers rail spans the system: weekly audit, dead-man's switch, security digest, token meter, backups. An arc returns from state to the session: the next session starts already loaded.">
+<svg viewBox="0 0 760 756" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Architecture map. You reach the workspace through three entry points: interactive sessions (with voice and sessions panes in the desktop app), remote from phone or tablet, and six scheduled jobs. All feed the session, which loads rules, typed memory, and lessons at start, invokes skills, eighteen roles as subagents, and parallel workflows, and reaches out through MCP bridges and git. Under it sits a governance floor: hooks on every command, no credentials in files, outbound needs a human yes. Below the floor, work splits: state that persists (strategy, task board, lessons, typed memory, project context, evidence ledgers) and work that ships past a human gate (deliverables, six public repos, replies and posts). A watchers rail spans the system: weekly audit, dead-man's switch, security digest, token meter, backups, scorecard. An arc returns from state to the session: the next session starts already loaded.">
   <title>Map of the AI workspace: entry points, the session, the governance floor, persistent state, gated outputs, and the watcher layer.</title>
   <defs>
     <marker id="mMuted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
@@ -118,8 +118,9 @@
 
   <!-- ENTRY POINTS -->
   <rect x="20" y="118" width="160" height="64" rx="10" fill="#ffffff" stroke="#5B574F" stroke-width="1.3"/>
-  <text x="100" y="144" text-anchor="middle" font-size="13.5" font-weight="600" fill="#1B1A17">Interactive</text>
-  <text x="100" y="163" text-anchor="middle" font-size="11.5" fill="#5B574F">desktop app · terminal</text>
+  <text x="100" y="140" text-anchor="middle" font-size="13.5" font-weight="600" fill="#1B1A17">Interactive</text>
+  <text x="100" y="157" text-anchor="middle" font-size="11.5" fill="#5B574F">desktop app · terminal</text>
+  <text x="100" y="173" text-anchor="middle" font-size="11" fill="#5B574F">voice · sessions panes</text>
   <rect x="200" y="118" width="160" height="64" rx="10" fill="#ffffff" stroke="#5B574F" stroke-width="1.3"/>
   <text x="280" y="144" text-anchor="middle" font-size="13.5" font-weight="600" fill="#1B1A17">Remote</text>
   <text x="280" y="163" text-anchor="middle" font-size="11.5" fill="#5B574F">phone · tablet · voice</text>
@@ -244,9 +245,11 @@
   <text x="581" y="502" font-size="11" fill="#5B574F">spend &amp; context telemetry</text>
   <text x="581" y="538" font-size="12.5" font-weight="600" fill="#1B1A17">backups + verify</text>
   <text x="581" y="554" font-size="11" fill="#5B574F">restic, off-machine</text>
+  <text x="581" y="590" font-size="12.5" font-weight="600" fill="#1B1A17">scorecard</text>
+  <text x="581" y="606" font-size="11" fill="#5B574F">did the upgrades help</text>
 
-  <text x="581" y="600" font-size="11.5" font-weight="600" fill="#9a6b17">→ findings land on the</text>
-  <text x="581" y="616" font-size="11.5" font-weight="600" fill="#9a6b17">task board, as work</text>
+  <text x="581" y="652" font-size="11.5" font-weight="600" fill="#9a6b17">→ findings land on the</text>
+  <text x="581" y="668" font-size="11.5" font-weight="600" fill="#9a6b17">task board, as work</text>
 
   <!-- observation lines -->
   <line x1="561" y1="320" x2="546" y2="320" stroke="#5B574F" stroke-width="1.5" stroke-dasharray="4 3"/>
@@ -260,7 +263,7 @@
   <li><span class="n" aria-hidden="true">2</span><strong>The governance floor.</strong> Not advice, mechanism. Hooks screen every command before it runs, credentials live in a password manager the agent never reads, and nothing outbound moves without an approval, one item at a time.</li>
   <li><span class="n" aria-hidden="true">3</span><strong>What persists.</strong> The part most setups skip. Strategy, the task board, lessons, typed memory, per-project context. Because this layer exists, no session ever starts from zero, and a correction made once holds forever.</li>
   <li><span class="n" aria-hidden="true">4</span><strong>Ships.</strong> Client deliverables, six public repos, replies and posts. All of it exits through the human gate.</li>
-  <li><span class="n" aria-hidden="true">5</span><strong>Watchers.</strong> The system checks itself. A weekly audit reads the whole workspace. A dead-man's switch flags any scheduled lane that goes quiet, tripwires log what the floor blocked and a meter tracks spend, with verified off-machine backups under everything. What they find becomes work on the board.</li>
+  <li><span class="n" aria-hidden="true">5</span><strong>Watchers.</strong> The system checks itself. A weekly audit reads the whole workspace. A dead-man's switch flags any scheduled lane that goes quiet, tripwires log what the floor blocked and a meter tracks spend, with verified off-machine backups under everything. A weekly scorecard reads whether the applied upgrades helped. What they find becomes work on the board.</li>
 </ol>
 
 <p class="payoff">Sixteen modules, eighteen roles, six scheduled jobs and a six-repo public mirror collapse to five boxes: one engine, a floor it stands on, state that persists, an exit with a human on it, and watchers over the whole. The complexity is quantity. The shape is simple.</p>

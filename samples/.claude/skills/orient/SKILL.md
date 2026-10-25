@@ -50,6 +50,8 @@ For each project folder that has a `CONTEXT.md` or `PLAN.md`, check mtime. Flag 
 
 Then run `python <workspace>/scripts/security_digest.py` (read-only) and fold any dead-man's-switch / scheduled-task freshness alarm into the staleness flags. This is the only interactive entry point that reads that channel — an unattended lane can die silently for weeks otherwise (a 34-day outage on a daily lane is what motivated this). If it reports clean, say nothing extra.
 
+Then the workspace scorecard. Run `python <workspace>/scripts/scorecard.py daily --max-age-hours 20 --brief-line`, then `python <workspace>/scripts/scorecard.py weekly --if-missing --quiet-if-exists --brief-line`. The daily command runs the coded checks only when no run in the last 20 hours exists, so at most one orient a day pays for the full run, and every other call prints the stored line at once. The weekly command writes the week's page on the first call of an ISO week and prints nothing after that. A line that starts with `⚠` goes into Staleness flags in full, and a line without it says nothing. Never re-run either with `--force` during orient.
+
 ### 3. Produce the briefing
 
 Output under 300 words, structured as:
@@ -72,7 +74,7 @@ Output under 300 words, structured as:
 
 - Do NOT read project source code or docs beyond the file set above. The user can ask for depth on a specific project after orienting.
 - Do NOT fire subagents during orient — the file set is small and bounded.
-- Do NOT write to any file during orient — this is read-only.
+- Do NOT write to any file during orient — this is read-only. The one exception is the scorecard's own state: its daily store, and the week's page on the first orient of a week.
 - Do NOT include the `## Completed` historical tables in what you summarize.
 - If a listed file is missing, note it in the briefing as a structural flag — don't skip silently.
 - End with one question offering direction: "Want depth on any of these, or start on the recommended next action?"

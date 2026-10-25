@@ -204,6 +204,8 @@
       <span class="pill">dead-man's switch</span>
       <span class="pill">hook-based safety</span>
       <span class="pill">typed memory</span>
+      <span class="pill">weekly scorecard</span>
+      <span class="pill">voice + sessions panes</span>
     </div>
   </div>
 </header>
@@ -492,14 +494,14 @@ Score 6.4/10 — maturing (7 scored, 5 not applicable)</code>
 
   var layerData = {
     input:{title:"Input methods", detail:"Keyboard, or voice dictation that drops transcribed text into whatever field has focus. The entry point is deliberately boring: the intelligence is downstream, so any input surface works and none of them lock you in."},
-    entry:{title:"Entry points", detail:"A terminal launcher, the desktop and mobile apps, remote dispatch from a phone, a voice channel. The same workspace answers from all of them, so work isn't tied to one machine or one room."},
+    entry:{title:"Entry points", detail:"A terminal launcher, the desktop and mobile apps, remote dispatch from a phone, a voice channel. The same workspace answers from all of them, so work isn't tied to one machine or one room. Two desktop mods add a voice pane and a pane that sorts every session into Needs you, Working and Idle."},
     session:{title:"The session", detail:"Every session boots with its standing context (an auto-loaded CLAUDE.md, per project and globally), a typed memory index, and hooks that fire on tool use. This is the layer that makes the agent yours: it knows the conventions before it answers the first question."},
     branches:{title:"Personas · Routines · MCP", detail:"Three working branches. Personas are pure expert roles composed with project facts at invocation. Routines are recurring agents (a weekly auditor, a daily brief) plus one-shot launchers. MCP servers connect outside tools — calendar, mail, a browser, a code-packer. Each branch is swappable without touching the others."},
     subagents:{title:"Subagents & tool servers", detail:"Where the work happens. Composed role-bindings do scoped expert work; scheduled agents audit the workspace and file the daily brief; a drain skill actions whatever the operator has delegated on the board; tool servers reach the outside world. The orchestration above decides who runs and gates what each one is allowed to do."}
   };
 
   var moduleData = {
-    audit:{title:"Audit", detail:"A weekly upgrade audit. Its first job is finding improvements: public-source research plus a module-by-module critique of the workspace against current best practice. The same sweep covers configs, the security envelope, drift, and context bloat; findings are tiered and tracked in a ledger, and synthetic canaries confirm it still catches known-bad fixtures."},
+    audit:{title:"Audit", detail:"A weekly upgrade audit. Its first job is finding improvements: public-source research plus a module-by-module critique of the workspace against current best practice. The same sweep covers configs, the security envelope, drift, and context bloat; findings are tiered and tracked in a ledger, and synthetic canaries confirm it still catches known-bad fixtures. A weekly scorecard, kept outside the audit, reads whether the applied findings helped."},
     heartbeat:{title:"Heartbeat (retired)", detail:"The predecessor. A 2-hourly project manager that classified the task queue, built the safe-by-default work in a sandbox, lodged it for review, and logged every rejection. Retired after two failures. Its clarifying questions went to a channel nobody read, thirteen of them unanswered, and an expired ambient credential let the scheduled runs fail dark for about five weeks. The Task board's delegation queue is the successor."},
     brief:{title:"Brief", detail:"A daily situational digest — calendar, weather, AI news, task state, overnight activity — rendered to email and sent to self. Idempotent, so a re-run never double-sends."},
     inbox:{title:"Inbox", detail:"Hands-on mail and receipt triage. It groups items by proposed action and gates each batch for approval before anything is labelled, archived, or written to a financial file."},
