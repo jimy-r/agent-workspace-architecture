@@ -1,6 +1,6 @@
 ---
 name: audit-second-opinion
-description: Route here when the user asks for "a second opinion on the audit", "an independent audit" or a blind-spot check the primary audit missed, and on the quarterly pass or after a major audit.md refactor. Manual only, no scheduled cadence. Read-only, deliberately different prompt structure from `audit`, returns narrative findings.
+description: Route here when the user asks for "a second opinion on the audit", "an independent audit" or a blind-spot check the primary audit missed, when an audit report asks for its paired second-opinion pass (every second full audit), or after a major audit.md refactor. Manual dispatch only, no scheduled cadence. Read-only, deliberately different prompt structure from `audit`, returns narrative findings.
 model: fable
 effort: max
 permissionMode: auto
@@ -64,7 +64,7 @@ date: YYYY-MM-DD
 methodology: independent audit, narrative findings, primary-audit-blind
 status: current
 last_verified: YYYY-MM-DD
-verify_by_checking: re-run quarterly or after major audit.md refactor; compare to primary audit's most recent Setup Review block
+verify_by_checking: re-run with every second full audit or after major audit.md refactor; compare to primary audit's most recent Setup Review block
 tags: [audit, second-opinion, workspace-health]
 ---
 ```
@@ -106,7 +106,7 @@ One short paragraph noting genuine strengths — calibrates the negative finding
 
 ## When to invoke
 
-- **Quarterly** by user decision (after seeing 3 primary-audit cycles, run one second-opinion).
+- **With every second full audit** (cadence set 2026-10-03, finding 9d3d22d1, replacing the quarterly rhythm). The audit report asks the main thread to dispatch the paired pass, because this agent is never dispatched from inside the audit.
 - **After any major audit.md refactor** — change of >50 lines, addition/removal of a phase, change to tier rules.
 - **On user request** when they feel the primary audit has gone stale.
 
