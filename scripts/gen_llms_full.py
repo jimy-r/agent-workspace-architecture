@@ -48,7 +48,8 @@ ABSOLUTE = re.compile(r"^(?:[A-Za-z][A-Za-z0-9+.\-]*:|//)")
 DOCS = "docs/"
 
 # Reading order: what the repo is, why the shape is the way it is, the full
-# structural map, how to build one, how a day of using it goes.
+# structural map, how to build one, how a day of using it goes, and what the
+# workspace has measured about itself.
 SOURCES = [
     "README.md",
     "PATTERNS.md",
@@ -56,6 +57,7 @@ SOURCES = [
     "EVALUATION.md",
     "ADOPTION.md",
     "WORKFLOW.md",
+    "experiments/README.md",
 ]
 
 # The convention's guidance is to stay comfortably inside a single-fetch

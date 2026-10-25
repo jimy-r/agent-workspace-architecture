@@ -57,6 +57,8 @@ Four more rules the pages hold to:
 
 Pages here are the canonical copies. Sharing on aggregator venues (with each venue's own etiquette) is a manual act; teardown-sweep's `suggested_venues` field proposes where each subject's audience already is, and its ledger records where a finished teardown actually ran.
 
+Each venue's own rules come first. Hacker News asks that the site not be used primarily for promotion, so before a teardown goes there the posting account's history is read, and a history made mostly of links to these pages is a reason to take part in other threads first or to choose another venue.
+
 ## What eight readings show
 
 Each page's header records its verdict against the [eighteen patterns](../PATTERNS.md). Read down a column for one subject, across a row for how one pattern fares in the wild. The table is generated from those headers by [`scripts/teardown_matrix.py`](../scripts/teardown_matrix.py) and checked in CI, so it cannot drift from the pages.
