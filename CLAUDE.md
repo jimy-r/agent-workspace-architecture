@@ -14,7 +14,7 @@ Maintained solo and best-effort. [Issues](https://github.com/jimy-r/agent-worksp
 - **One focused change per PR.**
 - **[Conventional Commits](https://www.conventionalcommits.org/).** `feat:`, `fix:`, `docs:`, `refactor:`, `chore:`.
 - **Include a `Co-Authored-By:` trailer** for Claude-assisted commits.
-- **Run the redaction check before every commit** (see below).
+- **Scan every changed file before you commit** for the identifiers in the Privacy section below. The required `redaction` CI check runs the automated scan on the PR (AGENTS.md, Hard rule: redaction).
 - **Teardown pages pass the style bar before every commit.** Anything under `teardowns/` gets the full [STYLE_GUIDE.md](STYLE_GUIDE.md) editing pass before commit — dash and compound-adjective density included. A teardown analyses someone else's published work, so its prose carries the repo's reputation harder than any other page.
 
 ## Privacy — hard rule
@@ -44,7 +44,7 @@ Some files need Issue agreement before a PR; see the Scope boundaries section in
 
 ## Before you push
 
-1. Run the redaction grep.
+1. Scan the diff for the Privacy identifiers above. The automated scan runs in CI (`redaction-check.yml`).
 2. `git diff`, and eyeball every changed line.
 3. Conventional commit message.
 4. Run `python scripts/gen_llms_full.py --check`, and if the bundle is stale, regenerate it with `python scripts/gen_llms_full.py` and commit. Do the same with `python scripts/gen_pattern_pages.py`, which renders `PATTERNS.md` into the pages under `docs/patterns/`. Then run `python scripts/check_freshness.py --fix` and commit any stamp it rewrites. The order matters, because a regenerated bundle or page needs a new stamp. These checks run on the PR, but only `redaction` is required, so `--auto` would merge past any of them red.

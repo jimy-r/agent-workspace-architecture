@@ -6,7 +6,7 @@ The full architecture is described in [META_ARCHITECTURE.md](META_ARCHITECTURE.m
 
 ## Prerequisites
 
-- [Claude Code](https://claude.com/claude-code) installed and authenticated
+- [Claude Code](https://claude.com/product/claude-code) installed and authenticated
 - A working directory for your workspace (e.g. `~/workspace/`)
 
 ---
@@ -19,7 +19,7 @@ The full architecture is described in [META_ARCHITECTURE.md](META_ARCHITECTURE.m
 
 **Why it matters:** this is the foundation. Every other layer below assumes `CLAUDE.md` is loaded: roles bind against what it declares, hooks rely on paths it specifies, a delegated drain reads its conventions.
 
-See: [Claude Code memory docs](https://docs.claude.com/en/docs/claude-code/memory).
+See: [Claude Code memory docs](https://code.claude.com/docs/en/memory).
 
 ---
 
@@ -31,7 +31,7 @@ Create a `roles/` directory with one role file per expert persona you'd invoke. 
 
 **Why it matters:** roles are the reuse unit. A `security-auditor` that lives in `roles/` can be composed with five different projects' `CONTEXT.md` files and behave consistently. Without role extraction, security review becomes five near-identical 500-line prompts that drift from each other.
 
-See: [Claude Code subagents docs](https://docs.claude.com/en/docs/claude-code/sub-agents).
+See: [Claude Code subagents docs](https://code.claude.com/docs/en/sub-agents).
 
 ---
 
@@ -43,7 +43,7 @@ Hooks are Claude Code's automation layer; they run shell commands on tool events
 
 **Why it matters:** this is the cheapest insurance in the whole system. A ten-line hook prevents an agent that's gone sideways from rewriting your `.env` or deleting financial records. It won't catch a determined misbehaviour, but it catches the overwhelming majority of accidental damage.
 
-See: [Claude Code hooks docs](https://docs.claude.com/en/docs/claude-code/hooks).
+See: [Claude Code hooks docs](https://code.claude.com/docs/en/hooks).
 
 ---
 
@@ -73,7 +73,7 @@ Skills are invokable capabilities accessed via `/<name>`. Each skill is a direct
 
 **Why it matters:** skills are where you codify your own recurring workflows. Once `/orient` exists, the first 5 minutes of every session gets reliable and terse instead of exploratory.
 
-See: [Claude Code skills docs](https://docs.claude.com/en/docs/claude-code/skills).
+See: [Claude Code skills docs](https://code.claude.com/docs/en/skills).
 
 ---
 
