@@ -211,8 +211,12 @@ Claude Code hook protocol:
       stdout with {"decision": "block", "reason": "..."} is the
       structured form)
 
-If the hook script itself errors, it fails open (exit 0, no block) so a
-bug here does NOT brick the agent's ability to run shell commands.
+An error this script catches in its own code fails open (exit 0, no
+block), so a bug in one pattern does NOT brick every shell command. The
+failures this code never sees fail closed: the hook entry in
+`settings.example.json` sets `"onFailure": "block"` (Claude Code 2.1.295
+or later), so an interpreter that will not start, a crash before `main()`
+and a kill at the timeout all refuse the call.
 """
 
 from __future__ import annotations
