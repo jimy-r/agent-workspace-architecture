@@ -1,0 +1,47 @@
+title: "Review: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ask for a second read on your own agent workspace. I read it at the commit you name, run the [workspace check](https://github.com/jimy-r/agent-workspace-architecture/blob/main/tools/workspace_check.py) against it, and reply in this thread with the score, the three strongest things in it, the three gaps I would close first, and anything I take back into my own workspace.
+
+        The repo has to be public, and the read covers only what is in it. Requests are read in the order they arrive. Each review is drafted with Claude Code and read by me before it is posted.
+  - type: input
+    id: repo
+    attributes:
+      label: Repository
+      description: A public GitHub URL.
+      placeholder: https://github.com/<owner>/<repo>
+    validations:
+      required: true
+  - type: input
+    id: revision
+    attributes:
+      label: Commit or tag
+      description: The read is pinned to this revision. Leave it blank and I pin the default branch's head on the day I read it.
+    validations:
+      required: false
+  - type: textarea
+    id: question
+    attributes:
+      label: What you want a second read on
+      description: The part you trust least, or the problem you keep hitting. Two or three sentences is plenty.
+    validations:
+      required: true
+  - type: textarea
+    id: score
+    attributes:
+      label: Your own score line
+      description: Optional. If you have already run `workspace_check.py`, paste its `Score` line.
+      render: text
+    validations:
+      required: false
+  - type: checkboxes
+    id: consent
+    attributes:
+      label: Consent
+      options:
+        - label: The review may be posted publicly in this thread.
+          required: true
+        - label: If the read changes something in my workspace, a short public write-up may name and link this repo.
+          required: false
