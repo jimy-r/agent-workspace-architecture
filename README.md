@@ -4,7 +4,7 @@
 [![Link check](https://img.shields.io/github/actions/workflow/status/jimy-r/agent-workspace-architecture/link-check.yml?label=links&event=pull_request)](https://github.com/jimy-r/agent-workspace-architecture/actions/workflows/link-check.yml)
 [![Validate samples](https://img.shields.io/github/actions/workflow/status/jimy-r/agent-workspace-architecture/validate-samples.yml?label=samples)](https://github.com/jimy-r/agent-workspace-architecture/actions/workflows/validate-samples.yml)
 
-A reference implementation of **agent-ready knowledge architecture**: the roles, routines, hooks, skills, memory, and task coordination that make a body of working knowledge legible to AI agents, and turn a coding agent into a system you can hand work to and trust to make progress while you're away.
+A reference implementation of **harness engineering** for Claude Code: the roles, routines, hooks, skills, memory, and task coordination that turn a coding agent into a system you can hand work to and trust to make progress while you're away.
 
 [![The entire architecture in one diagram: interactive, remote, and scheduled entry points feed the session, which runs with rules, typed memory, and lessons loaded; a governance floor sits under every action; state persists on one side, outputs ship past a human gate on the other, and a watcher rail checks the whole system](docs/assets/workspace-map.png)](https://jimy-r.github.io/agent-workspace-architecture/workspace-map.html)
 
@@ -56,7 +56,7 @@ The [workspace check Action](https://github.com/jimy-r/workspace-check-action) r
 
 The example runs in [Claude Code](https://claude.com/product/claude-code), so the file conventions you'll see (`CLAUDE.md`, `.claude/skills/`, MCP config) are Claude-Code-specific. The architecture is not. The roles library, memory hygiene, audit cadence, explicit-delegation task board, dead-man's switch, and tier-by-impact gating port to Cursor, Cline, Continue, Windsurf, or a custom Agent-SDK build. Pick your runtime; the decisions translate.
 
-This is one person's actual setup, redacted and published as a reference. Not a framework, not a product. A documented working arrangement of the pieces Claude Code already gives you, with the reasoning attached. It is also the reference version of the [agent-ready knowledge architecture I build for organisations](https://jamesross.ai/?utm_source=github&utm_medium=readme&utm_campaign=flagship), running at one-person scale.
+This is one person's actual setup, redacted and published as a reference. Not a framework, not a product. A documented working arrangement of the pieces Claude Code already gives you, with the reasoning attached. It is also the one workspace my practice, [Agent Operations](https://jamesross.ai/?utm_source=github&utm_medium=readme&utm_campaign=flagship), has run on so far.
 
 The scale is real: 18 expert roles, 18 load-bearing patterns, an explicit-delegation task board that succeeded a retired 2-hourly heartbeat, a weekly self-audit with synthetic canaries, a dead-man's switch over scheduled jobs, and typed memory that points at sources instead of copying them — all of it running in one person's daily workspace.
 
@@ -128,7 +128,7 @@ The repo's [`CLAUDE.md`](CLAUDE.md) auto-loads on session start, so your agent i
 
 ## Who built this
 
-James Ross. I work as an AI Knowledge Architect; the practice is **Agent-Ready Knowledge Architecture** — making an organisation's knowledge legible to AI agents. This workspace is the reference version of my own agent-ready memory layer: the source-of-truth conventions, context architecture, and memory governance the practice teaches, running daily in production. If you're standing up something similar inside an organisation, or want these patterns adapted to your stack, the practice site is **[jamesross.ai](https://jamesross.ai/?utm_source=github&utm_medium=readme&utm_campaign=flagship)**.
+James Ross, Agent Operations Architect. I measure what coding agents get done per dollar, and whether a team can trust it. The practice is **Agent Operations**, and the evidence so far is this one workspace, which I run daily and publish here. The practice site is **[jamesross.ai](https://jamesross.ai/?utm_source=github&utm_medium=readme&utm_campaign=flagship)**.
 
 ## Using it
 
@@ -166,4 +166,4 @@ The repo was renamed from `claude-workspace-architecture` on 2026-05-28; the old
 
 ---
 
-*Last verified against the repo structure on 2026-10-30.*
+*Last verified against the repo structure on 2026-10-31.*
