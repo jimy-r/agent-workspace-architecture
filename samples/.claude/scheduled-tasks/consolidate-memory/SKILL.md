@@ -31,7 +31,7 @@ List every file under the memory directory (excluding the `archive/` and `episod
 
 ## Step 2b — structural / regression gate: snapshot the baseline
 
-This pass mutates a standing memory store that has NO held-out correctness scorer, so it cannot reproduce SkillOpt's behavioural-safety result (arXiv:2605.23904: an ungated weak-model self-evolution loop collapsed 0.554 -> 0.026, -52.8 pts, while its gated twin held flat; single-seed, gains only where tasks recur with a checkable signal). `memory_gate.py` is therefore a STRUCTURAL / NO-REGRESSION + INJECTION guardrail, NOT a behavioural/accuracy/safety gate.
+This pass mutates a standing memory store that has NO held-out correctness scorer, so it cannot reproduce SkillOpt's behavioural-safety result (`docs/sleep/RESULTS.md` in microsoft/SkillOpt, not the arXiv:2605.23904 paper: an ungated weak-model self-evolution loop collapsed 0.554 -> 0.026, -52.8 pts, while its gated twin held flat; single-seed, gains only where tasks recur with a checkable signal). `memory_gate.py` is therefore a STRUCTURAL / NO-REGRESSION + INJECTION guardrail, NOT a behavioural/accuracy/safety gate.
 
 Before applying any four-op edits, capture the baseline:
 ```

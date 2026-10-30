@@ -2,6 +2,10 @@
 
 Human-written record of notable changes — the *why* and the *shape*, not every merged PR. Milestone batches get a tagged release with short notes (from `v1.0.0`, 2026-06-11); entries are grouped by date, newest first. Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), adapted to a dated scheme. A date that carries a tagged release names the version in its heading, and that version links to the diff against the release before it, so anyone arriving from a release page can find the matching section. Dates without a version were merged between releases.
 
+## 2026-10-31
+
+- **Corrected the SkillOpt citation.** Pattern 10, the attribution page, learn module 3, the site index and one sample tied the 0.554 to 0.026 collapse to the SkillOpt paper. The figure is in the repo's results doc for SkillOpt-Sleep, the deployment companion, and the paper does not contain it. A maintainer reading the paper caught this in a thread. The paper still supports the strict gate mechanism these pages cite it for.
+
 ## 2026-10-30
 
 - **Ask for a second read on your workspace.** A new Discussions category, Review my workspace, takes a public repo and a commit. The reply carries the linter score, the three strongest things in the workspace, the three gaps worth closing first, and anything the read changes in the source workspace. A form asks for consent to post the review in the thread, and separately for a write-up to name the repo.
