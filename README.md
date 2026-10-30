@@ -39,7 +39,20 @@ also explains the `[FAIL]`, which is the audit canaries doing their job, and why
 with its teeth in rather than excluded into a higher number. CI re-runs the linter and fails if the
 score line moves.
 
-Each check names the pattern it comes from, so a `[FAIL]` is a link into [PATTERNS.md](PATTERNS.md) rather than a scolding. Post your score in [Show and tell](https://github.com/jimy-r/agent-workspace-architecture/discussions/categories/show-and-tell) if you want a second read on it.
+Each check names the pattern it comes from, so a `[FAIL]` is a link into [PATTERNS.md](PATTERNS.md) rather than a scolding. Post your score in [Show and tell](https://github.com/jimy-r/agent-workspace-architecture/discussions/categories/show-and-tell) to compare notes with other people running one.
+
+For a second read, open a request in [Review my workspace](https://github.com/jimy-r/agent-workspace-architecture/discussions/categories/review-my-workspace) with a public repo and the commit you want read. I run the check against it, read the files it points at, and reply in the thread with the score, the three strongest things in it, the three gaps I would close first, and anything I take back into my own workspace. Requests are read in the order they arrive.
+
+### Run it in CI
+
+The [workspace check Action](https://github.com/jimy-r/workspace-check-action) runs the same linter on every push, writes each check's evidence line to the job summary, and gives you a score badge to paste into your README. Set `min-score` and a change that drops the score below it fails the build.
+
+```yaml
+- uses: actions/checkout@v7
+- uses: jimy-r/workspace-check-action@v1
+  with:
+    min-score: '6'
+```
 
 The example runs in [Claude Code](https://claude.com/product/claude-code), so the file conventions you'll see (`CLAUDE.md`, `.claude/skills/`, MCP config) are Claude-Code-specific. The architecture is not. The roles library, memory hygiene, audit cadence, explicit-delegation task board, dead-man's switch, and tier-by-impact gating port to Cursor, Cline, Continue, Windsurf, or a custom Agent-SDK build. Pick your runtime; the decisions translate.
 
@@ -143,7 +156,7 @@ This is a **curated solo reference**, maintained best-effort. Questions, compari
 
 ## Also here
 
-[Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions) (Q&A, and Show and tell for your own workspace score) · [AGENTS.md](AGENTS.md) (instructions for an agent working in this repo) · [SUPPORT.md](SUPPORT.md) (where to go for what) · [STYLE_GUIDE.md](STYLE_GUIDE.md) · [SECURITY.md](SECURITY.md) (privacy-leak and workflow-vuln reporting) · [CHANGELOG.md](CHANGELOG.md) · [ATTRIBUTION.md](ATTRIBUTION.md) (patterns this borrows from) · [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+[Discussions](https://github.com/jimy-r/agent-workspace-architecture/discussions) (Q&A, Show and tell for your own workspace score, and Review my workspace for a second read) · [AGENTS.md](AGENTS.md) (instructions for an agent working in this repo) · [SUPPORT.md](SUPPORT.md) (where to go for what) · [STYLE_GUIDE.md](STYLE_GUIDE.md) · [SECURITY.md](SECURITY.md) (privacy-leak and workflow-vuln reporting) · [CHANGELOG.md](CHANGELOG.md) · [ATTRIBUTION.md](ATTRIBUTION.md) (patterns this borrows from) · [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 
 The repo was renamed from `claude-workspace-architecture` on 2026-05-28; the old URL 301-redirects, so external links keep working.
 
@@ -153,4 +166,4 @@ The repo was renamed from `claude-workspace-architecture` on 2026-05-28; the old
 
 ---
 
-*Last verified against the repo structure on 2026-10-25.*
+*Last verified against the repo structure on 2026-10-30.*

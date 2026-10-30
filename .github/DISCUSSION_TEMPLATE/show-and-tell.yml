@@ -1,0 +1,26 @@
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Share something from your own workspace: a hook, a skill, a routine, or your workspace check score and what moved it. A line on what you changed is worth more than the number.
+  - type: textarea
+    id: notes
+    attributes:
+      label: What you built, changed or found
+    validations:
+      required: true
+  - type: textarea
+    id: score
+    attributes:
+      label: Score line
+      description: Optional. Paste the `Score` line from `workspace_check.py`, plus any `[FAIL]` lines you want a view on.
+      render: text
+    validations:
+      required: false
+  - type: input
+    id: repo
+    attributes:
+      label: Repository
+      description: Optional. A public URL, if you want people to look.
+    validations:
+      required: false
