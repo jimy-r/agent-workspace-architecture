@@ -56,7 +56,7 @@ The [workspace check Action](https://github.com/jimy-r/workspace-check-action) r
 
 The example runs in [Claude Code](https://claude.com/product/claude-code), so the file conventions you'll see (`CLAUDE.md`, `.claude/skills/`, MCP config) are Claude-Code-specific. The architecture is not. The roles library, memory hygiene, audit cadence, explicit-delegation task board, dead-man's switch, and tier-by-impact gating port to Cursor, Cline, Continue, Windsurf, or a custom Agent-SDK build. Pick your runtime; the decisions translate.
 
-This is one person's actual setup, redacted and published as a reference. Not a framework, not a product. A documented working arrangement of the pieces Claude Code already gives you, with the reasoning attached. It is also the one workspace my practice, [Agent Operations](https://jamesross.ai/?utm_source=github&utm_medium=readme&utm_campaign=flagship), has run on so far.
+This is one person's actual setup, redacted and published as a reference. Not a framework, not a product. A documented working arrangement of the pieces Claude Code already gives you, with the reasoning attached. It is also the one workspace my practice, Agent Operations, has run on so far. More on [my site](https://jamesross.ai/?utm_source=github&utm_medium=readme&utm_campaign=flagship).
 
 The scale is real: 18 expert roles, 18 load-bearing patterns, an explicit-delegation task board that succeeded a retired 2-hourly heartbeat, a weekly self-audit with synthetic canaries, a dead-man's switch over scheduled jobs, and typed memory that points at sources instead of copying them — all of it running in one person's daily workspace.
 
@@ -128,7 +128,7 @@ The repo's [`CLAUDE.md`](CLAUDE.md) auto-loads on session start, so your agent i
 
 ## Who built this
 
-James Ross, Agent Operations Architect. I measure what coding agents get done per dollar, and whether a team can trust it. The practice is **Agent Operations**, and the evidence so far is this one workspace, which I run daily and publish here. The practice site is **[jamesross.ai](https://jamesross.ai/?utm_source=github&utm_medium=readme&utm_campaign=flagship)**.
+James Ross, Agent Operations Architect. I measure what coding agents get done per dollar, and whether you can trust it. The practice is **Agent Operations**, and the evidence so far is this one workspace, which I run daily and publish here. My site is **[jamesross.ai](https://jamesross.ai/?utm_source=github&utm_medium=readme&utm_campaign=flagship)**.
 
 ## Using it
 
