@@ -8,7 +8,7 @@ Where to go for what:
 | Spotted a **privacy leak, broken link, or plainly wrong pattern** | [Open an Issue](https://github.com/jimy-r/agent-workspace-architecture/issues/new/choose) |
 | Want to **propose a self-contained component** (role, skill, hook, routine) | [Open an Issue](https://github.com/jimy-r/agent-workspace-architecture/issues/new/choose), then PR |
 | **Built something** in your own workspace and want to share it, or your score | [Show and tell](https://github.com/jimy-r/agent-workspace-architecture/discussions/categories/show-and-tell) in Discussions |
-| Want a **second read on your own workspace** | [Review my workspace](https://github.com/jimy-r/agent-workspace-architecture/discussions/categories/review-my-workspace) in Discussions, with a public repo and a commit |
+| Want a **second read on your own workspace** | [Second read](https://github.com/jimy-r/agent-workspace-architecture/discussions/categories/second-read) in Discussions, with a public repo and a commit |
 | Found a **Claude Code bug** (CLI, app, hooks, subagents, skills) | [anthropics/claude-code issues](https://github.com/anthropics/claude-code/issues), not here |
 | Have a **Claude API / SDK question** | [Claude Code documentation](https://code.claude.com/docs/en/overview) |
 | Want to engage the author for **Agent-Ready Knowledge Architecture work** (agent-ready memory, context architecture, agent workspaces) | [jamesross.ai](https://jamesross.ai?ref=agent-workspace-architecture) |

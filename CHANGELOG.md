@@ -8,7 +8,7 @@ Human-written record of notable changes — the *why* and the *shape*, not every
 
 ## 2026-10-30
 
-- **Ask for a second read on your workspace.** A new Discussions category, Review my workspace, takes a public repo and a commit. The reply carries the linter score, the three strongest things in the workspace, the three gaps worth closing first, and anything the read changes in the source workspace. A form asks for consent to post the review in the thread, and separately for a write-up to name the repo.
+- **Ask for a second read on your workspace.** A new Discussions category, Second read, takes a public repo and a commit. The reply carries the linter score, the three strongest things in the workspace, the three gaps worth closing first, and anything the read changes in the source workspace. A form asks for consent to post the read in the thread, and separately for a write-up to name the repo.
 - **Show and tell gets a form.** It asks for what changed or what surprised you, with the score line optional.
 - **The linter points at both.** Its closing lines now link the review category and the issue tracker separately, in place of the line that sent scores to the issue tracker.
 - **The README and SUPPORT name the new routes**, and the README shows the [workspace check Action](https://github.com/jimy-r/workspace-check-action), which runs the linter in CI with a score badge and an optional `min-score` gate.
