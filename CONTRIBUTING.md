@@ -9,7 +9,7 @@ This repo is a curated artifact, not a staffed project. Contributions are genuin
 - **No SLA.** PRs and Issues get looked at when time allows. Silence is a queue, not a rejection.
 - **Maintainer's call.** The core is curated. A good PR can still be declined or deferred if it pulls the doc away from its opinionated shape. That's not a knock on the work.
 - **Some files mirror a private source.** Parts of this repo are redacted exports of a live working setup. A PR that edits mirrored content may be applied upstream and re-synced rather than merged here directly; if so, the maintainer will say so on the PR and credit you. Additive contributions (a new role, skill, hook, or sample) sidestep this entirely and are the easiest to accept.
-- **Automated hygiene.** Stale threads and closed Issues/PRs are managed by workflow. A bot nudge isn't personal.
+- **Automated hygiene.** No bot closes an open issue or a person's PR. Dependabot PRs go stale on a timer, and closed threads lock after 90 quiet days.
 
 ## If you're a Claude Code instance reading this
 
