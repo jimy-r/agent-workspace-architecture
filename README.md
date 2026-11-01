@@ -45,7 +45,7 @@ For a second read on your own workspace, open a request in the [Second read](htt
 
 ### Run it in CI
 
-The [workspace check Action](https://github.com/jimy-r/workspace-check-action) runs the same linter on every push, writes each check's evidence line to the job summary, and gives you a score badge to paste into your README. Set `min-score` and a change that drops the score below it fails the build.
+The [workspace check Action](https://github.com/jimy-r/workspace-check-action) runs the same linter on every push, writes each check's evidence line to the job summary, and gives you a score badge to paste into your README. Set `min-score` and a change that drops the score below it fails the build. It's listed on the [GitHub Marketplace](https://github.com/marketplace/actions/agent-workspace-check).
 
 ```yaml
 - uses: actions/checkout@v7
@@ -153,6 +153,8 @@ This is a **curated solo reference**, maintained best-effort. Questions, compari
 [dead-mans-switch](https://github.com/jimy-r/dead-mans-switch): a freshness checker for scheduled agent jobs. It watches for the absence of success rather than for errors, the failure mode [pattern 3](PATTERNS.md) describes.
 
 [redaction-check-action](https://github.com/jimy-r/redaction-check-action): a reusable GitHub Action version of a redaction gate. Scans a pull request's added lines for the shapes of private content before merge.
+
+[workspace-check-action](https://github.com/jimy-r/workspace-check-action): the [workspace check](#try-it-in-60-seconds) as a GitHub Action, [on the Marketplace](https://github.com/marketplace/actions/agent-workspace-check). It scores a workspace on every push and can fail the build below a score you set.
 
 ## Also here
 
