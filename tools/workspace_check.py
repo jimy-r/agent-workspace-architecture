@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """workspace_check.py — a scored maturity check for an agent workspace.
 
-Point it at a directory that holds a Claude Code workspace and it reports how
-that workspace scores against the mechanically-checkable subset of PATTERNS.md:
-context budget, settings and hook shape, a permission floor, credential
-hygiene, skill and agent frontmatter, canonical-copy duplication, and memory
-index size. Every check prints one evidence line and names the pattern it came
-from, so a WARN is a pointer into the reasoning rather than a verdict.
+Point it at a directory that holds a workspace with a CLAUDE.md, an AGENTS.md
+or both, and it reports how that workspace scores against the
+mechanically-checkable subset of PATTERNS.md: context budget, settings and hook
+shape, a permission floor, credential hygiene, skill and agent frontmatter,
+canonical-copy duplication, and memory index size. The settings, hook,
+permission, skill and agent checks read Claude Code's .claude/ layout only, so
+another agent's config goes unscored. Every check prints one evidence line and
+names the pattern it came from, so a WARN is a pointer into the reasoning
+rather than a verdict.
 
 What it deliberately does NOT do:
   - No LLM, no judge, no scoring of prose. Every check is a deterministic file
@@ -50,7 +53,7 @@ PATTERNS_URL = (
 ISSUES_URL = "https://github.com/jimy-r/agent-workspace-architecture/issues"
 REVIEW_URL = (
     "https://github.com/jimy-r/agent-workspace-architecture"
-    "/discussions/categories/review-my-workspace"
+    "/discussions/categories/second-read"
 )
 
 PATTERN_SLUGS = {
@@ -69,6 +72,10 @@ SCORE_WEIGHTS = {PASS: 1.0, WARN: 0.5, FAIL: 0.0}
 
 SKIP_DIRS = {".git", "node_modules", ".venv", "venv", "__pycache__"}
 MAX_SCAN_BYTES = 512 * 1024
+
+CLAUDE_FILES = ("CLAUDE.md", ".claude/CLAUDE.md")
+AGENTS_FILES = ("AGENTS.md", ".claude/AGENTS.md")
+AGENTS_IMPORT = re.compile(r"(?<![\w`/.-])@(?:\./)?(?:\.claude/)?AGENTS\.md(?![\w.-])")
 
 BINARY_EXTS = {
     ".7z",
@@ -192,16 +199,43 @@ def mask(value: str) -> str:
     return value[:8] + "*" * min(max(len(value) - 8, 0), 16)
 
 
-def always_loaded_files(root: Path):
-    """Root CLAUDE.md plus .claude/rules/*.md — the always-loaded surface."""
-    files = []
-    claude_md = root / "CLAUDE.md"
-    if claude_md.is_file():
-        files.append(claude_md)
+def existing(root: Path, names):
+    """The named files that exist under root, in the order given."""
+    return [root / n for n in names if (root / n).is_file()]
+
+
+def distinct(paths):
+    """Drop paths that resolve to the same file, keeping the first of each."""
+    seen = set()
+    out = []
+    for path in paths:
+        key = path.resolve()
+        if key not in seen:
+            seen.add(key)
+            out.append(path)
+    return out
+
+
+def claude_surface(root: Path):
+    """What Claude Code loads by default: CLAUDE files, else AGENTS files, plus rules."""
+    # Rule from Claude Code's memory docs: AGENTS.md loads only when no CLAUDE.md
+    # exists, unless a CLAUDE file imports it with @AGENTS.md.
+    claude = existing(root, CLAUDE_FILES)
+    if claude:
+        files = list(claude)
+        if any(AGENTS_IMPORT.search(read_text(p)) for p in claude):
+            files += existing(root, AGENTS_FILES)
+    else:
+        files = existing(root, AGENTS_FILES)
     rules_dir = root / ".claude" / "rules"
     if rules_dir.is_dir():
         files.extend(sorted(p for p in rules_dir.glob("*.md") if p.is_file()))
-    return files
+    return distinct(files)
+
+
+def agents_surface(root: Path):
+    """What another agent that reads AGENTS.md loads at the root."""
+    return distinct(existing(root, ("AGENTS.md",)))
 
 
 def parse_frontmatter(text: str):
@@ -252,24 +286,45 @@ def load_settings(root: Path):
 # =============================================================================
 # Checks A + B — the instruction surface (pattern 9)
 # =============================================================================
-def check_claude_md(root: Path) -> Check:
-    path = root / "CLAUDE.md"
-    if not path.is_file():
+def check_instruction_file(root: Path) -> Check:
+    found = existing(root, CLAUDE_FILES + AGENTS_FILES)
+    if not found:
         return Check(
-            "claude-md-present",
+            "instruction-file-present",
             FAIL,
-            "no CLAUDE.md at the workspace root, so nothing auto-loads",
+            "no CLAUDE.md or AGENTS.md at the workspace root, the two instruction "
+            "files this reads",
             9,
         )
-    size = path.stat().st_size
-    return Check("claude-md-present", PASS, f"CLAUDE.md at the root, {kb(size)} KB", 9)
+    if len(found) > 1 and len(distinct(found)) == 1:
+        names = " and ".join(rel(root, p) for p in found)
+        detail = f"{names} are one file, {kb(found[0].stat().st_size)} KB"
+    else:
+        detail = ", ".join(f"{rel(root, p)} {kb(p.stat().st_size)} KB" for p in found)
+    return Check("instruction-file-present", PASS, detail, 9)
+
+
+def _total_bytes(files) -> int:
+    return sum(f.stat().st_size for f in files)
 
 
 def check_context_budget(root: Path) -> Check:
-    files = always_loaded_files(root)
-    total = sum(f.stat().st_size for f in files)
-    total_kb = kb(total)
+    claude = claude_surface(root)
+    agents = agents_surface(root)
+    files = agents if _total_bytes(agents) > _total_bytes(claude) else claude
+    if not files:
+        return Check("context-budget", NA, "no instruction files to measure", 9)
+    total_kb = kb(_total_bytes(files))
     detail = f"{total_kb} KB across {len(files)} always-loaded file(s)"
+    if (
+        claude
+        and agents
+        and {p.resolve() for p in claude} != {p.resolve() for p in agents}
+    ):
+        detail += (
+            f", the larger of Claude Code's load ({kb(_total_bytes(claude))} KB) "
+            f"and an AGENTS.md reader's ({kb(_total_bytes(agents))} KB)"
+        )
     if total_kb > 40:
         return Check("context-budget", FAIL, f"{detail}, over the 40 KB ceiling", 9)
     if total_kb >= 15:
@@ -285,7 +340,8 @@ def check_settings_parse(root: Path, settings) -> Check:
         return Check(
             "settings-parse",
             WARN,
-            "no .claude/settings.json or settings.local.json found",
+            "no .claude/settings.json or settings.local.json found (Claude Code "
+            "settings are the only config this reads)",
             7,
         )
     broken = [(p, err) for p, _, err in settings if err]
@@ -402,6 +458,13 @@ def check_permissions_floor(root: Path, settings) -> Check:
                     4,
                 )
 
+    if not parsed:
+        return Check(
+            "permissions-floor",
+            WARN,
+            "no parseable settings file to read permissions from",
+            4,
+        )
     if not blocks:
         return Check("permissions-floor", WARN, "no permissions block in settings", 4)
 
@@ -440,14 +503,18 @@ def is_probably_text(path: Path) -> bool:
 
 def check_secrets(root: Path) -> Check:
     hits = []
+    scanned = 0
+    oversize = 0
     for path in walk_files(root):
         try:
             if path.stat().st_size > MAX_SCAN_BYTES:
+                oversize += 1
                 continue
         except OSError:
             continue
         if not is_probably_text(path):
             continue
+        scanned += 1
         text = read_text(path)
         if not text:
             continue
@@ -461,12 +528,12 @@ def check_secrets(root: Path) -> Check:
             break
 
     if not hits:
-        return Check(
-            "secrets-in-files",
-            PASS,
-            "no credential-shaped strings in any scanned text file",
-            6,
-        )
+        if not scanned:
+            return Check("secrets-in-files", NA, "no text files to scan", 6)
+        detail = f"no credential-shaped strings in {scanned} scanned text file(s)"
+        if oversize:
+            detail += f", {oversize} file(s) over {MAX_SCAN_BYTES // 1024} KB not read"
+        return Check("secrets-in-files", PASS, detail, 6)
     shown = ", ".join(f"{p}:{n} {label} {snip}" for p, n, label, snip in hits[:3])
     extra = f" (+{len(hits) - 3} more)" if len(hits) > 3 else ""
     return Check("secrets-in-files", FAIL, f"{len(hits)} hit(s): {shown}{extra}", 6)
@@ -684,10 +751,10 @@ MIN_PARAGRAPH = 240
 
 
 def instruction_files(root: Path):
-    """Every CLAUDE.md in the tree, plus .claude/rules/*.md, deduplicated."""
+    """Every CLAUDE.md and AGENTS.md in the tree, plus .claude/rules/*.md, deduplicated."""
     seen = {}
     for path in walk_files(root):
-        if path.name == "CLAUDE.md":
+        if path.name in ("CLAUDE.md", "AGENTS.md"):
             seen[path.resolve()] = path
     rules_dir = root / ".claude" / "rules"
     if rules_dir.is_dir():
@@ -699,11 +766,13 @@ def instruction_files(root: Path):
 
 def check_duplicate_blocks(root: Path) -> Check:
     files = instruction_files(root)
-    if len(files) < 2:
+    if not files:
+        return Check("duplicate-blocks", NA, "no instruction files to compare", 17)
+    if len(files) == 1:
         return Check(
             "duplicate-blocks",
-            PASS,
-            f"{len(files)} instruction file(s), nothing to duplicate across",
+            NA,
+            f"{rel(root, files[0])} is the only instruction file, so nothing to compare",
             17,
         )
 
@@ -767,7 +836,7 @@ def check_memory_index(root: Path) -> Check:
 def run_checks(root: Path):
     settings = load_settings(root)
     return [
-        check_claude_md(root),
+        check_instruction_file(root),
         check_context_budget(root),
         check_settings_parse(root, settings),
         check_hooks_guard(root, settings),
@@ -800,7 +869,7 @@ def score_checks(checks):
 CTA = (
     "Compare notes: the patterns behind each check are at\n"
     f"{PATTERNS_URL}\n"
-    "Want a second read on your workspace? Ask in Review my workspace:\n"
+    "Want a second read on your workspace? Ask in Discussions:\n"
     f"{REVIEW_URL}\n"
     "Found something this missed, or disagree with a check? Open an issue:\n"
     f"{ISSUES_URL}"
@@ -877,18 +946,22 @@ def _build_passing_workspace(root: Path) -> None:
     (root / ".env").write_text("PORT=8080\n", encoding="utf-8")
 
 
+_SHARED_PARAGRAPH = (
+    "The same rule written in two places is correct on the day it is "
+    "written and wrong the first time one copy is edited, with nothing "
+    "breaking to signal it. One canonical location, and every other file "
+    "points at it rather than restating it in its own words.\n"
+)
+
+
 def _build_failing_workspace(root: Path) -> None:
     (root / ".claude" / "rules").mkdir(parents=True)
 
-    shared = (
-        "The same rule written in two places is correct on the day it is "
-        "written and wrong the first time one copy is edited, with nothing "
-        "breaking to signal it. One canonical location, and every other file "
-        "points at it rather than restating it in its own words.\n"
+    (root / "CLAUDE.md").write_text(
+        "# Workspace\n\n" + _SHARED_PARAGRAPH, encoding="utf-8"
     )
-    (root / "CLAUDE.md").write_text("# Workspace\n\n" + shared, encoding="utf-8")
     (root / ".claude" / "rules" / "canonical.md").write_text(
-        "# Canonical\n\n" + shared, encoding="utf-8"
+        "# Canonical\n\n" + _SHARED_PARAGRAPH, encoding="utf-8"
     )
     # Push the always-loaded surface past the 40 KB ceiling.
     (root / ".claude" / "rules" / "bloat.md").write_text(
@@ -907,8 +980,65 @@ def _build_failing_workspace(root: Path) -> None:
     (root / ".env").write_text("PORT=8080\n", encoding="utf-8")
 
 
+def _write(root: Path, name: str, text: str) -> None:
+    path = root / name
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(text, encoding="utf-8")
+
+
+def _prose(tag: str, size: int) -> str:
+    """One paragraph of about `size` bytes that no other tag's paragraph matches."""
+    sentence = f"{tag} guidance, written once and kept short enough to read. "
+    return sentence * (size // len(sentence) + 1) + "\n"
+
+
+def _build_lone(name: str):
+    def build(root: Path) -> None:
+        _write(
+            root,
+            name,
+            "# Workspace\n\nBranch before you commit. One focused change per PR.\n",
+        )
+
+    return build
+
+
+def _build_agents_nested(root: Path) -> None:
+    _write(root, "AGENTS.md", "# Workspace\n\n" + _SHARED_PARAGRAPH)
+    _write(root, "packages/api/AGENTS.md", "# API\n\n" + _SHARED_PARAGRAPH)
+
+
+def _build_both(root: Path) -> None:
+    for name, tag in (("CLAUDE.md", "alpha"), ("AGENTS.md", "beta")):
+        _write(
+            root,
+            name,
+            f"# {tag}\n\n{_prose(tag, 10 * 1024)}\n{_SHARED_PARAGRAPH}",
+        )
+
+
+def _build_import(root: Path) -> None:
+    lines = ["# Claude", "", _prose("alpha", 8 * 1024), "@AGENTS.md", ""]
+    _write(root, "CLAUDE.md", "\n".join(lines))
+    _write(root, "AGENTS.md", f"# Agents\n\n{_prose('beta', 8 * 1024)}")
+
+
+def _build_agents_rules(root: Path) -> None:
+    _write(root, "AGENTS.md", f"# Agents\n\n{_prose('alpha', 8 * 1024)}")
+    _write(root, ".claude/rules/style.md", f"# Style\n\n{_prose('beta', 8 * 1024)}")
+
+
+def _build_symlink(root: Path) -> None:
+    _write(root, "CLAUDE.md", f"# Workspace\n\n{_prose('alpha', 10 * 1024)}")
+    os.symlink("CLAUDE.md", root / "AGENTS.md")
+
+
+def _build_empty(root: Path) -> None:
+    pass
+
+
 PASSING_EXPECTED = {
-    "claude-md-present": PASS,
+    "instruction-file-present": PASS,
     "context-budget": PASS,
     "settings-parse": PASS,
     "hooks-guard": PASS,
@@ -923,7 +1053,7 @@ PASSING_EXPECTED = {
 }
 
 FAILING_EXPECTED = {
-    "claude-md-present": PASS,
+    "instruction-file-present": PASS,
     "context-budget": FAIL,
     "settings-parse": FAIL,
     "hooks-guard": WARN,
@@ -938,24 +1068,128 @@ FAILING_EXPECTED = {
 }
 
 
+def _lone_expected(override=None) -> dict:
+    """Expected statuses for a tree that holds instruction files and nothing else."""
+    expected = {
+        "instruction-file-present": PASS,
+        "context-budget": PASS,
+        "settings-parse": WARN,
+        "hooks-guard": WARN,
+        "permissions-floor": WARN,
+        "secrets-in-files": PASS,
+        "env-ignored": NA,
+        "skills-frontmatter": NA,
+        "agents-frontmatter": NA,
+        "mcp-config": NA,
+        "duplicate-blocks": NA,
+        "memory-index": NA,
+    }
+    expected.update(override or {})
+    return expected
+
+
+EMPTY_EXPECTED = {check_id: NA for check_id in PASSING_EXPECTED}
+EMPTY_EXPECTED.update(
+    {
+        "instruction-file-present": FAIL,
+        "settings-parse": WARN,
+        "hooks-guard": WARN,
+        "permissions-floor": WARN,
+    }
+)
+
+# (label, builder, expected statuses, expected band, evidence substrings, optional)
+SELF_TEST_FIXTURES = [
+    ("passing", _build_passing_workspace, PASSING_EXPECTED, "disciplined", {}, False),
+    ("failing", _build_failing_workspace, FAILING_EXPECTED, "exposed", {}, False),
+    (
+        "agents-only",
+        _build_lone("AGENTS.md"),
+        _lone_expected(),
+        "maturing",
+        {
+            "instruction-file-present": "AGENTS.md",
+            "duplicate-blocks": "AGENTS.md",
+            "settings-parse": "Claude Code settings are the only config",
+        },
+        False,
+    ),
+    (
+        "claude-only",
+        _build_lone("CLAUDE.md"),
+        _lone_expected(),
+        "maturing",
+        {},
+        False,
+    ),
+    (
+        "agents-nested",
+        _build_agents_nested,
+        _lone_expected({"duplicate-blocks": WARN}),
+        "maturing",
+        {},
+        False,
+    ),
+    (
+        "both",
+        _build_both,
+        _lone_expected({"duplicate-blocks": WARN}),
+        "maturing",
+        {"context-budget": "AGENTS.md reader"},
+        False,
+    ),
+    (
+        "import",
+        _build_import,
+        _lone_expected({"context-budget": WARN, "duplicate-blocks": PASS}),
+        "maturing",
+        {},
+        False,
+    ),
+    (
+        "agents-rules",
+        _build_agents_rules,
+        _lone_expected({"context-budget": WARN, "duplicate-blocks": PASS}),
+        "maturing",
+        {"context-budget": "AGENTS.md reader"},
+        False,
+    ),
+    (
+        "symlink",
+        _build_symlink,
+        _lone_expected(),
+        "maturing",
+        {"instruction-file-present": "one file"},
+        True,
+    ),
+    ("empty", _build_empty, EMPTY_EXPECTED, "exposed", {}, False),
+]
+
+
 def run_self_test() -> int:
     import tempfile
 
     failures = []
+    ran = 0
+    skipped = []
+    results = {}
     with tempfile.TemporaryDirectory() as td:
-        good = Path(td) / "good"
-        bad = Path(td) / "bad"
-        good.mkdir()
-        bad.mkdir()
-        _build_passing_workspace(good)
-        _build_failing_workspace(bad)
+        for label, build, expected, want_band, evidence, optional in SELF_TEST_FIXTURES:
+            root = Path(td) / label
+            root.mkdir()
+            try:
+                build(root)
+            except (OSError, NotImplementedError):
+                if not optional:
+                    raise
+                skipped.append(label)
+                continue
+            ran += 1
 
-        for label, root, expected, want_band in (
-            ("passing", good, PASSING_EXPECTED, "disciplined"),
-            ("failing", bad, FAILING_EXPECTED, "exposed"),
-        ):
             checks = run_checks(root)
             got = {c.id: c.status for c in checks}
+            value, band, _ = score_checks(checks)
+            results[label] = (got, value)
             if set(got) != set(expected):
                 failures.append(f"{label}: check set was {sorted(got)}")
                 continue
@@ -966,7 +1200,12 @@ def run_self_test() -> int:
                         f"{label}/{check_id}: expected {want}, got {got[check_id]}"
                         f" ({detail})"
                     )
-            value, band, _ = score_checks(checks)
+            for check_id, needle in evidence.items():
+                detail = next(c.evidence for c in checks if c.id == check_id)
+                if needle not in detail:
+                    failures.append(
+                        f"{label}/{check_id}: evidence lacks {needle!r} ({detail})"
+                    )
             if band != want_band:
                 failures.append(
                     f"{label}: expected band {want_band}, got {band} ({value}/10)"
@@ -975,19 +1214,50 @@ def run_self_test() -> int:
                 if check.pattern not in PATTERN_SLUGS:
                     failures.append(f"{label}/{check.id}: unknown pattern anchor")
 
+        # Renaming the instruction file must not change the score.
+        if results["agents-only"] != results["claude-only"]:
+            failures.append(
+                f"rename: agents-only {results['agents-only']} differs from "
+                f"claude-only {results['claude-only']}"
+            )
+
+        # An empty tree has nothing to credit.
+        passes = [k for k, v in results["empty"][0].items() if v == PASS]
+        if passes:
+            failures.append(f"empty: reported PASS for {passes}")
+
         # A masked finding must never reprint the whole fake token.
-        secret_check = next(c for c in run_checks(bad) if c.id == "secrets-in-files")
+        secret_check = next(
+            c for c in run_checks(Path(td) / "failing") if c.id == "secrets-in-files"
+        )
         if "x" * 36 in secret_check.evidence:
             failures.append("masking: evidence line reprinted a full token")
+
+        # A backticked mention is not an import, a bare one is.
+        ticks = Path(td) / "ticks"
+        ticks.mkdir()
+        _write(ticks, "CLAUDE.md", "Do not write `@AGENTS.md` here.\n")
+        _write(ticks, "AGENTS.md", "# Agents\n")
+        names = [rel(ticks, p) for p in claude_surface(ticks)]
+        if names != ["CLAUDE.md"]:
+            failures.append(f"import: backticked mention counted, surface was {names}")
+        imp = Path(td) / "import"
+        names = [rel(imp, p) for p in claude_surface(imp)]
+        if names != ["CLAUDE.md", "AGENTS.md"]:
+            failures.append(
+                f"import: bare @AGENTS.md not followed, surface was {names}"
+            )
 
     if failures:
         print(f"self-test: FAIL ({len(failures)})")
         for line in failures:
             print(f"  - {line}")
         return 1
+    tail = ", symlink fixture skipped" if "symlink" in skipped else ""
     print(
-        "self-test: PASS (12 checks over 2 fixture workspaces, bands "
-        "disciplined + exposed, secrets masked)"
+        f"self-test: PASS (12 checks over {ran} fixture workspaces, CLAUDE.md and "
+        f"AGENTS.md layouts, bands disciplined + maturing + exposed, secrets "
+        f"masked{tail})"
     )
     return 0
 
