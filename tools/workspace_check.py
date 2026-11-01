@@ -53,7 +53,7 @@ PATTERNS_URL = (
 ISSUES_URL = "https://github.com/jimy-r/agent-workspace-architecture/issues"
 REVIEW_URL = (
     "https://github.com/jimy-r/agent-workspace-architecture"
-    "/discussions/categories/review-my-workspace"
+    "/discussions/categories/second-read"
 )
 
 PATTERN_SLUGS = {
@@ -869,7 +869,7 @@ def score_checks(checks):
 CTA = (
     "Compare notes: the patterns behind each check are at\n"
     f"{PATTERNS_URL}\n"
-    "Want a second read on your workspace? Ask in Review my workspace:\n"
+    "Want a second read on your workspace? Ask in Discussions:\n"
     f"{REVIEW_URL}\n"
     "Found something this missed, or disagree with a check? Open an issue:\n"
     f"{ISSUES_URL}"

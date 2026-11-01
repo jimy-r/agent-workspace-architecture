@@ -1,11 +1,11 @@
-title: "Review: "
+title: "Second read: "
 body:
   - type: markdown
     attributes:
       value: |
         Ask for a second read on your own agent workspace. I read it at the commit you name, run the [workspace check](https://github.com/jimy-r/agent-workspace-architecture/blob/main/tools/workspace_check.py) against it, and reply in this thread with the score, the three strongest things in it, the three gaps I would close first, and anything I take back into my own workspace.
 
-        The repo has to be public, and the read covers only what is in it. Requests are read in the order they arrive. Each review is drafted with Claude Code and read by me before it is posted.
+        The repo has to be public, and the read covers only what is in it. Requests are read in the order they arrive. Each read is drafted with Claude Code and read by me before it is posted.
   - type: input
     id: repo
     attributes:
@@ -41,7 +41,7 @@ body:
     attributes:
       label: Consent
       options:
-        - label: The review may be posted publicly in this thread.
+        - label: The read may be posted publicly in this thread.
           required: true
         - label: If the read changes something in my workspace, a short public write-up may name and link this repo.
           required: false
