@@ -313,6 +313,15 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Linter self-test runs every fixture
+        shell: bash
+        run: |
+          python3 tools/workspace_check.py --self-test | tee "$RUNNER_TEMP/self-test.txt"
+          if grep -q skipped "$RUNNER_TEMP/self-test.txt"; then
+            echo "::error::A self-test fixture was skipped, and none should be on this runner."
+            exit 1
+          fi
+
       - name: Recorded self-score still matches a fresh run
         run: |
           python3 - <<'EOF'

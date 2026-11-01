@@ -28,13 +28,13 @@ python3 workspace_check.py /path/to/your/workspace
 What you see (this repo's own score, abbreviated):
 
 ```text
-[PASS] context-budget — 4.7 KB across 1 always-loaded file(s) (pattern 9)
+[PASS] context-budget — 6.5 KB across 1 always-loaded file(s), the larger of Claude Code's load (6.5 KB) and an AGENTS.md reader's (5.6 KB) (pattern 9)
 [FAIL] secrets-in-files — 2 hit(s) (pattern 6)
 
 Score 6.4/10 — maturing (7 scored, 5 not applicable)
 ```
 
-*Scored at `34ddd30` on 2026-09-13; full table: [docs/self-score.md](docs/self-score.md).* That page
+*Scored on 2026-11-01, at `c938fad` plus the linter's `AGENTS.md` change; full table: [docs/self-score.md](docs/self-score.md).* That page
 also explains the `[FAIL]`, which is the audit canaries doing their job, and why the check was left
 with its teeth in rather than excluded into a higher number. CI re-runs the linter and fails if the
 score line moves.
@@ -95,7 +95,7 @@ The eighteen patterns, by title. Each links to its reasoning in [PATTERNS.md](PA
 - **Hardening.** A `PreToolUse` file-and-command guard, a password-manager credential law, encrypted `restic` backups, and container sandboxing for web-facing agents.
 - **Evaluation.** A golden set of frozen cases, each one an already-burned failure turned into a regression test, replayed K times and reported as a pass-rate with variance. Deterministic checks only, never an LLM judge, so a drop in the rate is a real regression rather than judge noise. See [EVALUATION.md](EVALUATION.md).
 - **Workspace scorecard.** A daily alarm line and a weekly page, read from the stores the workspace already keeps, that show whether the applied audit upgrades helped or broke something.
-- **Workspace check.** A single-file, read-only linter ([`tools/workspace_check.py`](tools/workspace_check.py)) that scores your own workspace against the mechanically-checkable patterns (context budget, hook shape, permission floor, credential hygiene, skill and agent frontmatter, duplicated instruction blocks) and prints one evidence line per check.
+- **Workspace check.** A single-file, read-only linter ([`tools/workspace_check.py`](tools/workspace_check.py)) that scores your own workspace against the mechanically-checkable patterns (context budget, hook shape, permission floor, credential hygiene, skill and agent frontmatter, duplicated instruction blocks) and prints one evidence line per check. It reads `CLAUDE.md`, `AGENTS.md` or both. Its settings, hook, permission, skill and agent checks read Claude Code's `.claude/` layout only.
 - **The ecosystem map.** A separately maintained curated index of the wider tooling space: [awesome-agent-workspaces](https://github.com/jimy-r/awesome-agent-workspaces) — memory systems, evaluation, guardrails, observability, with a stated inclusion bar and a public rejection log.
 - **Desktop mods.** Two Claude Code desktop plugins: a voice pane (ElevenLabs by default, Gemini or edge-tts as alternatives) and a `/sessions` pane that sorts every session into Needs you, Working and Idle.
 - **Token budget.** A deterministic preflight gate that skips no-op scheduled cycles, a model-tier policy for unattended work, and daily spend telemetry feeding the weekly audit.
@@ -166,4 +166,4 @@ The repo was renamed from `claude-workspace-architecture` on 2026-05-28; the old
 
 ---
 
-*Last verified against the repo structure on 2026-10-30.*
+*Last verified against the repo structure on 2026-11-01.*

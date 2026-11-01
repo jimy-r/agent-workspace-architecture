@@ -2,6 +2,13 @@
 
 Human-written record of notable changes — the *why* and the *shape*, not every merged PR. Milestone batches get a tagged release with short notes (from `v1.0.0`, 2026-06-11); entries are grouped by date, newest first. Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), adapted to a dated scheme. A date that carries a tagged release names the version in its heading, and that version links to the diff against the release before it, so anyone arriving from a release page can find the matching section. Dates without a version were merged between releases.
 
+## 2026-11-01
+
+- **The linter reads `AGENTS.md`.** A repo whose only instruction file was `AGENTS.md` failed the presence check, measured 0 KB of context and passed `duplicate-blocks` with nothing scanned. The presence check is now `instruction-file-present` (it was `claude-md-present`) and accepts either file. `context-budget` follows Claude Code's documented load: `AGENTS.md` where no `CLAUDE.md` exists, both where `CLAUDE.md` imports it, and the larger of the two loads where a repo keeps them separate. `duplicate-blocks` now compares `AGENTS.md` files too, so a hand-kept copy of `CLAUDE.md` gets a WARN and a symlink doesn't.
+- **A check that scanned nothing says so.** `duplicate-blocks` with one file or none, `context-budget` with no instruction file and `secrets-in-files` with no text file now report NA in place of PASS. Scores move as a result. A lone `CLAUDE.md` with a `MEMORY.md` goes from 8.1 to 7.9, which drops it out of the disciplined band, so a `min-score` gate set near the old number can start failing.
+- **The settings checks name their limit.** `settings-parse`, `hooks-guard` and `permissions-floor` read Claude Code's `.claude/` layout only, and they stay at WARN on a repo without it. Calling them not applicable would score a lone `AGENTS.md` 10/10, when the linter has seen no guard at all. A lone `AGENTS.md` scores 7.5, the same as a lone `CLAUDE.md`.
+- **CI runs the linter's self-test.** It had only ever run by hand. It now covers ten fixture trees and fails if a fixture is skipped on the runner.
+
 ## 2026-10-31
 
 - **Corrected the SkillOpt citation.** Pattern 10, the attribution page, learn module 3, the site index and one sample tied the 0.554 to 0.026 collapse to the SkillOpt paper. The figure is in the repo's results doc for SkillOpt-Sleep, the deployment companion, and the paper does not contain it. A maintainer reading the paper caught this in a thread. The paper still supports the strict gate mechanism these pages cite it for.

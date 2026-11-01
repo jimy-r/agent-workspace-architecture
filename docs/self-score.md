@@ -1,6 +1,6 @@
 # This repo's own workspace_check score
 
-Scored at 34ddd30 on 2026-09-13
+Scored on 2026-11-01, at c938fad plus the linter's `AGENTS.md` change
 
 The README quotes an abbreviated version of this run. Pattern 16 says a claim carries its
 provenance or it is a guess, so the headline number gets the same treatment as any other claim:
@@ -20,17 +20,17 @@ so it is the one line replaced here.
 ```text
 workspace check — <repo root>
 
-[PASS] claude-md-present — CLAUDE.md at the root, 4.7 KB (pattern 9)
-[PASS] context-budget — 4.7 KB across 1 always-loaded file(s) (pattern 9)
-[WARN] settings-parse — no .claude/settings.json or settings.local.json found (pattern 7)   (redaction-ok: the linter names its own config file here, not a host)
+[PASS] instruction-file-present — CLAUDE.md 6.5 KB, AGENTS.md 5.6 KB (pattern 9)
+[PASS] context-budget — 6.5 KB across 1 always-loaded file(s), the larger of Claude Code's load (6.5 KB) and an AGENTS.md reader's (5.6 KB) (pattern 9)
+[WARN] settings-parse — no .claude/settings.json or settings.local.json found (Claude Code settings are the only config this reads) (pattern 7)   (redaction-ok: the linter names its own config file here, not a host)
 [WARN] hooks-guard — no parseable settings file to read hooks from (pattern 7)
-[WARN] permissions-floor — no permissions block in settings (pattern 4)
+[WARN] permissions-floor — no parseable settings file to read permissions from (pattern 4)
 [FAIL] secrets-in-files — 2 hit(s): samples/tests/audit_canaries/canary.json:10 Anthropic key sk-ant-a****************, samples/tests/audit_canaries/credential_pattern_canary.md:11 Anthropic key sk-ant-a**************** (pattern 6)
 [NA] env-ignored — no .env files in the tree (pattern 6)
 [NA] skills-frontmatter — no .claude/skills directory (pattern 10)
 [NA] agents-frontmatter — no .claude/agents directory (pattern 1)
 [NA] mcp-config — no .mcp.json (pattern 6)
-[PASS] duplicate-blocks — no paragraph >= 240 chars shared across 2 instruction file(s) (pattern 17)
+[PASS] duplicate-blocks — no paragraph >= 240 chars shared across 3 instruction file(s) (pattern 17)
 [NA] memory-index — no MEMORY.md at the workspace root (pattern 5)
 
 Score 6.4/10 — maturing (7 scored, 5 not applicable)
