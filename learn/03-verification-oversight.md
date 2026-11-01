@@ -11,7 +11,7 @@ That cuts both ways. Most "make the agent smarter" additions — a second same-m
 ## The patterns
 
 - [**Pattern 8. Audit the workspace like a fitness function**](../PATTERNS.md#p8) — a scheduled auditor with canaries that prove it still detects known-bad fixtures, a finding ledger, and deliberately no single numeric score.
-- [**Pattern 10. A skill is editable weights**](../PATTERNS.md#p10) — a proposed instruction edit is staged, reviewed, then adopted. The published cautionary case: an ungated self-edit loop collapsed its own benchmark score 0.554 → 0.026.
+- [**Pattern 10. A skill is editable weights**](../PATTERNS.md#p10) — a proposed instruction edit is staged, reviewed, then adopted. The published cautionary case, from SkillOpt-Sleep's [results doc](https://github.com/microsoft/SkillOpt/blob/7bca588b0f4cbcc3b13d8a4d8bfc845afade269b/docs/sleep/RESULTS.md): an ungated self-edit loop collapsed its own benchmark score 0.554 → 0.026.
 - [**Pattern 11. A scaffold is a hypothesis**](../PATTERNS.md#p11) — register every capability addition with a falsifiable hypothesis and a review date; beat baseline or get cut. Removal is a first-class outcome.
 - [**Pattern 13. Challenge half-formed ideas with a different lens**](../PATTERNS.md#p13) — one grounded divergent challenge on real forks, measured by the human's tag on each firing. A held-out sample was tried and dropped.
 

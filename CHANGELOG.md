@@ -9,6 +9,10 @@ Human-written record of notable changes — the *why* and the *shape*, not every
 - **The settings checks name their limit.** `settings-parse`, `hooks-guard` and `permissions-floor` read Claude Code's `.claude/` layout only, and they stay at WARN on a repo without it. Calling them not applicable would score a lone `AGENTS.md` 10/10, when the linter has seen no guard at all. A lone `AGENTS.md` scores 7.5, the same as a lone `CLAUDE.md`.
 - **CI runs the linter's self-test.** It had only ever run by hand. It now covers ten fixture trees and fails if a fixture is skipped on the runner.
 
+## 2026-10-31
+
+- **Corrected the SkillOpt citation.** Pattern 10, the attribution page, learn module 3, the site index and one sample tied the 0.554 to 0.026 collapse to the SkillOpt paper. The figure is in the repo's results doc for SkillOpt-Sleep, the deployment companion, and the paper does not contain it. A maintainer reading the paper caught this in a thread. The paper still supports the strict gate mechanism these pages cite it for.
+
 ## 2026-10-30
 
 - **Ask for a second read on your workspace.** A new Discussions category, Review my workspace, takes a public repo and a commit. The reply carries the linter score, the three strongest things in the workspace, the three gaps worth closing first, and anything the read changes in the source workspace. A form asks for consent to post the review in the thread, and separately for a write-up to name the repo.
