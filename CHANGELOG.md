@@ -9,6 +9,7 @@ Human-written record of notable changes — the *why* and the *shape*, not every
 ## 2026-10-31
 
 - **The author byline follows the practice again.** The practice is now Agent Operations, which measures what coding agents get done per dollar and whether you can trust it. The README's opening and "Who built this", the tour's hero and funnel card, SUPPORT's engagement row and `llms.txt` still described the earlier practice, so they changed. The repo itself now opens as harness engineering for Claude Code, the wording its GitHub description already uses. The evidence so far is this one workspace, and the new lines say so. jamesross.ai is named as the author's own site in the README, the tour, the map, `llms.txt`, META and the style guide. No pattern, sample or tool changed.
+- **Corrected the SkillOpt citation.** Pattern 10, the attribution page, learn module 3, the site index and one sample tied the 0.554 to 0.026 collapse to the SkillOpt paper. The figure is in the repo's results doc for SkillOpt-Sleep, the deployment companion, and the paper does not contain it. A maintainer reading the paper caught this in a thread. The paper still supports the strict gate mechanism these pages cite it for.
 
 ## 2026-10-30
 
