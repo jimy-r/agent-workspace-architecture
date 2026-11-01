@@ -4,6 +4,7 @@ Human-written record of notable changes — the *why* and the *shape*, not every
 
 ## 2026-11-01
 
+- **The hardening list drops a stale claim.** The README's hardening line and the tour's security card listed container sandboxing for web-facing agents. That stopped being true when the heartbeat agent retired on 2026-08-07, since its container was the only sandboxed path, and no session in the source workspace runs sandboxed today. The adoption guide's suggestion to sandbox agents that touch the open web stays, because it's advice to adopters.
 - **The linter reads `AGENTS.md`.** A repo whose only instruction file was `AGENTS.md` failed the presence check, measured 0 KB of context and passed `duplicate-blocks` with nothing scanned. The presence check is now `instruction-file-present` (it was `claude-md-present`) and accepts either file. `context-budget` follows Claude Code's documented load: `AGENTS.md` where no `CLAUDE.md` exists, both where `CLAUDE.md` imports it, and the larger of the two loads where a repo keeps them separate. `duplicate-blocks` now compares `AGENTS.md` files too, so a hand-kept copy of `CLAUDE.md` gets a WARN and a symlink doesn't.
 - **A check that scanned nothing says so.** `duplicate-blocks` with one file or none, `context-budget` with no instruction file and `secrets-in-files` with no text file now report NA in place of PASS. Scores move as a result. A lone `CLAUDE.md` with a `MEMORY.md` goes from 8.1 to 7.9, which drops it out of the disciplined band, so a `min-score` gate set near the old number can start failing.
 - **The settings checks name their limit.** `settings-parse`, `hooks-guard` and `permissions-floor` read Claude Code's `.claude/` layout only, and they stay at WARN on a repo without it. Calling them not applicable would score a lone `AGENTS.md` 10/10, when the linter has seen no guard at all. A lone `AGENTS.md` scores 7.5, the same as a lone `CLAUDE.md`.
@@ -11,6 +12,7 @@ Human-written record of notable changes — the *why* and the *shape*, not every
 
 ## 2026-10-31
 
+- **The author byline follows the practice again.** The practice is now Agent Operations, which measures what coding agents get done per dollar and whether you can trust it. The README's opening and "Who built this", the tour's hero and funnel card, SUPPORT's engagement row and `llms.txt` still described the earlier practice, so they changed. The repo itself now opens as harness engineering for Claude Code, the wording its GitHub description already uses. The evidence so far is this one workspace, and the new lines say so. jamesross.ai is named as the author's own site in the README, the tour, the map, `llms.txt`, META and the style guide. No pattern, sample or tool changed.
 - **Corrected the SkillOpt citation.** Pattern 10, the attribution page, learn module 3, the site index and one sample tied the 0.554 to 0.026 collapse to the SkillOpt paper. The figure is in the repo's results doc for SkillOpt-Sleep, the deployment companion, and the paper does not contain it. A maintainer reading the paper caught this in a thread. The paper still supports the strict gate mechanism these pages cite it for.
 
 ## 2026-10-30

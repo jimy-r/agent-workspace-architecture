@@ -26,7 +26,7 @@ Use these placeholders:
 | "a commercial password manager" | a vendor brand |
 | `<PaaS>` / `<cloud-provider>` | a real service name |
 
-**Author-attribution exception.** The maintainer's public byline **James Ross** and the practice site [jamesross.ai](https://jamesross.ai) may appear in author / attribution context. That's a deliberate public identity, not a leak. Never surface the maintainer's private or legal identity, and never use a third party's real name.
+**Author-attribution exception.** The maintainer's public byline **James Ross** and his site [jamesross.ai](https://jamesross.ai) may appear in author / attribution context. That's a deliberate public identity, not a leak. Never surface the maintainer's private or legal identity, and never use a third party's real name.
 
 ## Table type markers
 
